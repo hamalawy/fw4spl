@@ -24,7 +24,8 @@ IService::IService() :
 	m_globalState ( STOPPED ),
 	m_updatingState ( NOTUPDATING ),
 	m_notificationState ( IDLE ),
-	m_configurationState ( UNCONFIGURED )
+	m_configurationState ( UNCONFIGURED ),
+	m_isHandlingAllEvents ( true )
 {
 	// by default a weak_ptr have a use_count == 0
 	m_msgDeque.clear();
@@ -150,6 +151,46 @@ void IService::update( ::fwServices::ObjectMsg::csptr _msg )
     //	OSLM_ASSERT("simple loop detection on "<< this->getSptr()->getClassname(), this->getSptr() !=  _msg->getSource().lock());
 }
 
+
+//-----------------------------------------------------------------------------
+
+
+void IService::handlingEventOff()
+{
+	SLM_ASSERT( "Handling event vector must be empty", m_handlingEvents.size() == 0 );
+	m_isHandlingAllEvents = false;
+}
+
+//-----------------------------------------------------------------------------
+
+
+void IService::addNewHandlingEvent( std::string _eventId )
+{
+	m_isHandlingAllEvents = false;
+	m_handlingEvents.push_back( _eventId );
+}
+
+
+//-----------------------------------------------------------------------------
+
+
+std::vector< std::string > IService::getHandlingEvents()
+{
+	SLM_ASSERT( "ACH : This service handles all messages, why you use getHandlingEvents() ? test isHandlingAllEvents() before.", !m_isHandlingAllEvents );
+	return m_handlingEvents;
+}
+
+
+//-----------------------------------------------------------------------------
+
+
+bool IService::isHandlingAllEvents()
+{
+	return m_isHandlingAllEvents;
+}
+
+
+//-----------------------------------------------------------------------------
 
 
 void IService::update() throw(fwTools::Failed)
