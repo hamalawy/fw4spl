@@ -1,0 +1,27 @@
+<plugin id="QtConfig">
+
+	<extension id="QtConfig" implements="::fwTools::Object">
+		<object id="QtObject" type="::fwTools::Object">
+
+
+		 <service type="::guiQt::aspect::IQtAspect" implementation="::guiQt::aspect::QtDefaultAspect" autoComChannel="no" >
+	              	<name>Qt</name>
+ 		       	<views>
+            	          <view guiContainerId="900" />
+        	       	</views>
+        		<menus>
+            		  <menu uid="menu_File"/>
+        		</menus>
+	         </service>
+
+		<service name="File" uid="menu_File" type="::guiQt::aspect::IQtMenu" implementation="::guiQt::aspect::QtDefaultMenu" autoComChannel="no" >
+    		</service>
+
+
+			<start type="::guiQt::aspect::IQtAspect" />
+			<stop type="::guiQt::aspect::IQtAspect" />
+
+		</object>
+	</extension>
+
+</plugin>
