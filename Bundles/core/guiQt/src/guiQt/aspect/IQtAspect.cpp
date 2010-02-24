@@ -62,12 +62,16 @@ void IQtAspect::configuring() throw( ::fwTools::Failed )
     std::cout << "----------------> IQtAspect::configuring()" << std::endl;
     
     /* Parsing  de <service ... <name> <icon> <minSize> <menus> <toolBar>.... </service> */ 
- 
+
+    std::cout<<"\n\nNameConfig : "<< m_configuration->getName() << "\n";
+    std::cout<<"\nValue : "<< m_configuration->getValue() << "\n";
+
+    
     SLM_TRACE("IQtAspect::configuring");
-/*    SLM_FATAL_IF( "Depreciated tag \"views\" in configuration", m_configuration->findConfigurationElement("views") );
+    SLM_FATAL_IF( "Depreciated tag \"views\" in configuration", m_configuration->findConfigurationElement("views") );
     SLM_FATAL_IF( "Depreciated tag \"menus\" in configuration", m_configuration->findConfigurationElement("menus") );
     SLM_FATAL_IF( "Depreciated tag \"toolbar\" in configuration", m_configuration->findConfigurationElement("toolbar") );
-*/
+
     assert( m_configuration->getName() == "aspect" || m_configuration->getName() == "service" );
 
     ::fwRuntime::ConfigurationElementContainer::Iterator iter ;
@@ -111,11 +115,6 @@ void IQtAspect::configuring() throw( ::fwTools::Failed )
 
 void IQtAspect::starting() throw(::fwTools::Failed)
 {
-  // init temp
- /* int argc = 0;
-  char** argv = NULL;
-  QApplication app( argc,  argv);
-  */
    // To update name
    // ::guiQt::Manager::registerAspect( ::boost::dynamic_pointer_cast< ::gui::aspect::IQtAspect >( shared_from_this() ) ) ;
 
@@ -124,6 +123,8 @@ void IQtAspect::starting() throw(::fwTools::Failed)
     
   //  ::guiQt::aspect::IQtMenu::sptr service = ::fwServices::add< ::guiQt::aspect::IQtMenu >(this->getObject(),"::gui::aspect::DefaultToolBar");
    // service->start() ;
+   
+   
    
 }
 //---------------------------------------------------------------------------

@@ -7,6 +7,7 @@
 #include <fwServices/helper.hpp>
 #include <fwServices/macros.hpp>
 #include <fwData/Object.hpp>
+#include <QPushButton>
 
 #include <QApplication>
 #include <QFrame>
@@ -32,13 +33,23 @@ void QtDefaultView::configuring() throw( ::fwTools::Failed )
 
 void QtDefaultView::starting() throw( ::fwTools::Failed )
 {
-//     QWidget *mainWidget = qApp->activeWindow();
-//     
-//     QFrame *viewFrame = new QFrame(mainWidget);
-//     QSize s(750, 750);
-// 
-//     viewFrame->setMinimumSize(s);
-//     viewFrame->show();
+    std::cout<<" \n\n---> IQtView::Starting() \n\n";  
+
+ // guiQt::view::IQtView::configuring();
+     std::cout<<" \n\n---> AFTER conf \n\n";  
+ 
+    QWidget *mainWidget = qApp->activeWindow();
+    
+    QFrame *viewFrame = new QFrame(mainWidget);
+    
+    QPushButton *testButton = new QPushButton( "Quit",viewFrame );
+   // QObject::connect( testButton, SIGNAL(clicked()), qApp, SLOT(quit()) );
+    testButton->show();
+    QSize s(750, 750);
+
+    viewFrame->setMinimumSize(s);
+    viewFrame->resize(500,500);
+    viewFrame->show();
 
 }
 

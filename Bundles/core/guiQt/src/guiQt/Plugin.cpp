@@ -26,44 +26,6 @@ Plugin::~Plugin() throw()
 {}
 
 //-----------------------------------------------------------------------------
-/*
-void Plugin::start() throw(::fwRuntime::RuntimeException)
-{
-	SLM_TRACE("starting guiQt bundle");
-	
-	std::cout<< "---> Start()" << std::endl;
-
-	if ( this->getBundle()->hasParameter("rootObject")
-	        && this->getBundle()->hasParameter("config")
-	        && this->getBundle()->hasParameter("configFile"))
-	{
-		std::string objectClassName(  this->getBundle()->getParameterValue("rootObject") ) ;
-		std::string objectConfigurationName( this->getBundle()->getParameterValue("config") ) ;
-		std::string objectConfigurationFile( this->getBundle()->getParameterValue("configFile") ) ;
-
-		::fwServices::OSR::setRootObjectClassName( objectClassName ) ;
-		::fwServices::OSR::setRootObjectConfigurationName(objectConfigurationName) ;
-		::fwServices::OSR::setRootObjectConfigurationFile(objectConfigurationFile) ;
-	}
-	else
-	{
-	    SLM_FATAL(" Bundle gui, missing param : rootObject, config, configFile in profile");
-	}
-
-	
-
-	if( this->getBundle()->hasParameter("startingMode") )
-	{
-
-			std::cout<< "---> Manager" << std::endl;
-
-		::guiQt::Manager::initialize() ;
-	}
-	else
-	{
-		
-	}
-}*/
 
 void Plugin::start() throw(::fwRuntime::RuntimeException)
 {
@@ -76,6 +38,9 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
         std::string objectClassName(  this->getBundle()->getParameterValue("rootObject") ) ;
         std::string objectConfigurationName( this->getBundle()->getParameterValue("config") ) ;
         std::string objectConfigurationFile( this->getBundle()->getParameterValue("configFile") ) ;
+	
+std::cout<< " \n\n RO : "<<this->getBundle()->getParameterValue("rootObject") <<"; C : "<<this->getBundle()->getParameterValue("config")<<"; CF : "<<this->getBundle()->getParameterValue("configFile")<<" \n";
+
 
         ::fwServices::OSR::setRootObjectClassName( objectClassName ) ;
         ::fwServices::OSR::setRootObjectConfigurationName(objectConfigurationName) ;
@@ -94,10 +59,7 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
         ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
         SLM_ASSERT("Profile is not initialized", profile);
         ::fwRuntime::profile::Profile::ParamsContainer params = profile->getParams();
-	
-	// 
-	int    argc = params.size();
-        char** argv = profile->getRawParams();
+
 
 	::guiQt::Manager::initialize();
     }

@@ -1,37 +1,37 @@
-<plugin id="guiQt" class="::guiQt::Plugin" >
+<plugin class="::guiQt::Plugin" id="guiQt">
 
-	<library name="guiQt" />
+    <library name="guiQt"/>
 
-	<requirement id="dataReg" />
-	<requirement id="servicesReg"/>
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
 
-	<point id="::guiQt::aspect::QtDefaultAspect">
-        	<implements>::guiQt::aspect::IQtAspect</implements>
-       		<implements>::fwTools::Object</implements>
-   	</point>
-
-	<point id="::guiQt::aspect::IQtAspect">
-        	<implements>::fwServices::IService</implements>
- 	</point>
     
-   	 <point id="::guiQt::aspect::IQtMenu">
-     		<implements>::fwServices::IService</implements>
- 	 </point>
+    <point id="::guiQt::aspect::IQtAspect">
+        <implements>::fwServices::IService</implements>
+    </point>
+    
+    <point id="::guiQt::aspect::IQtMenu">
+        <implements>::fwServices::IService</implements>
+    </point>
 
-	 <point id="::guiQt::view::IQtView">
-        	<implements>::fwServices::IService</implements>
-   	 </point>
-
-	 <point id="::guiQt::aspect::QtDefaultMenu">
-       		 <implements>::guiQt::aspect::IQtMenu</implements>
-       		 <implements>::fwTools::Object</implements>
-  	 </point>
-	
-	 <point id="::guiQt::view::QtDefaultView">
-	        <implements>::guiQt::view::IQtView</implements>
-	        <implements>::fwTools::Object</implements>
-	 </point>
-
-
-
+    
+    <point id="::guiQt::view::IQtView">
+        <implements>::fwServices::IService</implements>
+    </point>
+    
+    <point id="::guiQt::aspect::QtDefaultMenu">
+        <implements>::gui::aspect::IMenu</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+    
+    <point id="::guiQt::aspect::QtDefaultAspect">
+        <implements>::guiQt::aspect::IQtAspect</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+    
+    <point id="::guiQt::view::QtDefaultView">
+        <implements>::guiQt::view::IQtView</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+  
 </plugin>

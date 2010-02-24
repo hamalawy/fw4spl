@@ -8,7 +8,6 @@
 #include <vector>
 
 #include <fwCore/base.hpp>
-
 #include <fwServices/Factory.hpp>
 #include <fwServices/helper.hpp>
 #include <fwServices/bundle/runtime.hpp>
@@ -28,6 +27,9 @@
 #include <QDialog>
 #include <QWidget>
 	
+
+#define __FWCORE_TYPEDEF_SHARED_PTR_FACTORY_NAME NewSptr
+
 
 namespace guiQt
 {
@@ -59,32 +61,24 @@ void Manager::initialize()
 {
   int argc = 1;
   char* argv[1] = {"test"};
-  //  IQtMenu *menu = new IQtMenu();
   
   QApplication app( argc,  argv);
   
-   QWidget widget;
-   widget.resize(950, 750);
-   widget.show();
+  QWidget widget;
+  widget.resize(950, 750);
+  widget.show();
    
-   
-   app.setActiveWindow(&widget);
-    
-  /* Creer la MainFrame 
-  MainFrame *mainFrame = new MainFrame();
-  mainFrame->resize(750,750);
-  mainFrame->setWindowTitle(" MainWindow ");
-  mainFrame->show();
-  */
+  app.setActiveWindow(&widget);
 
-  ::guiQt::aspect::QtDefaultAspect aspect;
+  //::guiQt::aspect::QtDefaultAspect aspect;
  // aspect.configure(); 
  
  //::guiQt::aspect::IQtMenu menu;
 //  menu.start();
   
  //::guiQt::view::IQtView view;
- // view.start();
+ //view.configure;
+  //view.start();
   
  //       ::fwServices::get< ::guiQt::aspect::IQtAspect >( getDefault()->m_unlessObject )->configure() ;
    //     ::fwServices::get< ::guiQt::aspect::IQtAspect >( getDefault()->m_unlessObject )->start();
@@ -100,7 +94,7 @@ const ::guiQt::Manager::sptr Manager::getDefault() throw()
 {
     if(m_instance.get() == 0)
     {
-     //   m_instance = ::guiQt::Manager::NewSptr();
+        m_instance = ::guiQt::Manager::NewSptr();
     }
     return m_instance;
 }*/
