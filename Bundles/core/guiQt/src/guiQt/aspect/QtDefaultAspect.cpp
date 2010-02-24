@@ -48,6 +48,8 @@ void QtDefaultAspect::configuring() throw( ::fwTools::Failed )
    // il faut un setConfig
     if(m_configuration->findConfigurationElement("view"))
     {
+        std::cout <<" Default Aspect ------------> IF  \n";
+
         ::fwRuntime::ConfigurationElement::sptr viewCfgElt = m_configuration->findConfigurationElement("view");
         SLM_ASSERT("Sorry, \"uid\" attribute is missing.", viewCfgElt->hasAttribute("uid") );
         m_uid = viewCfgElt->getExistingAttributeValue("uid") ;
@@ -70,7 +72,9 @@ void QtDefaultAspect::configuring() throw( ::fwTools::Failed )
 void QtDefaultAspect::starting() throw(::fwTools::Failed)
 {
   std::cout<<" DefaultAspect::starting() \n";
-    this->::guiQt::aspect::IQtAspect::starting();
+  std::cout<<" m_uid : "<<m_uid<<" \n";
+
+   // this->::guiQt::aspect::IQtAspect::starting();
     
             ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
             service->start();

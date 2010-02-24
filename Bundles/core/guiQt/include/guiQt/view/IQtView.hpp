@@ -8,6 +8,7 @@
 #define _GUI_VIEW_IVIEW_HPP_
 
 #include <fwServices/IService.hpp>
+#include <QFrame>
 
 
 
@@ -32,6 +33,20 @@ namespace view
 class  IQtView : public fwServices::IService
 {
 
+   class ViewInfo
+    {
+    public :
+
+        ViewInfo() :
+            m_minSize (std::make_pair(-1,-1)),
+            m_viewFrame(0),
+            m_autostart(false)
+            {}
+        std::pair< int, int >   m_minSize;
+        QFrame *m_viewFrame;
+        bool                    m_autostart;
+    };
+    
 public :
 
     fwCoreNonInstanciableClassDefinitionsMacro ( (IQtView)( ::fwServices::IService::Baseclass) ) ;
@@ -58,7 +73,7 @@ public :
      *
      * @return wx container.
      */
-     void getWxContainer() const;
+     void getQtContainer() const;
 
 protected :
 
@@ -75,7 +90,7 @@ protected :
      * @brief Register a view with defined id.
      */
      virtual void starting() throw(::fwTools::Failed);
-
+     
     /**
      * @brief This method remove the view in the frame.
      */
@@ -105,6 +120,11 @@ protected :
 
     // Panel minimum height.
     int m_minHeight;
+    
+
+    typedef std::map< std::string , ViewInfo > PanelContainer;
+    PanelContainer m_panels;
+
 
 };
 

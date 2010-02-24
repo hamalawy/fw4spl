@@ -72,7 +72,7 @@ void IQtMenu::starting() throw( ::fwTools::Failed )
 
     // Demarrage des menus et actions
    
-  std::cout<< "---> menu.start()" << std::endl;
+  std::cout<< "\n\n---> menu.start()\n\n" << std::endl;
 
   QWidget *mainWidget = qApp->activeWindow();
 
