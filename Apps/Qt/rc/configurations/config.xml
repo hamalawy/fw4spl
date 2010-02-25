@@ -3,21 +3,21 @@
 		
 	<object id="QtObject" type="::fwTools::Object">
 
-		 <service type="::guiQt::aspect::IQtAspect" implementation="::guiQt::aspect::QtDefaultAspect" autoComChannel="no" >
+		 <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
 	              	<name>Qt</name>
             	        <view uid="View"  autoStart="no" />
 	         </service>
 
-		<service uid="menuBar" type="::guiQt::aspect::IQtMenu" implementation="::guiQt::aspect::QtDefaultMenu" autoComChannel="no" >
+		<service uid="menuBar" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
     		</service>
 
-		<service uid="View" type="::guiQt::view::IQtView" implementation="::guiQt::view::QtDefaultView" autoComChannel="no" >
+		<service uid="View" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
     		</service>
 
-		<start type="::guiQt::aspect::IQtAspect" />
+		<start type="::guiQt::aspect::IAspect" />
 		<start uid="menuBar"/>
 		<start uid="View" />
-		<stop type="::guiQt::aspect::IQtAspect" />
+		<stop type="::guiQt::aspect::IAspect" />
 
 		</object>
 	</extension>
