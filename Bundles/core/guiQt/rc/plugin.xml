@@ -6,31 +6,31 @@
     <requirement id="servicesReg"/>
 
     
-    <point id="::guiQt::aspect::IQtAspect">
+    <point id="::guiQt::aspect::IAspect">
         <implements>::fwServices::IService</implements>
     </point>
     
-    <point id="::guiQt::aspect::IQtMenu">
+    <point id="::guiQt::aspect::IMenu">
         <implements>::fwServices::IService</implements>
     </point>
 
     
-    <point id="::guiQt::view::IQtView">
+    <point id="::guiQt::view::IView">
         <implements>::fwServices::IService</implements>
     </point>
     
-    <point id="::guiQt::aspect::QtDefaultMenu">
+    <point id="::guiQt::aspect::DefaultMenu">
         <implements>::gui::aspect::IMenu</implements>
         <implements>::fwTools::Object</implements>
     </point>
     
-    <point id="::guiQt::aspect::QtDefaultAspect">
-        <implements>::guiQt::aspect::IQtAspect</implements>
+    <point id="::guiQt::aspect::DefaultAspect">
+        <implements>::guiQt::aspect::IAspect</implements>
         <implements>::fwTools::Object</implements>
     </point>
     
-    <point id="::guiQt::view::QtDefaultView">
-        <implements>::guiQt::view::IQtView</implements>
+    <point id="::guiQt::view::DefaultView">
+        <implements>::guiQt::view::IView</implements>
         <implements>::fwTools::Object</implements>
     </point>
   

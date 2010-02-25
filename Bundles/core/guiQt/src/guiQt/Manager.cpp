@@ -41,7 +41,9 @@ namespace guiQt
 /**
  * @brief Application top window
  */
-  //Creation de la classe MainWindow : public QMainWindow
+
+
+::guiQt::Manager::sptr Manager::m_instance;
 
 //-----------------------------------------------------------------------------
 Manager::Manager() throw()
@@ -70,15 +72,6 @@ void Manager::initialize()
    
   app.setActiveWindow(&widget);
 
-  //::guiQt::aspect::QtDefaultAspect aspect;
- // aspect.configure(); 
- 
- //::guiQt::aspect::IQtMenu menu;
-//  menu.start();
-  
- //::guiQt::view::IQtView view;
- //view.configure;
-  //view.start();
   
  //       ::fwServices::get< ::guiQt::aspect::IQtAspect >( getDefault()->m_unlessObject )->configure() ;
    //     ::fwServices::get< ::guiQt::aspect::IQtAspect >( getDefault()->m_unlessObject )->start();
@@ -89,7 +82,7 @@ void Manager::initialize()
 }
 
 
-/*
+
 const ::guiQt::Manager::sptr Manager::getDefault() throw()
 {
     if(m_instance.get() == 0)
@@ -97,7 +90,7 @@ const ::guiQt::Manager::sptr Manager::getDefault() throw()
         m_instance = ::guiQt::Manager::NewSptr();
     }
     return m_instance;
-}*/
+}
 
 
 } // namespace gui

@@ -9,9 +9,9 @@
 #include <fwTools/Object.hpp>
 #include <fwServices/IService.hpp>
 #include <fwRuntime/ConfigurationElement.hpp>
-#include "guiQt/aspect/IQtMenu.hpp"
-#include "guiQt/view/QtDefaultView.hpp"
-#include "guiQt/aspect/QtDefaultAspect.hpp"
+#include "guiQt/aspect/IMenu.hpp"
+#include "guiQt/view/DefaultView.hpp"
+#include "guiQt/aspect/DefaultAspect.hpp"
 
 // #include "guiQt/aspect/IQtAspect.hpp"
 
@@ -33,7 +33,8 @@ class  Manager : public ::fwCore::BaseObject
  */
 public:
 
-	fwCoreNonInstanciableClassDefinitionsMacro ( (Manager)( ::fwCore::BaseObject::Baseclass ) ) ;
+	//fwCoreNonInstanciableClassDefinitionsMacro ( (Manager)( ::fwCore::BaseObject::Baseclass ) ) ;
+	fwCoreClassDefinitionsWithFactoryMacro( (Manager)( ::fwCore::BaseObject::Baseclass ) , (()), new Manager);
 	/**
 	 * @brief Ctor
 	 */
@@ -44,8 +45,8 @@ public:
 	 * @brief set application top window and its menu handler, initialize general gui aspect and initialize application root object (and service from configuration)
 	 */
 	static void initialize() ;
-//	static const ::guiQt::Manager::sptr getDefault() throw();
-
+	static const ::guiQt::Manager::sptr getDefault() throw();
+	
 
 private:
 
