@@ -8,14 +8,30 @@
             	        <view uid="View"  autoStart="no" />
 	         </service>
 
-		<service uid="menuBar" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
-    		</service>
+		<service uid="menuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
+  		<menus>
+                	<menu uid="menu_File" />
+           	 </menus>
+		<menus>
+                	<menu uid="menu_Edit" />
+           	 </menus>  
+    		</service>  
+		 <service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+	        </service>
+
+		<service name="Edit" uid="menu_Edit" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+	        </service> 
+
 
 		<service uid="View" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
     		</service>
 
 		<start type="::guiQt::aspect::IAspect" />
-		<start uid="menuBar"/>
+ 		<start type="::guiQt::aspect::IMenuBar" />
+		<start type="::guiQt::aspect::IMenu" />
+        
+		<!--<start uid="menuBar"/>-->
+
 		<start uid="View" />
 		<stop type="::guiQt::aspect::IAspect" />
 

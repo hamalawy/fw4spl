@@ -39,8 +39,6 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
         std::string objectConfigurationName( this->getBundle()->getParameterValue("config") ) ;
         std::string objectConfigurationFile( this->getBundle()->getParameterValue("configFile") ) ;
 	
-std::cout<< " \n\n RO : "<<this->getBundle()->getParameterValue("rootObject") <<"; C : "<<this->getBundle()->getParameterValue("config")<<"; CF : "<<this->getBundle()->getParameterValue("configFile")<<" \n";
-
 
         ::fwServices::OSR::setRootObjectClassName( objectClassName ) ;
         ::fwServices::OSR::setRootObjectConfigurationName(objectConfigurationName) ;

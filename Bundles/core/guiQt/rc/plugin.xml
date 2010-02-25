@@ -10,7 +10,7 @@
         <implements>::fwServices::IService</implements>
     </point>
     
-    <point id="::guiQt::aspect::IMenu">
+    <point id="::guiQt::aspect::IMenuBar">
         <implements>::fwServices::IService</implements>
     </point>
 
@@ -19,7 +19,7 @@
         <implements>::fwServices::IService</implements>
     </point>
     
-    <point id="::guiQt::aspect::DefaultMenu">
+    <point id="::guiQt::aspect::DefaultMenuBar">
         <implements>::gui::aspect::IMenu</implements>
         <implements>::fwTools::Object</implements>
     </point>
