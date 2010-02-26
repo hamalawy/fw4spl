@@ -19,7 +19,7 @@
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwData/Object.hpp>
 
-#include "guiQt/aspect/IQtAspect.hpp"
+#include "guiQt/aspect/IAspect.hpp"
 
 #include <QApplication>
 #include <QMenuBar>
@@ -33,7 +33,7 @@ namespace guiQt
 namespace aspect
 {
 
-IQtAspect::IQtAspect() throw():
+IAspect::IAspect() throw():
     m_name("NO NAME"),
     m_minSizeHeight(-1),
     m_minSizeWidth(-1)
@@ -41,12 +41,12 @@ IQtAspect::IQtAspect() throw():
 
 //---------------------------------------------------------------------------
 
-IQtAspect::~IQtAspect() throw()
+IAspect::~IAspect() throw()
 {}
 
 //---------------------------------------------------------------------------
 
-std::string IQtAspect::getName()
+std::string IAspect::getName()
 {
     return m_name ;
 }
@@ -54,19 +54,12 @@ std::string IQtAspect::getName()
 
 //---------------------------------------------------------------------------
 
-void IQtAspect::configuring() throw( ::fwTools::Failed )
+void IAspect::configuring() throw( ::fwTools::Failed )
 {
-    SLM_TRACE("IQtAspect::configuring");
-    
-    
-    std::cout << "----------------> IQtAspect::configuring()" << std::endl;
-    
+    SLM_TRACE("IAspect::configuring");
+        
     /* Parsing  de <service ... <name> <icon> <minSize> <menus> <toolBar>.... </service> */ 
 
-    std::cout<<"\n\nNameConfig : "<< m_configuration->getName() << "\n";
-    std::cout<<"\nValue : "<< m_configuration->getValue() << "\n";
-
-    
     SLM_TRACE("IQtAspect::configuring");
     SLM_FATAL_IF( "Depreciated tag \"views\" in configuration", m_configuration->findConfigurationElement("views") );
     SLM_FATAL_IF( "Depreciated tag \"menus\" in configuration", m_configuration->findConfigurationElement("menus") );
@@ -113,7 +106,7 @@ void IQtAspect::configuring() throw( ::fwTools::Failed )
 
 //---------------------------------------------------------------------------
 
-void IQtAspect::starting() throw(::fwTools::Failed)
+void IAspect::starting() throw(::fwTools::Failed)
 {
    // To update name
    // ::guiQt::Manager::registerAspect( ::boost::dynamic_pointer_cast< ::gui::aspect::IQtAspect >( shared_from_this() ) ) ;
@@ -129,14 +122,14 @@ void IQtAspect::starting() throw(::fwTools::Failed)
 }
 //---------------------------------------------------------------------------
 
-void IQtAspect::stopping() throw(::fwTools::Failed)
+void IAspect::stopping() throw(::fwTools::Failed)
 {
    
 }
 
 //---------------------------------------------------------------------------
 
-void IQtAspect::info(std::ostream &_sstream )
+void IAspect::info(std::ostream &_sstream )
 {
     _sstream << "Manage aspect in main GUI application" ;
 }

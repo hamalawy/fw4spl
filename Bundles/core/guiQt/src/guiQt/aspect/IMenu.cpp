@@ -4,11 +4,7 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#include <fwServices/macros.hpp>
-#include "guiQt/aspect/QtDefaultMenu.hpp"
-
-
-REGISTER_SERVICE( ::guiQt::aspect::IQtMenu , ::guiQt::aspect::QtDefaultMenu , ::fwTools::Object );
+#include "guiQt/aspect/IMenu.hpp"
 
 namespace guiQt
 {
@@ -16,12 +12,17 @@ namespace guiQt
 namespace aspect
 {
 
-QtDefaultMenu::QtDefaultMenu() throw()
+//-----------------------------------------------------------------------------
+
+IMenu::IMenu() throw()
 {}
 
-QtDefaultMenu::~QtDefaultMenu() throw()
+//-----------------------------------------------------------------------------
+
+IMenu::~IMenu() throw()
 {}
 
 }
 
 }
+

@@ -5,7 +5,7 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwTools/Failed.hpp>
-#include "guiQt/view/IQtView.hpp"
+#include "guiQt/view/IView.hpp"
 
 
 
@@ -21,16 +21,16 @@ namespace view
 
  * @date    2009.
  */
-class  QtDefaultView : public ::guiQt::view::IQtView
+class  DefaultView : public ::guiQt::view::IView
 {
 
 public :
 
     /// Constructor. Do nothing.
-     QtDefaultView() throw() ;
+     DefaultView() throw() ;
     
     /// Destructor. Do nothing.
-     virtual ~QtDefaultView() throw() ;
+     virtual ~DefaultView() throw() ;
      
     void configuring() throw( ::fwTools::Failed );
     void starting() throw( ::fwTools::Failed );

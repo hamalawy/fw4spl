@@ -12,44 +12,19 @@
 namespace guiQt
 {
 
-/**
- * @namespace ::gui::aspect
- * @brief This namespace contains the classes which define graphical user interfaces (menu, toolbar...)
- */
 namespace aspect
 {
-
-/**
- * @brief   Defines the service interface managing GUI aspect, including menu actions and views
- * @class   IAspect.
- * @author  IRCAD (Research and Development Team).
-
- * @date    2009.
- *
- * @todo    ACH: Generic actions should not be defined in the config aspect.
- * @todo    ACH: Using shared pointer in order to reference action and menu services is dubious and should be dangerous.
- */
-class  IQtAspect : public ::fwServices::IService
+  
+class  IAspect : public ::fwServices::IService
 {
 
 public :
-    fwCoreNonInstanciableClassDefinitionsMacro ( (IQtAspect)( ::fwServices::IService::Baseclass) ) ;
+    fwCoreNonInstanciableClassDefinitionsMacro ( (IAspect)( ::fwServices::IService::Baseclass) ) ;
 
-    /**
-     * @brief   Constructor. Do nothing (Just initializes parameters).
-     *
-     * By default, the IAspect::m_name is set to "NO NAME". IAspect::m_minSizeHeight and IAspect::m_minSizeWidth are set to -1.
-     */
-     IQtAspect() throw() ;
+     IAspect() throw() ;
 
-    /// Destructor. Do nothing.
-     virtual ~IQtAspect() throw() ;
+     virtual ~IAspect() throw() ;
 
-    /**
-     * @brief This method returns the application title, IAspect::m_name.
-     *
-     *@return Application title.
-     */
     std::string getName() ;
 
     /**
