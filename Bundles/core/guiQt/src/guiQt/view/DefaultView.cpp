@@ -11,40 +11,36 @@
 
 #include <QApplication>
 #include <QFrame>
-#include "guiQt/view/QtDefaultView.hpp"
+
+#include "guiQt/view/DefaultView.hpp"
 
 namespace guiQt
 {
 namespace view
 {
 
-REGISTER_SERVICE( ::guiQt::view::IQtView , ::guiQt::view::QtDefaultView , ::fwTools::Object ) ;
+REGISTER_SERVICE( ::guiQt::view::IView , ::guiQt::view::DefaultView , ::fwTools::Object ) ;
 
-QtDefaultView::QtDefaultView() throw()
+DefaultView::DefaultView() throw()
 {}
 
-QtDefaultView::~QtDefaultView() throw()
+DefaultView::~DefaultView() throw()
 {}
 
-void QtDefaultView::configuring() throw( ::fwTools::Failed )
+void DefaultView::configuring() throw( ::fwTools::Failed )
 {
   
 }
 
-void QtDefaultView::starting() throw( ::fwTools::Failed )
+void DefaultView::starting() throw( ::fwTools::Failed )
 {
-    std::cout<<" \n\n---> IQtView::Starting() \n\n";  
-
- // guiQt::view::IQtView::configuring();
-     std::cout<<" \n\n---> AFTER conf \n\n";  
- 
     QWidget *mainWidget = qApp->activeWindow();
     
     QFrame *viewFrame = new QFrame(mainWidget);
     
-    QPushButton *testButton = new QPushButton( "Quit",viewFrame );
-   // QObject::connect( testButton, SIGNAL(clicked()), qApp, SLOT(quit()) );
-    testButton->show();
+    //QPushButton *testButton = new QPushButton( "Quit",viewFrame );
+  //  testButton->show();
+    
     QSize s(750, 750);
 
     viewFrame->setMinimumSize(s);

@@ -10,7 +10,7 @@
 #include <QApplication>
 #include <QWidget>
 #include <QFrame>
-#include "guiQt/view/IQtView.hpp"
+#include "guiQt/view/IView.hpp"
 #include "guiQt/Manager.hpp"
 
 namespace guiQt
@@ -19,19 +19,19 @@ namespace view
 {
 
 
-IQtView::IQtView() throw(): m_minWidth(-1), m_minHeight(-1)
+IView::IView() throw(): m_minWidth(-1), m_minHeight(-1)
 {
 }
 
 //-----------------------------------------------------------------------------
 
-IQtView::~IQtView() throw()
+IView::~IView() throw()
 {
 }
 
 //-----------------------------------------------------------------------------
 
-void IQtView::configuring() throw( ::fwTools::Failed )
+void IView::configuring() throw( ::fwTools::Failed )
 {
   
   std::cout<<" \nIQtView::configuring() \n\n";  
@@ -77,47 +77,47 @@ void IQtView::configuring() throw( ::fwTools::Failed )
 
 //-----------------------------------------------------------------------------
 
-void IQtView::info(std::ostream &_sstream )
+void IView::info(std::ostream &_sstream )
 {
     _sstream << "GUI View with ID = " <<  m_guiContainerId;
 }
 
 //-----------------------------------------------------------------------------
 
-void IQtView::starting() throw(::fwTools::Failed)
+void IView::starting() throw(::fwTools::Failed)
 {
 
 }
 //-----------------------------------------------------------------------------
 
-void IQtView::updating() throw(::fwTools::Failed)
+void IView::updating() throw(::fwTools::Failed)
 {
     SLM_TRACE("IView::updating");
 }
 
 //-----------------------------------------------------------------------------
 
-void IQtView::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
+void IView::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
 {
     SLM_FATAL("An IView service does not received a message." );
 }
 //-----------------------------------------------------------------------------
 
-void IQtView::stopping() throw(::fwTools::Failed)
+void IView::stopping() throw(::fwTools::Failed)
 {
    
 }
 
 //-----------------------------------------------------------------------------
 
-int IQtView::getGuiContainerId()
+int IView::getGuiContainerId()
 {
     return m_guiContainerId ;
 }
 
 //-----------------------------------------------------------------------------
 
-void IQtView::getQtContainer() const
+void IView::getQtContainer() const
 {
 }
 

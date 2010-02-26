@@ -9,7 +9,7 @@
 
 #include <fwServices/IService.hpp>
 
-#include "guiQt/aspect/IQtAspect.hpp"
+#include "guiQt/aspect/IAspect.hpp"
 
 
 namespace guiQt
@@ -25,16 +25,16 @@ namespace aspect
 
  * @date    2009.
  */
-class  QtDefaultAspect : public ::guiQt::aspect::IQtAspect
+class  DefaultAspect : public ::guiQt::aspect::IAspect
 {
 
 public :
     
     /// Constructor. Do nothing.
-    QtDefaultAspect() throw() ;
+    DefaultAspect() throw() ;
 
     /// Destructor. Do nothing.
-    virtual ~QtDefaultAspect() throw() ;
+    virtual ~DefaultAspect() throw() ;
 
 protected:
 

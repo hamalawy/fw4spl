@@ -30,7 +30,7 @@ namespace view
  * @date    2009.
  *
  */
-class  IQtView : public fwServices::IService
+class  IView : public fwServices::IService
 {
 
    class ViewInfo
@@ -49,17 +49,17 @@ class  IQtView : public fwServices::IService
     
 public :
 
-    fwCoreNonInstanciableClassDefinitionsMacro ( (IQtView)( ::fwServices::IService::Baseclass) ) ;
+    fwCoreNonInstanciableClassDefinitionsMacro ( (IView)( ::fwServices::IService::Baseclass) ) ;
 
     /**
     * @brief Constructor. Do nothing (Just initialize parameters).
     */
-     IQtView() throw() ;
+     IView() throw() ;
 
     /**
      * @brief Destructor. Do nothing.
      */
-     virtual ~IQtView() throw() ;
+     virtual ~IView() throw() ;
 
     /**
      * @brief This method is used to get the id of a wxPanel that represents this view.

@@ -4,40 +4,49 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-
-#include <boost/shared_ptr.hpp>
-#include <boost/foreach.hpp>
+#ifndef GUI_ASPECT_DEFAULT_MENU_HPP_
+#define GUI_ASPECT_DEFAULT_MENU_HPP_
 
 #include <set>
 
-#include <fwServices/IService.hpp>
+#include "guiQt/aspect/IMenu.hpp"
+
+#include <QApplication>
+#include <QWidget>
 #include <QMenuBar>
+#include <QMenu>
 
 namespace guiQt
 {
+
 namespace aspect
 {
 
-class IQtMenu : public ::fwServices::IService
+/**
+ * @brief   Defines the default menu for standard application
+ * @class   DefaultMenu.
+ * @author  IRCAD (Research and Development Team)
+
+ * @date    2009.
+ */
+class DefaultMenu : public IMenu
 {
 
 public :
 
-    fwCoreNonInstanciableClassDefinitionsMacro ( (IQtMenu)( ::fwServices::IService::Baseclass) ) ;
+    /// Constructor. Do nothing.
+    DefaultMenu() throw();
 
-    /// Default constructor, do nothing.
-    IQtMenu() throw() ;
+    /// Destructor. Do nothing.
+    virtual ~DefaultMenu() throw();
 
-    /// Default destructor, do nothing.
-    virtual ~IQtMenu() throw() ;
-  
 protected :
 
     /** @name Service methods ( override from ::fwServices::IService )
      * @{
      */
 
-    /// Retrieve IMenu::m_menuName in configuration element
+    /// Retrieve DefaultMenu::m_menuName in configuration element
     virtual void configuring() throw( ::fwTools::Failed ) ;
 
     virtual void starting() throw( ::fwTools::Failed ) ;
@@ -55,13 +64,17 @@ protected :
     /// Updating service on notification, do nothing.
     virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
     ///@}
- 
-private:
-    /// Service vector of ::gui::aspect::IMenu UUID.  List of the menus declared in the aspect config.
-    std::vector< std::string >  m_menusUID ;
 
+private:
+
+    std::vector< std::string >      m_actionsUID ;
+    //std::set< wxMenuItem * >        m_separators ;
+    std::string                     m_menuName ;
+    const static std::string        SEPARATOR_UID;
 };
 
+}
 
 }
-}
+
+#endif // GUI_ASPECT_DEFAULT_MENU_HPP_
