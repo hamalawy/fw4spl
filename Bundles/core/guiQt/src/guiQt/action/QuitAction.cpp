@@ -40,7 +40,10 @@ void QuitAction::info(std::ostream &_sstream )
 
 void QuitAction::updating() throw( ::fwTools::Failed )
 {
-    ::fwServices::OSR::uninitializeRootObject();
+  // Lancement de l action   ---> correspond au  getDefault()->m_serviceCallBacks[id].lock()->update() ;
+
+  std::cout<<" QuitActiojUpdating \n";
+ //   ::fwServices::OSR::uninitializeRootObject();
 
 }
 }

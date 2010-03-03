@@ -25,9 +25,11 @@ namespace guiQt
 {
 namespace action
 {
-//const std::map<std::string, int> IAction::SPECIAL_ACTION_TO_ID = ::boost::assign::map_list_of("QUIT",sQ);
+//const std::map<std::string, int> IAction::SPECIAL_ACTION_TO_ID = ::boost::assign::map_list_of("QUIT",sQUIT)
+//											      ("ABOUT",sABOUT;
 
-IAction::IAction() throw() : m_shortcutDef(""),
+IAction::IAction() throw() : QObject(), ::fwServices::IService(),
+		    m_shortcutDef(""),
                     m_isCheckable(false),
                     m_isRadio(false),
                     m_isCheck(false),
@@ -46,10 +48,8 @@ IAction::~IAction() throw()
 void IAction::configuring() throw( ::fwTools::Failed )
 {
   
- std::cout<<"\n IAction::configuring() \n\n";
-
-  
-  
+ //std::cout<<"\n IAction::configuring() \n\n";
+ 
     SLM_TRACE("configuring action") ;
     SLM_ASSERT("id tag deprecated", !m_configuration->hasAttribute("id"));
     SLM_ASSERT("menu tag deprecated", !m_configuration->hasAttribute("menu"));
@@ -62,7 +62,7 @@ void IAction::configuring() throw( ::fwTools::Failed )
 	std::cout<<" Special A : "<<specialActionName<<"\n\n";
 	
         OSLM_TRACE("Action identifier : " << specialActionName ) ;
-        //m_actionIdInMenu = SPECIAL_ACTION_TO_WXID.find(specialActionName)->second;
+      //  m_actionIdInMenu = SPECIAL_ACTION_TO_ID.find(specialActionName)->second;
     }
     else
     {
@@ -75,6 +75,9 @@ void IAction::configuring() throw( ::fwTools::Failed )
     {
         m_actionNameInMenu = m_configuration->getExistingAttributeValue("name") ;
         OSLM_TRACE("Action name : " << m_actionNameInMenu ) ;
+		
+	std::cout<<" Action name: "<<m_actionNameInMenu<<"\n\n";
+
     }
 /*
     if( m_configuration->hasAttribute("shortcut") )
@@ -131,7 +134,7 @@ void IAction::starting() throw(::fwTools::Failed)
    
    if(!allMenuBar.isEmpty())
    {
-     std::cout<<" \n List non vide \n"<< " Length : "<< allMenuBar.length();
+    // std::cout<<" \n List non vide \n"<< " Length : "<< allMenuBar.length();
      //menuBar = allMenus.at(0);
      menuBar = allMenuBar.first();
      
@@ -139,7 +142,7 @@ void IAction::starting() throw(::fwTools::Failed)
     
      if(menuBar != 0)
   {
-    std::cout<<" \n Pointeur menuBar non vide \n\n";
+  //  std::cout<<" \n Pointeur menuBar non vide \n\n";
    
   }
   else
@@ -148,7 +151,7 @@ void IAction::starting() throw(::fwTools::Failed)
   }
 
   
-   std::cout<<" \n Nom menu : "<<m_menuName <<"\n\n";
+   //std::cout<<" \n Nom menu : "<<m_menuName <<"\n\n";
    
    QString *s = new QString(m_menuName.c_str());
 
@@ -157,8 +160,8 @@ void IAction::starting() throw(::fwTools::Failed)
    QMenu *menuFile;
 
    if(!allMenus.isEmpty())
-   {
-     std::cout<<" \n List non vide \n"<< " Length : "<< allMenus.length();
+   {  
+    // std::cout<<" \n List non vide \n"<< " Length : "<< allMenus.length();
      //menuBar = allMenus.at(0);
      menuFile = allMenus.first();
      
@@ -169,28 +172,40 @@ void IAction::starting() throw(::fwTools::Failed)
    }
 
    
-
-    // Adds menu item
-    if(m_isCheckable || m_isRadio)
-    {
-  
-    }
-    else
-    {    std::cout<<" \n ELSE \n\n";
-
+    
+    currentMenu=menuFile;
+    createActions();
+/*
       QAction *exit;
       exit = new QAction("Exit",menuFile);
       if(menuFile!=0)
        menuFile->addAction(exit);
       else
 	SLM_FATAL(" NO MENUFILE ");
-      QObject::connect(exit, SIGNAL(triggered()),qApp, SLOT(quit()));
-    }
+      
+      QObject::connect(exit, SIGNAL(triggered()),qApp, SLOT(quit()));*/
+  
 
-    //::guiQt::Manager::registerAction( this->getSptr() ) ;
+    ::guiQt::Manager::registerAction( this->getSptr() ) ;
 
    // setEnable(m_enable);
     //setCheck(m_isCheck);
+    
+    
+
+}
+
+void IAction::exit()
+{ std::cout<<" \n EXIT NOW \n\n";
+  qApp->quit();
+}
+
+
+void IAction::createActions()
+{
+  exitAct = new QAction(m_actionNameInMenu.c_str(), currentMenu);
+  currentMenu->addAction(exitAct);
+  QObject::connect(exitAct, SIGNAL(triggered()),this, SLOT(exit()));
 
 }
 

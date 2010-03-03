@@ -4,6 +4,13 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
+#ifndef _GUIQT_VIEW_DEFAULT_VIEW_HPP_
+#define _GUIQT_VIEW_DEFAULT_VIEW_HPP_
+
+#include "guiQt/config.hpp"
+
+
+
 #include <fwTools/Failed.hpp>
 #include "guiQt/view/IView.hpp"
 
@@ -40,4 +47,4 @@ public :
 
 } // namespace view
 } // namespace gui
-
+#endif

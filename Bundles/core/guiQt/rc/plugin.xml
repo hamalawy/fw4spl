@@ -14,6 +14,10 @@
         <implements>::fwServices::IService</implements>
     </point>
 
+    <point id="::guiQt::action::IAction">
+        <implements>::fwServices::IService</implements>
+    </point>
+
     
     <point id="::guiQt::view::IView">
         <implements>::fwServices::IService</implements>

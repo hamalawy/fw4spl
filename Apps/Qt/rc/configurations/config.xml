@@ -17,7 +17,12 @@
            	 </menus>  
     		</service>  
 		 <service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+			<action uid="action_quit"/>
+
 	        </service>
+
+    		<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
+
 
 		<service name="Edit" uid="menu_Edit" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
 	        </service> 
@@ -26,6 +31,11 @@
 		<service uid="View" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
     		</service>
 
+		<service uid="ToolBar" type="::guiQt::aspect::IToolBar" implementation="::guiQt::aspect::DefaultToolBar" autoComChannel="no" >
+    		</service>
+
+
+
 		<start type="::guiQt::aspect::IAspect" />
  		<start type="::guiQt::aspect::IMenuBar" />
 		<start type="::guiQt::aspect::IMenu" />
@@ -33,6 +43,7 @@
 		<!--<start uid="menuBar"/>-->
 
 		<start uid="View" />
+		<start uid="ToolBar" />
 		<stop type="::guiQt::aspect::IAspect" />
 
 		</object>

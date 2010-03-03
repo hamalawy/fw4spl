@@ -28,8 +28,6 @@
 #include <QWidget>
 	
 
-#define __FWCORE_TYPEDEF_SHARED_PTR_FACTORY_NAME NewSptr
-
 
 namespace guiQt
 {
@@ -92,58 +90,40 @@ const ::guiQt::Manager::sptr Manager::getDefault() throw()
     return m_instance;
 }
 
+void Manager::registerAction( ::guiQt::action::IAction::sptr _action)
+{
+    SLM_ASSERT("Sorry, Action expired", _action);
+    int id = _action->getId();
 
+    OSLM_ASSERT("Sorry, Action with id " <<id<< " is already registered!",
+            getDefault()->m_serviceCallBacks.find(id) == getDefault()->m_serviceCallBacks.end() );
+
+    // Associated action and id
+    std::cout<<" setAction : "<<*_action<<" \n";
+    getDefault()->m_serviceCallBacks[id]= _action ;  
+    
+    getDefault()->m_serviceCallBacks[id].lock()->update() ;
+    
+    
+    std::cout<<"Action : "<<_action->getNameInMenu() <<" ; id : "<<id<<"\n\n";
+    Manager::processAction(id);
+    
+}
+
+void Manager::processAction(int id )
+{
+    SLM_ASSERT("Sorry, Action not found: "<< id ,
+            getDefault()->m_serviceCallBacks.find(id) != getDefault()->m_serviceCallBacks.end());
+
+    SLM_ASSERT("Sorry, Action expired",
+            !getDefault()->m_serviceCallBacks[id].expired() ) ;
+
+    SLM_ASSERT("Sorry, Action is disabled",
+            getDefault()->m_serviceCallBacks[id].lock()->isEnable());
+
+    std::cout<<" processAction \n";
+    std::cout<<" id : "<< id<<"\n";
+	    
+    //getDefault()->m_serviceCallBacks[id].lock()->update() ;
+}
 } // namespace gui
-/*
-AMELIORER PERF
-  - Augmenter la taille de la pipeline
-  - diminier la taille des instructions
-    --> Si branchement
-      - predicateur n-bits
-  - Architecture super-scalaire + ordonnencement
-MEMORY
-  Limit memory perf :
-     - plusieurs niveaux de caches
-     - demande de mots memoir
-     - Bp memoire
-   Amelioration latence de caches :
-     - ratio hit , multi-thread, pre-loaded data
-     - memory bound application
-     - CPU frequency bound application
-   Impact BP memoire : aumgente la taille des blocs.
-
-COHERENCE CHACHE
-  2 strateges :
-   - invalidate toutes les autres copies
-   - updates toutes les autres copies
-  False shaing :
-    - invalidate la ligne de cache
-    - update la ligne de cache
-  Consistance en copies:
-    - conserver le nombre de copies
-    - connaitre l'etat de chaque copie
-  Implementation HardWare
-    - Snoopy caches : all processus surveillent le bus et modifie leur ligne de cache en consequence => goulet => gestion shared pour les processeurs concernés => repertoire
-    - Mecanisme repertoire : augmentation de la memoire d'un bitmap(bit de presence) memorisant les owner de blocs
-    - combinaison des 2
-ALGO PARALLELE
-  - identifier tache simultanees
-  - allouer ces taches sur des processeurs s'executant simultanement
-  - distribuer donnees : entrees, sorties, intermediaires
-  
-  - taille de tache variable (1 tache = 1 calcul ou la moitie)
-  - pas de dependances entre taches
-  - sinon gaphe de dependance ou acyclique
-  - exemple : matrice x vexteur, requete BDD
-  
-DEGRE DE CONCURRENCE
-  -d° max = #max  de taches //
-  -d° moyen = #tache// sur tout le temps d'execution = poids total/longueur chemin critique  d'apres grapheDep
-  -probleme interaction : graphe interaction
-  
-MODELE POLYEDRIQUE
-  - nid de boucle = representation geometrique de boucles imbriquees
-  - iterations = points (avec coordonnees)
-  - enveloppe de ces poiints = polyedre convexe
-  
-  */

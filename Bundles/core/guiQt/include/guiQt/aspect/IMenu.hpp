@@ -4,8 +4,11 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef GUI_ASPECT_IMENU_HPP_
-#define GUI_ASPECT_IMENU_HPP_
+#ifndef GUIQT_ASPECT_IMENU_HPP_
+#define GUIQT_ASPECT_IMENU_HPP_
+
+#include "guiQt/config.hpp"
+
 
 #include <fwServices/IService.hpp>
 

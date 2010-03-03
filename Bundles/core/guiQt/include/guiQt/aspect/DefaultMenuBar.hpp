@@ -7,6 +7,9 @@
 #ifndef GUI_ASPECT_DEFAULT_MENUBAR_HPP_
 #define GUI_ASPECT_DEFAULT_MENUBAR_HPP_
 
+#include "guiQt/config.hpp"
+
+
 #include "guiQt/aspect/IMenuBar.hpp"
 
 #include <QMenuBar>
