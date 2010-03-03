@@ -3,10 +3,14 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
+#ifndef _GUIQT_ACTION_IACTION_HPP_
+#define _GUIQT_ACTION_IACTION_HPP_
 
 #include <fwServices/IService.hpp>
 
+#include <QApplication>
 #include <QAction>
+#include <QMenu>
 
 // Ajouter convertisseur string Qt
 
@@ -20,9 +24,10 @@ namespace action
 {
 
 
-class  IAction : public ::fwServices::IService
+class  IAction : public QObject, public ::fwServices::IService
 {
-
+  Q_OBJECT;
+  
 public :
 
     fwCoreNonInstanciableClassDefinitionsMacro ( (IAction)( ::fwServices::IService::Baseclass) ) ;
@@ -118,6 +123,14 @@ public :
      * @param[in] _check true in order to check wxMenuItem.
      */
       void setCheck(bool _check);
+      
+      void createActions();
+      
+      QMenu *currentMenu;
+
+            
+      public slots :
+	void exit();
 
 protected :
 
@@ -163,7 +176,7 @@ protected :
 
     ///@}
 
-    static const std::map<std::string, int> SPECIAL_ACTION_TO_WXID;
+    static const std::map<std::string, int> SPECIAL_ACTION_TO_ID;
 
     /// To know if the action is checkable.
     bool m_isCheckable;
@@ -192,6 +205,7 @@ protected :
     /// Name of the wxMenu.
     std::string m_menuName ;
 
+    QAction *exitAct;
 };
 
 
@@ -199,4 +213,5 @@ protected :
 } // namespace action
 } // namespace gui
 
+#endif
 

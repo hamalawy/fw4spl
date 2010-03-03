@@ -4,6 +4,12 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
+#ifndef _GUIQT_ASPECT_IASPECT_HPP_
+#define _GUIQT_ASPECT_IASPECT_HPP_
+
+#include "guiQt/config.hpp"
+
+
 #include <boost/shared_ptr.hpp>
 #include <fwServices/IService.hpp>
 
@@ -97,5 +103,5 @@ protected :
 } // namespace aspect
 } // namespace gui
 
-
+#endif
 

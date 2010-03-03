@@ -79,7 +79,7 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
    
    if(!allMenuBar.isEmpty())
    {
-     std::cout<<" \n List non vide \n"<< " Length : "<< allMenuBar.length();
+    // std::cout<<" \n List non vide \n"<< " Length : "<< allMenuBar.length();
      //menuBar = allMenus.at(0);
      menuBar = allMenuBar.first();
      
@@ -92,7 +92,7 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
   
   if(menuBar != 0)
   {
-    std::cout<<" \n Pointeur menuBar non vide \n\n";
+    //std::cout<<" \n Pointeur menuBar non vide \n\n";
     std::cout<<" Name :"<< m_menuName<<"\n\n";
     // recuperer nom du menu
     QMenu *menu = new QMenu(m_menuName.c_str(), mainWidget);
@@ -119,14 +119,13 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
                 if( (*iterAction)->getUUID() == *iterUUID )
                 {
                     (*iterAction)->setMenuName( m_menuName ) ;
+		    std::cout<<"---> Start Actions \n";
                     (*iterAction)->start() ;
                     actionIsFound = true;
                 }
             }
-            OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);
-        
-    }
-   
+            OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);        
+    }  
 }
 
 //-----------------------------------------------------------------------------

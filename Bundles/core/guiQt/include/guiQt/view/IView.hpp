@@ -4,8 +4,11 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _GUI_VIEW_IVIEW_HPP_
-#define _GUI_VIEW_IVIEW_HPP_
+#ifndef _GUIQT_VIEW_IVIEW_HPP_
+#define _GUIQT_VIEW_IVIEW_HPP_
+
+#include "guiQt/config.hpp"
+
 
 #include <fwServices/IService.hpp>
 #include <QFrame>

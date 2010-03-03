@@ -4,8 +4,11 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef GUI_ASPECT_DEFAULT_MENU_HPP_
-#define GUI_ASPECT_DEFAULT_MENU_HPP_
+#ifndef GUIQT_ASPECT_DEFAULT_MENU_HPP_
+#define GUIQT_ASPECT_DEFAULT_MENU_HPP_
+
+#include "guiQt/config.hpp"
+
 
 #include <set>
 
