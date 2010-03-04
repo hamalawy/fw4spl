@@ -8,8 +8,8 @@
                 <icon>Bundles/Tuto01Basic_0-1/tuto.ico</icon>
             </service>
 
+
             <start type="::gui::aspect::IAspect" />
-            
             <stop type="::gui::aspect::IAspect" />
 
         </object>

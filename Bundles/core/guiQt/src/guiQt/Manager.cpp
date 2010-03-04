@@ -60,12 +60,13 @@ Manager::~Manager() throw()
 void Manager::initialize()
 {
   int argc = 1;
-  char* argv[1] = {"test"};
+  char* argv[1] = {"fw4splQt"};
   
   QApplication app( argc,  argv);
   
   QWidget widget;
   widget.resize(950, 750);
+ // widget.showMaximized();
   widget.show();
    
   app.setActiveWindow(&widget);
@@ -93,20 +94,20 @@ const ::guiQt::Manager::sptr Manager::getDefault() throw()
 void Manager::registerAction( ::guiQt::action::IAction::sptr _action)
 {
     SLM_ASSERT("Sorry, Action expired", _action);
-    int id = _action->getId();
+  //  int id = _action->getId();
 
-    OSLM_ASSERT("Sorry, Action with id " <<id<< " is already registered!",
-            getDefault()->m_serviceCallBacks.find(id) == getDefault()->m_serviceCallBacks.end() );
+   // OSLM_ASSERT("Sorry, Action with id " <<id<< " is already registered!",
+//            getDefault()->m_serviceCallBacks.find(id) == getDefault()->m_serviceCallBacks.end() );
 
     // Associated action and id
-    std::cout<<" setAction : "<<*_action<<" \n";
-    getDefault()->m_serviceCallBacks[id]= _action ;  
+    std::cout<<"\n ---> IAction  : "<<*_action<<" \n";
+    std::cout<<" ---> ActionName : "<<_action->getNameInMenu()<<"\n\n";
+    //_action->update();
+  
+   // getDefault()->m_serviceCallBacks[id]= _action ;  
     
-    getDefault()->m_serviceCallBacks[id].lock()->update() ;
-    
-    
-    std::cout<<"Action : "<<_action->getNameInMenu() <<" ; id : "<<id<<"\n\n";
-    Manager::processAction(id);
+  //  std::cout<<"Action : "<<_action->getNameInMenu() <<" ; id : "<<id<<"\n\n";
+  //  Manager::processAction(id);
     
 }
 
@@ -124,6 +125,6 @@ void Manager::processAction(int id )
     std::cout<<" processAction \n";
     std::cout<<" id : "<< id<<"\n";
 	    
-    //getDefault()->m_serviceCallBacks[id].lock()->update() ;
+    getDefault()->m_serviceCallBacks[id].lock()->update() ;
 }
 } // namespace gui

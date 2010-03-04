@@ -130,7 +130,7 @@ public :
 
             
       public slots :
-	void exit();
+	void run();
 
 protected :
 
@@ -205,7 +205,8 @@ protected :
     /// Name of the wxMenu.
     std::string m_menuName ;
 
-    QAction *exitAct;
+    // Action
+    QAction *m_action;	
 };
 
 

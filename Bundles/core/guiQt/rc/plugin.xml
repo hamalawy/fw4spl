@@ -18,6 +18,9 @@
         <implements>::fwServices::IService</implements>
     </point>
 
+    <point id="::guiQt::action::FullScreenActionService">
+        <implements>::guiQt::action::IAction</implements>
+    </point>
     
     <point id="::guiQt::view::IView">
         <implements>::fwServices::IService</implements>

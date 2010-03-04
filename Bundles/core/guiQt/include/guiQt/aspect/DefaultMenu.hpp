@@ -13,6 +13,7 @@
 #include <set>
 
 #include "guiQt/aspect/IMenu.hpp"
+#include "guiQt/action/IAction.hpp"
 
 #include <QApplication>
 #include <QWidget>
@@ -42,6 +43,9 @@ public :
 
     /// Destructor. Do nothing.
     virtual ~DefaultMenu() throw();
+    
+    
+   // static void registerAction( ::guiQt::action::IAction::sptr _action ) ;
 
 protected :
 
