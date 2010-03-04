@@ -123,10 +123,24 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
                     (*iterAction)->start() ;
                     actionIsFound = true;
                 }
+		
             }
-            OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);        
+            OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);    
+
     }  
+       
+     
+    
+    //
 }
+
+/*
+    void DefaultMenu::registerAction( ::guiQt::action::IAction::sptr _action )
+    {
+      
+    }*/
+
+
 
 //-----------------------------------------------------------------------------
 

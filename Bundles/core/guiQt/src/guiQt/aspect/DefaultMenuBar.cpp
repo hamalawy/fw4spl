@@ -70,7 +70,7 @@ void DefaultMenuBar::starting() throw( ::fwTools::Failed )
   QWidget *mainWidget = qApp->activeWindow();
 
   QMenuBar * menu = new QMenuBar(mainWidget);
-  menu->resize(500,50);
+  menu->resize(950,30);
    
   menu->show();  //sinon ajout menu incorrete
   

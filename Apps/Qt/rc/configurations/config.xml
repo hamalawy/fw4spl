@@ -3,30 +3,29 @@
 		
 	<object id="QtObject" type="::fwTools::Object">
 
-		 <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+		<service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
 	              	<name>Qt</name>
             	        <view uid="View"  autoStart="no" />
-	         </service>
-
-		<service uid="menuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
-  		<menus>
-                	<menu uid="menu_File" />
-           	 </menus>
-		<menus>
-                	<menu uid="menu_Edit" />
-           	 </menus>  
-    		</service>  
-		 <service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
-			<action uid="action_quit"/>
-
 	        </service>
 
-    		<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
+		<service uid="menuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
 
+  		<menus>
+                	<menu uid="menu_File" />
+                </menus>
+		<menus>
+                	<menu uid="menu_Edit" />
+           	</menus>  
+    		</service>  
+		<service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+			<action uid="action_quit"/>
+		</service>
+
+    		<!--<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />-->
+    		<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::FullScreenActionService" autoComChannel="no" />
 
 		<service name="Edit" uid="menu_Edit" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
 	        </service> 
-
 
 		<service uid="View" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
     		</service>
@@ -46,7 +45,7 @@
 		<start uid="ToolBar" />
 		<stop type="::guiQt::aspect::IAspect" />
 
-		</object>
-	</extension>
+	</object>
+</extension>
 
 </plugin>
