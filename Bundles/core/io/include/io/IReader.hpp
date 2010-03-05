@@ -67,7 +67,7 @@ public :
     /**
      * @brief   returns  the title of selector dialog box
      */
-    IO_API virtual wxString getSelectorDialogTitle();
+   // IO_API virtual wxString getSelectorDialogTitle();
     //@}
 
 };

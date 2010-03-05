@@ -126,12 +126,7 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
 		
             }
             OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);    
-
     }  
-       
-     
-    
-    //
 }
 
 /*

@@ -52,9 +52,9 @@ void DefaultView::starting() throw( ::fwTools::Failed )
     viewFrame->resize(500,500);
    
     // Test view
-    QPixmap image("/home/hchekatt/tux.png");
-    QLabel* tux = new QLabel(viewFrame,0); // this étant un pointeur vers le parent du label.
-    tux->setPixmap(image);
+   // QPixmap image("/home/hchekatt/tux.png");
+    //QLabel* tux = new QLabel(viewFrame,0); // this étant un pointeur vers le parent du label.
+    //tux->setPixmap(image);
     
     
     viewFrame->show();
