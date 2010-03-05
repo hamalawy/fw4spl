@@ -67,8 +67,6 @@ void DefaultAspect::configuring() throw( ::fwTools::Failed )
 
 void DefaultAspect::starting() throw(::fwTools::Failed)
 {
-//  std::cout<<" m_uid : "<<m_uid<<" \n";
-
    // this->::guiQt::aspect::IAspect::starting();
     
   ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;

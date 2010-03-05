@@ -16,16 +16,20 @@
 		<menus>
                 	<menu uid="menu_Edit" />
            	</menus>  
+
     		</service>  
 		<service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
 			<action uid="action_quit"/>
+			<action uid="action_full"/>
 		</service>
 
-    		<!--<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />-->
-    		<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::FullScreenActionService" autoComChannel="no" />
+    		 <service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
+
+    		<service uid="action_full"   name="Full" type="::guiQt::action::IAction" implementation="::guiQt::action::FullScreenActionService" autoComChannel="no" />
 
 		<service name="Edit" uid="menu_Edit" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
 	        </service> 
+	
 
 		<service uid="View" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
     		</service>

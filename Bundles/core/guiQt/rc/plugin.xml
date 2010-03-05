@@ -17,13 +17,19 @@
     <point id="::guiQt::action::IAction">
         <implements>::fwServices::IService</implements>
     </point>
-
-    <point id="::guiQt::action::FullScreenActionService">
-        <implements>::guiQt::action::IAction</implements>
-    </point>
     
     <point id="::guiQt::view::IView">
         <implements>::fwServices::IService</implements>
+    </point>
+
+    <point id="::guiQt::action::QuitAction">
+        <implements>::guiQt::action::IAction</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+
+    <point id="::guiQt::action::FullScreenActionService">
+        <implements>::guiQt::action::IAction</implements>
+        <implements>::fwTools::Object</implements>
     </point>
     
     <point id="::guiQt::aspect::DefaultMenuBar">
