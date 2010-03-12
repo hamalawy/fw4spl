@@ -63,7 +63,7 @@ void IAction::configuring() throw( ::fwTools::Failed )
     {
       
       // 
-       // m_actionIdInMenu  = wxNewId();
+       // m_actionIdInMenu  = 3;
     }
 
     if( m_configuration->hasAttribute("name") )
@@ -111,7 +111,9 @@ void IAction::info(std::ostream &_sstream )
 
 void IAction::starting() throw(::fwTools::Failed)
 {
-  std::cout<<" \n DEBUT STARTING() \n\n";
+  std::cout<<" \n        DEBUT  IAction::starting() \n\n";
+ // std::cout<<"    action " << this->getId() << " : info = " << *this;
+  std::cout<<"        m_menuName = "<<m_menuName<<" \n";
   
     OSLM_TRACE("starting action " << this->getId() << " : info = " << *this) ;
     SLM_ASSERT("IAction must be associated with a menu", !m_menuName.empty());
@@ -158,29 +160,15 @@ void IAction::starting() throw(::fwTools::Failed)
    currentMenu=menuFile;
    createActions();
    
-   //::guiQt::Manager::registerAction( this->getSptr() ) ;
-   
-/*
-      QAction *exit;
-      exit = new QAction("Exit",menuFile);
-      if(menuFile!=0)
-       menuFile->addAction(exit);
-      else
-	SLM_FATAL(" NO MENUFILE ");
-      
-      QObject::connect(exit, SIGNAL(triggered()),qApp, SLOT(quit()));*/
-
-   // ::guiQt::Manager::registerAction( this->getSptr() ) ;
-
    // setEnable(m_enable);
     //setCheck(m_isCheck);
     
-      std::cout<<" \n FIN STARTING() \n\n";
+   std::cout<<" \n        FIN  IAction::starting() \n\n";
 
 }
 
 void IAction::run()
-{ std::cout<<" \n EXIT NOW \n\n";
+{ std::cout<<" \n        IAction::run() \n\n";
   this->update();
 }
 
@@ -210,7 +198,9 @@ bool IAction::isEnable()
 void IAction::setCheck(bool _check)
 {
     m_isCheck = _check;
-    wxMenuItem* item = this->getMenuItem();
+    
+   
+    QMenu *menuItem = this->getMenuItem();
     if(item && item->IsCheckable() && (m_isCheckable || (_check && m_isRadio)))
     {
         item->Check(m_isCheck);
@@ -251,15 +241,15 @@ void IAction::setEnable(bool _enable)
 
 void IAction::updating() throw(::fwTools::Failed)
 {
-        std::cout<<" \n DEBUT UPDAZTING() \n\n";
+        std::cout<<" \n        DEBUT UPDAZTING() \n\n";
 
   
     SLM_TRACE("IAction::updating");
     if (!m_isRadio)
     {
-        setCheck(!m_isCheck);
+      //  setCheck(!m_isCheck);
     }
-            std::cout<<" \n FIN UPDAZTING() \n\n";
+            std::cout<<" \n        FIN UPDAZTING() \n\n";
 
 }
 
@@ -274,7 +264,15 @@ void IAction::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::F
 
 void IAction::setMenuName(std::string _menuName)
 {
+    //std::cout<<" IAction::setMenuName() \n";
     m_menuName = _menuName ;
+}
+
+//-----------------------------------------------------------------------------
+
+std::string IAction::getMenuName()
+{
+    return m_menuName ;
 }
 
 //-----------------------------------------------------------------------------
@@ -291,32 +289,75 @@ std::string IAction::getNameInMenu()
     return m_actionNameInMenu ;
 }
 
+
+
 //-----------------------------------------------------------------------------
 
-std::string IAction::getMenuName()
+QAction* IAction::getMenuItem()
 {
-    return m_menuName ;
+  return m_action;
 }
-
-//-----------------------------------------------------------------------------
 /*
-wxMenuItem* IAction::getMenuItem()
+QAction* IAction::getMenuItem()
 {
-    // get Frame
-    wxFrame *frame = wxDynamicCast( wxTheApp->GetTopWindow() , wxFrame ) ;
-    SLM_ASSERT( "No wxFrame", frame ) ;
+   // get Frame
+   QWidget *mainWidget = qApp->activeWindow();
+   // get MenuBar
+   QList< QMenuBar*> allMenuBar =  mainWidget->findChildren<QMenuBar *>();
+   QMenuBar *menuBar;
+   QMenu *menu;
+   
+   if(!allMenuBar.isEmpty())
+   {
+     menuBar = allMenuBar.first();  
+   }
+   else
+   {
+     SLM_FATAL(" List MenuBar empty ");
+   }
+   // get Menu
+  if(menuBar != 0)
+  {
+    // recuperer nom du menu
+    menu = mainWidget->findChild<QMenu *>(getMenuName().c_str());
 
-    // get MenuBar
-    SLM_ASSERT( "No menu bar: MenuBar must be created by IAspect", frame->GetMenuBar() );
-    wxMenuBar *menuBar =  frame->GetMenuBar();
+    QAction *action;
+     
+   std::cout<<"    m_actionNameInMenu : "<<getNameInMenu()<<"\n"<<"ObjectName : "<<this->objectName().toStdString()<<"\n";  
+   action = menu->findChild<QAction *>(getNameInMenu().c_str());
+ std::cout<<"     Recuperation ACTION NAME \n\n";
+      if(action!=0)
+        std::cout<<"     ========================================================ACTION OOOOOOO0KKKKKKKKKKKKKK \n\n";
+     else
+        std::cout<<"     ACTION FAILED \n\n";
+     
+  }
+  else
+  {
+    SLM_FATAL(" NO MENUBAR ");
+  }
 
-    // get Menu
-    SLM_ASSERT("Menu must exist", menuBar->FindMenu( ::fwWX::std2wx( m_menuName ) ) != wxNOT_FOUND );
-    wxMenu *menuFile = menuBar->GetMenu( menuBar->FindMenu( ::fwWX::std2wx( m_menuName ) ) ) ;
+   QList< QAction*> allAction =  menu->findChildren<QAction *>();
+   QAction* a;
 
-    return menuFile->FindItem( m_actionIdInMenu );
-}*/
+   if(!allAction.isEmpty())
+   {
+     a = allAction.first();  
+   }
+   else
+   {
+     SLM_FATAL(" List MenuBar empty ");
+   }
+    if(a!=0)
+        std::cout<<"     ========================================================AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA OOOOOOO0KKKKKKKKKKKKKK \n\n";
+     else
+        std::cout<<"     A FAILED \n\n";
 
+
+  //  return menuFile->FindItem( m_actionIdInMenu );
+  return menu;
+}
+*/
 //-----------------------------------------------------------------------------
 /*
 ::gui::action::Shortcut::csptr IAction::getShortcut() const

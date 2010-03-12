@@ -5,6 +5,9 @@
     <requirement id="dataReg"/>
     <requirement id="servicesReg"/>
 
+    <point id="::guiQt::editor::IEditor">
+        <implements>::fwServices::IService</implements>
+    </point>
     
     <point id="::guiQt::aspect::IAspect">
         <implements>::fwServices::IService</implements>
@@ -23,6 +26,11 @@
     </point>
 
     <point id="::guiQt::action::QuitAction">
+        <implements>::guiQt::action::IAction</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+    
+    <point id="::guiQt::action::StarterActionService">
         <implements>::guiQt::action::IAction</implements>
         <implements>::fwTools::Object</implements>
     </point>

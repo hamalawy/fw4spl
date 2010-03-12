@@ -50,10 +50,6 @@ public:
 	 */
 	static void initialize() ;
 	
-	static void registerAction( ::guiQt::action::IAction::sptr _action ) ;
-	
-	static void processAction(int id ) ;
-
 	static const ::guiQt::Manager::sptr getDefault() throw();
 	
 

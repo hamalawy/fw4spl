@@ -7,9 +7,30 @@
                 <name>tutoBasicApplicationName</name>
                 <icon>Bundles/Tuto01Basic_0-1/tuto.ico</icon>
             </service>
+	    
+	      <service uid="myMenuBar" type="::gui::aspect::IMenuBar" implementation="::gui::aspect::DefaultMenuBar" autoComChannel="no" >
+            <menus>
+                <menu uid="menu_File" />
+            </menus>
+        </service>
+      
+        <!-- The ::gui::aspect::DefaultMenu service creates the menu "File". This menu contains two menuItems (with a separator).
+        The actions associated with these two menuItem are identified with the uid "action_openFile" and "action_quit". -->
+        <service name="Fichier" uid="menu_File" type="::gui::aspect::IMenu" implementation="::gui::aspect::DefaultMenu" autoComChannel="no" >
+            <action uid="action_openFile"/>
+            <separator/>
+            <action uid="action_quit"/>
+        </service>
+       
 
+	<service uid="action_openFile" name="OpenFile" type="::gui::action::IAction" implementation="::gui::action::StarterActionService" shortcut="Ctrl+O" autoComChannel="no" >
+            <start uid="myReaderPathFile"/>
+        </service>
+       
+        <service uid="action_quit" specialAction="QUIT"  name="Quit" type="::gui::action::IAction" implementation="::gui::action::QuitAction" shortcut="Ctrl+Q" autoComChannel="no" />
 
             <start type="::gui::aspect::IAspect" />
+	   
             <stop type="::gui::aspect::IAspect" />
 
         </object>
