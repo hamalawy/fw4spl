@@ -108,16 +108,7 @@ void IAspect::configuring() throw( ::fwTools::Failed )
 
 void IAspect::starting() throw(::fwTools::Failed)
 {
-   // To update name
-   // ::guiQt::Manager::registerAspect( ::boost::dynamic_pointer_cast< ::gui::aspect::IQtAspect >( shared_from_this() ) ) ;
 
-    // Starting menus (do this before actions)
-    
-    
-  //  ::guiQt::aspect::IQtMenu::sptr service = ::fwServices::add< ::guiQt::aspect::IQtMenu >(this->getObject(),"::gui::aspect::DefaultToolBar");
-   // service->start() ;
-   
-   
    
 }
 //---------------------------------------------------------------------------
@@ -133,16 +124,6 @@ void IAspect::info(std::ostream &_sstream )
 {
     _sstream << "Manage aspect in main GUI application" ;
 }
-
-//---------------------------------------------------------------------------
-
-
-
-//---------------------------------------------------------------------------
-
-
-
-//---------------------------------------------------------------------------
 
 
 }

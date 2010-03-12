@@ -70,13 +70,9 @@ void Manager::initialize()
    
   app.setActiveWindow(&widget);
 
-  
- //       ::fwServices::get< ::guiQt::aspect::IQtAspect >( getDefault()->m_unlessObject )->configure() ;
-   //     ::fwServices::get< ::guiQt::aspect::IQtAspect >( getDefault()->m_unlessObject )->start();
+  ::fwServices::OSR::initializeRootObject();
    
-    ::fwServices::OSR::initializeRootObject();
-   
-   app.exec();
+  app.exec();
 }
 
 
@@ -90,30 +86,4 @@ const ::guiQt::Manager::sptr Manager::getDefault() throw()
     return m_instance;
 }
 
-void Manager::registerAction( ::guiQt::action::IAction::sptr _action)
-{
-    SLM_ASSERT("Sorry, Action expired", _action);
-
-    std::cout<<"\n ---> IAction  : "<<*_action<<" \n";
-    std::cout<<" ---> ActionName : "<<_action->getNameInMenu()<<"\n\n";
-
-    
-}
-
-void Manager::processAction(int id )
-{
-    SLM_ASSERT("Sorry, Action not found: "<< id ,
-            getDefault()->m_serviceCallBacks.find(id) != getDefault()->m_serviceCallBacks.end());
-
-    SLM_ASSERT("Sorry, Action expired",
-            !getDefault()->m_serviceCallBacks[id].expired() ) ;
-
-    SLM_ASSERT("Sorry, Action is disabled",
-            getDefault()->m_serviceCallBacks[id].lock()->isEnable());
-
-    std::cout<<" processAction \n";
-    std::cout<<" id : "<< id<<"\n";
-	    
-    getDefault()->m_serviceCallBacks[id].lock()->update() ;
-}
 } // namespace gui

@@ -49,41 +49,22 @@ DefaultMenuBar::~DefaultMenuBar() throw()
 
 void DefaultMenuBar::configuring() throw( ::fwTools::Failed )
 {
-  /*  SLM_TRACE_FUNC();
-    SLM_FATAL_IF( "Sorry, missing menus configuration" , !m_configuration->findConfigurationElement("menus") );
-    ::fwRuntime::ConfigurationElement::sptr menusCfgElt = m_configuration->findConfigurationElement("menus");
-    std::vector < ::fwRuntime::ConfigurationElement::sptr > vectConfig = menusCfgElt->find("menu");
-    SLM_ASSERT("Sorry, no menu configuration specified", !vectConfig.empty());
-
-    ::fwRuntime::ConfigurationElementContainer::Iterator iter;
-    for (iter = vectConfig.begin() ; iter != vectConfig.end() ; ++iter)
-    {
-        SLM_ASSERT("Sorry, uid attribute missing", (*iter)->hasAttribute("uid"));
-        m_menusUID.push_back( (*iter)->getExistingAttributeValue("uid") ) ;
-    }*/
 }
 
 //-----------------------------------------------------------------------------
-
+// TODO : spacer
 void DefaultMenuBar::starting() throw( ::fwTools::Failed )
 {
   QWidget *mainWidget = qApp->activeWindow();
 
-  QMenuBar * menu = new QMenuBar(mainWidget);
-  menu->resize(950,30);
-   
-  menu->show();  //sinon ajout menu incorrete
+  QMenuBar * menuBar = new QMenuBar(mainWidget);
+  menuBar->resize(950,30);
   
-   
-  BOOST_FOREACH(std::string menuUID, m_menusUID)
-  {
-    //OSLM_FATAL_IF("Service "<<menuUID<<" doesn't exist.", ! ::fwTools::UUID::exist(menuUID, ::fwTools::UUID::SIMPLE ));
-    ::fwServices::IService::sptr service = ::fwServices::get( menuUID ) ;
-    ::guiQt::aspect::IMenu::sptr menu = ::guiQt::aspect::IMenu::dynamicCast(service);
-    OSLM_FATAL_IF("Service "<<menuUID<<" is not a Menu.", !menu);
-//    menu->start();
+//   QString *string = new QString("TestMenuBar");
+  // menuBar->setObjectName(this->getUUID().c_str());
 
-   }
+  menuBar->show();  //sinon ajout menu incorrete
+
 }
 
 //-----------------------------------------------------------------------------

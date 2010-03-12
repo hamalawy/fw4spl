@@ -88,8 +88,7 @@ void IGuiContainer::resetGuiParentContainer()
 
 void IGuiContainer::registerQtContainer(std::string uid , QWidget * container)
 {
-    OSLM_ASSERT("Sorry, qtContainer for "<<uid<<" already exists in SubUIDToQtContainer map.",
-            m_subUIDToQtContainer.find(uid) == m_subUIDToQtContainer.end());
+    OSLM_ASSERT("Sorry, qtContainer for "<<uid<<" already exists in SubUIDToQtContainer map.", m_subUIDToQtContainer.find(uid) == m_subUIDToQtContainer.end());
     m_subUIDToQtContainer[uid] = container;
 
     ::fwQt::IGuiContainer::registerGlobalQtContainer(uid, container);
@@ -156,8 +155,7 @@ void IGuiContainer::unregisterGlobalQtContainer(std::string uid)
 
 QWidget* IGuiContainer::getQtContainer(std::string uid)
 {
-    OSLM_ASSERT("Sorry, qtContainer for "<<uid<<" not exists in GlobalUIDToQtContainer map.",
-            m_globalUIDToQtContainer.find(uid) != m_globalUIDToQtContainer.end());
+    OSLM_ASSERT("Sorry, qtContainer for "<<uid<<" not exists in GlobalUIDToQtContainer map.", m_globalUIDToQtContainer.find(uid) != m_globalUIDToQtContainer.end());
     // returns container in global map
     return  m_globalUIDToQtContainer[uid];
 }

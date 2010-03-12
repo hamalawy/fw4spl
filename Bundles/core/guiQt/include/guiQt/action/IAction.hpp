@@ -65,6 +65,8 @@ public :
      * @return WxMenuItem name.
      */
      std::string getNameInMenu() ;
+     
+     QAction* getMenuItem();
 
     /**
      * @brief This method is used to get the name of a wxMenu.
@@ -122,7 +124,7 @@ public :
      *
      * @param[in] _check true in order to check wxMenuItem.
      */
-      void setCheck(bool _check);
+     // void setCheck(bool _check);
       
       void createActions();
       

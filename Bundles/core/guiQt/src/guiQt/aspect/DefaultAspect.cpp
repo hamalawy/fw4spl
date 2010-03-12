@@ -3,7 +3,8 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
-
+#include <QApplication>
+#include <QWidget>
 #include <fwServices/helper.hpp>
 #include <fwServices/macros.hpp>
 #include <fwServices/Factory.hpp>
@@ -18,6 +19,10 @@
 #include <fwServices/helper.hpp>
 #include <fwServices/macros.hpp>
 #include <fwData/Object.hpp>
+
+#include <fwQt/IGuiContainer.hpp>
+
+
 #include "guiQt/aspect/DefaultAspect.hpp"
 
 
@@ -68,7 +73,9 @@ void DefaultAspect::configuring() throw( ::fwTools::Failed )
 void DefaultAspect::starting() throw(::fwTools::Failed)
 {
    // this->::guiQt::aspect::IAspect::starting();
-    
+  QWidget *container = qApp->activeWindow();
+  ::fwQt::IGuiContainer::registerGlobalQtContainer(m_uid, container);
+
   ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
   service->start();
 }
@@ -77,6 +84,16 @@ void DefaultAspect::starting() throw(::fwTools::Failed)
 
 void DefaultAspect::stopping() throw(::fwTools::Failed)
 {
+  if(!m_uid.empty())
+    {
+        ::fwQt::IGuiContainer::unregisterGlobalQtContainer(m_uid);
+        if (::fwTools::UUID::exist(m_uid, ::fwTools::UUID::SIMPLE ))
+        {
+            ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
+            service->stop();
+        }
+        m_uid = "";
+    }
 }
 
 //-----------------------------------------------------------------------------
