@@ -73,8 +73,6 @@ protected :
     GUI_API virtual void info(std::ostream &_sstream ) ;
     ///@}
 
-    static const std::map<std::string, long> FWSTYLE_TO_WXSTYLE;
-
 private:
 
     void onCloseFrame(wxCloseEvent& event);

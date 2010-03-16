@@ -21,7 +21,6 @@
 #include <fwWX/IGuiContainer.hpp>
 #include <fwWX/convert.hpp>
 
-#include "gui/Manager.hpp"
 #include "gui/frame/DefaultFrame.hpp"
 
 namespace gui
@@ -32,16 +31,13 @@ namespace frame
 REGISTER_SERVICE( ::gui::frame::IFrame , ::gui::frame::DefaultFrame , ::fwTools::Object ) ;
 
 
-const std::map<std::string, long> DefaultFrame::FWSTYLE_TO_WXSTYLE =
-                                                ::boost::assign::map_list_of("DEFAULT",wxDEFAULT_FRAME_STYLE)
-                                                                            ("STAY_ON_TOP",wxSTAY_ON_TOP)
-                                                                            ("FRAME_FLOAT_ON_PARENT",wxFRAME_FLOAT_ON_PARENT);
-
 DefaultFrame::DefaultFrame() throw() : m_container(0),
         m_name(""),
         m_minSizeHeight(-1),
         m_minSizeWidth(-1),
-        m_modeStyle(wxDEFAULT_FRAME_STYLE)
+        m_modeStyle(wxDEFAULT_FRAME_STYLE),
+        m_autostart(false),
+        m_uid("")
 {}
 
 //-----------------------------------------------------------------------------
@@ -92,8 +88,8 @@ void DefaultFrame::configuring() throw( ::fwTools::Failed )
             SLM_FATAL_IF("<style> node must contain mode attribute", !(*iter)->hasAttribute("mode") );
             const std::string style = (*iter)->getExistingAttributeValue("mode");
             SLM_ASSERT("Sorry, style "<<style<< " is unknown.",
-                    DefaultFrame::FWSTYLE_TO_WXSTYLE.find(style) != DefaultFrame::FWSTYLE_TO_WXSTYLE.end());
-            m_modeStyle |= DefaultFrame::FWSTYLE_TO_WXSTYLE.find(style)->second;
+                    IFrame::FWSTYLE_TO_WXSTYLE.find(style) != IFrame::FWSTYLE_TO_WXSTYLE.end());
+            m_modeStyle |= IFrame::FWSTYLE_TO_WXSTYLE.find(style)->second;
         }
     }
 
@@ -138,7 +134,6 @@ void DefaultFrame::configuring() throw( ::fwTools::Failed )
 
 void DefaultFrame::starting() throw(::fwTools::Failed)
 {
-    SLM_TRACE_FUNC();
     wxFrame* frame = new wxFrame(wxTheApp->GetTopWindow(),
             wxNewId(),
             ::fwWX::std2wx(m_name),
@@ -156,16 +151,18 @@ void DefaultFrame::starting() throw(::fwTools::Failed)
     }
 
     m_container->Bind( wxEVT_CLOSE_WINDOW, &DefaultFrame::onCloseFrame, this,  m_container->GetId());
-    ::fwWX::IGuiContainer::registerGlobalWxContainer(m_uid, m_container);
 
-    if(m_autostart)
+    if(!m_uid.empty())
     {
-        wxTheApp->GetTopWindow()->Update();
-        OSLM_ASSERT("Service "<<m_uid<<" doesn't exist.", ::fwTools::UUID::exist(m_uid, ::fwTools::UUID::SIMPLE ));
-        ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
-        service->start();
+        ::fwWX::IGuiContainer::registerGlobalWxContainer(m_uid, m_container);
+        if(m_autostart)
+        {
+            wxTheApp->GetTopWindow()->Update();
+            OSLM_ASSERT("Service "<<m_uid<<" doesn't exist.", ::fwTools::UUID::exist(m_uid, ::fwTools::UUID::SIMPLE ));
+            ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
+            service->start();
+        }
     }
-
     m_container->Fit();
     m_container->Show();
     m_container->Refresh();
@@ -197,9 +194,12 @@ void DefaultFrame::stopping() throw(::fwTools::Failed)
     if(!m_uid.empty())
     {
         ::fwWX::IGuiContainer::unregisterGlobalWxContainer(m_uid);
-        OSLM_ASSERT("Service "<<m_uid<<" doesn't exist.", ::fwTools::UUID::exist(m_uid, ::fwTools::UUID::SIMPLE ));
-        ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
-        service->stop();
+        OSLM_INFO_IF("Service "<<m_uid<<" doesn't exist.", !::fwTools::UUID::exist(m_uid, ::fwTools::UUID::SIMPLE ));
+        if (::fwTools::UUID::exist(m_uid, ::fwTools::UUID::SIMPLE ))
+        {
+            ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
+            service->stop();
+        }
     }
 
     m_container->Unbind( wxEVT_CLOSE_WINDOW, &DefaultFrame::onCloseFrame, this,  m_container->GetId());
