@@ -6,4 +6,5 @@ syntax: glob
 *.cproject
 *.project
 
+*.orig
 *.*~

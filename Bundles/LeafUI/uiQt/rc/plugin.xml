@@ -1,0 +1,23 @@
+<plugin id="uiQt" class="::uiQt::Plugin" >
+    <library name="uiQt" />
+    
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="guiQt" />
+
+<!--    REGISTER_SERVICE( ::fwRender::IRender, ::vtkSimpleNegato::RendererService, ::fwData::Image) ;   -->
+<point id="::uiQt::ButtonEditor" >
+    <implements>::guiQt::editor::IEditor</implements>
+    <implements>::fwTools::Object</implements>
+</point>
+
+<point id="::uiQt::ImageEditor" >
+    <implements>::guiQt::editor::IEditor</implements>
+    <implements>::fwData::location::SingleFile</implements>
+</point>
+
+    
+</plugin>
+
+
+

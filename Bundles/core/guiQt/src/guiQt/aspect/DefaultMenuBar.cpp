@@ -23,7 +23,8 @@
 #include "guiQt/aspect/DefaultMenuBar.hpp"
 
 #include <QApplication>
-
+#include <QHBoxLayout>
+#include <QVBoxLayout>	
 
 
 REGISTER_SERVICE( ::guiQt::aspect::IMenuBar , ::guiQt::aspect::DefaultMenuBar , ::fwTools::Object );
@@ -58,12 +59,28 @@ void DefaultMenuBar::starting() throw( ::fwTools::Failed )
   QWidget *mainWidget = qApp->activeWindow();
 
   QMenuBar * menuBar = new QMenuBar(mainWidget);
-  menuBar->resize(950,30);
+ // menuBar->resize(950,30);
   
 //   QString *string = new QString("TestMenuBar");
   // menuBar->setObjectName(this->getUUID().c_str());
 
   menuBar->show();  //sinon ajout menu incorrete
+  
+     QLayout *layout;// = new QHBoxLayout();
+     
+     if(mainWidget->layout()!=0)
+        std::cout<<"=====> Layout OK \n";
+     else
+       std::cout<<"=====> Layout EMPTY \n";
+     
+     layout = mainWidget->layout();
+     
+    layout->setMenuBar(menuBar);
+
+   // (mainWidget->layout())->addWidget(menuBar);
+ //   (mainWidget->layout())->setMenuBar(menuBar);
+
+
 
 }
 

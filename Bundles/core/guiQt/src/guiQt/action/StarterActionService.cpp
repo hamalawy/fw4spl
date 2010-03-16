@@ -1,0 +1,168 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+
+
+#include <fwCore/base.hpp>
+
+#include <fwTools/ClassFactoryRegistry.hpp>
+#include <fwTools/UUID.hpp>
+
+#include <fwRuntime/helper.hpp>
+#include <fwRuntime/Extension.hpp>
+
+#include <fwServices/macros.hpp>
+#include <fwServices/helper.hpp>
+
+#include "guiQt/action/StarterActionService.hpp"
+
+
+namespace guiQt
+{
+namespace action
+{
+
+REGISTER_SERVICE( ::guiQt::action::IAction , ::guiQt::action::StarterActionService , ::fwTools::Object ) ;
+
+
+StarterActionService::StarterActionService() throw()
+{
+}
+
+//-----------------------------------------------------------------------------
+
+StarterActionService::~StarterActionService() throw()
+{
+}
+
+//-----------------------------------------------------------------------------
+
+void StarterActionService::info(std::ostream &_sstream )
+{
+    _sstream << "Starter Action" << std::endl;
+}
+
+//-----------------------------------------------------------------------------
+
+void StarterActionService::updating() throw( ::fwTools::Failed )
+{
+    std::cout<<"\n StarterActionService::updating() \n";
+  
+    SLM_TRACE("updating StarterActionService") ;
+    this->::guiQt::action::IAction::updating();
+
+    for(size_t i = 0; i < m_uuidServices.size(); i++)
+    {
+        ActionType action =  m_uuidServices.at(i).second;
+        std::string uid =  m_uuidServices.at(i).first;
+	
+      std::cout<<"    Action : "<<action;
+      std::cout<<"    Uid : "<<uid<<"\n";
+
+	
+        bool srv_exists = ::fwTools::UUID::exist(uid, ::fwTools::UUID::SIMPLE );
+
+        // Manage special action
+        if ( action == START_IF_EXISTS )
+        {
+            if ( srv_exists )
+            {
+                action = START;
+            }
+            else
+            {
+                action = DO_NOTHING;
+            }
+        }
+        else if( action == STOP_IF_EXISTS )
+        {
+            if ( srv_exists )
+            {
+                action = STOP;
+            }
+            else
+            {
+                action = DO_NOTHING;
+            }
+        }
+
+        if( action != DO_NOTHING)
+        {		   
+	    std::cout<<"    uidService : "<<uid <<"\n";
+            ::fwServices::IService::sptr service = ::fwServices::get( uid ) ;
+            SLM_ASSERT("service not found", service);
+            switch ( action )
+            {
+            case START :
+            {
+                if(service->isStopped())
+                {
+		//    std::cout<<"    menuName : "<<service->getMenuName() <<"\n";
+                    service->start();
+                }
+                else
+                {
+                    OSLM_WARN("Service " << service->getUUID() << " is not stopped");
+                }
+                service->update();
+                break;
+            }
+            case STOP :
+            {
+                service->stop();
+                break;
+            }
+            default :
+            {
+                SLM_FATAL("Sorry, this action type is not managed");
+                break;
+            }
+            }
+        }
+        else
+        {
+            std::string msgInfo = "Sorry, the service is unavailable.";
+           
+            OSLM_INFO("Do nothing for Service " << m_uuidServices.at(i).first);
+        }
+    }
+    
+}
+
+//-----------------------------------------------------------------------------
+
+void StarterActionService::configuring() throw( ::fwTools::Failed )
+{
+    SLM_TRACE("configuring StarterActionService") ;
+    
+    std::cout<<"\n  StarterActionService::configuring() \n\n";
+    
+    
+    this->::guiQt::action::IAction::configuring() ;
+
+    ::fwRuntime::ConfigurationElementContainer::Iterator iter = this->m_configuration->begin() ;
+    for( ; iter != this->m_configuration->end() ; ++iter )
+    {
+        OSLM_INFO( "StarterActionService "  << (*iter)->getName());
+
+        std::string actionType =  (*iter)->getName();
+        ActionType action;
+        if ( actionType == "start" )                { action = START; }
+        else if ( actionType == "stop" )            { action = STOP; }
+        else if ( actionType == "start_if_exists" ) { action = START_IF_EXISTS; }
+        else if ( actionType == "stop_if_exists" )  { action = STOP_IF_EXISTS; }
+        else
+        {
+            OSLM_FATAL("Sorry this type of \"actionType\":" << actionType <<" is not managed by StarterActionService");
+        }
+        SLM_ASSERT("Attribute uid missing", (*iter)->hasAttribute("uid")) ;
+        std::string uuid = (*iter)->getExistingAttributeValue("uid") ;
+
+        m_uuidServices.push_back( std::make_pair(uuid, action) );
+    }
+}
+
+}
+}
