@@ -34,7 +34,8 @@ DefaultView::~DefaultView() throw()
 
 void DefaultView::configuring() throw( ::fwTools::Failed )
 {
-  
+      std::cout<<" \n DefaultView::configuring()  \n";
+
 }
 
 void DefaultView::starting() throw( ::fwTools::Failed )
@@ -43,13 +44,13 @@ void DefaultView::starting() throw( ::fwTools::Failed )
     
     QFrame *viewFrame = new QFrame(mainWidget);
     
-    //QPushButton *testButton = new QPushButton( "Quit",viewFrame );
-  //  testButton->show();
+    std::cout<<" \n ################## VIEW ADDED  ####################### \n";
     
-    QSize s(750, 750);
+ //viewFrame->resize(500,500);
+   /* QSize s(750, 750);
 
     viewFrame->setMinimumSize(s);
-    viewFrame->resize(500,500);
+    viewFrame->resize(500,500);*/
    
     // Test view
     /*

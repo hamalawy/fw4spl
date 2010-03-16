@@ -1,0 +1,22 @@
+<plugin class="::ioQt::Plugin" id="ioQt">
+
+    <library name="ioQt"/>
+
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="io"/>
+    <requirement id="guiQt"/>
+   
+    
+    <point id="::ioQt::ImageReaderService">
+        <implements>::io::IReader</implements>
+        <implements>::fwData::Image</implements>
+    </point>
+    
+   <point id="::ioQt::FileSelector">
+        <implements>::guiQt::editor::IEditor</implements>
+        <implements>::fwData::location::SingleFile</implements>
+    </point>
+    
+  
+</plugin>

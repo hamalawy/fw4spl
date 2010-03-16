@@ -86,6 +86,7 @@ void IView::info(std::ostream &_sstream )
 
 void IView::starting() throw(::fwTools::Failed)
 {
+      std::cout<<" \n IView::configuring()  \n";
 
 }
 //-----------------------------------------------------------------------------

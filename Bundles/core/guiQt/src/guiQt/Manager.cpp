@@ -26,8 +26,9 @@
 #include <QMenuBar>
 #include <QDialog>
 #include <QWidget>
-	
-
+#include <QHBoxLayout>
+#include <QVBoxLayout>	
+#include <QDesktopWidget>
 
 namespace guiQt
 {
@@ -60,18 +61,28 @@ Manager::~Manager() throw()
 void Manager::initialize()
 {
   int argc = 1;
-  char* argv[1] = {"fw4splQt"};
+  //char* argv[1] = {"fw4splQt"};
+  char** argv = NULL;
+  int w,h;
   
   QApplication app( argc,  argv);
   
-  QWidget widget;
-  widget.resize(950, 750);
-  widget.show();
-   
-  app.setActiveWindow(&widget);
+  QWidget *widget = new QWidget();
+  
+  QDesktopWidget *desk = QApplication::desktop();
+  QRect screen = desk->screenGeometry(widget);
+  
+  QVBoxLayout *layout = new QVBoxLayout();
 
-  ::fwServices::OSR::initializeRootObject();
+  widget->setLayout(layout);
+  
+  widget->resize(screen.width(), screen.height());
+  widget->show();
    
+  app.setActiveWindow(widget);
+ 
+  ::fwServices::OSR::initializeRootObject();
+
   app.exec();
 }
 
