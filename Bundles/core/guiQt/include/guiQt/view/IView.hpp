@@ -9,9 +9,9 @@
 
 #include "guiQt/config.hpp"
 
+#include <fwQt/IGuiContainer.hpp>
 
 #include <fwServices/IService.hpp>
-#include <QFrame>
 
 
 
@@ -33,22 +33,9 @@ namespace view
  * @date    2009.
  *
  */
-class  IView : public fwServices::IService
+class  IView : public fwQt::IGuiContainer
 {
 
-   class ViewInfo
-    {
-    public :
-
-        ViewInfo() :
-            m_minSize (std::make_pair(-1,-1)),
-            m_viewFrame(0),
-            m_autostart(false)
-            {}
-        std::pair< int, int >   m_minSize;
-        QFrame *m_viewFrame;
-        bool                    m_autostart;
-    };
     
 public :
 
@@ -64,69 +51,6 @@ public :
      */
      virtual ~IView() throw() ;
 
-    /**
-     * @brief This method is used to get the id of a wxPanel that represents this view.
-     *
-     * @return WxMenuItem id.
-     */
-     int getGuiContainerId() ;
-
-    /**
-     * @brief This method is used to get wx container of the view.
-     *
-     * @return wx container.
-     */
-     void getQtContainer() const;
-
-protected :
-
-    /** @name Service methods ( override from ::fwServices::IService )
-     * @{
-     */
-
-    /**
-     * @brief This method is used to configure the class parameters.
-     */
-     virtual void configuring() throw( ::fwTools::Failed ) ;
-
-    /**
-     * @brief Register a view with defined id.
-     */
-     virtual void starting() throw(::fwTools::Failed);
-     
-    /**
-     * @brief This method remove the view in the frame.
-     */
-     virtual void stopping() throw(::fwTools::Failed);
-
-    /**
-     * @brief This method is used to update services on notification. Do nothing.
-     */
-     virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed) ;
-
-    /**
-     * @brief This method is used to update services. Do nothing.
-     */
-     virtual void updating() throw(::fwTools::Failed) ;
-
-    /**
-     * @brief This method gives information about the class. Do nothing.
-     */
-     virtual void info(std::ostream &_sstream ) ;
-    ///@}
-
-    /// The identifier of the window.
-    int m_guiContainerId ;
-
-    // Panel minimum width.
-    int m_minWidth;
-
-    // Panel minimum height.
-    int m_minHeight;
-    
-
-    typedef std::map< std::string , ViewInfo > PanelContainer;
-    PanelContainer m_panels;
 
 
 };
