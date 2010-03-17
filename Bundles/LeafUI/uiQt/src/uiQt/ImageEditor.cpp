@@ -7,7 +7,10 @@
 #include <QApplication>
 #include <QWidget>
 #include <QLayout>
-#include <QMessageBox>
+#include <QMainWindow>
+#include <QDockWidget>
+
+
 #include <fwComEd/SingleFileMsg.hpp>
 #include <fwData/location/SingleFile.hpp>  
 
@@ -46,38 +49,21 @@ void ImageEditor::configuring() throw(::fwTools::Failed)
 
 void ImageEditor::starting() throw(fwTools::Failed)
 {
-    QWidget* container;
-    QFrame *f;
+   QWidget* container;
+   
    ::guiQt::editor::IEditor::starting();
    std::cout<<"Servie UUID : "<<this->getUUID()<<"\n";
 
-  container = m_globalUIDToQtContainer[this->getUUID()];
-  
-  /*
-  QList< QFrame*> frame =  container->findChildren<QFrame *>();
-  
-  if(container!=0)
-   std::cout<<" \n =====> CONTAINER OK \n";
-  else
-   std::cout<<" \n =====> CONTAINER NUL \n";
-  
-  
-  
-  if(!frame.isEmpty())
-  {
-     std::cout<<" \n =====>FRAME : List non vide \n";
-     f = frame.first();
-  }
-   else
-   {
-    // SLM_FATAL(" F empty ");
-   }
-   */
+   //container = m_globalUIDToQtContainer[this->getUUID()];
+   container = m_globalUIDToQtContainer.find(this->getUUID())->second;
 
- // imageLabel = new QLabel(frame);
-   imageLabel = new QLabel(container);
+   // important le setParent
+   imageLabel = new QLabel();
+   imageLabel->setParent(container);
+   imageLabel->setMinimumHeight(250);
+   imageLabel->setMinimumWidth(250);
 
-  (container->layout())->addWidget(imageLabel);
+ // (container->layout())->addWidget(imageLabel);
 }
 
 //-----------------------------------------------------------------------------
@@ -104,7 +90,8 @@ void ImageEditor::updating() throw(fwTools::Failed)
         return;
       }
       imageLabel->setPixmap(QPixmap::fromImage(*image));
-      imageLabel->show();  
+      imageLabel->setScaledContents(true);
+    //  imageLabel->show();  
 
 }
 

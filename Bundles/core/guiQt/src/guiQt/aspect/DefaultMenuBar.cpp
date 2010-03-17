@@ -67,7 +67,7 @@ void DefaultMenuBar::starting() throw( ::fwTools::Failed )
   menuBar->show();  //sinon ajout menu incorrete
   
      QLayout *layout;// = new QHBoxLayout();
-     
+    
      if(mainWidget->layout()!=0)
         std::cout<<"=====> Layout OK \n";
      else

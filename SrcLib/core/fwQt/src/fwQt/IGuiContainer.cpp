@@ -37,6 +37,12 @@ IGuiContainer::~IGuiContainer() throw()
 QWidget * IGuiContainer::getQtContainer()
 {
     SLM_FATAL_IF("Sorry, parent qtContainer not yet initialized, please initGuiParentContainer before", !m_container ) ;
+    
+    if(m_container!=0)
+      std::cout<<" m_container OK \n";
+    else
+      std::cout<<" m_container EMPTY \n";
+
     return m_container ;
 }
 

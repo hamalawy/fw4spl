@@ -81,7 +81,8 @@ void DefaultAspect::starting() throw(::fwTools::Failed)
 
   ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
   
-    std::cout<<" DA::Service Name : "<<service->getUUID()<<"  m_uid :  "<<m_uid<<"\n";
+   std::cout<<" DA::Service Name : "<<service->getUUID()<<"  m_uid :  "<<m_uid<<"\n";
+   // Start() le service attached à la vue
   service->start();
 }
 
