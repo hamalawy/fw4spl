@@ -75,14 +75,12 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
   // Get the main widget
   QWidget *mainWidget = qApp->activeWindow();
   
- // QMenuBar *menuBar = mainWidget->findChild<QMenuBar *>();
    QList< QMenuBar*> allMenuBar =  mainWidget->findChildren<QMenuBar *>();
    QMenuBar *menuBar;
    
    if(!allMenuBar.isEmpty())
    {
-    // std::cout<<" \n List non vide \n"<< " Length : "<< allMenuBar.length();
-     //menuBar = allMenus.at(0);
+   
      menuBar = allMenuBar.first();
    }
    else
@@ -93,13 +91,11 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
   
   if(menuBar != 0)
   {
-    //std::cout<<" \n Pointeur menuBar non vide \n\n";
-  //  std::cout<<" m_menuName :"<< m_menuName<<"\n\n";
-    // recuperer nom du menu
+
     QMenu *menu = new QMenu(m_menuName.c_str(), mainWidget);
     menu->setObjectName(m_menuName.c_str());
     menuBar->addMenu(menu);
-   // menuBar->show(); // faire en dernier
+    
   }
   else
   {
@@ -107,9 +103,7 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
   }
 
   // start() actions
- 
-
-    std::vector< ::guiQt::action::IAction::sptr > allActions = ::fwServices::OSR::getServices< ::guiQt::action::IAction >() ;
+     std::vector< ::guiQt::action::IAction::sptr > allActions = ::fwServices::OSR::getServices< ::guiQt::action::IAction >() ;
     for(std::vector< std::string >::iterator iterUUID = m_actionsUID.begin() ; iterUUID != m_actionsUID.end() ; ++iterUUID )
     {
         

@@ -18,8 +18,11 @@
 #include "guiQt/action/IAction.hpp"
 #include "guiQt/aspect/DefaultToolBar.hpp"
 
+#include <QMainWindow>
 #include <QToolBar>
  #include <QSpinBox>
+ 
+ 
 REGISTER_SERVICE( ::guiQt::aspect::IToolBar , ::guiQt::aspect::DefaultToolBar , ::fwTools::Object ) ;
 
 namespace guiQt
@@ -44,23 +47,22 @@ void DefaultToolBar::starting()  throw ( ::fwTools::Failed )
 
      
     QWidget *mainWidget = qApp->activeWindow();
-    
-    QList< QToolBar*> allToolBar =  mainWidget->findChildren<QToolBar *>();
-    QToolBar *toolBar = new QToolBar("ToolBar",mainWidget);
-    toolBar->resize(500,50);
+    QMainWindow *mainWindow = qobject_cast<QMainWindow *>(mainWidget);
 
-     if(!allToolBar.isEmpty())
-   {
-    // std::cout<<" \n List non vide \n"<< " Length : "<< allMenuBar.length();
-     //menuBar = allMenus.at(0);
-     toolBar = allToolBar.first();
- 
-   }
-   else
-   {
-     //QToolBar * toolBar; a ajouter a la frame
-     
-   }
+    
+   // QList< QToolBar*> allToolBar =  mainWindow->findChildren<QToolBar *>();
+    QToolBar *toolBar = new QToolBar("ToolBar",mainWindow);
+    // ajouter posibilte choix position
+    mainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
+
+//      if(!allToolBar.isEmpty())
+//    {
+//      toolBar = allToolBar.first();
+//    }
+//    else
+//    {
+//      
+//    }
 
      // If no menu bar yet : create it
     

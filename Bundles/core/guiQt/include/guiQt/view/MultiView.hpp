@@ -4,9 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _GUIQT_DEFAULT_VIEW_HPP_
-#define _GUIQT_DEFAULT_VIEW_HPP_
-
+#ifndef _GUIQT_VIEW_MULTI_VIEW_HPP_
+#define _GUIQT_VIEW_MULTI_VIEW_HPP_
 
 #include <fwTools/Failed.hpp>
 
@@ -15,7 +14,6 @@
 
 #include <QMainWindow>
 #include <QDockWidget>
-#include <utility>
 
 namespace guiQt
 {
@@ -29,30 +27,44 @@ namespace view
 
  * @date    2009.
  */
-class  DefaultView : public ::guiQt::view::IView
+class MultiView : public ::guiQt::view::IView
 {
-   class ViewInfo
+    class ViewInfo
     {
     public :
 
         ViewInfo() :
+            m_align ("center"),
             m_minSize (std::make_pair(-1,-1)),
+            m_isResizable(true),
+            m_visible (true),
             m_panel (0),
-            m_autostart(false)
-            {}
-        std::pair< int, int >   m_minSize;
-    	QDockWidget*		m_panel;
-        bool                    m_autostart;
+            m_position(0),
+            m_layer(0),
+            m_row(0),
+            m_autostart(false),
+            m_caption (std::make_pair(false,""))
+        {}
+
+        std::string                      m_align;
+        std::pair< int, int >            m_minSize;
+        bool                             m_visible;
+        QDockWidget*                     m_panel;
+        bool                             m_isResizable;
+        int                              m_position;
+        int                              m_layer;
+        int                              m_row;
+        bool                             m_autostart;
+        std::pair< bool, std::string >   m_caption;
     };
-    
 
 public :
 
     /// Constructor, does nothing.
-    DefaultView() throw() ;
+    MultiView() throw() ;
 
     /// Destructor, does nothing.
-    virtual ~DefaultView() throw() ;
+    virtual ~MultiView() throw() ;
 
     /// Analyses xml configuration to configure this service, espacially umber of panel and the layout of this view.
     void configuring() throw( ::fwTools::Failed );

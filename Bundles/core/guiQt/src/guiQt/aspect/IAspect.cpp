@@ -23,7 +23,6 @@
 
 #include <QApplication>
 #include <QMenuBar>
-#include <QWidget>
 
 #include <iostream>
 

@@ -12,6 +12,9 @@
 
 #include "guiQt/action/FullScreenActionService.hpp"
 
+#include <QApplication>
+#include <QMainWindow>
+
 namespace guiQt
 {
 namespace action

@@ -66,21 +66,21 @@ void Manager::initialize()
   int w,h;
   
   QApplication app( argc,  argv);
-  
+  /*
   QWidget *widget = new QWidget();
-  
-  QDesktopWidget *desk = QApplication::desktop();
-  QRect screen = desk->screenGeometry(widget);
-  
   QVBoxLayout *layout = new QVBoxLayout();
-
   widget->setLayout(layout);
-  
   widget->resize(screen.width(), screen.height());
   widget->show();
-   
-  app.setActiveWindow(widget);
- 
+  app.setActiveWindow(widget);*/
+  
+  QWidget* mainWindow = new QMainWindow();
+  
+  QDesktopWidget *desk = QApplication::desktop();
+  QRect screen = desk->screenGeometry(mainWindow);
+  
+  app.setActiveWindow(mainWindow);
+  
   ::fwServices::OSR::initializeRootObject();
 
   app.exec();

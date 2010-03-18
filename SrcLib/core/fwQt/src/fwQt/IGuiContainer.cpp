@@ -7,6 +7,8 @@
 #include <boost/foreach.hpp>
 
 #include <QApplication>
+#include <QWidget>
+
 #include <QLayout>
 
 #include <fwCore/base.hpp>

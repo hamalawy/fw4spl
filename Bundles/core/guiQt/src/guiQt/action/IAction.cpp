@@ -15,7 +15,6 @@
 #include <iostream>
 
 #include <QApplication>
-#include <QMenuBar>
 #include <QMenu>
 #include <QAction>
 #include <QList>
@@ -120,44 +119,10 @@ void IAction::starting() throw(::fwTools::Failed)
 
    // Get the main widget
    QWidget *mainWidget = qApp->activeWindow();
-   // QMenuBar *menuBar = mainWidget->findChild<QMenuBar *>();
-   QList< QMenuBar*> allMenuBar =  mainWidget->findChildren<QMenuBar *>();
-   QMenuBar *menuBar;
-   
-   if(!allMenuBar.isEmpty())
-   {
-    // std::cout<<" \n List non vide \n"<< " Length : "<< allMenuBar.length();
-     //menuBar = allMenus.at(0);
-     menuBar = allMenuBar.first();  
-   }
-    
-   if(menuBar != 0)
-   {
-  //  std::cout<<" \n Pointeur menuBar non vide \n\n";
-   }
-   else
-   {
-    SLM_FATAL(" NO MENUBAR ");
-   }
-   //std::cout<<" \n Nom menu : "<<m_menuName <<"\n\n";
-   
+  
    QString *s = new QString(m_menuName.c_str());
-   // QMenu *menuFile = menuBar->findChild<QMenu *>(m_menuName.c_str());
-   QList< QMenu*> allMenus =  mainWidget->findChildren<QMenu *>();
-   QMenu *menuFile;
-
-   if(!allMenus.isEmpty())
-   {  
-    // std::cout<<" \n List non vide \n"<< " Length : "<< allMenus.length();
-     //menuBar = allMenus.at(0);
-     menuFile = allMenus.first();
-   }
-   else
-   {
-     SLM_FATAL(" List Menus empty ");
-   }
+   currentMenu = mainWidget->findChild<QMenu *>(m_menuName.c_str());
  
-   currentMenu=menuFile;
    createActions();
    
    // setEnable(m_enable);
@@ -297,88 +262,6 @@ QAction* IAction::getMenuItem()
 {
   return m_action;
 }
-/*
-QAction* IAction::getMenuItem()
-{
-   // get Frame
-   QWidget *mainWidget = qApp->activeWindow();
-   // get MenuBar
-   QList< QMenuBar*> allMenuBar =  mainWidget->findChildren<QMenuBar *>();
-   QMenuBar *menuBar;
-   QMenu *menu;
-   
-   if(!allMenuBar.isEmpty())
-   {
-     menuBar = allMenuBar.first();  
-   }
-   else
-   {
-     SLM_FATAL(" List MenuBar empty ");
-   }
-   // get Menu
-  if(menuBar != 0)
-  {
-    // recuperer nom du menu
-    menu = mainWidget->findChild<QMenu *>(getMenuName().c_str());
-
-    QAction *action;
-     
-   std::cout<<"    m_actionNameInMenu : "<<getNameInMenu()<<"\n"<<"ObjectName : "<<this->objectName().toStdString()<<"\n";  
-   action = menu->findChild<QAction *>(getNameInMenu().c_str());
- std::cout<<"     Recuperation ACTION NAME \n\n";
-      if(action!=0)
-        std::cout<<"     ========================================================ACTION OOOOOOO0KKKKKKKKKKKKKK \n\n";
-     else
-        std::cout<<"     ACTION FAILED \n\n";
-     
-  }
-  else
-  {
-    SLM_FATAL(" NO MENUBAR ");
-  }
-
-   QList< QAction*> allAction =  menu->findChildren<QAction *>();
-   QAction* a;
-
-   if(!allAction.isEmpty())
-   {
-     a = allAction.first();  
-   }
-   else
-   {
-     SLM_FATAL(" List MenuBar empty ");
-   }
-    if(a!=0)
-        std::cout<<"     ========================================================AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA OOOOOOO0KKKKKKKKKKKKKK \n\n";
-     else
-        std::cout<<"     A FAILED \n\n";
-
-
-  //  return menuFile->FindItem( m_actionIdInMenu );
-  return menu;
-}
-*/
-//-----------------------------------------------------------------------------
-/*
-::gui::action::Shortcut::csptr IAction::getShortcut() const
-{
-    return m_shortcut;
-}
-
-//-----------------------------------------------------------------------------
-
-::gui::action::Shortcut::sptr IAction::getShortcut()
-{
-    return m_shortcut;
-}
-
-//-----------------------------------------------------------------------------
-
-void IAction::setShortcut( ::gui::action::Shortcut::sptr _shortcut )
-{
-    m_shortcut = _shortcut;
-}
-*/
 
 }
 }

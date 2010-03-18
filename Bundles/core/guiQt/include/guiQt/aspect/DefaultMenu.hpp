@@ -16,7 +16,7 @@
 #include "guiQt/action/IAction.hpp"
 
 #include <QApplication>
-#include <QWidget>
+#include <QMainWindow>
 #include <QMenuBar>
 #include <QMenu>
 
