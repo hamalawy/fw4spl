@@ -60,10 +60,11 @@ void ImageEditor::starting() throw(fwTools::Failed)
    // important le setParent
    imageLabel = new QLabel();
    imageLabel->setParent(container);
-   imageLabel->setMinimumHeight(250);
-   imageLabel->setMinimumWidth(250);
+   
+   imageLabel->resize(container->height(), container->width());
+//   imageLabel->setMinimumHeight(container->height());
+//   imageLabel->setMinimumWidth(container->width());
 
- // (container->layout())->addWidget(imageLabel);
 }
 
 //-----------------------------------------------------------------------------

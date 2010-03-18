@@ -7,7 +7,7 @@
 #ifndef _FWQT_IGUICONTAINER_HPP_
 #define _FWQT_IGUICONTAINER_HPP_
 
-#include <QWidget>
+#include <QMainWindow>
 
 #include <fwServices/IService.hpp>
 

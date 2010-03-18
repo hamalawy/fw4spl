@@ -11,10 +11,7 @@
 #include <fwServices/helper.hpp>
 #include <fwRuntime/ConfigurationElement.hpp>
 
-#include "guiQt/view/DefaultView.hpp"
-
-#include <QApplication>
-#include <QLayout>
+#include "guiQt/view/MultiView.hpp"
 
 
 namespace guiQt
@@ -24,29 +21,35 @@ namespace view
 
 //-----------------------------------------------------------------------------
 
-REGISTER_SERVICE( ::guiQt::view::IView , ::guiQt::view::DefaultView , ::fwTools::Object ) ;
+REGISTER_SERVICE( ::guiQt::view::IView , ::guiQt::view::MultiView , ::fwTools::Object ) ;
 
 //-----------------------------------------------------------------------------
 
-DefaultView::DefaultView() throw()
+MultiView::MultiView() throw()
 {}
 
 //-----------------------------------------------------------------------------
 
-DefaultView::~DefaultView() throw()
+MultiView::~MultiView() throw()
 {}
 
 //-----------------------------------------------------------------------------
 
-void DefaultView::configuring() throw( ::fwTools::Failed )
+void MultiView::configuring() throw( ::fwTools::Failed )
 {
-   assert( m_configuration->getName() == "service" );
+  
+  std::cout<<"   \n MultiView::configuring()  \n ";
+  
+    assert( m_configuration->getName() == "service" );
+    SLM_FATAL_IF( "Depreciated tag \"win\" in configuration", m_configuration->findConfigurationElement("win") );
+
     SLM_FATAL_IF( "missing views configuration" , !m_configuration->findConfigurationElement("views") );
 
     ::fwRuntime::ConfigurationElement::sptr viewsCfgElt = m_configuration->findConfigurationElement("views");
 
     std::vector < ::fwRuntime::ConfigurationElement::sptr > vectConfig = viewsCfgElt->find("view");
     assert(!vectConfig.empty());
+
     m_panels.clear();
     ::fwRuntime::ConfigurationElementContainer::Iterator iter;
     for (iter = vectConfig.begin() ; iter != vectConfig.end() ; ++iter)
@@ -57,6 +60,10 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
 
         SLM_FATAL_IF("<view> node must contain uid attribute", !(*iter)->hasAttribute("uid") );
         uid = (*iter)->getExistingAttributeValue("uid");
+        if( (*iter)->hasAttribute("align") )
+        {
+            vi.m_align = (*iter)->getExistingAttributeValue("align");
+        }
 
         if( (*iter)->hasAttribute("minWidth") )
         {
@@ -69,66 +76,120 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
             std::string height = (*iter)->getExistingAttributeValue("minHeight") ;
             vi.m_minSize.second = ::boost::lexical_cast< int >(height) ;
         }
-        if((*iter)->hasAttribute("autoStart"))
+
+        if( (*iter)->hasAttribute("resizable") )
+        {
+            std::string resizable = (*iter)->getExistingAttributeValue("resizable") ;
+            OSLM_ASSERT("Incorrect value for \"resizable\" attribute "<<resizable,
+                               (resizable == "yes") || (resizable == "no"));
+            vi.m_isResizable = (resizable=="yes") ;
+        }
+
+        if( (*iter)->hasAttribute("position") )
+        {
+            std::string position = (*iter)->getExistingAttributeValue("position") ;
+            vi.m_position = ::boost::lexical_cast< int >(position);
+        }
+
+        if( (*iter)->hasAttribute("layer") )
+        {
+            std::string layer = (*iter)->getExistingAttributeValue("layer") ;
+            vi.m_layer = ::boost::lexical_cast< int >(layer);
+        }
+
+        if( (*iter)->hasAttribute("row") )
+        {
+            std::string row = (*iter)->getExistingAttributeValue("row") ;
+            vi.m_row = ::boost::lexical_cast< int >(row);
+        }
+
+        if( (*iter)->hasAttribute("visible") )
+        {
+            std::string visible = (*iter)->getExistingAttributeValue("visible") ;
+            OSLM_ASSERT("Incorrect value for \"visible\" attribute "<<visible,
+                    (visible == "true") || (visible == "false") ||
+                    (visible == "yes") || (visible == "no"));
+            vi.m_visible = ((visible == "true") || (visible == "yes"));
+        }
+
+        if( (*iter)->hasAttribute("caption") )
+        {
+            vi.m_caption.first = true;
+            vi.m_caption.second = (*iter)->getExistingAttributeValue("caption") ;
+        }
+
+        if( (*iter)->hasAttribute("autoStart") )
         {
             std::string autostart = (*iter)->getExistingAttributeValue("autoStart");
             OSLM_ASSERT("Sorry, value "<<autostart<<" is not correct for attribute autoStart.",
                     autostart == "yes" || autostart == "no");
             vi.m_autostart = (autostart == "yes");
         }
-	
-	std::cout<<" UId panels : "<<uid<<"\n";
         m_panels[uid] = vi;
     }
 }
 
 //-----------------------------------------------------------------------------
 
-void DefaultView::reconfiguring() throw( ::fwTools::Failed )
+void MultiView::reconfiguring() throw( ::fwTools::Failed )
 {
     SLM_FATAL("ACH : This method is not implemented, does nothing, why is called ?");
 }
 
 //-----------------------------------------------------------------------------
 
-void DefaultView::info(std::ostream &_sstream )
+void MultiView::info(std::ostream &_sstream )
 {
     SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 
-void DefaultView::starting() throw(::fwTools::Failed)
+void MultiView::starting() throw(::fwTools::Failed)
 {
+  
+  std::cout<<"  \n  MultiView::starting()  \n";
     SLM_TRACE_FUNC();
     this->initGuiParentContainer();
-    
+
     QWidget *mainWidget = this->getQtContainer();
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
-
+    
+    
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
-    {    
-      
+    {
 	QDockWidget *viewPanel = new QDockWidget((this->getUUID()).c_str(),m_manager);
 	viewPanel->setMinimumHeight(400);
 	viewPanel->setMinimumWidth(400);
-	viewPanel->setFeatures(QDockWidget::AllDockWidgetFeatures);
-    
-
+	//viewPanel->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	
+        // Set the panel
         pi->second.m_panel = viewPanel;
-        if(pi == m_panels.begin())
-        {
-	    m_manager->setCentralWidget(viewPanel);
-	    viewPanel->setMinimumHeight(950);
-	    viewPanel->setMinimumWidth(750);
-	//    viewPanel->setFeatures(QDockWidget::DockWidgetMovable);
 
-        }
-        else
-        {
-	    m_manager->addDockWidget(Qt::RightDockWidgetArea, viewPanel);
-        }
+        // Pane info configuration
+        if(pi->second.m_align=="center")        
+	{ 
+	 m_manager->setCentralWidget(viewPanel);
+	}
+        else if(pi->second.m_align=="right")
+	{ 
+	  m_manager->addDockWidget(Qt::RightDockWidgetArea, viewPanel);
+	}
+        else if(pi->second.m_align=="left") 
+	{ 
+	  m_manager->addDockWidget(Qt::LeftDockWidgetArea, viewPanel);
+	}
+        else if(pi->second.m_align=="bottom")
+	{ 
+	  m_manager->addDockWidget(Qt::BottomDockWidgetArea, viewPanel);
+	}
+        else if(pi->second.m_align=="top")
+	{ 
+	  m_manager->addDockWidget(Qt::TopDockWidgetArea, viewPanel);
+	}
+	
+	
         this->registerQtContainer(pi->first, viewPanel);
 
         if(pi->second.m_autostart)
@@ -139,11 +200,10 @@ void DefaultView::starting() throw(::fwTools::Failed)
         }
     }
     m_manager->show();
-
 }
 //-----------------------------------------------------------------------------
 
-void DefaultView::updating() throw(::fwTools::Failed)
+void MultiView::updating() throw(::fwTools::Failed)
 {
     // ACH Comment because udapte is made on service on layout switching in ConfigVisuActionService
     // SLM_FATAL("ACH : This method is not implemented because it does nothing, why is called ?");
@@ -151,13 +211,13 @@ void DefaultView::updating() throw(::fwTools::Failed)
 
 //-----------------------------------------------------------------------------
 
-void DefaultView::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
+void MultiView::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
 {
     SLM_FATAL("ACH : This method is not implemented because it does nothing, why is called ?");
 }
 //-----------------------------------------------------------------------------
 
-void DefaultView::stopping() throw(::fwTools::Failed)
+void MultiView::stopping() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
     this->unregisterAllQtContainer();
@@ -165,14 +225,14 @@ void DefaultView::stopping() throw(::fwTools::Failed)
     // Destroy wxAuiManager
     if( m_manager )
     {
-       //delete it
+      
     }
     this->resetGuiParentContainer();
 }
 
 //-----------------------------------------------------------------------------
 
-void DefaultView::swappping() throw( ::fwTools::Failed )
+void MultiView::swappping() throw( ::fwTools::Failed )
 {
     SLM_FATAL("ACH : This method is not implemented, why is called ?");
 }

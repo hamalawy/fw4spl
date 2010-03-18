@@ -54,5 +54,9 @@
         <implements>::guiQt::view::IView</implements>
         <implements>::fwTools::Object</implements>
     </point>
+     <point id="::guiQt::view::MultiView">
+        <implements>::guiQt::view::IView</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
   
 </plugin>

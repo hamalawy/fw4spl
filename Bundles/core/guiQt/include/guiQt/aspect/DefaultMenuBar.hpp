@@ -29,7 +29,7 @@ namespace aspect
  */
 class DefaultMenuBar : public IMenuBar
 {
-
+ 
 public :
 
     /// Constructor. Do nothing.

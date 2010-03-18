@@ -12,8 +12,7 @@
 #include "guiQt/action/IAction.hpp"
 #include "guiQt/config.hpp"
 
-#include <QApplication>
-#include <QWidget>
+
 
 namespace guiQt
 {
