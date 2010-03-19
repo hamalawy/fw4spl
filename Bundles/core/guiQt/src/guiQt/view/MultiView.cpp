@@ -13,6 +13,8 @@
 
 #include "guiQt/view/MultiView.hpp"
 
+#include <QApplication>
+#include <QDesktopWidget>
 
 namespace guiQt
 {
@@ -154,43 +156,46 @@ void MultiView::starting() throw(::fwTools::Failed)
 
     QWidget *mainWidget = this->getQtContainer();
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
+     
+    QDesktopWidget *desk = QApplication::desktop();
+    QRect screen = desk->screenGeometry(m_manager);
     
     
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
     {
-	QDockWidget *viewPanel = new QDockWidget((this->getUUID()).c_str(),m_manager);
-	viewPanel->setMinimumHeight(400);
-	viewPanel->setMinimumWidth(400);
-	//viewPanel->setFeatures(QDockWidget::AllDockWidgetFeatures);
-	
-        // Set the panel
-        pi->second.m_panel = viewPanel;
+	pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(),m_manager);
+	pi->second.m_panel->setMinimumSize(screen.width()/3, screen.height()/3);
+	pi->second.m_panel->resize(screen.width()/3, screen.height()/3);
 
-        // Pane info configuration
+
         if(pi->second.m_align=="center")        
 	{ 
-	 m_manager->setCentralWidget(viewPanel);
+	 m_manager->setCentralWidget( pi->second.m_panel);
 	}
         else if(pi->second.m_align=="right")
 	{ 
-	  m_manager->addDockWidget(Qt::RightDockWidgetArea, viewPanel);
+	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	  m_manager->addDockWidget(Qt::RightDockWidgetArea,  pi->second.m_panel);
 	}
         else if(pi->second.m_align=="left") 
 	{ 
-	  m_manager->addDockWidget(Qt::LeftDockWidgetArea, viewPanel);
+	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	  m_manager->addDockWidget(Qt::LeftDockWidgetArea,  pi->second.m_panel);
 	}
         else if(pi->second.m_align=="bottom")
 	{ 
-	  m_manager->addDockWidget(Qt::BottomDockWidgetArea, viewPanel);
+	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	  m_manager->addDockWidget(Qt::BottomDockWidgetArea,  pi->second.m_panel);
 	}
         else if(pi->second.m_align=="top")
 	{ 
-	  m_manager->addDockWidget(Qt::TopDockWidgetArea, viewPanel);
+	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	  m_manager->addDockWidget(Qt::TopDockWidgetArea,  pi->second.m_panel);
 	}
 	
 	
-        this->registerQtContainer(pi->first, viewPanel);
+        this->registerQtContainer(pi->first,  pi->second.m_panel);
 
         if(pi->second.m_autostart)
         {

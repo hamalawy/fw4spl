@@ -11,7 +11,7 @@
 #include <QDockWidget>
 
 
-#include <fwComEd/SingleFileMsg.hpp>
+#include <fwComEd/LocationMsg.hpp>
 #include <fwData/location/SingleFile.hpp>  
 
 #include <fwServices/Base.hpp>
@@ -28,7 +28,7 @@ ImageEditor::ImageEditor() throw()
 {
     SLM_TRACE_FUNC();
    
-    addNewHandledEvent( ::fwComEd::SingleFileMsg::NEW_SINGLE_FILE );
+    addNewHandledEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED );
 }
 
 //-----------------------------------------------------------------------------
@@ -61,9 +61,9 @@ void ImageEditor::starting() throw(fwTools::Failed)
    imageLabel = new QLabel();
    imageLabel->setParent(container);
    
-   imageLabel->resize(container->height(), container->width());
-//   imageLabel->setMinimumHeight(container->height());
-//   imageLabel->setMinimumWidth(container->width());
+ //  imageLabel->resize(container->height(), container->width());
+   imageLabel->setMinimumHeight(container->height());
+   imageLabel->setMinimumWidth(container->width());
 
 }
 
@@ -92,6 +92,7 @@ void ImageEditor::updating() throw(fwTools::Failed)
       }
       imageLabel->setPixmap(QPixmap::fromImage(*image));
       imageLabel->setScaledContents(true);
+      imageLabel->setAlignment(Qt::AlignHCenter);
     //  imageLabel->show();  
 
 }
@@ -102,9 +103,9 @@ void ImageEditor::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTools:
 {
   
   
-  ::fwComEd::SingleFileMsg::csptr fileMsg =  ::fwComEd::SingleFileMsg::dynamicConstCast( _msg );
+  ::fwComEd::LocationMsg::csptr fileMsg =  ::fwComEd::LocationMsg::dynamicConstCast( _msg );
   
-    if ( fileMsg && fileMsg->hasEvent( ::fwComEd::SingleFileMsg::NEW_SINGLE_FILE ) )
+    if ( fileMsg && fileMsg->hasEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED ) )
     {
         this->updating();
     }

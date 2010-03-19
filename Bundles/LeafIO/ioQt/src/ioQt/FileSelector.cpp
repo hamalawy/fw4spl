@@ -15,7 +15,9 @@
 #include <fwServices/Factory.hpp>
 #include <fwServices/IEditionService.hpp>
 
-#include <fwComEd/SingleFileMsg.hpp>
+#include <fwComEd/LocationMsg.hpp>
+//#include <fwComEd/SingleFileMsg.hpp>
+
 #include "ioQt/FileSelector.hpp"
 
 #include <QFileDialog>
@@ -101,8 +103,8 @@ void FileSelector::updating() throw ( ::fwTools::Failed )
   
   file->setPath(fileName.toStdString());
   // Creation du message
-  ::fwComEd::SingleFileMsg::NewSptr msg;
-  msg->addEvent( ::fwComEd::SingleFileMsg::NEW_SINGLE_FILE );
+  ::fwComEd::LocationMsg::NewSptr msg;
+  msg->addEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED );
   ::fwServices::IEditionService::notify( this->getSptr(), file, msg);
 }
 
