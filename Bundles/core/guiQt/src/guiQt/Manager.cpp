@@ -78,7 +78,8 @@ void Manager::initialize()
   
   QDesktopWidget *desk = QApplication::desktop();
   QRect screen = desk->screenGeometry(mainWindow);
-  
+  mainWindow->resize(screen.width(), screen.height());
+
   app.setActiveWindow(mainWindow);
   
   ::fwServices::OSR::initializeRootObject();

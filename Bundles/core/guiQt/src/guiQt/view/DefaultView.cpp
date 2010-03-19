@@ -15,6 +15,7 @@
 
 #include <QApplication>
 #include <QLayout>
+#include <QDesktopWidget>
 
 
 namespace guiQt
@@ -105,31 +106,40 @@ void DefaultView::starting() throw(::fwTools::Failed)
     
     QWidget *mainWidget = this->getQtContainer();
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
-
+    
+    QDesktopWidget *desk = QApplication::desktop();
+    QRect screen = desk->screenGeometry(m_manager);
+    
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
     {    
-      
-	QDockWidget *viewPanel = new QDockWidget((this->getUUID()).c_str(),m_manager);
-	viewPanel->setMinimumHeight(400);
-	viewPanel->setMinimumWidth(400);
-	viewPanel->setFeatures(QDockWidget::AllDockWidgetFeatures);
-    
+	pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(), m_manager);
+	
 
-        pi->second.m_panel = viewPanel;
         if(pi == m_panels.begin())
         {
-	    m_manager->setCentralWidget(viewPanel);
-	    viewPanel->setMinimumHeight(950);
-	    viewPanel->setMinimumWidth(750);
-	//    viewPanel->setFeatures(QDockWidget::DockWidgetMovable);
+// 	    pi->second.m_panel->setMinimumHeight(pi->second.m_minSize.first);
+//  	    pi->second.m_panel->setMinimumWidth(pi->second.m_minSize.second);
+	    pi->second.m_panel->setMinimumSize(screen.width()/2, screen.height());
 
+	    pi->second.m_panel->resize(screen.width()/2, screen.height());
+	    
+	    m_manager->setCentralWidget( pi->second.m_panel);
         }
         else
         {
-	    m_manager->addDockWidget(Qt::RightDockWidgetArea, viewPanel);
+
+//  	  pi->second.m_panel->setMinimumHeight(pi->second.m_minSize.first);
+//  	  pi->second.m_panel->setMinimumWidth(pi->second.m_minSize.second);
+
+	  pi->second.m_panel->setMinimumSize(screen.width()/2, screen.height()/2);
+	  pi->second.m_panel->resize(screen.width()/2, screen.height()/2);
+	  
+	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
+
+	  m_manager->addDockWidget(Qt::RightDockWidgetArea,  pi->second.m_panel);
         }
-        this->registerQtContainer(pi->first, viewPanel);
+        this->registerQtContainer(pi->first,  pi->second.m_panel);
 
         if(pi->second.m_autostart)
         {
