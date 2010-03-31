@@ -77,6 +77,8 @@ public :
 
     /// Prints service name
     void info(std::ostream &_sstream );
+    
+    int m_nbView;
 
 protected :
 

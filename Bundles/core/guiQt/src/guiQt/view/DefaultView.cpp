@@ -15,6 +15,7 @@
 
 #include <QApplication>
 #include <QLayout>
+#include <QVBoxLayout>	
 #include <QDesktopWidget>
 
 
@@ -30,7 +31,9 @@ REGISTER_SERVICE( ::guiQt::view::IView , ::guiQt::view::DefaultView , ::fwTools:
 //-----------------------------------------------------------------------------
 
 DefaultView::DefaultView() throw()
-{}
+{
+  m_nbView=0;
+}
 
 //-----------------------------------------------------------------------------
 
@@ -58,7 +61,11 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
 
         SLM_FATAL_IF("<view> node must contain uid attribute", !(*iter)->hasAttribute("uid") );
         uid = (*iter)->getExistingAttributeValue("uid");
-
+	
+	std::cout<<" Incrementation nombre de view \n";
+	m_nbView++;
+	
+	
         if( (*iter)->hasAttribute("minWidth") )
         {
             std::string width = (*iter)->getExistingAttributeValue("minWidth") ;
@@ -81,6 +88,8 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
 	std::cout<<" UId panels : "<<uid<<"\n";
         m_panels[uid] = vi;
     }
+    
+    std::cout<<" Nombre de view : "<<m_nbView<<" \n";
 }
 
 //-----------------------------------------------------------------------------
@@ -107,37 +116,55 @@ void DefaultView::starting() throw(::fwTools::Failed)
     QWidget *mainWidget = this->getQtContainer();
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
     
+    if(m_manager->layout()!=0)
+    {
+      std::cout<<" ALREADY LAYOUT EXIST \n";
+    }
+    else
+      std::cout<<" NO LAYOUT \n";
+      
+
     QDesktopWidget *desk = QApplication::desktop();
     QRect screen = desk->screenGeometry(m_manager);
-    
+
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
     {    
 	pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(), m_manager);
-	
+	//pi->second.m_panel->setMinimumSize(300, 300);
 
-        if(pi == m_panels.begin())
+	if(pi == m_panels.begin())
         {
-// 	    pi->second.m_panel->setMinimumHeight(pi->second.m_minSize.first);
-//  	    pi->second.m_panel->setMinimumWidth(pi->second.m_minSize.second);
-	    pi->second.m_panel->setMinimumSize(screen.width()/2, screen.height());
+//	    pi->second.m_panel->setMinimumSize(pi->second.m_minSize.second, pi->second.m_minSize.first);
+	   // pi->second.m_panel->resize(screen.width()/2, screen.height());
+	    if(m_nbView==1)
+	    {
+	      pi->second.m_panel->setMaximumSize((screen.width()), screen.height());
+	      pi->second.m_panel->setGeometry(0, 0, screen.width(), screen.height());
+	    }
+	    else
+	    {
+	        pi->second.m_panel->setMaximumSize((screen.width())/2, screen.height());
+		pi->second.m_panel->setGeometry(0, 0, screen.width()/2, screen.height());
+	    }
+	 
 
-	    pi->second.m_panel->resize(screen.width()/2, screen.height());
-	    
-	    m_manager->setCentralWidget( pi->second.m_panel);
+	   // m_manager->setCentralWidget( pi->second.m_panel);
+	  m_manager->addDockWidget(Qt::LeftDockWidgetArea,  pi->second.m_panel);
+
         }
         else
         {
 
-//  	  pi->second.m_panel->setMinimumHeight(pi->second.m_minSize.first);
-//  	  pi->second.m_panel->setMinimumWidth(pi->second.m_minSize.second);
+	  //pi->second.m_panel->setMinimumSize(pi->second.m_minSize.second, pi->second.m_minSize.first);
 
-	  pi->second.m_panel->setMinimumSize(screen.width()/2, screen.height()/2);
-	  pi->second.m_panel->resize(screen.width()/2, screen.height()/2);
-	  
-	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	    pi->second.m_panel->setMaximumSize(screen.width()/2, screen.height());
+	   //i->second.m_panel->resize(screen.width()/2, screen.height()/2);
+	    pi->second.m_panel->setGeometry(screen.width()/2, 0, screen.width()/2, screen.height()/(m_nbView-1));
+	    
+//	    pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
 
-	  m_manager->addDockWidget(Qt::RightDockWidgetArea,  pi->second.m_panel);
+	    m_manager->addDockWidget(Qt::RightDockWidgetArea,  pi->second.m_panel);
         }
         this->registerQtContainer(pi->first,  pi->second.m_panel);
 

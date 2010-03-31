@@ -1,7 +1,7 @@
-<plugin id="ViewerConfig">
-<extension id="ViewerConfig" implements="::fwData::location::SingleFile">
+<plugin id="VConfig">
+<extension id="VConfig" implements="::fwData::location::SingleFile">
 		
-	<object id="ViewerImage" type="::fwData::location::SingleFile">
+	<object id="VImage" type="::fwData::location::SingleFile">
 
 		<service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
 		 	<name>Viewer</name>
@@ -21,12 +21,6 @@
     <service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
     	<views>
      	  <view uid="myRenderingTuto1" autoStart="yes" />
-     	  <view uid="myRenderingTuto2" minWidth="400" minHeight="100" autoStart="yes" />
-     	  <view uid="myRenderingTuto3" minWidth="400" minHeight="100" autoStart="yes" />
-     	  <view uid="myRenderingTuto4" minWidth="400" minHeight="100" autoStart="yes" />
-     	  <view uid="myRenderingTuto5" minWidth="400" minHeight="100" autoStart="yes" />
-     	  <view uid="myRenderingTuto6" minWidth="400" minHeight="100" autoStart="yes" />
-     		<!--  <view uid="myRenderingTuto4" minWidth="400" minHeight="100" autoStart="yes" />  -->
      	</views>
     </service>
 
@@ -61,13 +55,11 @@
     <service uid="myReaderPathFile" type="::guiQt::editor::IEditor" implementation="::ioQt::FileSelector"  autoComChannel="no" />
     <service uid="fileSelector" type="::guiQt::editor::IEditor" implementation="::ioQt::FileSelector"  autoComChannel="no" />
 
-		<service uid="myRenderingTuto1"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />
-		<service uid="myRenderingTuto2"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />
-		<service uid="myRenderingTuto3"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />	
-		<service uid="myRenderingTuto4"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />	
-		<service uid="myRenderingTuto5"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />	
-		<service uid="myRenderingTuto6"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />	
-	<!--	<service uid="myRenderingTuto4"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />	-->
+		<service uid="myRenderingTuto1"  type="::guiQt::editor::IEditor" implementation="::visuVtkQt::vtkQtImage" autoComChannel="yes" />
+
+	
+  <!--  <service   type="::guiQt::editor::IEditor" implementation="::visuVtkQt::vtkQtImage" />  -->
+
 		
 		<start type="::guiQt::aspect::IAspect" />
  		<start type="::guiQt::aspect::IMenuBar" />
