@@ -1,0 +1,17 @@
+<plugin id="visuVtkQt" class="visuVtkQt::Plugin" >
+    
+    <library name="visuVtkQt" />
+
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="guiQt" />
+
+    <point id="::visuVtkQt::vtkQtImage">
+        <implements>::guiQt::editor::IEditor</implements>
+        <implements>::fwData::location::SingleFile</implements>
+    </point>
+
+</plugin>
+
+
+

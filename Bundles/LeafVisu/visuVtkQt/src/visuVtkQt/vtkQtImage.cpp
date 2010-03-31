@@ -16,8 +16,10 @@
 
 #include <fwServices/Base.hpp>
 
-#include "uiQt/ImageEditor.hpp"
+#include <fwData/Image.hpp>
 
+
+#include "visuVtkQt/vtkQtImage.hpp"
 #include <QLayout>
 #include <QVBoxLayout>	
 
@@ -30,77 +32,43 @@
 #include <vtkPolyDataMapper.h>
 #include <vtkActor.h>
 
-
-REGISTER_SERVICE( ::guiQt::editor::IEditor , ::uiQt::ImageEditor , ::fwData::location::SingleFile) ;
+REGISTER_SERVICE( ::guiQt::editor::IEditor  , ::visuVtkQt::vtkQtImage, ::fwData::location::SingleFile);
+//REGISTER_SERVICE( ::guiQt::editor::IEditor  , ::visuVtkQt::vtkQtImage, ::fwData::Image);  et dans plugin.xml
 
    
-namespace uiQt
+namespace visuVtkQt
 {
 
-ImageEditor::ImageEditor() throw()
+vtkQtImage::vtkQtImage() throw()
 {
     SLM_TRACE_FUNC();
-   
-    addNewHandledEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED );
+//       addNewHandledEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED );
+
 }
 
 //-----------------------------------------------------------------------------
 
-ImageEditor::~ImageEditor() throw()
-{
-    SLM_TRACE_FUNC();
-}
-
-//-----------------------------------------------------------------------------
-
-void ImageEditor::configuring() throw(::fwTools::Failed)
+vtkQtImage::~vtkQtImage() throw()
 {
     SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 
-void ImageEditor::starting() throw(fwTools::Failed)
+void vtkQtImage::configuring() throw(::fwTools::Failed)
 {
-   QWidget* container;
-   QWidget* view;
-   
-   QLayout *layout = new QVBoxLayout();
+    SLM_TRACE_FUNC();
+}
 
-   ::guiQt::editor::IEditor::starting();
-   std::cout<<"Servie UUID : "<<this->getUUID()<<"\n";
+//-----------------------------------------------------------------------------
 
-   //container = m_globalUIDToQtContainer[this->getUUID()];
-   container = m_globalUIDToQtContainer.find(this->getUUID())->second;
-   view = new QWidget(container);
+void vtkQtImage::starting() throw(fwTools::Failed)
+{
+  QWidget *mainWidget =  m_globalUIDToQtContainer.find(this->getUUID())->second;
 
-    view->setMinimumHeight(container->height());
-    view->setMinimumWidth(container->width());
-
-  view->resize(container->width(), container->height());
-   
-   //layout->setAlignment(Qt::AlignCenter);
-
-   layout->addWidget(view);
-
-   container->setLayout(layout);
-      
-   // important le setParent
-   imageLabel = new QLabel();
-   imageLabel->setParent(view);//container
-   
-
- imageLabel->setMinimumHeight(view->height());
-   imageLabel->setMinimumWidth(view->width());
-  // imageLabel->setMargin(20);
   
-  
-     
-   
-   
-/*
- QVTKWidget *widget = new QVTKWidget(container);
- widget->resize(500, 500);
+ QVTKWidget *widget = new QVTKWidget(mainWidget);
+ widget->resize(mainWidget->width(), mainWidget->height());
 
  vtkTextSource *text = vtkTextSource::New();
   text->SetText("Hello World!");
@@ -124,14 +92,14 @@ void ImageEditor::starting() throw(fwTools::Failed)
   renderWindow->SetStereoTypeToDresden();
 
  widget->SetRenderWindow(renderWindow);
-container->show();
- */
+//widget->show();
+
 
 }
 
 //-----------------------------------------------------------------------------
 
-void ImageEditor::stopping() throw(fwTools::Failed)
+void vtkQtImage::stopping() throw(fwTools::Failed)
 {
   ::guiQt::editor::IEditor::stopping();
 
@@ -139,39 +107,24 @@ void ImageEditor::stopping() throw(fwTools::Failed)
 
 //-----------------------------------------------------------------------------
 
-void ImageEditor::updating() throw(fwTools::Failed)
+void vtkQtImage::updating() throw(fwTools::Failed)
 {
-  // Recuperation de l'objet
-    ::fwData::location::SingleFile::sptr file = this->getObject < ::fwData::location::SingleFile >();
-    OSLM_INFO("FileMsg : " << file->getPath());
-    
-    image = new QImage(file->getPath().string().c_str());
-    
-     if (image->isNull()) 
-     {
-	//QMessageBox::information(this, QObject::tr("Image Viewer"),QObject::tr("Cannot load %1.").arg(file->getPath().string()));
-        return;
-      }
-      imageLabel->setPixmap(QPixmap::fromImage(*image));
-      imageLabel->setScaledContents(true);
-      imageLabel->setAlignment(Qt::AlignHCenter);
-    //  imageLabel->show();  
 
 }
 
 //-----------------------------------------------------------------------------
 
-void ImageEditor::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTools::Failed)
+void vtkQtImage::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTools::Failed)
 {
   
-  
+/*     
   ::fwComEd::LocationMsg::csptr fileMsg =  ::fwComEd::LocationMsg::dynamicConstCast( _msg );
   
     if ( fileMsg && fileMsg->hasEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED ) )
     {
         this->updating();
     }
-   
+    */
 }
 
 //-----------------------------------------------------------------------------
