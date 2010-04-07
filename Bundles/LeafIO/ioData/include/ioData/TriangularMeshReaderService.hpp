@@ -134,7 +134,7 @@ protected:
 private:
 
     ::boost::filesystem::path m_fsMeshPath;
-
+    bool m_bServiceIsConfigured;
 };
 
 }

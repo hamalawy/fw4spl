@@ -6,6 +6,18 @@
     <requirement id="servicesReg"/>
     <requirement id="io" />
     
+    <!-- REGISTER_SERVICE( ::io::IWriter , ::ioXML::FwXMLPatientDBWriterService , ::fwTools::Object ) ; -->
+    <point id="::ioXML::FwXMLGenericWriterService" >
+        <implements>::io::IWriter</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+    
+    <!-- REGISTER_SERVICE( ::io::IWriter , ::ioXML::FwXMLPatientDBWriterService , ::fwTools::Object ) ; -->
+    <point id="::ioXML::FwXMLGenericReaderService" >
+        <implements>::io::IReader</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+    
     <!-- REGISTER_SERVICE( ::io::IReader , ::io::FwXMLPatientDBReaderService , ::fwData::PatientDB ) ; -->
     <point id="::ioXML::FwXMLPatientDBReaderService" >
         <implements>::io::IReader</implements>
@@ -66,6 +78,10 @@
         <info text="fwXML Writer (Ircad)"/>
     </extension>
     <extension implements="::ioXML::FwXMLAcquisitionWriterService" >
+        <info text="fwXML Writer (Ircad)"/>
+    </extension>
+    
+    <extension implements="::ioXML::FwXMLGenericWriterService" >
         <info text="fwXML Writer (Ircad)"/>
     </extension>
 
