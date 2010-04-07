@@ -8,6 +8,7 @@
 #define _FWDATA_LINE_HPP_
 
 #include <vector>
+#include <utility>
 
 #include "fwData/config.hpp"
 #include "fwData/Object.hpp"
