@@ -8,6 +8,10 @@
         <implements>::fwServices::IService</implements>
     </point>
 
+    <point id="::fwQtRender::IRender">
+        <implements>::fwServices::IService</implements>
+    </point>
+
 </plugin>
 
 

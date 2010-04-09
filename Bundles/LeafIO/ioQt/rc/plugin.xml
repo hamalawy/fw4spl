@@ -18,5 +18,10 @@
         <implements>::fwData::location::SingleFile</implements>
     </point>
     
+     <point id="::ioQt::TriangularMeshReaderService">
+        <implements>::io::IReader</implements>
+        <implements>::fwData::TriangularMesh</implements>
+    </point>
+    
   
 </plugin>

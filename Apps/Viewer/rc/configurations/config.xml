@@ -39,21 +39,21 @@
 		<service name="Edit" uid="menu_Edit" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
 			<action uid="action_quitEdit"/>
 			<action uid="action_openAnotherFile"/>   
-	  </service> 
+		</service> 
 
 		<service uid="action_openFile" name="OpenFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService"  autoComChannel="no" >
 			 <start uid="myReaderPathFile"/>
 		</service>   
 		
-    <service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
+		<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
 
-    <service uid="action_full"   name="Full" type="::guiQt::action::IAction" implementation="::guiQt::action::FullScreenActionService" autoComChannel="no" />
+		  <service uid="action_full"   name="Full" type="::guiQt::action::IAction" implementation="::guiQt::action::FullScreenActionService" autoComChannel="no" />
 
 	 	<service uid="action_openAnotherFile" name="OpenAnotherFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService"  autoComChannel="no" >
 			<start uid="fileSelector"/>
 		</service>  
 
-    <service uid="action_quitEdit" specialAction="QUIT"  name="QuitEdit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
+		<service uid="action_quitEdit" specialAction="QUIT"  name="QuitEdit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
 
 		<service uid="ToolBar" type="::guiQt::aspect::IToolBar" implementation="::guiQt::aspect::DefaultToolBar" autoComChannel="no" >
   	</service>

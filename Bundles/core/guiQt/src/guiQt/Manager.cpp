@@ -84,6 +84,8 @@ void Manager::initialize()
   
   ::fwServices::OSR::initializeRootObject();
 
+  // a voir plus loin
+  mainWindow->show();
   app.exec();
 }
 

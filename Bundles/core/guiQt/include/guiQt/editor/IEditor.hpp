@@ -13,6 +13,7 @@
 #include <fwQt/IGuiContainer.hpp>
 
 #include "guiQt/config.hpp"
+#include <QObject>
 
 
 namespace guiQt
@@ -32,9 +33,9 @@ namespace editor
  *  The problem is that the IEditor::starting method create another useless container in this case.
  */
 
-class  IEditor : public ::fwQt::IGuiContainer
+class  IEditor : public  QObject, public ::fwQt::IGuiContainer
 {
-
+ 
 public :
     fwCoreServiceClassDefinitionsMacro ( (IEditor)(::fwServices::IService::Baseclass) ) ;
 

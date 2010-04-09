@@ -1,0 +1,21 @@
+<plugin id="uiIOQt" class="::uiIOQt::Plugin" >
+    
+    <library name="uiIOQt" />
+
+    <requirement id="dataReg" />
+    <requirement id="guiQt" />
+    <requirement id="io" />
+    <requirement id="ioQt" />
+
+    <point id="::uiIOQt::editor::IOSelectorService">
+        <implements>::guiQt::editor::IEditor</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+ 
+  
+    <extension-point id="::uiIOQt::editor::IOSelectorServiceConfig"/>
+  
+</plugin>
+
+
+

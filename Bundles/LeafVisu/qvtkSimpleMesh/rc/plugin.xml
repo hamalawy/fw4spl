@@ -1,0 +1,15 @@
+<plugin id="qvtkSimpleMesh" class="::qvtkSimpleMesh::Plugin" >
+    <library name="qvtkSimpleMesh" />
+
+
+<!--    REGISTER_SERVICE( ::fwRender::IRender , ::vtkSimpleMesh::RendererService , ::fwData::TriangularMesh) ;  -->
+<point id="::qvtkSimpleMesh::RendererService">
+    <implements>::fwQtRender::IRender</implements>
+    <implements>::fwData::TriangularMesh</implements>
+</point>
+
+    
+</plugin>
+
+
+

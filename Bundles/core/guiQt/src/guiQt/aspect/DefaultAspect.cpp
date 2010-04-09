@@ -79,11 +79,15 @@ void DefaultAspect::starting() throw(::fwTools::Failed)
   QWidget *container = qApp->activeWindow();
   ::fwQt::IGuiContainer::registerGlobalQtContainer(m_uid, container);
 
+  std::cout<<" DA ===> Service : "<<m_uid<<"\n";
+  if(m_uid!="")
+  {
   ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
   
    std::cout<<" DA::Service Name : "<<service->getUUID()<<"  m_uid :  "<<m_uid<<"\n";
    // Start() le service attached à la vue
   service->start();
+  }
 }
 
 //-----------------------------------------------------------------------------

@@ -45,11 +45,13 @@ void ImageReader::read()
     ::fwData::Image::sptr pImage = getConcreteObject();
 
     vtkGenericDataObjectReader *reader = vtkGenericDataObjectReader::New();
+        
     reader->SetFileName(this->getFile().string().c_str());
     reader->Update();
 
     vtkDataObject *obj = reader->GetOutput();
     vtkImageData* img = vtkImageData::SafeDownCast(obj);
+
     if(img)
     {
         ::vtkIO::fromVTKImage(img, pImage);
@@ -58,10 +60,12 @@ void ImageReader::read()
     {
         std::string errMsg;
         errMsg  = "ImageReader cannot read VTK image file : ";
-        errMsg.append( this->getFile().string() );
+        errMsg.append( this->getFile().string());
         throw( errMsg );
     }
+
     reader->Delete();
+
 }
 
 //------------------------------------------------------------------------------

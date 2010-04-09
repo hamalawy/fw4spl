@@ -1,0 +1,76 @@
+<plugin id="TutoConfigurations">
+<extension id="tutoQtComChannelConfig" implements="::fwData::TriangularMesh">
+
+
+    <object id="tutoQtComChannelImage" type="::fwData::TriangularMesh">
+
+	<service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+		<name>SimpleNegato</name>
+     		<view uid="myDefaultView" autoStart="yes" />  
+	</service>
+
+
+	<service uid="menuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
+		<menus>
+  	   		<menu uid="menu_File" />
+     		</menus>
+	</service> 
+
+	<service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
+    		<views>
+     			  <view uid="myRenderingTuto1" autoStart="yes" />
+			  <view uid="myRenderingTuto2" autoStart="yes" />
+			  <view uid="myRenderingTuto3" autoStart="yes" />
+     		</views>
+    	</service>
+       
+	<service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+			<action uid="action_openFile"/>   
+			<action uid="action_quit"/>
+	</service>
+
+
+
+	<service uid="action_openFile" name="OpenFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService"  autoComChannel="no" >
+		 <start uid="myReaderPathFile"/>  
+	</service>   
+		
+    	<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
+
+
+
+        <service uid="myReaderPathFile" implementation="::ioQVTK::MeshReaderService" type="::io::IReader" autoComChannel="no" />
+	
+        <service implementation="::qvtkSimpleMesh::RendererService" type="::fwQtRender::IRender" uid="myRenderingTuto1" autoComChannel="yes" >
+	  <masterSlaveRelation>master</masterSlaveRelation> 
+        </service>
+        <service implementation="::qvtkSimpleMesh::RendererService" type="::fwQtRender::IRender" uid="myRenderingTuto2" autoComChannel="yes" >
+	 <masterSlaveRelation>slave</masterSlaveRelation>   
+        </service>
+        <service implementation="::qvtkSimpleMesh::RendererService" type="::fwQtRender::IRender" uid="myRenderingTuto3" autoComChannel="yes" >
+	 <masterSlaveRelation>master</masterSlaveRelation>  
+        </service>
+	
+	
+        
+        <start type="::guiQt::aspect::IAspect" />
+	<start type="::guiQt::aspect::IMenuBar" />
+	<start type="::guiQt::aspect::IMenu" />
+	<start type="::guiQt::view::IView" />
+		
+	<update uid="myRenderingTuto1"/>
+	<update uid="myRenderingTuto2"/>
+	<update uid="myRenderingTuto3"/>
+        
+	<stop uid="myRenderingTuto3"/>
+	<stop uid="myRenderingTuto2"/>
+	<stop uid="myRenderingTuto1"/>
+	
+        <stop uid="myReaderPathFile"/>
+	<stop type="::guiQt::aspect::IMenu" />
+	<stop type="::guiQt::aspect::IMenuBar" />
+        <stop type="::guiQt::aspect::IAspect" />
+    </object>
+</extension>
+
+</plugin>
