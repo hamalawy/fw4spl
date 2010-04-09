@@ -1,0 +1,13 @@
+<plugin id="qvtkSimpleNegato" class="::qvtkSimpleNegato::Plugin">
+    <library name="qvtkSimpleNegato"/>
+
+    <point id="::qvtkSimpleNegato::RendererService">
+      <implements>::fwQtRender::IRender</implements>
+      <implements>::fwData::Image</implements>
+    </point>
+
+    
+</plugin>
+
+
+

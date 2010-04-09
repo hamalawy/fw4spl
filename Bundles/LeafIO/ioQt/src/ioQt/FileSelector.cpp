@@ -99,9 +99,8 @@ void FileSelector::updating() throw ( ::fwTools::Failed )
   QString fileName = QFileDialog::getOpenFileName(0,QObject::tr("Open File"), QDir::currentPath());
   std::cout<<"PATH_FILE : "<<fileName.toStdString()<<"\n";
   
-
-  
   file->setPath(fileName.toStdString());
+  
   // Creation du message
   ::fwComEd::LocationMsg::NewSptr msg;
   msg->addEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED );

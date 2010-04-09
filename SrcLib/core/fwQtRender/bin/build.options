@@ -1,0 +1,7 @@
+USE     = ['qtGui','boost']
+LIB     = ['fwRuntime_0-3','fwServices_0-1','fwTools_0-1','fwCore_0-1','fwQt_0-1']
+
+TYPE    = 'shared'
+VERSION = '0-1'
+
+

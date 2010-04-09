@@ -21,11 +21,7 @@
                 <menu uid="menu_File" />
             </menus>
         </service>
-         <service uid="myMenuBar2" type="::gui::aspect::IMenuBar" implementation="::gui::aspect::DefaultMenuBar" autoComChannel="no" >
-            <menus>
-                <menu uid="menu_File2" />
-            </menus>
-        </service>
+       
         <!-- The ::gui::aspect::DefaultMenu service creates the menu "File". This menu contains two menuItems (with a separator).
         The actions associated with these two menuItem are identified with the uid "action_openFile" and "action_quit". -->
         <service name="Fichier" uid="menu_File" type="::gui::aspect::IMenu" implementation="::gui::aspect::DefaultMenu" autoComChannel="no" >
@@ -33,11 +29,7 @@
             <separator/>
             <action uid="action_quit"/>
         </service>
-         <service name="File" uid="menu_File2" type="::gui::aspect::IMenu" implementation="::gui::aspect::DefaultMenu" autoComChannel="no" >
-            <action uid="action_openFile"/>
-            <separator/>
-            <action uid="action_quit"/>
-        </service>
+       
         <!-- The first service (::gui::action::StarterActionService) is a generic action. In the configuration of this service,
         we specify the id of the services to be started and updated (start and update methods) when user click on the menuItem "OpenFile".
         In this tutorial, ::gui::action::StarterActionService service starts and updates the service with the uid "myReaderPathFile". -->

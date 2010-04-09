@@ -1,0 +1,18 @@
+<plugin id="ioQVTK" class="::ioQVTK::Plugin" >
+    <library name="ioQVTK" />
+
+    <requirement id="io" />
+    
+
+    <!--    REGISTER_SERVICE( ::io::IReader , ::ioVTK::ImageReaderService , ::fwData::Image ) ;-->
+    <point id="::ioQVTK::ImageReaderService">
+        <implements>::io::IReader</implements>
+        <implements>::fwData::Image</implements>
+    </point>   
+    
+     <point id="::ioQVTK::MeshReaderService" >
+        <implements>::io::IReader</implements>
+        <implements>::fwData::TriangularMesh</implements>
+    </point>
+    
+</plugin>

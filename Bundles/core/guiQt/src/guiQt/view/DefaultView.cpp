@@ -115,6 +115,8 @@ void DefaultView::starting() throw(::fwTools::Failed)
     
     QWidget *mainWidget = this->getQtContainer();
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
+    // Pour MacOs
+    m_manager->setUnifiedTitleAndToolBarOnMac(true);
     
     if(m_manager->layout()!=0)
     {
