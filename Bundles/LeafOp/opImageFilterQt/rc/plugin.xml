@@ -1,0 +1,13 @@
+<plugin id="opImageFilterQt" class="::opImageFilterQt::Plugin">
+    
+    <library name="opImageFilterQt" />
+
+    <requirement id="dataReg" />
+    <requirement id="guiQt" />
+
+    <point id="::opImageFilter::action::imageFilter" >
+        <implements>::guiQt::action::IAction</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+    
+</plugin>

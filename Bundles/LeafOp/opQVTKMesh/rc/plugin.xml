@@ -1,0 +1,22 @@
+<plugin id="opQVTKMesh" class="::opQVTKMesh::Plugin">
+    
+    <library name="opQVTKMesh" />
+
+    <requirement id="dataReg" />
+    <requirement id="guiQt" />
+
+    <point id="::opVTKMesh::IMesher">
+        <implements>::fwServices::IService</implements>
+    </point>
+    
+     <point id="::opVTKMesh::action::qVTKMeshCreation" >
+        <implements>::guiQt::action::IAction</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+    
+    <point id="::opVTKMesh::VTKMesherService" >
+        <implements>::opVTKMesh::IMesher</implements>
+        <implements>::fwData::Acquisition</implements>
+    </point>
+    
+</plugin>
