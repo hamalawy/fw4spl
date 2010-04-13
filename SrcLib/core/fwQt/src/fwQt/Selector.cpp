@@ -20,7 +20,8 @@ namespace fwQt
 
 Selector::Selector(QWidget *parent, QStringList selection)
 {  
-  QDialog *box = new QDialog(parent);
+  //QDialog *box = new QDialog(parent);
+  box = new QDialog(parent);
   box->resize(250, 150);
   
   m_okButton = new QPushButton("Valider");
@@ -42,8 +43,8 @@ Selector::Selector(QWidget *parent, QStringList selection)
   m_okButton->show();
   m_cancelButton->show();
   
-  box->setModal(true);
-  box->show();
+  //box->setModal(true);
+  //box->show();
 }
 
 }

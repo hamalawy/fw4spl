@@ -11,6 +11,7 @@
 
 #include "uiIOQt/config.hpp"
  #include <QObject>
+#include <QListWidget>
 
 namespace uiIOQt
 {
@@ -39,7 +40,6 @@ public :
         WRITER_MODE  /**< this mode allows to configure the service as a writer */
     } IOMode;
 
-public :
 
     fwCoreServiceClassDefinitionsMacro ( (IOSelectorService)( ::guiQt::editor::IEditor::Baseclass) ) ;
 
@@ -81,9 +81,19 @@ public :
      void setIOMode( IOMode _mode ) ;
      
      bool extensionSelectionIsCanceled;
+     bool m_ok;
+     QListWidget *m_list;
+     std::string m_selectedString;
+     QDialog *box;
+     QStringList selection;  
+     std::vector< std::pair < std::string, std::string > > availableExtensionsMap;
+
+
      
   public slots :
-    void setExtensionSelectedTrue();
+    void startSelectedService();
+    void getListIndex();
+    void cancel();
 
 private :
 
