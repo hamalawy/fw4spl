@@ -14,6 +14,7 @@ class Selector
 public:
   Selector(QWidget *parent, QStringList selection);
 
+  QDialog *box;
   QListWidget *m_list;
   QPushButton *m_okButton;
   QPushButton *m_cancelButton;

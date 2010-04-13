@@ -23,5 +23,10 @@
         <implements>::fwData::TriangularMesh</implements>
     </point>
     
+     <point id="::ioData::TriangularMeshWriterService">
+        <implements>::io::IWriter</implements>
+        <implements>::fwData::TriangularMesh</implements>
+    </point>
+    
   
 </plugin>
