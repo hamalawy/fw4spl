@@ -1,0 +1,66 @@
+<plugin id="FilterConfiguration">
+    <extension id="FilterConfig" implements="::fwData::Composite">
+    <!-- Root object -->
+    <object id="FilterConfig" type="::fwData::Composite">
+        <!-- Windows & Main Menu -->
+        <service type="::gui::frame::IFrame" implementation="::gui::frame::MainFrame" autoComChannel="no" >
+            <name>Filter</name>
+            <icon>Bundles/Tuto06Filter_0-1/tuto.ico</icon>
+            <minSize width="720" height="600"/>
+            <view uid="myDefaultView" autoStart="yes" />
+        </service>
+        
+       <service uid="myMenuBar" type="::gui::aspect::IMenuBar" implementation="::gui::aspect::DefaultMenuBar" autoComChannel="no" >
+            <menus>
+                <menu uid="menuFile"/>
+                <menu uid="menuFilter"/>
+            </menus>
+        </service>
+        
+        <service uid="myDefaultView" type="::gui::view::IView" implementation="::gui::view::DefaultView" autoComChannel="no" >
+            <views>
+                <view uid="RenderingImage1" autoStart="yes" />
+                <view uid="RenderingImage2" minWidth="500" minHeight="100" autoStart="yes" />
+            </views>
+        </service> 
+        
+        <!-- Menus -->
+        <service name="File" uid="menuFile" type="::gui::aspect::IMenu" implementation="::gui::aspect::DefaultMenu" autoComChannel="no" >
+            <action uid="actionOpenImageFile"/>
+            <separator/>
+            <action uid="actionQuit"/>
+        </service>         
+        <service name="Filter" uid="menuFilter" type="::gui::aspect::IMenu" implementation="::gui::aspect::DefaultMenu" autoComChannel="no" >
+            <action uid="actionImageFilter"/>
+        </service>
+        <!-- Actions on Menus -->         
+        <service uid="actionQuit" specialAction="QUIT"  name="Quit" type="::gui::action::IAction" implementation="::gui::action::QuitAction" shortcut="Ctrl+Q" autoComChannel="no" />
+        <service uid="actionOpenImageFile" type="::gui::action::IAction" implementation="::gui::action::StarterActionService" name="Open image file" autoComChannel="no" >
+            <start uid="readerPathImageFile"/>
+        </service>
+        <service uid="actionImageFilter" type="::gui::action::IAction" implementation="::opImageFilter::action::imageFilter" name="Compute Image Filter" autoComChannel="no" >
+            <imageIn  uid="myImage1"/>
+            <imageOut uid="myImage2"/>
+        </service>
+        <!-- Services on objects -->
+        <!-- 1st Object of the composite -->
+        <object id="myImage1" uid="myImage1" type="::fwData::Image">
+            <service implementation="::vtkSimpleNegato::RendererService" type="::fwRender::IRender" uid="RenderingImage1" autoComChannel="yes" />
+            <service implementation="::uiIO::editor::IOSelectorService" type="::gui::editor::IEditor" uid="readerPathImageFile" autoComChannel="no" >
+                <type mode="reader"/>
+            </service>
+        </object>
+        <!-- 2nd Object of the composite -->       
+        <object id="myImage2" uid="myImage2" type="::fwData::Image">
+            <service implementation="::vtkSimpleNegato::RendererService" type="::fwRender::IRender" uid="RenderingImage2" autoComChannel="yes" />
+        </object> 
+    
+    <!-- Starting order of services -->
+    <start type="::gui::frame::IFrame" />
+    <start type="::gui::aspect::IMenuBar" />
+    
+    <stop type="::gui::aspect::IMenuBar" />
+    <stop type="::gui::frame::IFrame" />
+  </object>
+  </extension>
+</plugin>    
