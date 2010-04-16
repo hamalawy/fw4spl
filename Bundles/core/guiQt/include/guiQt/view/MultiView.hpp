@@ -49,7 +49,7 @@ class MultiView : public ::guiQt::view::IView
         std::string                      m_align;
         std::pair< int, int >            m_minSize;
         bool                             m_visible;
-        QDockWidget*                     m_panel;
+        QWidget*                     m_panel;
         bool                             m_isResizable;
         int                              m_position;
         int                              m_layer;

@@ -11,6 +11,8 @@ LIB     = [
     'fwComEd_0-1',
     'vtkIO_0-1',
     'fwQt_0-1',
+    'fwQtRender_0-1',
+
     ]
 BUNDLES = ['io_0-1']
 

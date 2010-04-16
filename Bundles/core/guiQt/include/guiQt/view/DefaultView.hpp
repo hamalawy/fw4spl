@@ -41,7 +41,7 @@ class  DefaultView : public ::guiQt::view::IView
             m_autostart(false)
             {}
         std::pair< int, int >   m_minSize;
-    	QDockWidget*		m_panel;
+    	QWidget*		m_panel;
         bool                    m_autostart;
     };
     
