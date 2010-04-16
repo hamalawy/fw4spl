@@ -21,10 +21,10 @@
     <service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::MultiView" autoComChannel="no" >
     	<views>
      	  <view uid="myRenderingTuto1" align ="center" autoStart="yes" />
-     	  <view uid="myRenderingTuto2" align ="right" minWidth="400" minHeight="100" autoStart="yes" />
-     	  <view uid="myRenderingTuto3" align ="left" minWidth="400" minHeight="100" autoStart="yes" />
- 	  <view uid="myRenderingTuto4" align ="top" minWidth="400" minHeight="100" autoStart="yes" />
-     	  <view uid="myRenderingTuto5" align ="bottom" minWidth="400" minHeight="100" autoStart="yes" />
+     	  <view uid="myRenderingTuto2" align ="right" autoStart="yes" />
+     	  <view uid="myRenderingTuto3" align ="left"  autoStart="yes" />
+ 	  <view uid="myRenderingTuto4" align ="top" autoStart="yes" />
+     	  <view uid="myRenderingTuto5" align ="bottom"  autoStart="yes" />
 
      	</views>
     </service>
@@ -71,6 +71,13 @@
 		<start type="::guiQt::aspect::IMenu" />
 		<start type="::guiQt::view::IView" />
 		<start uid="ToolBar" />
+		
+		
+		<update uid="myRenderingTuto1"/>
+		<update uid="myRenderingTuto2"/>
+		<update uid="myRenderingTuto3"/>
+		<update uid="myRenderingTuto4"/>
+		<update uid="myRenderingTuto5"/>
 
 		<stop uid="ToolBar" />
 		<stop type="::guiQt::aspect::IMenu" />

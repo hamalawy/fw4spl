@@ -15,6 +15,7 @@
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QVBoxLayout>
 
 namespace guiQt
 {
@@ -156,44 +157,48 @@ void MultiView::starting() throw(::fwTools::Failed)
 
     QWidget *mainWidget = this->getQtContainer();
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
-     
-    QDesktopWidget *desk = QApplication::desktop();
-    QRect screen = desk->screenGeometry(m_manager);
     
-    
+
+   
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
     {
-	pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(),m_manager);
-	pi->second.m_panel->setMinimumSize(screen.width()/3, screen.height()/3);
-	pi->second.m_panel->resize(screen.width()/3, screen.height()/3);
+        QDockWidget *widget = new QDockWidget(m_manager);
+	widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	//pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(),m_manager);
+	// TODO : add name of view
+	pi->second.m_panel = new QWidget();
+	pi->second.m_panel->setWindowTitle((this->getUUID()).c_str());
+	pi->second.m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+        widget->setWidget(pi->second.m_panel);
 
+	  std::cout<<"  \n FOR  \n";
 
         if(pi->second.m_align=="center")        
 	{ 
-	 m_manager->setCentralWidget( pi->second.m_panel);
+	 m_manager->setCentralWidget(pi->second.m_panel);	
 	}
         else if(pi->second.m_align=="right")
 	{ 
-	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
-	  m_manager->addDockWidget(Qt::RightDockWidgetArea,  pi->second.m_panel);
+	  m_manager->addDockWidget(Qt::RightDockWidgetArea,  widget);	 
+
 	}
         else if(pi->second.m_align=="left") 
 	{ 
-	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
-	  m_manager->addDockWidget(Qt::LeftDockWidgetArea,  pi->second.m_panel);
-	}
-        else if(pi->second.m_align=="bottom")
-	{ 
-	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
-	  m_manager->addDockWidget(Qt::BottomDockWidgetArea,  pi->second.m_panel);
+	  m_manager->addDockWidget(Qt::LeftDockWidgetArea,  widget);	 
 	}
         else if(pi->second.m_align=="top")
 	{ 
-	  pi->second.m_panel->setFeatures(QDockWidget::AllDockWidgetFeatures);
-	  m_manager->addDockWidget(Qt::TopDockWidgetArea,  pi->second.m_panel);
+	  m_manager->addDockWidget(Qt::TopDockWidgetArea, widget);	
 	}
-	
+        else if(pi->second.m_align=="bottom")
+	{ 
+	  m_manager->addDockWidget(Qt::BottomDockWidgetArea, widget);	 
+	}
+	else
+	{
+	  // on verra
+	}
 	
         this->registerQtContainer(pi->first,  pi->second.m_panel);
 

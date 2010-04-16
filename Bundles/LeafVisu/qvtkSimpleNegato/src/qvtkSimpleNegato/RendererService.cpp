@@ -29,6 +29,7 @@
 
 #include <QApplication>
 #include <QWidget>
+#include <QVBoxLayout>
 
 #include <vtkIO/vtk.hpp>
 
@@ -78,7 +79,15 @@ void RendererService::starting() throw(fwTools::Failed)
 
     QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
     widget = new QVTKWidget(mainWidget);
+    
+    QVBoxLayout *layout = new QVBoxLayout();
+
     widget->resize(mainWidget->width(), mainWidget->height());
+    widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    
+    layout->addWidget(widget);
+
+    mainWidget->setLayout(layout);
 
     m_render = vtkRenderer::New();
    // renderWindow = vtkRenderWindow::New();
