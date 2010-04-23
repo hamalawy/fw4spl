@@ -95,7 +95,7 @@ void ImageReaderService::configureWithIHM()
        std::cout<<"\n\nQVTK WithIHM() \n";
     
     
-    QString file = QFileDialog::getOpenFileName(0,QObject::tr("Open File"), QDir::currentPath(), QObject::tr("Images (*.vtk *.VTK )"));
+    QString file = QFileDialog::getOpenFileName(0,QObject::tr("Open File"), QDir::currentPath(), QObject::tr("VTKImages (*.vtk *.VTK )"));
     std::cout<<"PATH_FILE : "<<file.toStdString()<<"\n";
     
     

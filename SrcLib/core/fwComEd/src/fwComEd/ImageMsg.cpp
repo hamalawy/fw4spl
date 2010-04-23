@@ -61,7 +61,8 @@ void ImageMsg::setWindowMinMax(::fwData::Integer::sptr min, ::fwData::Integer::s
 //-----------------------------------------------------------------------------
 
 void ImageMsg::getSliceIndex(::fwData::Integer::sptr a, ::fwData::Integer::sptr f, ::fwData::Integer::sptr s) const
-{
+{std::cout<<"     ImageMsg::getSliceIndex \n";
+
     SLM_ASSERT( "SLICE_INDEX Event not found in msg", this->hasEvent( ::fwComEd::ImageMsg::SLICE_INDEX ));
     a->deepCopy(m_axialIndex   );
     f->deepCopy(m_frontalIndex );

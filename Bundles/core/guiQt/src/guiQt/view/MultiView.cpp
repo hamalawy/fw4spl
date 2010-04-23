@@ -17,6 +17,9 @@
 #include <QDesktopWidget>
 #include <QVBoxLayout>
 
+#include <QPushButton>
+#include <QString>
+
 namespace guiQt
 {
 namespace view
@@ -175,7 +178,7 @@ void MultiView::starting() throw(::fwTools::Failed)
 	  std::cout<<"  \n FOR  \n";
 
         if(pi->second.m_align=="center")        
-	{ 
+	{  
 	 m_manager->setCentralWidget(pi->second.m_panel);	
 	}
         else if(pi->second.m_align=="right")
@@ -199,14 +202,21 @@ void MultiView::starting() throw(::fwTools::Failed)
 	{
 	  // on verra
 	}
-	
+		  std::cout<<"  \n ICI  \n";
+
         this->registerQtContainer(pi->first,  pi->second.m_panel);
+	  std::cout<<"  \n C EST FINUI  \n";
 
         if(pi->second.m_autostart)
         {
             OSLM_ASSERT("Service "<<pi->first<<" doesn't exist.", ::fwTools::UUID::exist(pi->first, ::fwTools::UUID::SIMPLE ));
             ::fwServices::IService::sptr service = ::fwServices::get( pi->first ) ;
+	    		  std::cout<<"  \n START  \n";
+
+			  std::cout<<"SERVICE : "<<pi->first<<"\n";
             service->start();
+	    	    		  std::cout<<"  \n SHOW  \n";
+
         }
     }
     m_manager->show();

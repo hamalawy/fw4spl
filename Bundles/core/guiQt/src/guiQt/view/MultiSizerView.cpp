@@ -18,6 +18,13 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QSizePolicy>
+#include <QDockWidget>
+
+
+
+#include <QPushButton>
+#include <QString>
+
 
 namespace gui
 {
@@ -56,6 +63,7 @@ void MultiSizerView::configuring() throw( ::fwTools::Failed )
         }
         else if(orient == "horizontal")
         {
+	  std::cout<<"  MultiSizerView::configuring() HORZ \n ";
             m_bOrient = false   ;
         }
     }
@@ -130,15 +138,16 @@ void MultiSizerView::info(std::ostream &_sstream )
 void MultiSizerView::starting() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
-    this->initGuiParentContainer();
+    this->initGuiParentContainer(); // a chanegr en gui:: ...
+    
+    std::cout<<"\n  UUID :  "<<this->getUUID()<<" uid : "<<m_globalUIDToQtContainer.find(this->getUUID())->first<<"\n";
 
-    QWidget *mainWidget = this->getQtContainer();
+    QWidget *mainWidget =  m_globalUIDToQtContainer[this->getUUID()];  //this->getQtContainer();
+
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
-     
-    QWidget* centerView = new QWidget(m_manager);
- //   centerView->resize(m_manager->width(), m_manager->height());
-	
-  //  QVBoxLayout *layout = new QVBoxLayout();
+
+    QWidget* centerView = new QWidget();
+
     QLayout *layout;
 
     if(m_bOrient)
@@ -153,15 +162,19 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
     std::list<ViewInfo>::iterator pi = m_views.begin();
     for ( pi; pi!= m_views.end() ; ++pi )
     {
-
+	
         pi->m_panel = new QWidget(centerView);
+	
 	pi->m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
 	std::cout<<"\n ADD widget  "<<pi->m_panel->width()<<"  "<<pi->m_panel->height()<<" \n";
+	std::cout<<"\n PanelUID  "<<pi->m_uid<<" \n";
 
-        this->registerQtContainer(pi->m_uid, pi->m_panel);
 
 	layout->addWidget( pi->m_panel);
+	
+	std::cout<<"\n  REGISTER   :  "<<pi->m_uid<<"\n";
+	this->registerQtContainer(pi->m_uid, pi->m_panel);
 
         if(pi->m_autostart)
         {
@@ -169,12 +182,30 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
             ::fwServices::IService::sptr service = ::fwServices::get( pi->m_uid ) ;
             service->start();
         }
+	
     }
-    
+
         centerView->setLayout(layout);
 
-	m_manager->setCentralWidget(centerView);
+	std::cout<<"\n  setCentralWidget  \n";
 
+	if(m_manager)
+	{
+	  centerView->setParent(m_manager);
+	  m_manager->setCentralWidget(centerView);
+	}
+	else
+	{
+	  QHBoxLayout *subLayout = new  QHBoxLayout();
+	   centerView->setParent(mainWidget);
+	  centerView->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+	  subLayout->addWidget( centerView);
+	  mainWidget->setLayout(subLayout);
+	  
+	}
+	//centerView->resize(mainWidget->width(), mainWidget->height());
+	
+	std::cout<<"\n  END  \n";
 
 }
 //-----------------------------------------------------------------------------

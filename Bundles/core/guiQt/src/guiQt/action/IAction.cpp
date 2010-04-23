@@ -110,9 +110,9 @@ void IAction::info(std::ostream &_sstream )
 
 void IAction::starting() throw(::fwTools::Failed)
 {
-  std::cout<<" \n        DEBUT  IAction::starting() \n\n";
+ // std::cout<<" \n        DEBUT  IAction::starting() \n\n";
  // std::cout<<"    action " << this->getId() << " : info = " << *this;
-  std::cout<<"        m_menuName = "<<m_menuName<<" \n";
+//  std::cout<<"        m_menuName = "<<m_menuName<<" \n";
   
     OSLM_TRACE("starting action " << this->getId() << " : info = " << *this) ;
     SLM_ASSERT("IAction must be associated with a menu", !m_menuName.empty());
@@ -128,12 +128,12 @@ void IAction::starting() throw(::fwTools::Failed)
    // setEnable(m_enable);
     //setCheck(m_isCheck);
     
-   std::cout<<" \n        FIN  IAction::starting() \n\n";
+  // std::cout<<" \n        FIN  IAction::starting() \n\n";
 
 }
 
 void IAction::run()
-{ std::cout<<" \n        IAction::run() \n\n";
+{ 
   this->update();
 }
 
@@ -206,15 +206,12 @@ void IAction::setEnable(bool _enable)
 
 void IAction::updating() throw(::fwTools::Failed)
 {
-        std::cout<<" \n        DEBUT UPDAZTING() \n\n";
-
-  
+ 
     SLM_TRACE("IAction::updating");
     if (!m_isRadio)
     {
       //  setCheck(!m_isCheck);
     }
-            std::cout<<" \n        FIN UPDAZTING() \n\n";
 
 }
 

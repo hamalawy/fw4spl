@@ -82,7 +82,7 @@ void RendererService::starting() throw(fwTools::Failed)
     
     QVBoxLayout *layout = new QVBoxLayout();
 
-    widget->resize(mainWidget->width(), mainWidget->height());
+  //  widget->resize(mainWidget->width(), mainWidget->height());
     widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
     
     layout->addWidget(widget);

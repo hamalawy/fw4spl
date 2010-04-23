@@ -56,13 +56,13 @@ public:
         OSLM_INFO("ail like to LEFT : _event " << _event );
 
         if (_event == vtkCommand::StartInteractionEvent )
-        {	    std::cout<<" \n Mouse Pressed \n";
+        {
 
             //SLM_INFO(" ________________START___________________________");
             this->m_isMousePressed = true;
         }
         else if (_event == vtkCommand::EndInteractionEvent )
-        {   std::cout<<" \n Mouse Released \n";
+        { 
             //SLM_INFO(" ________________END___________________________");
             this->m_isMousePressed = false;
         }
@@ -70,7 +70,6 @@ public:
                 || _event == vtkCommand::MouseWheelBackwardEvent || _event == vtkCommand::MouseWheelForwardEvent)
         {
             //SLM_INFO(" ______________________________________________");
-	    std::cout<<" \n VTK Move \n";
             m_service->updateCamPosition();
         }
     }
