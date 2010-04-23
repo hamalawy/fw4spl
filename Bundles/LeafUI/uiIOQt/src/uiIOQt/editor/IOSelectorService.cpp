@@ -137,17 +137,17 @@ void IOSelectorService::startSelectedService()
   
   for(    std::vector< std::pair < std::string, std::string > >::iterator itExt = availableExtensionsMap.begin();itExt < availableExtensionsMap.end(); itExt++ )
   {
-//	std::cout<<m_selectedString<<"    FOR --> Second : "<<itExt->second<<" First :"<<itExt->first<<" \n";
-     if (itExt->first == m_selectedString)
+	std::cout<<m_selectedString<<"    FOR --> Second : "<<itExt->second<<" First :"<<itExt->first<<" \n";
+     if (itExt->first == m_selectedString || itExt->second == m_selectedString)
       {
-//	   std::cout<<"FOR->IF---> "<<itExt->first<<"\n";
+	   std::cout<<"FOR->IF---> "<<itExt->first<<"\n";
          extensionId = itExt->first ;
       }
    }
    
   if(m_list->selectedItems().count()==0)
   {
-      //std::cout<<"\n NO ITEM SELECTED \n";
+      std::cout<<"\n NO ITEM SELECTED \n";
 	 //extensionId = selection.first();
   }
 

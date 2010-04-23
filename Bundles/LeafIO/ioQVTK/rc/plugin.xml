@@ -25,4 +25,10 @@
         <implements>::fwData::TriangularMesh</implements>
     </point>
     
+    <point id="::ioVTK::VtkPatientDBReaderService" >
+        <implements>::io::IReader</implements>
+        <implements>::fwData::PatientDB</implements>
+    </point>    
+    
+    
 </plugin>

@@ -1,0 +1,26 @@
+<plugin id="uiQtImage" class="::uiQtImage::Plugin">
+    <library name="uiQtImage"/>
+    
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="guiQt"/>
+    
+    <!--    REGISTER_SERVICE( ::gui::editor::IEditor , ::uiImage::SliceIndexPositionEditor , ::fwData::Image ) ;-->
+    <point id="::uiImage::SliceIndexPositionEditor" >
+        <implements>::guiQt::editor::IEditor</implements>
+        <implements>::fwData::Image</implements>
+    </point>
+    
+     <!--    REGISTER_SERVICE( ::gui::editor::IEditor, ::uiImage::SliceListEditor, ::fwData::Image ) ;-->
+    <point id="::uiImage::SliceListEditor" >
+        <implements>::guiQt::editor::IEditor</implements>
+        <implements>::fwData::Image</implements>
+    </point>
+    
+    <!--    REGISTER_SERVICE( ::gui::editor::IEditor, ::uiImage::ShowScanEditor, ::fwData::Image ) ;-->
+    <point id="::uiImage::ShowScanEditor" >
+        <implements>::guiQt::editor::IEditor</implements>
+        <implements>::fwData::Image</implements>
+    </point>
+ 
+</plugin>
