@@ -60,33 +60,48 @@ SliceIndexPositionEditor::~SliceIndexPositionEditor() throw()
 
 void SliceIndexPositionEditor::starting() throw(::fwTools::Failed)
 {
-  std::cout<<"\n\n ====================>> SliceIndexPositionEditor::starting() \n\n";
     ::guiQt::editor::IEditor::starting();
 
-    QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
+   // QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
   //  QWidget *mainWidget =m_globalUIDToQtContainer[this->getUUID()];
   
-   QWidget *widget = new QWidget(mainWidget);
+   QWidget *widget = new QWidget(m_container);
    QHBoxLayout *layout = new  QHBoxLayout();
 
     m_sliceSelectorPanel = new ::fwQt::SliceSelector( widget );
     
-    widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    ::fwQt::SliceSelector::ChangeIndexCallback changeIndexCallback;
+    changeIndexCallback = ::boost::bind( &::uiImage::SliceIndexPositionEditor::sliceIndexNotification, this, _1);
+    m_sliceSelectorPanel->setChangeIndexCallback(changeIndexCallback);
+
+    ::fwQt::SliceSelector::ChangeIndexCallback changeTypeCallback;
+    changeTypeCallback = ::boost::bind( &::uiImage::SliceIndexPositionEditor::sliceTypeNotification, this, _1);
+    m_sliceSelectorPanel->setChangeTypeCallback(changeTypeCallback);
+    
+    
+    
+    QObject::connect(m_sliceSelectorPanel->m_sliceIndex, SIGNAL(valueChanged(int)), this, SLOT(sliceIndexSlot()));
+    
+    
+    widget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     layout->addWidget( widget);
-    mainWidget->setLayout(layout);
+    m_container->setLayout(layout);
+    
+    // tres important
+    this->updating();
   
 }
 
 //------------------------------------------------------------------------------
 
 void SliceIndexPositionEditor::stopping() throw(::fwTools::Failed)
-{/*
+{
     if(m_sliceSelectorPanel)
     {
         delete m_sliceSelectorPanel;
         m_sliceSelectorPanel = 0;
     }
-*/
+
     ::guiQt::editor::IEditor::stopping();
 }
 
@@ -120,12 +135,9 @@ void SliceIndexPositionEditor::configuring() throw(fwTools::Failed)
 
 void SliceIndexPositionEditor::updating() throw(::fwTools::Failed)
 {
-    std::cout<<" SliceIndexPositionEditor::updating() \n";
-
   
     ::fwData::Image::sptr image = this->getObject< ::fwData::Image >();
     bool imageIsValid = ::fwComEd::fieldHelper::MedicalImageHelpers::checkImageValidity( image );
-   // m_sliceSelectorPanel->setEnable(imageIsValid);
     this->updateImageInfos(image);
     this->updateSliceIndex();
     
@@ -141,22 +153,16 @@ void SliceIndexPositionEditor::swapping() throw(::fwTools::Failed)
 
 void SliceIndexPositionEditor::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
 {
-      std::cout<<" SliceIndexPositionEditor::updating(ARGS) \n";
 
     ::fwComEd::ImageMsg::csptr imageMessage = fwComEd::ImageMsg::dynamicConstCast( _msg );
-
-	          std::cout<<" dynamicConstCast DONE\n";
 
     if ( imageMessage )
     {
         if ( imageMessage->hasEvent( fwComEd::ImageMsg::SLICE_INDEX ) )
         {
-	  // probleme de pointeur
             imageMessage->getSliceIndex( m_axialIndex, m_frontalIndex, m_sagittalIndex);
-	          std::cout<<" getSliceIndex DONE\n";
 
             this->updateSliceIndex();
-	    	          std::cout<<" updateSliceIndex DONE\n";
 
         }
         if ( imageMessage->hasEvent( fwComEd::ImageMsg::CHANGE_SLICE_TYPE ) )
@@ -198,7 +204,6 @@ void SliceIndexPositionEditor::updateSliceIndex()
     unsigned int index = image->getFieldSingleElement< ::fwData::Integer >( fieldID )->value();
 
     // Update wxSlider
-    std::cout<<" updateSliceIndex() Range+Value \n";
     int max = image->getSize()[m_orientation]-1;
     m_sliceSelectorPanel->setSliceRange( 0, max );
     m_sliceSelectorPanel->setSliceValue( index );
@@ -222,6 +227,27 @@ void SliceIndexPositionEditor::updateSliceType(Orientation type )
     this->updateSliceIndex();
     
 }
+
+//------------------------------------------------------------------------------
+
+void SliceIndexPositionEditor::sliceIndexSlot()
+{
+   // Fire the message
+    ::fwComEd::ImageMsg::NewSptr msg;
+    msg->setSliceIndex( m_axialIndex, m_frontalIndex, m_sagittalIndex);
+    ::fwData::Image::sptr image = this->getObject< ::fwData::Image >();
+
+    SliceIndexPositionEditor::SLICE_INDEX_FIELDID[m_orientation];
+    std::string fieldID = *SLICE_INDEX_FIELDID[m_orientation];
+    image->getFieldSingleElement< ::fwData::Integer >( fieldID )->value() = m_sliceSelectorPanel->m_sliceIndex->value();
+
+    ::fwServices::IEditionService::notify(this->getSptr(),  image, msg);
+    
+     unsigned int index = image->getFieldSingleElement< ::fwData::Integer >( fieldID )->value();
+     m_sliceSelectorPanel->setSliceValue( index );
+
+}
+
 
 //------------------------------------------------------------------------------
 

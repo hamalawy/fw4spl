@@ -4,55 +4,50 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _UIQTIMAGE_SLICE_LIST_EDITOR_HPP_
-#define _UIQTIMAGE_SLICE_LIST_EDITOR_HPP_
+#ifndef _UIVISU_SNAPSHOTEDITOR_HPP_
+#define _UIVISU_SNAPSHOTEDITOR_HPP_
 
 #include <fwTools/Failed.hpp>
 #include <guiQt/editor/IEditor.hpp>
 
-#include "uiQtImage/config.hpp"
+#include "uiVisu/config.hpp"
 
+#include <QPixmap>
 #include <QWidget>
+#include <QLabel>
 #include <QPushButton>
-#include <QActionGroup>
-#include <QAction>
-#include <QMenu>
-#include <QMenuBar>
-#include <QIcon>
 #include <QImage>
- 
- 
-namespace uiImage
+#include <QIcon>
+
+
+
+namespace uiVisu
 {
 
 /**
- * @brief   SliceListEditor service.
- * @class   SliceListEditor.
+ * @brief   SnapshotEditor service.
+ * @class   SnapshotEditor.
  * @author  IRCAD (Research and Development Team).
  * @date    2010.
  */
-class  SliceListEditor : public ::guiQt::editor::IEditor
+class  SnapshotEditor : public ::guiQt::editor::IEditor
 {
   Q_OBJECT
-  
+
 public :
 
-    fwCoreServiceClassDefinitionsMacro ( (SliceListEditor)(::guiQt::editor::IEditor::Baseclass) ) ;
+    fwCoreServiceClassDefinitionsMacro ( (SnapshotEditor)(::guiQt::editor::IEditor::Baseclass) ) ;
 
     /// Constructor. Do nothing.
-     SliceListEditor() throw() ;
+     SnapshotEditor() throw() ;
 
     /// Destructor. Do nothing.
-     virtual ~SliceListEditor() throw() ;
-     
-         QActionGroup *m_sliceGroup;
-    QMenu *m_menu;
+     virtual ~SnapshotEditor() throw() ;
 
      
-  public slots :
-    void createPopUpMenu();
-    void changeSliceMode();
-    
+private slots:
+     void snapShoot();
+
 
 protected:
 
@@ -76,27 +71,22 @@ protected:
     /// Overrides
     virtual void info( std::ostream &_sstream ) ;
 
-
 private:
 
-    std::string m_adaptorUID;
-    int m_idDropDown;
-    int m_nbSlice;
+    std::vector< std::string > m_scenesUID;
     
-    // members
-    
-    QWidget *m_widget;
-    QPushButton *m_button;
-    QAction *m_oneSliceItem;
-    QAction *m_threeSlicesItem;
-    QMenuBar *m_menuBar;
-    
-    int m_buttonWidth;
+     QPixmap m_pixmap;
+     QLabel *m_screenshotLabel;
+     QPushButton *m_snapButton;
+     QImage m_imageSnap;
+     QIcon m_icon;
+
+
 
 };
 
-} // uiImage
+} // uiVisu
 
-#endif /*_UIIMAGE_SLICE_LIST_EDITOR_HPP_*/
+#endif /*_UIVISU_SNAPSHOTEDITOR_HPP_*/
 
 

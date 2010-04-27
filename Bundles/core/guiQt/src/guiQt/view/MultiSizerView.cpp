@@ -63,7 +63,6 @@ void MultiSizerView::configuring() throw( ::fwTools::Failed )
         }
         else if(orient == "horizontal")
         {
-	  std::cout<<"  MultiSizerView::configuring() HORZ \n ";
             m_bOrient = false   ;
         }
     }
@@ -140,11 +139,9 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
     this->initGuiParentContainer(); // a chanegr en gui:: ...
     
-    std::cout<<"\n  UUID :  "<<this->getUUID()<<" uid : "<<m_globalUIDToQtContainer.find(this->getUUID())->first<<"\n";
-
-    QWidget *mainWidget =  m_globalUIDToQtContainer[this->getUUID()];  //this->getQtContainer();
-
-    m_manager =  qobject_cast<QMainWindow *>(mainWidget);
+    //QWidget *mainWidget =  m_globalUIDToQtContainer[this->getUUID()];  //this->getQtContainer();  mainWidget = m_container
+    
+    m_manager =  qobject_cast<QMainWindow *>(m_container);
 
     QWidget* centerView = new QWidget();
 
@@ -164,16 +161,20 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
     {
 	
         pi->m_panel = new QWidget(centerView);
-	
-	pi->m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-
-	std::cout<<"\n ADD widget  "<<pi->m_panel->width()<<"  "<<pi->m_panel->height()<<" \n";
-	std::cout<<"\n PanelUID  "<<pi->m_uid<<" \n";
+/*	
+	if( pi->m_proportion==0)
+	{
+	  std::cout<<"\n Proportion 0 : PanelUID  "<<pi->m_uid<<" \n";
+	  pi->m_panel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+	}
+	else
+	  pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+*/
+	 pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
 
 	layout->addWidget( pi->m_panel);
 	
-	std::cout<<"\n  REGISTER   :  "<<pi->m_uid<<"\n";
 	this->registerQtContainer(pi->m_uid, pi->m_panel);
 
         if(pi->m_autostart)
@@ -184,10 +185,7 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
         }
 	
     }
-
         centerView->setLayout(layout);
-
-	std::cout<<"\n  setCentralWidget  \n";
 
 	if(m_manager)
 	{
@@ -196,17 +194,25 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
 	}
 	else
 	{
+	  // A voir : test V ou H
 	  QHBoxLayout *subLayout = new  QHBoxLayout();
-	   centerView->setParent(mainWidget);
-	  centerView->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+	  centerView->setParent(m_container);
+/*	   
+	   if( pi->m_proportion==0)
+	  {
+	    centerView->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+	  }
+	  else
+	    centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+*/
+	    centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+	    
 	  subLayout->addWidget( centerView);
-	  mainWidget->setLayout(subLayout);
+	  m_container->setLayout(subLayout);
 	  
 	}
-	//centerView->resize(mainWidget->width(), mainWidget->height());
 	
-	std::cout<<"\n  END  \n";
-
 }
 //-----------------------------------------------------------------------------
 

@@ -37,10 +37,9 @@ void Integer::shallowCopy( Integer::csptr _source )
 //------------------------------------------------------------------------------
 
 void Integer::deepCopy( Integer::csptr _source )
-{std::cout<<"     Integer::deepCopy( \n";
+{
     ::fwTools::Object::deepCopyOfChildren( _source );
     this->m_value = _source->m_value;
-    std::cout<<"     Integer::deepCopy DONE\n";
 }
 
 } // namespace fwData

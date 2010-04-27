@@ -58,40 +58,17 @@ void ShowScanEditor::starting() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
-/*
-    namespace fs = ::boost::filesystem;
-    fs::path pathImageScan ("Bundles/uiImage_" + std::string(UIIMAGE_VER) + "/sliceShow.png");
-    OSLM_ASSERT("Image "<< pathImageScan << "is missing", fs::exists(pathImageScan));
-    m_imageShowScan.LoadFile(::fwWX::std2wx(pathImageScan.string()));
 
-    pathImageScan  = "Bundles/uiImage_" + std::string(UIIMAGE_VER) + "/sliceHide.png";
-    OSLM_ASSERT("Image "<< pathImageScan << "is missing", fs::exists(pathImageScan));
-    m_imageHideScan.LoadFile(::fwWX::std2wx(pathImageScan.string()));
-
-
-    m_showScanButton = new wxBitmapButton( m_container, wxNewId(), m_imageShowScan, wxDefaultPosition, wxSize(40,-1) ) ;
-    m_showScanButton->SetToolTip(_("Show/Hide Scan"));
-
-    wxSizer* sizer = new wxBoxSizer( wxVERTICAL );
-    sizer->Add( m_showScanButton, 1, wxALL|wxEXPAND, 1 );
-    m_container->Bind( wxEVT_COMMAND_BUTTON_CLICKED, &ShowScanEditor::onChangeScanMode, this,  m_showScanButton->GetId());
-
-    m_container->SetSizer( sizer );
-    m_container->Layout();
-  */
-
-    // utiliser m_container
-    QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
-    QWidget *widget = new QWidget(mainWidget);
+   // QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
+    QWidget *widget = new QWidget(m_container);
     
     QHBoxLayout *layout = new  QHBoxLayout();
 
     icon = QIcon();
-   // QString str = "Bundles/uiImage_" + std::string(UIIMAGE_VER) + "/sliceShow.png";
-    QString str = "Bundles/uiQtImage_0-1/sliceShow.png";
-    
+    QString str = QObject::tr("Bundles/uiQtImage_") + QObject::tr(UIQTIMAGE_VER) + QObject::tr("/sliceShow.png");
+
     m_imageShowScan = QImage(str);
-    m_imageHideScan = QImage(QObject::tr("Bundles/uiQtImage_0-1/sliceHide.png"));
+    m_imageHideScan = QImage( QObject::tr("Bundles/uiQtImage_") + QObject::tr(UIQTIMAGE_VER) + QObject::tr("/sliceHide.png"));
 
     m_showScanButton = new QPushButton(widget);
     m_showScanButton->setFixedWidth(m_buttonWidth);
@@ -102,10 +79,10 @@ void ShowScanEditor::starting() throw(::fwTools::Failed)
     m_showScanButton->setIconSize(QSize(m_showScanButton->width(), m_showScanButton->height()));
     QObject::connect(m_showScanButton, SIGNAL(clicked()), this, SLOT(changeScanMode())); 
     
-   // widget->resize(m_showScanButton->size());
-
+    m_showScanButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
+    
     layout->addWidget( widget);
-    mainWidget->setLayout(layout);
+    m_container->setLayout(layout);
 }
 
 
@@ -186,40 +163,5 @@ void ShowScanEditor::info( std::ostream &_sstream )
 {
 }
 
-//------------------------------------------------------------------------------
-/*
-void ShowScanEditor::onChangeScanMode(  wxCommandEvent& event )
-{
-    if(::fwTools::UUID::exist(m_adaptorUID, ::fwTools::UUID::SIMPLE ))
-    {
-        m_scanAreShown = !m_scanAreShown;
-
-        if (!m_scanAreShown)
-        {
-            m_showScanButton->SetBitmapLabel(m_imageHideScan);
-        }
-        else
-        {
-            m_showScanButton->SetBitmapLabel(m_imageShowScan);
-        }
-
-        ::fwServices::IService::sptr service = ::fwServices::get(m_adaptorUID);
-        ::fwData::Image::sptr image = service->getObject< ::fwData::Image >();
-        SLM_ASSERT("ShowScanEditor adaptorUID " << m_adaptorUID <<" isn't an Adaptor on an Image?" , image);
-
-        ::fwData::Boolean::NewSptr dataInfo;
-        dataInfo->value() = m_scanAreShown;
-
-        dataInfo->setFieldSingleElement(::fwComEd::Dictionary::m_relatedServiceId ,  ::fwData::String::NewSptr( m_adaptorUID ) );
-        ::fwComEd::ImageMsg::NewSptr imageMsg;
-        imageMsg->addEvent( "SCAN_SHOW", dataInfo );
-        ::fwServices::IEditionService::notify(this->getSptr(), image, imageMsg);
-    }
-    else
-    {
-        OSLM_TRACE("Service "<< m_adaptorUID << " is not yet present.");
-    }
-}
-*/
 }
 
