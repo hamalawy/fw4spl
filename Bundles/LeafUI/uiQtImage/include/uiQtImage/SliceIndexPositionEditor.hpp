@@ -26,9 +26,9 @@ namespace uiImage
  */
 class  SliceIndexPositionEditor : public ::guiQt::editor::IEditor, public ::fwComEd::helper::MedicalImageAdaptor
 {
+  Q_OBJECT
 
 public :
-
 
     fwCoreServiceClassDefinitionsMacro ( (SliceIndexPositionEditor)(::guiQt::editor::IEditor::Baseclass) ) ;
 
@@ -37,6 +37,9 @@ public :
 
     /// Destructor. Do nothing.
      virtual ~SliceIndexPositionEditor() throw() ;
+     
+  public slots :
+  void sliceIndexSlot();
 
 protected:
 

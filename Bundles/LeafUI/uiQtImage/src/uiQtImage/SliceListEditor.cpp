@@ -64,43 +64,24 @@ void SliceListEditor::starting() throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
     
-    QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
+ //   QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
 
-    m_widget = new QWidget(mainWidget);
+    m_widget = new QWidget(m_container);
     QHBoxLayout *layout = new  QHBoxLayout();
-    
-//     m_menuBar = new QMenuBar(widget);
-//     m_menuBar->setFixedSize(25, 30);
-    
-//    m_menu = new QMenu(QObject::tr(">"), m_menuBar);
-    
-//     m_sliceGroup = new QActionGroup(m_menu);
-//     m_sliceGroup->setExclusive(true);
-//    
-//     m_oneSliceItem = new QAction(QObject::tr(" One slice "), m_sliceGroup);
-//     m_threeSlicesItem = new QAction(QObject::tr(" Three slice "), m_sliceGroup);
-//   
-//     m_oneSliceItem->setCheckable(true);
-//     m_threeSlicesItem->setCheckable(true);
-// 
-//     m_menu->addActions(m_sliceGroup->actions());
-//     m_menuBar->addMenu(m_menu);
-    
-  //  widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
   
    m_button = new QPushButton(QObject::tr(">"),m_widget);
    m_button->setFixedWidth(m_buttonWidth);
   
    m_button->setContextMenuPolicy(Qt::CustomContextMenu);
+   m_button->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
+
    QObject::connect(m_button, SIGNAL(clicked()), this, SLOT(createPopUpMenu())); 
-  
+   
   
     layout->addWidget( m_widget);
-    mainWidget->setLayout(layout);
-   
-  //QPushButton *b = new QPushButton(QObject::tr(" One slice "), mainWidget);
-    
+    m_container->setLayout(layout);
 }
+
 
 void SliceListEditor::createPopUpMenu()
 {
@@ -115,6 +96,9 @@ void SliceListEditor::createPopUpMenu()
   m_oneSliceItem = new QAction(QObject::tr(" One slice "), m_sliceGroup);
   m_threeSlicesItem = new QAction(QObject::tr(" Three slice "), m_sliceGroup);
   
+  m_oneSliceItem->setObjectName(QObject::tr("One slice"));
+  m_threeSlicesItem->setObjectName(QObject::tr("Three slice"));
+  
   m_oneSliceItem->setCheckable(true);
   m_threeSlicesItem->setCheckable(true);
   
@@ -122,6 +106,39 @@ void SliceListEditor::createPopUpMenu()
     
   m_menu->move(m_widget->mapToGlobal(QPoint(m_button->x()+m_buttonWidth, m_button->y())));
   m_menu->show();
+  QObject::connect(m_sliceGroup, SIGNAL(triggered(QAction *)),this, SLOT(changeSliceMode()));
+
+}
+
+
+void SliceListEditor::changeSliceMode()
+{
+  ::fwData::Integer::NewSptr dataInfo;
+
+  QAction *action=m_sliceGroup->checkedAction();
+  
+  if(action->objectName()=="One slice")
+  {
+     dataInfo->value() = 1;
+            m_nbSlice = 1;
+  }
+  else if(action->objectName()=="Three slice")
+  {          
+    dataInfo->value() = 3;
+            m_nbSlice = 3;
+  }
+  else
+      std::cout<<" ERROR \n";
+  
+   ::fwServices::IService::sptr service = ::fwServices::get(m_adaptorUID);
+   ::fwData::Image::sptr image = service->getObject< ::fwData::Image >();
+   SLM_ASSERT("SliceListEditor adaptorUID " << m_adaptorUID <<" isn't an Adaptor on an Image?" , image);
+  
+  dataInfo->setFieldSingleElement(::fwComEd::Dictionary::m_relatedServiceId ,  ::fwData::String::NewSptr( m_adaptorUID ) );
+  ::fwComEd::ImageMsg::NewSptr imageMsg;
+  imageMsg->addEvent( "SLICE_MODE", dataInfo );
+  ::fwServices::IEditionService::notify(this->getSptr(), image, imageMsg);
+
 }
 
 //------------------------------------------------------------------------------
@@ -190,9 +207,6 @@ void SliceListEditor::updating( ::fwServices::ObjectMsg::csptr msg ) throw(::fwT
 void SliceListEditor::info( std::ostream &_sstream )
 {
 }
-
-
-
 
 }
 

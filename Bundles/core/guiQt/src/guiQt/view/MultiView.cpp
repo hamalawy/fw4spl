@@ -43,9 +43,7 @@ MultiView::~MultiView() throw()
 
 void MultiView::configuring() throw( ::fwTools::Failed )
 {
-  
-  std::cout<<"   \n MultiView::configuring()  \n ";
-  
+    
     assert( m_configuration->getName() == "service" );
     SLM_FATAL_IF( "Depreciated tag \"win\" in configuration", m_configuration->findConfigurationElement("win") );
 
@@ -154,7 +152,6 @@ void MultiView::info(std::ostream &_sstream )
 void MultiView::starting() throw(::fwTools::Failed)
 {
   
-  std::cout<<"  \n  MultiView::starting()  \n";
     SLM_TRACE_FUNC();
     this->initGuiParentContainer();
 
@@ -172,10 +169,9 @@ void MultiView::starting() throw(::fwTools::Failed)
 	// TODO : add name of view
 	pi->second.m_panel = new QWidget();
 	pi->second.m_panel->setWindowTitle((this->getUUID()).c_str());
-	pi->second.m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+	pi->second.m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
         widget->setWidget(pi->second.m_panel);
 
-	  std::cout<<"  \n FOR  \n";
 
         if(pi->second.m_align=="center")        
 	{  
@@ -202,20 +198,14 @@ void MultiView::starting() throw(::fwTools::Failed)
 	{
 	  // on verra
 	}
-		  std::cout<<"  \n ICI  \n";
 
         this->registerQtContainer(pi->first,  pi->second.m_panel);
-	  std::cout<<"  \n C EST FINUI  \n";
 
         if(pi->second.m_autostart)
         {
             OSLM_ASSERT("Service "<<pi->first<<" doesn't exist.", ::fwTools::UUID::exist(pi->first, ::fwTools::UUID::SIMPLE ));
             ::fwServices::IService::sptr service = ::fwServices::get( pi->first ) ;
-	    		  std::cout<<"  \n START  \n";
-
-			  std::cout<<"SERVICE : "<<pi->first<<"\n";
             service->start();
-	    	    		  std::cout<<"  \n SHOW  \n";
 
         }
     }
