@@ -15,12 +15,7 @@
         <implements>::fwRender::IRender</implements>
         <implements>::fwData::Composite</implements>
     </point>
-    
-    <point id="::fwRenderVTK::VtkRenderService">
-        <implements>::fwQtRender::IRender</implements>
-        <implements>::fwData::Composite</implements>
-    </point>
-
+  
 </plugin>
 
 
