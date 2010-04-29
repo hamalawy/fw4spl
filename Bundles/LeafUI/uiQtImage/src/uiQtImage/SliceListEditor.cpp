@@ -102,6 +102,8 @@ void SliceListEditor::createPopUpMenu()
   m_oneSliceItem->setCheckable(true);
   m_threeSlicesItem->setCheckable(true);
   
+  m_threeSlicesItem->setChecked(true);
+
   m_menu->addActions(m_sliceGroup->actions());
     
   m_menu->move(m_widget->mapToGlobal(QPoint(m_button->x()+m_buttonWidth, m_button->y())));
@@ -120,12 +122,22 @@ void SliceListEditor::changeSliceMode()
   if(action->objectName()=="One slice")
   {
      dataInfo->value() = 1;
-            m_nbSlice = 1;
+     m_nbSlice = 1;
+     
+     std::cout<<" SET CHECKED ACTION\n";
+     m_threeSlicesItem->setChecked(false);
+     std::cout<<"Check0 : "<<m_threeSlicesItem->isChecked() <<"\n";
+     m_oneSliceItem->setChecked(true);
+
   }
   else if(action->objectName()=="Three slice")
   {          
     dataInfo->value() = 3;
-            m_nbSlice = 3;
+    m_nbSlice = 3;
+    m_oneSliceItem->setChecked(false);
+    m_threeSlicesItem->setChecked(true);
+         std::cout<<"Check1 : "<<m_threeSlicesItem->isChecked() <<"\n";
+
   }
   else
       std::cout<<" ERROR \n";
