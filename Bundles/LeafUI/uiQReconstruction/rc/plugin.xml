@@ -1,0 +1,20 @@
+<plugin id="uiQReconstruction" class="::uiReconstruction::Plugin">
+    <library name="uiQReconstruction"/>
+    
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="guiQt"/>
+    
+    <!--    REGISTER_SERVICE( ::gui::editor::IEditor , ::uiReconstruction::RepresentationEditor , ::fwData::Reconstruction ) ;-->
+    <point id="::uiReconstruction::RepresentationEditor" >
+        <implements>::guiQt::editor::IEditor</implements>
+        <implements>::fwData::Reconstruction</implements>
+    </point>
+    
+    <!--    REGISTER_SERVICE( ::gui::editor::IEditor, ::uiReconstruction::OrganMaterialEditor, ::fwData::Reconstruction ) ;-->
+    <point id="::uiReconstruction::OrganMaterialEditor" >
+        <implements>::guiQt::editor::IEditor</implements>
+        <implements>::fwData::Reconstruction</implements>
+    </point>
+        
+</plugin>
