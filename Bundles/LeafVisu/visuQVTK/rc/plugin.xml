@@ -1,0 +1,22 @@
+<plugin id="visuQVTK" class="visuVTK::Plugin" >
+    
+    <library name="visuQVTK" />
+
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="visu" />
+
+    
+    <point id="::fwRenderVTK::IVtkAdaptorService">
+        <implements>::fwServices::IService</implements>
+    </point>
+    
+    <point id="::fwRenderVTK::VtkRenderService">
+        <implements>::fwQtRender::IRender</implements>
+        <implements>::fwData::Composite</implements>
+    </point>
+
+</plugin>
+
+
+
