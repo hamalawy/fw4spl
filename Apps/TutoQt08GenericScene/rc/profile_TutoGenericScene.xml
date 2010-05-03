@@ -1,0 +1,33 @@
+<profile name="Tuto08GenericScene" version="0.1" check-single-instance="true"> 
+
+    <activate id="dataReg" version="0-1" />
+    <activate id="servicesReg" version="0-1" /> 
+
+    <activate id="guiQt" version="0-1" >
+        <param id="startingMode" value="windows" />
+        <param id="rootObject" value="::fwData::Composite" />
+        <param id="config" value="Tuto08GenericScene" />
+        <param id="configFile" value="./Bundles/TutoQt08GenericScene_0-1/configurations/config_TutoGenericScene.xml" />
+    </activate>
+
+    <activate id="io" version="0-1" />
+    <activate id="ioQt" version="0-1" />
+    <activate id="visu" version="0-1" />
+    <activate id="uiQtVisu" version="0-1" />
+
+    <activate id="ctrlSelection" version="0-1" />
+ <!--   <activate id="ioVTK" version="0-1" />  -->
+    <activate id="ioQVTK" version="0-1" />
+    <activate id="ioXML" version="0-1" />
+    <activate id="visuQVTK" version="0-1" />  
+    <activate id="visuQVTKAdaptor" version="0-1" />
+    <activate id="uiIO" version="0-1" />
+    <activate id="uiIOQt" version="0-1" />
+    <activate id="uiVisu" version="0-1" />
+    <activate id="uiQtImage" version="0-1" />
+
+    <start id="visuVTK" />
+    <start id="visuVTKAdaptor" />
+    <start id="guiQt" />
+
+</profile>

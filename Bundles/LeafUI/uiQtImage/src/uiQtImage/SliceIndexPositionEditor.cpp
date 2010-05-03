@@ -84,8 +84,12 @@ void SliceIndexPositionEditor::starting() throw(::fwTools::Failed)
     
     
     widget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    
     layout->addWidget( widget);
+    layout->setContentsMargins(0,0,0,0);
+
     m_container->setLayout(layout);
+    m_container->setMinimumSize(widget->size());
     
     // tres important
     this->updating();

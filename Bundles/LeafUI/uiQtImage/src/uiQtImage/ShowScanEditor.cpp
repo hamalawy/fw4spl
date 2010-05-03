@@ -72,17 +72,26 @@ void ShowScanEditor::starting() throw(::fwTools::Failed)
 
     m_showScanButton = new QPushButton(widget);
     m_showScanButton->setFixedWidth(m_buttonWidth);
-//    m_showScanButton->setFixedWidth(m_buttonWidth);
+    m_showScanButton->setFixedHeight(35);
 
     icon.addPixmap(QPixmap::fromImage(m_imageShowScan), QIcon::Normal);
     m_showScanButton->setIcon(icon);
     m_showScanButton->setIconSize(QSize(m_showScanButton->width(), m_showScanButton->height()));
     QObject::connect(m_showScanButton, SIGNAL(clicked()), this, SLOT(changeScanMode())); 
     
-    m_showScanButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
+    m_showScanButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     
-    layout->addWidget( widget);
+    // tres important
+    widget->setFixedWidth(m_buttonWidth);
+    widget->setFixedHeight(30);
+    
+   layout->addWidget( widget);
+   layout->setContentsMargins(0,0,0,0);
+
+
     m_container->setLayout(layout);
+     m_container->setFixedWidth(m_buttonWidth);
+    m_container->setFixedHeight(30);
 }
 
 

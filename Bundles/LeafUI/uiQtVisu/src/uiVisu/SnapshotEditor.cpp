@@ -80,7 +80,8 @@ void SnapshotEditor::starting() throw(::fwTools::Failed)
 
     m_snapButton = new QPushButton(widget);
     m_snapButton->setFixedWidth(35);
-
+    m_snapButton->setFixedHeight(30);
+    
     m_icon.addPixmap(QPixmap::fromImage(m_imageSnap), QIcon::Normal);
     m_snapButton->setIcon(m_icon);
     m_snapButton->setIconSize(QSize(m_snapButton->width(), m_snapButton->height()));
@@ -90,6 +91,11 @@ void SnapshotEditor::starting() throw(::fwTools::Failed)
     m_snapButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
     
     layout->addWidget( widget);
+    layout->setContentsMargins(0,0,0,0);
+
+    widget->setFixedWidth(35);
+    widget->setFixedHeight(30);
+
     m_container->setLayout(layout);
 }
 

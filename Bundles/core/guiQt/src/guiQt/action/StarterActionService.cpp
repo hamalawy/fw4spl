@@ -48,7 +48,7 @@ void StarterActionService::info(std::ostream &_sstream )
 
 void StarterActionService::updating() throw( ::fwTools::Failed )
 {
-    std::cout<<"\n StarterActionService::updating() \n";
+    //std::cout<<"\n StarterActionService::updating() \n";
   
     SLM_TRACE("updating StarterActionService") ;
     this->::guiQt::action::IAction::updating();
@@ -58,8 +58,8 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
         ActionType action =  m_uuidServices.at(i).second;
         std::string uid =  m_uuidServices.at(i).first;
 	
-      std::cout<<"    Action : "<<action;
-      std::cout<<"    Uid : "<<uid<<"\n";
+ //     std::cout<<"    Action : "<<action;
+   //   std::cout<<"    Uid : "<<uid<<"\n";
 
 	
         bool srv_exists = ::fwTools::UUID::exist(uid, ::fwTools::UUID::SIMPLE );
@@ -90,7 +90,7 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
 
         if( action != DO_NOTHING)
         {		   
-	    std::cout<<"    uidService : "<<uid <<"\n";
+	 //   std::cout<<"    uidService : "<<uid <<"\n";
             ::fwServices::IService::sptr service = ::fwServices::get( uid ) ;
             SLM_ASSERT("service not found", service);
             switch ( action )
@@ -137,7 +137,7 @@ void StarterActionService::configuring() throw( ::fwTools::Failed )
 {
     SLM_TRACE("configuring StarterActionService") ;
     
-    std::cout<<"\n  StarterActionService::configuring() \n\n";
+  //  std::cout<<"\n  StarterActionService::configuring() \n\n";
     
     
     this->::guiQt::action::IAction::configuring() ;
