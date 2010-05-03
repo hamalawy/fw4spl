@@ -97,7 +97,7 @@ void OrganListEditor::configuring() throw(fwTools::Failed)
 
 void OrganListEditor::updating() throw(::fwTools::Failed)
 {
-  std::cout<<"   \n ACTION  \n";
+ // std::cout<<"   \n UPDATING  \n \n";
   this->updateReconstructions();
   //  this->refreshVisibility();
 }
@@ -135,12 +135,17 @@ void OrganListEditor::info( std::ostream &_sstream )
 
 void OrganListEditor::updateReconstructions()
 {
-  std::cout<<" OrganListEditor::updateReconstructions() \n";
+  std::cout<<" OrganListEditor::updateReconstructions() \n\n";
    // m_organChoice->Clear();
-    //m_listW->clear(); pas ici
     m_map.clear();
     
     ::fwData::Acquisition::sptr acq = this->getObject< ::fwData::Acquisition >();
+    m_container->setEnabled(acq->getReconstructions().first != acq->getReconstructions().second);
+    
+    if(!m_container->isEnabled())
+    {
+      m_listW->clear();
+    }
 
     if(acq->getReconstructions().first != acq->getReconstructions().second)
     {
@@ -169,7 +174,7 @@ void OrganListEditor::updateReconstructions()
             showAllRec = acq->getFieldSingleElement< ::fwData::Boolean >("ShowReconstructions")->value();
         }
         m_showCheckBox->setChecked(!showAllRec);
-        //m_organs->setEnabled(!m_showCheckBox->isChecked());
+        m_organs->setEnabled(!m_showCheckBox->isChecked());
     }
 }
 
@@ -178,7 +183,7 @@ void OrganListEditor::updateReconstructions()
 void OrganListEditor::organChoiceSelection()
 {
   m_item = m_listW->selectedItems().first();
-  std::cout<<" m_item : "<<m_item->text().toStdString()<<"   curent : "<<m_listW->currentItem()->text().toStdString()<<"\n";
+  //std::cout<<" m_item : "<<m_item->text().toStdString()<<"   curent : "<<m_listW->currentItem()->text().toStdString()<<"\n";
   
   this->notifyOrganChoiceSelection();
   this->organChoiceVisibility();
@@ -205,13 +210,13 @@ void OrganListEditor::notifyOrganChoiceSelection()
 
 void OrganListEditor::organChoiceVisibility()
 {
-    std::cout<<" SLOT() ---> VISIBILITY \n";
+    //std::cout<<" SLOT() ---> VISIBILITY \n";
  
     std::string organSelected = m_item->text().toStdString();
     ::fwData::Reconstruction::sptr rec = m_map[organSelected] ;
     assert(rec) ;    
     
-    std::cout<<" \nOrgan SELECTED : "<<organSelected<<" Visible : "<<rec->getIsVisible()<<"\n";
+   // std::cout<<" \nOrgan SELECTED : "<<organSelected<<" Visible : "<<rec->getIsVisible()<<"\n";
     //rec->setIsVisible(!rec->getIsVisible());
     if(m_item->checkState()==Qt::Checked)
     {
@@ -220,7 +225,7 @@ void OrganListEditor::organChoiceVisibility()
     else if(m_item->checkState()==Qt::Unchecked)
       rec->setIsVisible(false);
 
-    std::cout<<"           Organ SELECTED : "<<organSelected<<" Visible : "<<rec->getIsVisible()<<"\n";
+   // std::cout<<"           Organ SELECTED : "<<organSelected<<" Visible : "<<rec->getIsVisible()<<"\n";
 
     ::fwComEd::ReconstructionMsg::NewSptr msg;
     msg->addEvent( ::fwComEd::ReconstructionMsg::VISIBILITY ) ;

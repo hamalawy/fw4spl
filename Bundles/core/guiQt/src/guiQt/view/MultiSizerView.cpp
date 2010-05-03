@@ -155,22 +155,25 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
     {
       layout = new  QHBoxLayout();
     }
+    layout->setContentsMargins(0,0,0,0);
+    layout->setSpacing(0);
+
     
     std::list<ViewInfo>::iterator pi = m_views.begin();
     for ( pi; pi!= m_views.end() ; ++pi )
     {
-	
+
         pi->m_panel = new QWidget(centerView);
-/*	
+	
 	if( pi->m_proportion==0)
 	{
-	  std::cout<<"\n Proportion 0 : PanelUID  "<<pi->m_uid<<" \n";
-	  pi->m_panel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+      	  std::cout<<"\n <<<<<<<<<<<<<<<<<<<<<<<< Proportion 0 : PanelUID  "<<pi->m_uid<<" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+	  pi->m_panel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	}
 	else
 	  pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-*/
-	 pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+//	 pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
 
 	layout->addWidget( pi->m_panel);

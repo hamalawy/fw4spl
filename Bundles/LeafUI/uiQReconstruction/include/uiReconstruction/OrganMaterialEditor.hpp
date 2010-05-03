@@ -12,7 +12,9 @@
  #include <QLineEdit>
  #include <QSlider>
  #include <QPushButton>
- 
+  #include <QLabel>
+ #include <QVBoxLayout>
+
 namespace uiReconstruction
 {
 /**
@@ -71,7 +73,8 @@ private:
 
     QPushButton * m_colourButton ;
     QSlider * m_opacitySlider ;
-
+    QLabel *m_label;
+    QVBoxLayout *layout;
 
 };
 

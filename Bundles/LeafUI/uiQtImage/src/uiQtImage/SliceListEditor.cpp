@@ -70,16 +70,25 @@ void SliceListEditor::starting() throw(::fwTools::Failed)
     QHBoxLayout *layout = new  QHBoxLayout();
   
    m_button = new QPushButton(QObject::tr(">"),m_widget);
+  // m_button->setMinimumWidth(m_buttonWidth);
    m_button->setFixedWidth(m_buttonWidth);
-  
+   m_button->setFixedHeight(30);
+
    m_button->setContextMenuPolicy(Qt::CustomContextMenu);
    m_button->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
 
    QObject::connect(m_button, SIGNAL(clicked()), this, SLOT(createPopUpMenu())); 
    
-  
+    m_widget->setMinimumWidth(m_buttonWidth);
+    m_widget->setFixedHeight(30);
+
     layout->addWidget( m_widget);
+    layout->setContentsMargins(0,0,0,0);
+
     m_container->setLayout(layout);
+    
+    m_container->setFixedWidth(m_buttonWidth);
+    m_container->setFixedHeight(30);
 }
 
 

@@ -70,7 +70,7 @@ void DefaultMenu::configuring() throw( ::fwTools::Failed )
 
 void DefaultMenu::starting() throw( ::fwTools::Failed )
 {
-    std::cout<<" \nDEBUT  DefaultMenu::starting() \n\n";
+  //  std::cout<<" \nDEBUT  DefaultMenu::starting() \n\n";
 
   // Get the main widget
   QWidget *mainWidget = qApp->activeWindow();
@@ -131,7 +131,7 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
             }
             OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);    
     }  
-        std::cout<<"\nFIN  DefaultMenu::starting() \n\n";
+       // std::cout<<"\nFIN  DefaultMenu::starting() \n\n";
 
 }
 
@@ -168,7 +168,7 @@ void DefaultMenu::stopping() throw( ::fwTools::Failed )
                 {
 		    
                     (*iterAction)->stop() ;
-		  std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<" STOPPED\n";
+		//  std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<" STOPPED\n";
 
                     actionIsFound = true;
                 }

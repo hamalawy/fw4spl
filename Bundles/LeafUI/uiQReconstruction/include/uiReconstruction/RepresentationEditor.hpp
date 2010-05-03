@@ -85,6 +85,9 @@ private:
     QCheckBox *m_normalsCheckBox;
     QButtonGroup *m_groupButtonRepresentation;
     QButtonGroup *m_groupButtonShading;
+    QVBoxLayout *layout;    
+    QVBoxLayout *repLayout;
+    QVBoxLayout *shadingLayout;
 
     ::fwData::Material::sptr m_material ;
 

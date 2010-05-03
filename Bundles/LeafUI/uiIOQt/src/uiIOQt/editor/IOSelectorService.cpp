@@ -107,7 +107,7 @@ void IOSelectorService::configuring() throw( ::fwTools::Failed )
             assert( mode == "writer" || mode == "reader" );
             m_mode = ( mode == "writer" ) ? WRITER_MODE : READER_MODE;
 	    
-	    std::cout<<"\n\n MODE = "<<m_mode<<"\n\n";
+	   // std::cout<<"\n\n MODE = "<<m_mode<<"\n\n";
 	    
             OSLM_DEBUG( "mode => " << mode );
         }
@@ -137,30 +137,30 @@ void IOSelectorService::startSelectedService()
   
   for(    std::vector< std::pair < std::string, std::string > >::iterator itExt = availableExtensionsMap.begin();itExt < availableExtensionsMap.end(); itExt++ )
   {
-	std::cout<<m_selectedString<<"    FOR --> Second : "<<itExt->second<<" First :"<<itExt->first<<" \n";
+//	std::cout<<m_selectedString<<"    FOR --> Second : "<<itExt->second<<" First :"<<itExt->first<<" \n";
      if (itExt->first == m_selectedString || itExt->second == m_selectedString)
       {
-	   std::cout<<"FOR->IF---> "<<itExt->first<<"\n";
+	//   std::cout<<"FOR->IF---> "<<itExt->first<<"\n";
          extensionId = itExt->first ;
       }
    }
    
   if(m_list->selectedItems().count()==0)
   {
-      std::cout<<"\n NO ITEM SELECTED \n";
+    //  std::cout<<"\n NO ITEM SELECTED \n";
 	 //extensionId = selection.first();
   }
 
- std::cout<<"\n\n connect MODE = "<<m_mode<<"\n\n";
+// std::cout<<"\n\n connect MODE = "<<m_mode<<"\n\n";
 
 
   if ( m_mode == READER_MODE )
   {
 
-      std::cout<<"REAZDER_MODE => "<<extensionId<<"\n";
+   //   std::cout<<"REAZDER_MODE => "<<extensionId<<"\n";
       ::io::IReader::sptr reader = ::fwServices::add< ::io::IReader >( this->getObject() , extensionId ) ;
 		
-      std::cout<<"\n\n START ===> "<<extensionId<<"\n";	
+  //    std::cout<<"\n\n START ===> "<<extensionId<<"\n";	
       OSLM_INFO("\n START ===> "<<extensionId<<"\n");
 
       reader->start();
@@ -170,7 +170,7 @@ void IOSelectorService::startSelectedService()
   }
   else
   {
-    std::cout<<"WRITER_MODE => "<<extensionId<<"\n";
+   // std::cout<<"WRITER_MODE => "<<extensionId<<"\n";
     ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;	
     writer->start();
             //   writer->configureWithIHM();
@@ -190,7 +190,7 @@ void IOSelectorService::getListIndex()
   m_selectedString = first->text().toStdString();
   m_list->row(first);
   
-  std::cout<< m_list->row(first)<<" : "<<first->text().toStdString()<<" \n"; 
+//  std::cout<< m_list->row(first)<<" : "<<first->text().toStdString()<<" \n"; 
 }
 
 void IOSelectorService::cancel()
@@ -215,7 +215,7 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
         // TODO : comment this line, because must be useless
         ::fwServices::eraseServices< ::io::IReader >( this->getObject() ) ;
 	
-	std::cout<<"    ADD REDER implementation \n";
+	//std::cout<<"    ADD REDER implementation \n";
 	
         availableExtensionsId = ::fwServices::getImplementationIds< ::io::IReader >( this->getObject() ) ;
     }
@@ -223,7 +223,7 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
     {
         ::fwServices::eraseServices< ::io::IWriter >( this->getObject() ) ;
 	
-	std::cout<<"    ADD WRITER implementation \n";
+//	std::cout<<"    ADD WRITER implementation \n";
 	
         availableExtensionsId = ::fwServices::getImplementationIds< ::io::IWriter >( this->getObject() ) ;
     }
@@ -257,7 +257,7 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
                 availableExtensionsMap.push_back( std::pair < std::string, std::string > (serviceId, infoUser) );
                 availableExtensionsSelector.push_back( infoUser );
 		
-		std::cout<<"       ADD Selection infoUser :  "<<infoUser<<"\n";
+	//	std::cout<<"       ADD Selection infoUser :  "<<infoUser<<"\n";
 		selection << infoUser.c_str();
             }
             else
@@ -265,7 +265,7 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
                 availableExtensionsMap.push_back( std::pair < std::string, std::string > (serviceId, serviceId) );
                 availableExtensionsSelector.push_back( serviceId );
 		
-		std::cout<<"       ADD Selection serviceId :  "<<serviceId<<"\n";
+	//	std::cout<<"       ADD Selection serviceId :  "<<serviceId<<"\n";
 		
 		selection << serviceId.c_str();
             }

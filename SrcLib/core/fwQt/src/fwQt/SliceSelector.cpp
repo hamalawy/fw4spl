@@ -37,6 +37,9 @@ SliceSelector::SliceSelector(QWidget* const parent ) throw()
      m_sliceType->setMaximumWidth(100);
      // harmobniser height avec les autres widget
      
+     m_sliceType->setMinimumHeight(30);
+     m_sliceIndex->setFixedHeight(20);
+     
     m_sliceIndex->setRange(0, 121);
     m_sliceIndex->setValue(121/2);
     m_sliceIndex->setTickPosition(QSlider::TicksBothSides);
@@ -50,7 +53,8 @@ SliceSelector::SliceSelector(QWidget* const parent ) throw()
     m_sliceIndex->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
     m_pSliceIndexText->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
 
-     
+     layout->setContentsMargins(0,0,0,0);
+
      layout->addWidget(m_sliceType);
      layout->addWidget(m_sliceIndex);
      layout->addWidget(m_pSliceIndexText);

@@ -49,7 +49,7 @@ RepresentationEditor::~RepresentationEditor() throw()
 
 void RepresentationEditor::starting() throw(::fwTools::Failed)
 {
-    std::cout<<" RepresentationEditor::starting() \n";
+    std::cout<<"\n\n ==========> RepresentationEditor::starting()  \n \n";
 
   
     SLM_TRACE_FUNC();
@@ -66,10 +66,9 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
     QObject::connect(m_normalsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showNormals()));
 
 
-    QVBoxLayout *layout = new QVBoxLayout();
-    
-    QVBoxLayout *repLayout = new QVBoxLayout();
-    QVBoxLayout *shadingLayout = new QVBoxLayout();
+    layout = new QVBoxLayout();    
+    repLayout = new QVBoxLayout();
+    shadingLayout = new QVBoxLayout();
 
     
     QRadioButton *surface = new QRadioButton(QObject::tr("Surface"));
@@ -96,8 +95,6 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
     phong->setChecked(true);        
     QObject::connect(m_groupButtonShading, SIGNAL(buttonClicked(int)), this, SLOT(changeShading()));
 
-    
-
     repLayout->addWidget(surface);
     repLayout->addWidget(point);
     repLayout->addWidget(wireframe);
@@ -107,17 +104,17 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
     shadingLayout->addWidget(gouraud);
     shadingLayout->addWidget(phong);
 
-    
     m_groupRepresentation->setLayout(repLayout);
     m_groupShading->setLayout(shadingLayout);
     
-
-
     layout->addWidget(m_groupRepresentation);
     layout->addWidget(m_groupShading);
     layout->addWidget(m_normalsCheckBox);
 
     m_container->setLayout(layout);
+    
+    //m_container->setEnabled(false);
+     
     this->updating();   
 }
 
@@ -125,8 +122,26 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
 
 void RepresentationEditor::stopping() throw(::fwTools::Failed)
 {
-    SLM_TRACE_FUNC();
-  
+   SLM_TRACE_FUNC();
+   std::cout<<"\n\n ==========> RepresentationEditor::stopping()  \n \n";
+ 
+   QList<QAbstractButton *> buttons = m_groupButtonRepresentation->buttons();
+       
+      for (int i = 0; i < buttons.count(); i++) 
+      {
+		buttons.at(i)->deleteLater();
+      }
+    
+    m_groupRepresentation->deleteLater();
+    m_groupShading->deleteLater();
+    m_groupButtonRepresentation->deleteLater();
+    m_groupButtonShading->deleteLater();
+    
+    m_normalsCheckBox->deleteLater();
+    
+    layout->deleteLater();
+    repLayout->deleteLater();
+    shadingLayout->deleteLater();
 
     ::guiQt::editor::IEditor::stopping();
 }
@@ -146,8 +161,17 @@ void RepresentationEditor::updating() throw(::fwTools::Failed)
     ::fwData::Reconstruction::sptr reconstruction = this->getObject< ::fwData::Reconstruction>();
     SLM_ASSERT("No Reconstruction!", reconstruction);
 
+    std::cout<<"\n\n ==========> RepresentationEditor::updating(FAILED)   \n \n";
+
     m_material = reconstruction->getMaterial() ;
- //   m_container->Enable(!reconstruction->getOrganName().empty());
+    m_container->setEnabled(!reconstruction->getOrganName().empty());
+    
+     if(!m_container->isEnabled())
+    {
+      std::cout<<"==============> REP : NOT ENABLED \n\n";
+    }
+    else
+     std::cout<<" ====================> REP : ENABLED \n\n";
 
     this->refreshRepresentation();
     this->refreshNormals();
@@ -159,6 +183,8 @@ void RepresentationEditor::updating() throw(::fwTools::Failed)
 
 void RepresentationEditor::swapping() throw(::fwTools::Failed)
 {
+    std::cout<<"\n\n ==========> RepresentationEditor::swapping()   \n \n";
+
     this->updating();
 }
 
@@ -166,6 +192,7 @@ void RepresentationEditor::swapping() throw(::fwTools::Failed)
 
 void RepresentationEditor::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
 {
+      std::cout<<"\n\n ==========> RepresentationEditor::updating(MSG)   \n \n";
 }
 
 //------------------------------------------------------------------------------
@@ -217,10 +244,8 @@ void RepresentationEditor::refreshNormals()
 void RepresentationEditor::changeRepresentation()
 {
   
-    std::cout<<" Bouton cliked :  "<<m_groupButtonRepresentation->checkedId()<<"\n";
-  
-  
-  
+  //  std::cout<<" Bouton cliked :  "<<m_groupButtonRepresentation->checkedId()<<"\n";
+
     int choix = m_groupButtonRepresentation->checkedId();
     ::fwData::Material::REPRESENTATION_MODE selectedMode = ::fwData::Material::MODE_SURFACE;
 
@@ -249,9 +274,7 @@ void RepresentationEditor::changeRepresentation()
     }
 
     m_material->setRepresentationMode( selectedMode );
-    this->notifyMaterial();
-    
-    
+    this->notifyMaterial();   
 }
 
 
@@ -259,7 +282,7 @@ void RepresentationEditor::changeRepresentation()
 
 void RepresentationEditor::changeShading()
 {
-      std::cout<<" Bouton cliked :  "<<m_groupButtonShading->checkedId()<<"\n";
+ //     std::cout<<" Bouton cliked :  "<<m_groupButtonShading->checkedId()<<"\n";
 
     int choix = m_groupButtonShading->checkedId();
     ::fwData::Material::SHADING_MODE selectedMode = ::fwData::Material::MODE_PHONG;
@@ -305,64 +328,65 @@ void RepresentationEditor::notifyMaterial()
 //------------------------------------------------------------------------------
 
 void RepresentationEditor::refreshRepresentation()
-{/*
+{
     int representationMode = m_material->getRepresentationMode();
 
     switch(representationMode)
     {
     case ::fwData::Material::MODE_SURFACE:
     {
-        m_radioBoxRepresentation->SetSelection(0);
+        m_groupButtonRepresentation->button(0)->setChecked(true);
         break ;
     }
     case ::fwData::Material::MODE_POINT:
     {
-        m_radioBoxRepresentation->SetSelection(1);
+        m_groupButtonRepresentation->button(1)->setChecked(true);
         break ;
     }
     case ::fwData::Material::MODE_WIREFRAME:
     {
-        m_radioBoxRepresentation->SetSelection(2);
+        m_groupButtonRepresentation->button(2)->setChecked(true);
         break ;
     }
     case ::fwData::Material::MODE_EDGE:
     {
-        m_radioBoxRepresentation->SetSelection(3);
+        m_groupButtonRepresentation->button(3)->setChecked(true);
         break ;
     }
     default :
-        m_radioBoxRepresentation->SetSelection(0);
+        m_groupButtonRepresentation->button(0)->setChecked(true);
     }
-*/
+
 }
 
 //------------------------------------------------------------------------------
 
 void RepresentationEditor::refreshShading()
-{/*
+{
     int shadingMode = m_material->getShadingMode();
 
     switch(shadingMode)
     {
     case ::fwData::Material::MODE_FLAT:
     {
-        m_radioBoxShading->SetSelection(0);
+        m_groupButtonShading->button(0)->setChecked(true);
         break ;
     }
     case ::fwData::Material::MODE_GOURAUD:
     {
-        m_radioBoxShading->SetSelection(1);
+        m_groupButtonShading->button(1)->setChecked(true);
         break ;
     }
     case ::fwData::Material::MODE_PHONG:
     {
-        m_radioBoxShading->SetSelection(2);
+        m_groupButtonShading->button(2)->setChecked(true);
         break ;
     }
     default :
-        m_radioBoxShading->SetSelection(2);
+        m_groupButtonShading->button(2)->setChecked(true);
+    
     }
-    */
+    
 }
 
 

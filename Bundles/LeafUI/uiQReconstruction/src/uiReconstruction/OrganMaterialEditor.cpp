@@ -48,13 +48,15 @@ OrganMaterialEditor::~OrganMaterialEditor() throw()
 void OrganMaterialEditor::starting() throw(::fwTools::Failed)
 {
   
-  std::cout<<" OrganMaterialEditor::starting() \n";
+    std::cout<<"\n\n ==========> OrganMaterialEditor::starting()  \n \n";
+
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
     
-    QVBoxLayout *layout = new QVBoxLayout();
+   // QVBoxLayout *layout = new QVBoxLayout();
+    layout = new QVBoxLayout();
     
-    QLabel *label = new QLabel(QObject::tr("Transparency :"),m_container);
+    m_label = new QLabel(QObject::tr("Transparency :"),m_container);
 
     m_colourButton = new QPushButton(m_container);
     QObject::connect(m_colourButton, SIGNAL(clicked()), this, SLOT(colorButton())); 
@@ -64,11 +66,15 @@ void OrganMaterialEditor::starting() throw(::fwTools::Failed)
     QObject::connect(m_opacitySlider, SIGNAL(valueChanged(int)), this, SLOT(opacitySlider()));
 
     
+
     layout->addWidget(m_colourButton);
-    layout->addWidget(label);
+    layout->addWidget(m_label);
     layout->addWidget(m_opacitySlider);
     
-    m_container->setLayout(layout);
+    
+     m_container->setLayout(layout);
+    
+   // m_container->setEnabled(false);
     
     this->updating();
 }
@@ -77,8 +83,15 @@ void OrganMaterialEditor::starting() throw(::fwTools::Failed)
 
 void OrganMaterialEditor::stopping() throw(::fwTools::Failed)
 {
+  std::cout<<"\n\n ==========> OrganMaterialEditor::STOPPING()  \n \n";
+
     SLM_TRACE_FUNC();
-   
+    // Deleate all
+    m_label->deleteLater();
+    m_colourButton->deleteLater();
+    m_opacitySlider->deleteLater();
+    layout->deleteLater();
+    
     ::guiQt::editor::IEditor::stopping();
 }
 
@@ -87,6 +100,8 @@ void OrganMaterialEditor::stopping() throw(::fwTools::Failed)
 void OrganMaterialEditor::configuring() throw(fwTools::Failed)
 {
     SLM_TRACE_FUNC();
+      std::cout<<"\n\n ==========> OrganMaterialEditor::configuring()  \n \n";
+
     ::guiQt::editor::IEditor::configuring();
 }
 
@@ -94,6 +109,23 @@ void OrganMaterialEditor::configuring() throw(fwTools::Failed)
 
 void OrganMaterialEditor::updating() throw(::fwTools::Failed)
 {
+    std::cout<<"\n\n ==========> OrganMaterialEditor::updating(FAILED)  \n \n";
+
+    
+
+    if(!m_container->isVisible())
+    {
+         // QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
+  //  QWidget *mainWidget =m_globalUIDToQtContainer[this->getUUID()];
+     // m_container = m_globalUIDToQtContainer[this->getUUID()];
+      //std::cout<<"\n\n            __________________RESETED _CONTZINER________________________  \n \n";
+      m_container->setVisible(true);
+
+    }
+    else
+    std::cout<<"\n\n              __________________IS_VISIBLEL________________________  \n \n";
+    
+    
     this->refreshMaterial();
 }
 
@@ -101,6 +133,8 @@ void OrganMaterialEditor::updating() throw(::fwTools::Failed)
 
 void OrganMaterialEditor::swapping() throw(::fwTools::Failed)
 {
+      std::cout<<"\n\n ==========> OrganMaterialEditor::swapping()  \n \n";
+
     this->updating();
 }
 
@@ -108,6 +142,7 @@ void OrganMaterialEditor::swapping() throw(::fwTools::Failed)
 
 void OrganMaterialEditor::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
 {
+      std::cout<<"\n\n ==========> OrganMaterialEditor::updating(MSG) \n \n";
 }
 
 //------------------------------------------------------------------------------
@@ -163,7 +198,7 @@ void OrganMaterialEditor::colorButton()
     float green = color.green()/255.0;
     float blue  = color.blue()/255.0;
     
-        std::cout<<" RGB : "<<red<<"|"<<green<<"|"<<blue<<"\n";
+   //     std::cout<<" RGB : "<<red<<"|"<<green<<"|"<<blue<<"\n";
 
     
     material->ambient()->red() = red;
@@ -179,10 +214,19 @@ void OrganMaterialEditor::colorButton()
 
 void OrganMaterialEditor::refreshMaterial( )
 {
+   std::cout<<"\n============>OrganMaterialEditor::refreshMaterial( ) \n\n";
     ::fwData::Reconstruction::sptr reconstruction = this->getObject< ::fwData::Reconstruction>();
     SLM_ASSERT("No Reconstruction!", reconstruction);
 
-   // m_container->Enable(!reconstruction->getOrganName().empty());
+    m_container->setEnabled(!reconstruction->getOrganName().empty());
+    
+    if(!m_container->isEnabled())
+    {
+      std::cout<<"==============> NOT ENABLED \n\n";
+    }
+    else
+     std::cout<<" ====================> ENABLED \n\n";
+
 
     ::fwData::Material::sptr material = reconstruction->getMaterial() ;
     QColor materialColor = QColor( material->ambient()->red()*255, material->ambient()->green()*255, material->ambient()->blue()*255, material->ambient()->alpha()*255);
