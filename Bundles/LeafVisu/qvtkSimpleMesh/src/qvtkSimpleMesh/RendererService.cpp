@@ -16,13 +16,12 @@
 #include <vtkMatrix4x4.h>
 #include <vtkInteractorStyleTrackballCamera.h>
 #include <vtkTransform.h>
+#include <vtkIO/vtk.hpp>
 
 #include <fwData/TriangularMesh.hpp>
 #include <fwData/TransformationMatrix3D.hpp>
-
 #include <fwComEd/CameraMsg.hpp>
 #include <fwComEd/TriangularMeshMsg.hpp>
-
 #include <fwServices/helper.hpp>
 #include <fwServices/macros.hpp>
 
@@ -30,13 +29,9 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-#include <vtkIO/vtk.hpp>
-
 #include "qvtkSimpleMesh/RendererService.hpp"
 
 REGISTER_SERVICE( ::fwQtRender::IRender , ::qvtkSimpleMesh::RendererService , ::fwData::TriangularMesh );
-
-
 
 namespace qvtkSimpleMesh
 {
@@ -96,12 +91,7 @@ void RendererService::starting() throw(fwTools::Failed)
 {
     this->initRender();
 
-     m_bPipelineIsInit = false;
-
-//     QWidget *mainWidget = qApp->activeWindow();
-// 
-//     widget = new QVTKWidget(mainWidget);
-//     widget->resize(mainWidget->width(), mainWidget->height());
+    m_bPipelineIsInit = false;
 
     QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
     widget = new QVTKWidget(mainWidget);
@@ -168,8 +158,7 @@ void RendererService::stopping() throw(fwTools::Failed)
 //-----------------------------------------------------------------------------
 
 void RendererService::updating() throw(fwTools::Failed)
-{  std::cout<<"\n\n updating() \n";
-
+{ 
     renderWindow->Render();
 }
 
@@ -178,11 +167,10 @@ void RendererService::updating() throw(fwTools::Failed)
 void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTools::Failed)
 {
   
-  std::cout<<"\n\n UPDATING => MasterSlave \n";
     ::fwComEd::TriangularMeshMsg::csptr TriangularMeshMsg = ::fwComEd::TriangularMeshMsg::dynamicConstCast(_msg);
     
     if ( TriangularMeshMsg && TriangularMeshMsg->hasEvent( ::fwComEd::TriangularMeshMsg::NEW_MESH ) )
-    { std::cout<<"\n IF  \n";
+    { 
         if(!m_bPipelineIsInit)
         {
             initVTKPipeline();
@@ -194,15 +182,13 @@ void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTo
         }
     }
     else
-    {  std::cout<<"\n ELSE  \n";
+    {  
         if ( !m_isCamMaster )
-        {	        std::cout<<"\n SLAVE  \n";
+        {	       
 
             ::fwComEd::CameraMsg::csptr camMsg = ::fwComEd::CameraMsg::dynamicConstCast(_msg);
             if( camMsg && camMsg->hasEvent( ::fwComEd::CameraMsg::CAMERA_MOVING ) )
             {
-	        std::cout<<"\n SLAVE Move \n";
-
                 vtkCamera* camera = m_render->GetActiveCamera();
 
                 camera->SetPosition(camMsg->getPositionCamera());
@@ -260,7 +246,7 @@ void RendererService::updateVTKPipeline()
 //-----------------------------------------------------------------------------
 
 void RendererService::updateCamPosition()
-{std::cout<<"\n  updateCamPosition \n";
+{
     ::fwData::TriangularMesh::sptr mesh = this->getObject< ::fwData::TriangularMesh >();
 
     vtkCamera* camera = m_render->GetActiveCamera();

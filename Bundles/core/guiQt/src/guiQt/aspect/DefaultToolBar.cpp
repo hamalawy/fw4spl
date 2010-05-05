@@ -52,7 +52,7 @@ void DefaultToolBar::starting()  throw ( ::fwTools::Failed )
     
    // QList< QToolBar*> allToolBar =  mainWindow->findChildren<QToolBar *>();
     QToolBar *toolBar = new QToolBar("ToolBar",mainWindow);
-    // ajouter posibilte choix position
+    // ajouter posibilte choix position dans config
     mainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
 //      if(!allToolBar.isEmpty())

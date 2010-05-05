@@ -70,8 +70,6 @@ void DefaultMenu::configuring() throw( ::fwTools::Failed )
 
 void DefaultMenu::starting() throw( ::fwTools::Failed )
 {
-  //  std::cout<<" \nDEBUT  DefaultMenu::starting() \n\n";
-
   // Get the main widget
   QWidget *mainWidget = qApp->activeWindow();
   

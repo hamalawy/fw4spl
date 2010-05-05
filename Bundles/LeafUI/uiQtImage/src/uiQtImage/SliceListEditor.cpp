@@ -111,10 +111,7 @@ void SliceListEditor::starting() throw(::fwTools::Failed)
 
 
 void SliceListEditor::createPopUpMenu()
-{
-  
-  std::cout<<" SLOT() \n";
-    
+{   
   m_menu->move(m_widget->mapToGlobal(QPoint(m_button->x()+m_buttonWidth, m_button->y())));
   m_menu->show();
   QObject::connect(m_sliceGroup, SIGNAL(triggered(QAction *)),this, SLOT(changeSliceMode()));

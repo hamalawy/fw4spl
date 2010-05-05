@@ -72,8 +72,7 @@ void SnapshotEditor::starting() throw(::fwTools::Failed)
     QHBoxLayout *layout = new  QHBoxLayout();
     
     m_icon = QIcon();
-   // QString str = "Bundles/uiImage_" + std::string(UIIMAGE_VER) + "/sliceShow.png";
-    //QString str = "Bundles/uiQtVisu_0-1/camera-photo.png";
+
     QString str = QObject::tr("Bundles/uiQtVisu_") + QObject::tr(UIQTVISU_VER) + QObject::tr("/camera-photo.png");
 
     m_imageSnap = QImage(str);

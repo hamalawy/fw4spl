@@ -1,11 +1,11 @@
-<plugin id="TutoConfigurations">
-<extension id="tutoQtComChannelConfig" implements="::fwData::TriangularMesh">
+<plugin id="Mesh">
+<extension id="Mesh" implements="::fwData::TriangularMesh">
 
 
-    <object id="tutoQtComChannelImage" type="::fwData::TriangularMesh">
+    <object id="Mesh" type="::fwData::TriangularMesh">
 
 	<service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
-		<name>SimpleNegato</name>
+		<name>Mesh</name>
      		<view uid="myDefaultView" autoStart="yes" />  
 	</service>
 
@@ -37,18 +37,21 @@
 		
     	<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
 
+	<service uid="myReaderPathFile" implementation="::uiIOQt::editor::IOSelectorService" type="::guiQt::editor::IEditor" autoComChannel="no" >
+            <type mode="reader"/>
+        </service>
 
-
-        <service uid="myReaderPathFile" implementation="::ioQVTK::MeshReaderService" type="::io::IReader" autoComChannel="no" />
+    <!--    <service uid="myReaderPathFile" implementation="::ioQt::TriangularMeshReaderService" type="::io::IReader" autoComChannel="no" />  -->
+	
 	
         <service implementation="::qvtkSimpleMesh::RendererService" type="::fwQtRender::IRender" uid="myRenderingTuto1" autoComChannel="yes" >
 	  <masterSlaveRelation>master</masterSlaveRelation> 
         </service>
         <service implementation="::qvtkSimpleMesh::RendererService" type="::fwQtRender::IRender" uid="myRenderingTuto2" autoComChannel="yes" >
-	 <masterSlaveRelation>slave</masterSlaveRelation>   
+	  <masterSlaveRelation>slave</masterSlaveRelation> 
         </service>
         <service implementation="::qvtkSimpleMesh::RendererService" type="::fwQtRender::IRender" uid="myRenderingTuto3" autoComChannel="yes" >
-	 <masterSlaveRelation>master</masterSlaveRelation>  
+	  <masterSlaveRelation>master</masterSlaveRelation>  
         </service>
 	
 	
@@ -57,7 +60,8 @@
 	<start type="::guiQt::aspect::IMenuBar" />
 	<start type="::guiQt::aspect::IMenu" />
 	<start type="::guiQt::view::IView" />
-		
+	
+	<!--	
 	<update uid="myRenderingTuto1"/>
 	<update uid="myRenderingTuto2"/>
 	<update uid="myRenderingTuto3"/>
@@ -65,7 +69,7 @@
 	<stop uid="myRenderingTuto3"/>
 	<stop uid="myRenderingTuto2"/>
 	<stop uid="myRenderingTuto1"/>
-	
+	-->
         <stop uid="myReaderPathFile"/>
 	<stop type="::guiQt::aspect::IMenu" />
 	<stop type="::guiQt::aspect::IMenuBar" />

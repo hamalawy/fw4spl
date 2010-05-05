@@ -5,17 +5,13 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwTools/UUID.hpp>
-
 #include <fwData/Image.hpp>
 #include <fwData/TriangularMesh.hpp>
-
 #include <fwServices/macros.hpp>
 #include <fwServices/IEditionService.hpp>
-
 #include <fwComEd/TriangularMeshMsg.hpp>
 
 #include <vtkIO/vtk.hpp>
-
 #include <vtkDiscreteMarchingCubes.h>
 #include <vtkWindowedSincPolyDataFilter.h>
 #include <vtkThreshold.h>

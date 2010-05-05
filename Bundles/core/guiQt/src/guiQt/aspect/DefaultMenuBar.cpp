@@ -60,30 +60,10 @@ void DefaultMenuBar::starting() throw( ::fwTools::Failed )
   QWidget *mainWidget = qApp->activeWindow();
   QMainWindow *mainWindow = qobject_cast<QMainWindow *>(mainWidget);
 
-  //QMenuBar * menuBar = new QMenuBar(mainWidget);
   QMenuBar * menuBar = new QMenuBar(mainWindow);
-  
-  
   menuBar->show();  //sinon ajout menu incorrete
   
   mainWindow->setMenuBar(menuBar);
-  
-  //mainWidget->setMenuBar(menuBar);
-
-  /*
-     QLayout *layout;
-    
-     if(mainWidget->layout()!=0)
-        std::cout<<"=====> Layout OK \n";
-     else
-       std::cout<<"=====> Layout EMPTY \n";
-     
-  layout = mainWidget->layout();
-  layout->setMenuBar(menuBar);
-
-*/
-
-
 }
 
 //-----------------------------------------------------------------------------

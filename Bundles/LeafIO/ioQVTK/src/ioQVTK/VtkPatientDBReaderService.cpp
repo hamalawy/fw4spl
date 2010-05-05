@@ -9,21 +9,18 @@
 #include <fwServices/ObjectServiceRegistry.hpp>
 #include <fwServices/IEditionService.hpp>
 #include <fwComEd/PatientDBMsg.hpp>
-
 #include <io/IReader.hpp>
-
 #include <fwCore/base.hpp>
-
 #include <fwData/Image.hpp>
 #include <fwData/PatientDB.hpp>
 #include <fwData/Patient.hpp>
 #include <fwData/Study.hpp>
 #include <fwData/Acquisition.hpp>
 #include <fwTools/Factory.hpp>
-
 #include <vtkIO/ImageReader.hpp>
 
 #include "ioQVTK/VtkPatientDBReaderService.hpp"
+
 #include <iostream>
 #include <QFileDialog>
 #include <QString>
@@ -62,16 +59,13 @@ void VtkPatientDBReaderService::configuring() throw(::fwTools::Failed)
 
 void VtkPatientDBReaderService::configureWithIHM()
 {  
-    QString folder = QFileDialog::getOpenFileName(0,QObject::tr("Choose an Vtkimage file"), QDir::currentPath(), QObject::tr("VTKImages (*.vtk *.VTK )"));
-    std::cout<<"PATH_FILE : "<<folder.toStdString()<<"\n";
-    
+    QString folder = QFileDialog::getOpenFileName(0,QObject::tr("Choose an Vtkimage file"), QDir::currentPath(), QObject::tr("VTKImages (*.vtk *.VTK )"));    
     
     // If the user choose an vtk file, the image path is initialized and we tag the service as configured.
     if( folder.isEmpty() == false )
     {
         m_fsImagePath = ::boost::filesystem::path( folder.toStdString(), ::boost::filesystem::native );
         m_bServiceIsConfigured = true;
-      //  _sDefaultPath = wxConvertMB2WX( m_fsImgPath.branch_path().string().c_str() );
     }
 }
 

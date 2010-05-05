@@ -9,6 +9,7 @@ BUNDLES = [
     'uiQt_0-1'                  ,	
     'guiQt_0-1'			,
     'ioQVTK_0-1'                ,
+    'uiIOQt_0-1'		,
     'qvtkSimpleMesh_0-1'      ,
     'dataReg_0-1'        	,
     'servicesReg_0-1'    	

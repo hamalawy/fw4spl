@@ -68,32 +68,30 @@ void SliceIndexPositionEditor::starting() throw(::fwTools::Failed)
    QWidget *widget = new QWidget(m_container);
    QHBoxLayout *layout = new  QHBoxLayout();
 
-    m_sliceSelectorPanel = new ::fwQt::SliceSelector( widget );
+   m_sliceSelectorPanel = new ::fwQt::SliceSelector( widget );
     
-    ::fwQt::SliceSelector::ChangeIndexCallback changeIndexCallback;
-    changeIndexCallback = ::boost::bind( &::uiImage::SliceIndexPositionEditor::sliceIndexNotification, this, _1);
-    m_sliceSelectorPanel->setChangeIndexCallback(changeIndexCallback);
+   ::fwQt::SliceSelector::ChangeIndexCallback changeIndexCallback;
+   changeIndexCallback = ::boost::bind( &::uiImage::SliceIndexPositionEditor::sliceIndexNotification, this, _1);
+   m_sliceSelectorPanel->setChangeIndexCallback(changeIndexCallback);
 
-    ::fwQt::SliceSelector::ChangeIndexCallback changeTypeCallback;
-    changeTypeCallback = ::boost::bind( &::uiImage::SliceIndexPositionEditor::sliceTypeNotification, this, _1);
-    m_sliceSelectorPanel->setChangeTypeCallback(changeTypeCallback);
+   ::fwQt::SliceSelector::ChangeIndexCallback changeTypeCallback;
+   changeTypeCallback = ::boost::bind( &::uiImage::SliceIndexPositionEditor::sliceTypeNotification, this, _1);
+   m_sliceSelectorPanel->setChangeTypeCallback(changeTypeCallback);
+   
+   this->updateSliceType(m_orientation);
     
+   QObject::connect(m_sliceSelectorPanel->m_sliceIndex, SIGNAL(valueChanged(int)), this, SLOT(sliceIndexSlot()));
     
+   widget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     
-    QObject::connect(m_sliceSelectorPanel->m_sliceIndex, SIGNAL(valueChanged(int)), this, SLOT(sliceIndexSlot()));
-    
-    
-    widget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    
-    layout->addWidget( widget);
-    layout->setContentsMargins(0,0,0,0);
+   layout->addWidget( widget);
+   layout->setContentsMargins(0,0,0,0);
 
-    m_container->setLayout(layout);
-    m_container->setMinimumSize(widget->size());
+   m_container->setLayout(layout);
+   m_container->setMinimumSize(widget->size());
     
     // tres important
-    this->updating();
-  
+   this->updating();
 }
 
 //------------------------------------------------------------------------------
