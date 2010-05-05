@@ -94,6 +94,7 @@ public :
     void startSelectedService();
     void getListIndex();
     void cancel();
+    void doubleClickSelection();
 
 private :
 

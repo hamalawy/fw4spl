@@ -157,7 +157,7 @@ void IOSelectorService::startSelectedService()
   if ( m_mode == READER_MODE )
   {
 
-   //   std::cout<<"REAZDER_MODE => "<<extensionId<<"\n";
+      std::cout<<"<<<<<<<<<<<<<<<<<<<<<<<<REAZDER_MODE => "<<extensionId<<">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><\n";
       ::io::IReader::sptr reader = ::fwServices::add< ::io::IReader >( this->getObject() , extensionId ) ;
 		
   //    std::cout<<"\n\n START ===> "<<extensionId<<"\n";	
@@ -170,7 +170,7 @@ void IOSelectorService::startSelectedService()
   }
   else
   {
-   // std::cout<<"WRITER_MODE => "<<extensionId<<"\n";
+    std::cout<<"<<<<<<<<<<<<<<<<<<<<<WRITER_MODE =>  "<<extensionId<<"  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;	
     writer->start();
             //   writer->configureWithIHM();
@@ -190,7 +190,13 @@ void IOSelectorService::getListIndex()
   m_selectedString = first->text().toStdString();
   m_list->row(first);
   
-//  std::cout<< m_list->row(first)<<" : "<<first->text().toStdString()<<" \n"; 
+  std::cout<< m_list->row(first)<<" : "<<first->text().toStdString()<<" \n"; 
+}
+
+void IOSelectorService::doubleClickSelection()
+{
+  getListIndex();
+  startSelectedService();
 }
 
 void IOSelectorService::cancel()
@@ -300,6 +306,8 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
 	    QObject::connect(selector.m_okButton, SIGNAL(clicked()), this, SLOT(startSelectedService()));
 	    QObject::connect(selector.m_cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
 	    QObject::connect(selector.m_list, SIGNAL(itemSelectionChanged()), this, SLOT(getListIndex()));
+	    QObject::connect(selector.m_list, SIGNAL(itemDoubleClicked(QListWidgetItem * )), this, SLOT(doubleClickSelection()));
+
 
             if ( m_mode != READER_MODE )
             {
@@ -370,6 +378,12 @@ void IOSelectorService::info( std::ostream &_sstream )
 {
     // Update message
     _sstream << "IOSelectorService";
+    
+    // Info à ajouter dans plugin.xml des ervices
+   /* <extension implements="::ioXML::FwXMLPatientDBReaderService" >
+        <info text="fwXML Reader (Ircad)"/>
+    </extension>
+    */
 }
 
 //------------------------------------------------------------------------------

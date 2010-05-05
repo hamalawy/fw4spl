@@ -11,7 +11,7 @@ BUNDLES = [
     'visu_0-1'              ,
     'ioData_0-1'            ,
     'ioQVTK_0-1'             ,
-    'ioXML_0-1'             ,
+    'ioQXML_0-1'             ,
     'uiQtVisu_0-1'            ,
     'uiQtImage_0-1'           ,
     'uiQAcquisition_0-1'     ,
