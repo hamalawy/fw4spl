@@ -8,17 +8,15 @@
 #include <boost/lambda/lambda.hpp>
 #include <boost/function.hpp>
 
-
 #include <fwServices/helper.hpp>
 #include <fwServices/macros.hpp>
 #include <fwComEd/CompositeEditor.hpp>
 #include <fwComEd/CompositeMsg.hpp>
 #include <fwTools/UUID.hpp>
 #include <fwData/Color.hpp>
-
 #include <fwRuntime/ConfigurationElementContainer.hpp>
 #include <fwRuntime/utils/GenericExecutableFactoryRegistrar.hpp>
-
+#include <fwComEd/CameraMsg.hpp>
 
 #include <vtkActor.h>
 #include <vtkCellPicker.h>
@@ -31,18 +29,14 @@
 #include <vtkSphereSource.h>
 #include <vtkInstantiator.h>
 #include <vtkTransform.h>
-
 #include <vtkCamera.h>
-#include <fwComEd/CameraMsg.hpp>
 
 #include "fwRenderVTK/IVtkAdaptorService.hpp"
 #include "fwRenderVTK/VtkRenderService.hpp"
 
-
 #include <QApplication>
 #include <QWidget>
 #include <QVBoxLayout>
-
 
 #include <QVTKWidget.h>
 #include <vtkRenderWindow.h>
@@ -266,9 +260,6 @@ void VtkRenderService::configureVtkObject( ConfigurationType conf )
 
 void VtkRenderService::configuring() throw(fwTools::Failed)
 {
-  
-    std:cout<<"VtkRenderService::configuring() \n";
-
     SLM_TRACE_FUNC();
     SLM_FATAL_IF( "Depreciated tag \"win\" in configuration", m_configuration->findConfigurationElement("win") );
 
@@ -443,9 +434,6 @@ void VtkRenderService::startContext()
 
   //  m_interactor->SetRenderWhenDisabled(false);
   //  m_interactor->SetRenderModeToDirect();
-
-      std:cout<<"FIN starContext() \n";
-
 }
 
 //-----------------------------------------------------------------------------
@@ -462,17 +450,30 @@ void VtkRenderService::stopContext()
         delete m_wxmanager;
         m_wxmanager = 0 ;
     }
+*/
+
 
     for( RenderersMapType::iterator iter = m_renderers.begin(); iter != m_renderers.end(); ++iter )
     {
         vtkRenderer *renderer = iter->second;
         renderer->InteractiveOff();
-        m_interactor->GetRenderWindow()->RemoveRenderer(renderer);
+       // m_interactor->GetRenderWindow()->RemoveRenderer(renderer);
+        m_renderWindow->GetInteractor()->GetRenderWindow()->RemoveRenderer(renderer);
         renderer->Delete();
     }
 
-    m_renderers.clear();
+   m_renderers.clear();
+   
+   m_renderWindow->GetInteractor()->GetRenderWindow()->Finalize();
+   m_renderWindow->GetInteractor()->Disable();
+   m_renderWindow->GetInteractor()->Delete();
 
+
+   m_renderWindow->Delete();
+   
+   delete widget;
+
+/*
     if(m_interactor){
         m_interactor->DestroyChildren();
         m_interactor->GetRenderWindow()->Finalize();
@@ -483,7 +484,7 @@ void VtkRenderService::stopContext()
     }
 
     m_container->DestroyChildren();
-    */
+  */  
 }
 
 //-----------------------------------------------------------------------------

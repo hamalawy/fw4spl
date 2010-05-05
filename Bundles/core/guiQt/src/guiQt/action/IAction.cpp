@@ -43,10 +43,7 @@ IAction::~IAction() throw()
 //-----------------------------------------------------------------------------
 
 void IAction::configuring() throw( ::fwTools::Failed )
-{
-  
- //std::cout<<"\n IAction::configuring() \n\n";
- 
+{ 
     SLM_TRACE("configuring action") ;
     SLM_ASSERT("id tag deprecated", !m_configuration->hasAttribute("id"));
     SLM_ASSERT("menu tag deprecated", !m_configuration->hasAttribute("menu"));

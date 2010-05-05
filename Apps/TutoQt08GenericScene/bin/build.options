@@ -8,7 +8,7 @@ BUNDLES = [
     'ioData_0-1'        ,
     'ioVTK_0-1'         ,
     'ioQVTK_0-1'         ,
-    'ioXML_0-1'         ,
+    'ioQXML_0-1'         ,
     'io_0-1'            ,
     'ioQt_0-1'            ,
     'servicesReg_0-1'   ,

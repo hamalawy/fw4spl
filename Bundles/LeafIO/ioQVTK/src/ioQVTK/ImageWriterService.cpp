@@ -8,18 +8,14 @@
 #include <fwServices/helper.hpp>
 #include <fwServices/ObjectServiceRegistry.hpp>
 #include <fwServices/IEditionService.hpp>
-
 #include <fwComEd/fieldHelper/BackupHelper.hpp>
-
 #include <io/IWriter.hpp>
-
 #include <fwCore/base.hpp>
-
 #include <fwData/Image.hpp>
-
 #include <vtkIO/ImageWriter.hpp>
 
 #include "ioQVTK/ImageWriterService.hpp"
+
 #include <QFileDialog>
 #include <QString>
 
@@ -57,16 +53,21 @@ void ImageWriterService::configuring() throw(::fwTools::Failed)
 
 void ImageWriterService::configureWithIHM()
 {
-    //QString file = QFileDialog::getOpenFileName(0,QObject::tr("Choose an vtk file to save image"), QDir::currentPath(), QObject::tr("Images (*.vtk *.VTK )"));
-    QString file = QFileDialog::getSaveFileName(0,QObject::tr("Choose an vtk file to save image"), QDir::currentPath(), QObject::tr("Images (*.vtk *.VTK )"));
-
-    std::cout<<"PATH_FILE : "<<file.toStdString()<<"\n";
+  //  QString file = QFileDialog::getSaveFileName(0,QObject::tr("Choose an vtk file to save image"), QDir::currentPath(), QObject::tr("Images (*.vtk *.VTK )"));
+    
+    QString format = "vtk";
+    QString initialPath = QDir::currentPath() + QObject::tr("/untitled.") + format;
+    QString file = QFileDialog::getSaveFileName(0, QObject::tr("Choose an vtk file to save image"), initialPath,
+                                QObject::tr("%1 Files (*.%2);;All Files (*)")
+                                .arg(format.toUpper())
+                                .arg(format));
+    
+    
 	    
     if( file.isEmpty() == false)
     {
         m_fsImgPath = ::boost::filesystem::path(  file.toStdString(), ::boost::filesystem::native );
         m_bServiceIsConfigured = true;
-    //    _sDefaultPath = wxConvertMB2WX( m_fsImgPath.branch_path().string().c_str() );
     }
 }
 
@@ -113,16 +114,7 @@ bool ImageWriterService::saveImage( const ::boost::filesystem::path vtkFile, ::b
 void ImageWriterService::updating() throw(::fwTools::Failed)
 {
     SLM_TRACE("ImageWriterService::updating()");
-/*
-    if( m_bServiceIsConfigured )
-    {
-        // Retrieve dataStruct associated with this service
-        ::fwData::Image::sptr pImage = this->getObject< ::fwData::Image >() ;
-        assert(pImage);
 
-        saveImage(m_fsImgPath,pImage);
-    }
-    */
       if( !m_bServiceIsConfigured )
     {
        configureWithIHM();
@@ -136,7 +128,5 @@ void ImageWriterService::updating() throw(::fwTools::Failed)
     else
       	   std::cout<<"\n\n NOT CONFIGURED \n";
 }
-
-//------------------------------------------------------------------------------
 
 } // namespace ioVtk

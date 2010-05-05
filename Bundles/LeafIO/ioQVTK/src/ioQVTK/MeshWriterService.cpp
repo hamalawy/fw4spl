@@ -9,18 +9,14 @@
 #include <fwServices/helper.hpp>
 #include <fwServices/ObjectServiceRegistry.hpp>
 #include <fwServices/IEditionService.hpp>
-
 #include <fwComEd/fieldHelper/BackupHelper.hpp>
-
 #include <io/IWriter.hpp>
-
 #include <fwCore/base.hpp>
-
 #include <fwData/TriangularMesh.hpp>
-
 #include <vtkIO/MeshWriter.hpp>
 
 #include "ioQVTK/MeshWriterService.hpp"
+
 #include <QFileDialog>
 #include <QString>
 
@@ -60,9 +56,15 @@ void MeshWriterService::configuring() throw(::fwTools::Failed)
 void MeshWriterService::configureWithIHM()
 {  
     
-    QString file = QFileDialog::getSaveFileName(0,QObject::tr("Choose an vtk file to save Mesh"), QDir::currentPath(), QObject::tr("MeshVTK (*.vtk *.VTK )"));
-    std::cout<<"PATH_FILE : "<<file.toStdString()<<"\n";
+   // QString file = QFileDialog::getSaveFileName(0,QObject::tr("Choose an vtk file to save Mesh"), QDir::currentPath(), QObject::tr("MeshVTK (*.vtk *.VTK )"));
 
+    QString format = "vtk";
+    QString initialPath = QDir::currentPath() + QObject::tr("/untitled.") + format;
+    QString file = QFileDialog::getSaveFileName(0, QObject::tr("Choose an vtk file to save Mesh"), initialPath,
+                                QObject::tr("%1 Files (*.%2);;All Files (*)")
+                                .arg(format.toUpper())
+                                .arg(format));
+    
     if( file.isEmpty() == false )
     {
       m_fsMeshPath = ::boost::filesystem::path( file.toStdString(), ::boost::filesystem::native );
@@ -110,17 +112,6 @@ void MeshWriterService::saveMesh( const ::boost::filesystem::path vtkFile, ::boo
 void MeshWriterService::updating() throw(::fwTools::Failed)
 {
     SLM_TRACE("MeshWriterService::updating()");
-/*
-    if( m_bServiceIsConfigured )
-    {
-        // Retrieve dataStruct associated with this service
-        ::fwData::TriangularMesh::sptr pTriangularMesh = this->getObject< ::fwData::TriangularMesh >() ;
-        assert(pTriangularMesh);
-     
-        saveMesh(m_fsMeshPath,pTriangularMesh);
-
-        m_bServiceIsConfigured = false;
-    }*/
     
      if(m_bServiceIsConfigured)
     {

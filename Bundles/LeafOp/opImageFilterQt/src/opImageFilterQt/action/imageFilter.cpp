@@ -7,11 +7,9 @@
 #include <fwTools/UUID.hpp>
 #include <fwComEd/ImageMsg.hpp>
 #include <fwData/Image.hpp>
-
 #include <fwTools/IntrinsicTypes.hpp>
 #include <fwTools/Dispatcher.hpp>
 #include <fwTools/DynamicTypeKeyTypeMapping.hpp>
-
 #include <fwServices/macros.hpp>
 #include <fwServices/IEditionService.hpp>
 

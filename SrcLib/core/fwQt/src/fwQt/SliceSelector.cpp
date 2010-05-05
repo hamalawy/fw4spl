@@ -35,6 +35,10 @@ SliceSelector::SliceSelector(QWidget* const parent ) throw()
      m_sliceType->addItem(QObject::tr("Frontal"),Frontal);
      m_sliceType->addItem(QObject::tr("Axial"), Axial);
      m_sliceType->setMaximumWidth(100);
+     
+     QObject::connect(m_sliceType, SIGNAL(currentIndexChanged(int)), this, SLOT(sliceTypeChange()));
+
+     
      // harmobniser height avec les autres widget
      
      m_sliceType->setMinimumHeight(30);
@@ -107,9 +111,7 @@ void SliceSelector::setSliceIndexText()
 
 void SliceSelector::setTypeSelection( int type )
 {
-
- //   this->m_sliceType->SetSelection(type);
-
+    this->m_sliceType->setCurrentIndex(type);
 }
 
 //------------------------------------------------------------------------------
@@ -140,6 +142,11 @@ void SliceSelector::printType(int type)
     OSLM_TRACE("type= "<<type);
 }
 
+void SliceSelector::sliceTypeChange()
+{
+    m_fctChangeTypeCallback( static_cast< int >( this->m_sliceType->currentIndex() ));
+    this->setSliceValue( this->m_sliceIndex->value());
+}
 
 
 } // fwWX

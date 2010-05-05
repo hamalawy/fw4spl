@@ -12,11 +12,8 @@
 #include <vtkPolyDataMapper.h>
 #include <vtkProperty.h>
 #include <vtkRenderWindow.h>
-
 #include <fwData/Image.hpp>
-
 #include <fwComEd/ImageMsg.hpp>
-
 #include <fwServices/Base.hpp>
 
 #include <QVTKWidget.h>
@@ -26,12 +23,11 @@
 #include <vtkVectorText.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkActor.h>
+#include <vtkIO/vtk.hpp>
 
 #include <QApplication>
 #include <QWidget>
 #include <QVBoxLayout>
-
-#include <vtkIO/vtk.hpp>
 
 #include "qvtkSimpleNegato/RendererService.hpp"
 
@@ -72,7 +68,6 @@ void RendererService::configuring() throw(::fwTools::Failed)
 
 void RendererService::starting() throw(fwTools::Failed)
 {
-  std::cout<<"\n\n qvtkSimpleNegato ===> STARTING() \n";
   // this->initRender();
 
     m_bPipelineIsInit = false;
@@ -146,8 +141,6 @@ void RendererService::updating() throw(fwTools::Failed)
 
 void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTools::Failed)
 {
-      std::cout<<"\n\n qvtkSimpleNegato ===> UPDATING(ARGS) \n";
-
     // If message is a ImageMsg
     ::fwComEd::ImageMsg::csptr pImageMsg = ::fwComEd::ImageMsg::dynamicConstCast( _msg ) ;
     if (pImageMsg)

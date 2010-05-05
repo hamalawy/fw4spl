@@ -5,26 +5,20 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <boost/filesystem/operations.hpp>
-
 #include <fwServices/macros.hpp>
 #include <fwServices/helper.hpp>
 #include <fwServices/ObjectServiceRegistry.hpp>
 #include <fwServices/IEditionService.hpp>
-
 #include <fwComEd/fieldHelper/BackupHelper.hpp>
 #include <fwComEd/TriangularMeshMsg.hpp>
-
 #include <fwServices/ObjectMsg.hpp>
-
 #include <io/IReader.hpp>
-
 #include <fwCore/base.hpp>
-
 #include <fwData/TriangularMesh.hpp>
-
 #include <vtkIO/MeshReader.hpp>
 
 #include "ioQVTK/MeshReaderService.hpp"
+
 #include <QFileDialog>
 #include <QString>
 
@@ -63,7 +57,6 @@ void MeshReaderService::configuring() throw(::fwTools::Failed)
 void MeshReaderService::configureWithIHM()
 {
     QString file = QFileDialog::getOpenFileName(0,QObject::tr("Open File"), QDir::currentPath(), QObject::tr("MeshVTK (*.vtk *.VTK )"));
-    std::cout<<"PATH_FILE : "<<file.toStdString()<<"\n";
 
     if( file.isEmpty() == false )
     {
@@ -112,20 +105,8 @@ void MeshReaderService::loadMesh( const ::boost::filesystem::path vtkFile, ::fwD
 void MeshReaderService::updating() throw(::fwTools::Failed)
 {
     SLM_TRACE("MeshReaderService::updating()");
-/*    if( !m_bServiceIsConfigured )
-    {
-       configureWithIHM();
-    }
-    if( m_bServiceIsConfigured )
-    {
-      ::fwData::TriangularMesh::sptr pTriangularMesh = this->getObject< ::fwData::TriangularMesh >() ;
-        assert(pTriangularMesh);
 
-	loadMesh(m_fsMeshPath, pTriangularMesh);
-        notificationOfUpdate();
-    }*/
-
-   configureWithIHM();
+    configureWithIHM();
     
     if(m_bServiceIsConfigured)
     {

@@ -9,22 +9,16 @@
 
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwRuntime/helper.hpp>
-
 #include <fwCore/base.hpp>
-
 #include <fwTools/Object.hpp>
-
 #include <fwServices/helper.hpp>
 #include <fwServices/macros.hpp>
 #include <fwQt/Selector.hpp>
-
 
 #include <io/IReader.hpp>
 #include <io/IWriter.hpp>
 
 #include "uiIOQt/editor/IOSelectorService.hpp"
-
-
 
 #include <QApplication>
 #include <QStringList>
@@ -106,9 +100,7 @@ void IOSelectorService::configuring() throw( ::fwTools::Failed )
             std::string mode = (*iter)->getExistingAttributeValue("mode") ;
             assert( mode == "writer" || mode == "reader" );
             m_mode = ( mode == "writer" ) ? WRITER_MODE : READER_MODE;
-	    
-	   // std::cout<<"\n\n MODE = "<<m_mode<<"\n\n";
-	    
+	    	    
             OSLM_DEBUG( "mode => " << mode );
         }
     }
@@ -157,7 +149,6 @@ void IOSelectorService::startSelectedService()
   if ( m_mode == READER_MODE )
   {
 
-      std::cout<<"<<<<<<<<<<<<<<<<<<<<<<<<REAZDER_MODE => "<<extensionId<<">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><\n";
       ::io::IReader::sptr reader = ::fwServices::add< ::io::IReader >( this->getObject() , extensionId ) ;
 		
   //    std::cout<<"\n\n START ===> "<<extensionId<<"\n";	
@@ -170,7 +161,6 @@ void IOSelectorService::startSelectedService()
   }
   else
   {
-    std::cout<<"<<<<<<<<<<<<<<<<<<<<<WRITER_MODE =>  "<<extensionId<<"  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;	
     writer->start();
             //   writer->configureWithIHM();
@@ -190,7 +180,7 @@ void IOSelectorService::getListIndex()
   m_selectedString = first->text().toStdString();
   m_list->row(first);
   
-  std::cout<< m_list->row(first)<<" : "<<first->text().toStdString()<<" \n"; 
+  //std::cout<< m_list->row(first)<<" : "<<first->text().toStdString()<<" \n"; 
 }
 
 void IOSelectorService::doubleClickSelection()
@@ -317,17 +307,12 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
 	 
 	  selector.box->setModal(true);
 	  selector.box->show();
-	  std::cout<<"  BOX SHOW MODAL \n";
 	}
 	else
 	{
 	   if ( m_mode == READER_MODE )
 	   {
-
-	    std::cout<<"ONLY_ONE   REAZDER_MODE => "<<extensionId<<"\n";
 	    ::io::IReader::sptr reader = ::fwServices::add< ::io::IReader >( this->getObject() , extensionId ) ;
-		
-	    std::cout<<"\n\n START ===> "<<extensionId<<"\n";	
 
 	    reader->start();
             //    reader->configureWithIHM();
@@ -336,7 +321,6 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
 	    }
 	    else
 	    {
-	      std::cout<<"ONLY_ONE       WRITER_MODE => "<<extensionId<<"\n";
 	      ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;	
 	      writer->start();
             //   writer->configureWithIHM();

@@ -46,18 +46,18 @@ public :
     typedef std::string AdaptorIdType;
     typedef std::string VtkObjectIdType;
 
-     VtkRenderService() throw() ;
+    VtkRenderService() throw() ;
 
-     virtual ~VtkRenderService() throw() ;
+    virtual ~VtkRenderService() throw() ;
 
-     vtkRenderer * getRenderer(RendererIdType rendererId);
+    vtkRenderer * getRenderer(RendererIdType rendererId);
 
-     void render();
+    void render();
     bool isShownOnScreen();
 
-     vtkAbstractPropPicker * getPicker(PickerIdType pickerId);
+    vtkAbstractPropPicker * getPicker(PickerIdType pickerId);
 
-     vtkObject * getVtkObject(VtkObjectIdType objectId);
+    vtkObject * getVtkObject(VtkObjectIdType objectId);
 
     // For temporary NegatoAdaptor use
     // wxAuiManager* getWxManager(){return m_wxmanager;};
