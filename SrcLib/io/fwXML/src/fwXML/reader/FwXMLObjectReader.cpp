@@ -46,6 +46,9 @@ FwXMLObjectReader::~FwXMLObjectReader()
 void FwXMLObjectReader::read()
 {
     ::boost::filesystem::path file = this->getFile();
+    
+    std::cout<<"<<<<<<<<<<<<<<<< BOSST : "<<file.string()<<" >>>>>>>>>>>>>>>>>>>> \n";
+    
     assert( ::boost::filesystem::exists( file ) );
     ::fwXML::Serializer serializer;
 

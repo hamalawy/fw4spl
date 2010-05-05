@@ -79,6 +79,24 @@ void SliceListEditor::starting() throw(::fwTools::Failed)
 
    QObject::connect(m_button, SIGNAL(clicked()), this, SLOT(createPopUpMenu())); 
    
+  m_menu = new QMenu(QObject::tr(">"), m_widget);
+  m_sliceGroup = new QActionGroup(m_menu);
+  m_sliceGroup->setExclusive(true);
+    
+  m_oneSliceItem = new QAction(QObject::tr(" One slice "), m_sliceGroup);
+  m_threeSlicesItem = new QAction(QObject::tr(" Three slice "), m_sliceGroup);
+  
+  m_oneSliceItem->setObjectName(QObject::tr("One slice"));
+  m_threeSlicesItem->setObjectName(QObject::tr("Three slice"));
+  
+  m_oneSliceItem->setCheckable(true);
+  m_threeSlicesItem->setCheckable(true);
+  
+  m_threeSlicesItem->setChecked(true);
+
+  m_menu->addActions(m_sliceGroup->actions());
+   
+
     m_widget->setMinimumWidth(m_buttonWidth);
     m_widget->setFixedHeight(30);
 
@@ -96,24 +114,6 @@ void SliceListEditor::createPopUpMenu()
 {
   
   std::cout<<" SLOT() \n";
-
-  m_menu = new QMenu(QObject::tr(">"), m_widget);
-  
-  m_sliceGroup = new QActionGroup(m_menu);
-  m_sliceGroup->setExclusive(true);
-    
-  m_oneSliceItem = new QAction(QObject::tr(" One slice "), m_sliceGroup);
-  m_threeSlicesItem = new QAction(QObject::tr(" Three slice "), m_sliceGroup);
-  
-  m_oneSliceItem->setObjectName(QObject::tr("One slice"));
-  m_threeSlicesItem->setObjectName(QObject::tr("Three slice"));
-  
-  m_oneSliceItem->setCheckable(true);
-  m_threeSlicesItem->setCheckable(true);
-  
-  m_threeSlicesItem->setChecked(true);
-
-  m_menu->addActions(m_sliceGroup->actions());
     
   m_menu->move(m_widget->mapToGlobal(QPoint(m_button->x()+m_buttonWidth, m_button->y())));
   m_menu->show();
@@ -132,10 +132,7 @@ void SliceListEditor::changeSliceMode()
   {
      dataInfo->value() = 1;
      m_nbSlice = 1;
-     
-     std::cout<<" SET CHECKED ACTION\n";
-     m_threeSlicesItem->setChecked(false);
-     std::cout<<"Check0 : "<<m_threeSlicesItem->isChecked() <<"\n";
+
      m_oneSliceItem->setChecked(true);
 
   }
@@ -143,9 +140,7 @@ void SliceListEditor::changeSliceMode()
   {          
     dataInfo->value() = 3;
     m_nbSlice = 3;
-    m_oneSliceItem->setChecked(false);
     m_threeSlicesItem->setChecked(true);
-         std::cout<<"Check1 : "<<m_threeSlicesItem->isChecked() <<"\n";
 
   }
   else

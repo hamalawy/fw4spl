@@ -346,7 +346,7 @@ bool FwXMLPatientDBReaderService::isAnFwxmlArchive( const ::boost::filesystem::p
     patientDB = createPatientDB( xmlfile );
 
     // Remove temp folder
-    ::boost::filesystem::remove_all( destFolder );
+   // ::boost::filesystem::remove_all( destFolder );
 
     return patientDB;
 }

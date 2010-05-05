@@ -106,12 +106,16 @@ void OrganListEditor::updating() throw(::fwTools::Failed)
 
 void OrganListEditor::swapping() throw(::fwTools::Failed)
 {
+      std::cout<<"\n\n\n OrganListEditor::SW>APPING \n\n";
+
     this->updating();
 }
 //------------------------------------------------------------------------------
 
 void OrganListEditor::updating( ::fwServices::ObjectMsg::csptr msg ) throw(::fwTools::Failed)
 {
+    std::cout<<"\n\n\n OrganListEditor::updating(MSG) \n\n";
+
     ::fwComEd::AcquisitionMsg::csptr acquisitionMsg = ::fwComEd::AcquisitionMsg::dynamicConstCast( msg ) ;
     if ( acquisitionMsg )
     {
@@ -135,7 +139,9 @@ void OrganListEditor::info( std::ostream &_sstream )
 
 void OrganListEditor::updateReconstructions()
 {
-  std::cout<<" OrganListEditor::updateReconstructions() \n\n";
+  std::cout<<"\n\n\n OrganListEditor::updateReconstructions() \n\n";
+  std::string string;
+
    // m_organChoice->Clear();
     m_map.clear();
     
@@ -155,16 +161,17 @@ void OrganListEditor::updateReconstructions()
         {
             m_map[ (*iter)->getOrganName() ] = (*iter);
         }
-	std::string string;
         for( OrganNameReconstruction::iterator iter = m_map.begin(); iter != m_map.end(); ++iter )
         {
-	   string = (*iter).first.data();
+	  string = (*iter).first.data();
+
+	  QListWidgetItem *item = new QListWidgetItem(string.c_str(), m_listW);
+	  item->setCheckState(Qt::Checked);
+	  //m_listW->addItem(item);
 	}
 
-	QListWidgetItem *item = new QListWidgetItem(string.c_str(), m_listW);
-        item->setCheckState(Qt::Checked);
 
-	
+
 	QObject::connect(m_listW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(organChoiceSelection()));
 
 

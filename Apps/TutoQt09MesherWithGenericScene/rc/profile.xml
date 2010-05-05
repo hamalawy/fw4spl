@@ -16,7 +16,7 @@
     <activate id="ctrlSelection" version="0-1" />
     
     <activate id="ioQVTK" version="0-1" />
-    <activate id="ioXML" version="0-1" />
+    <activate id="ioQXML" version="0-1" />
     
     <activate id="visuQVTK" version="0-1" />
     <activate id="visuQVTKAdaptor" version="0-1" />
