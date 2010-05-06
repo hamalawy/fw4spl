@@ -1,0 +1,39 @@
+<plugin id="TutoConfigurations">
+<extension id="tutoQtDataServiceBasicConfig" implements="::fwData::Image">
+
+
+    <object id="tutoQtDataServiceBasicImage" type="::fwData::Image">
+
+	<service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+		<name>tutoQtDataServiceBasic</name>
+     		<view uid="myDefaultView" autoStart="yes" />  
+	</service>
+
+
+	<service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
+    		<views>
+     			  <view uid="myRenderingTuto" autoStart="yes" />
+     		</views>
+    	</service>
+       
+
+
+        <service uid="myReaderPathFile" implementation="::ioQVTK::ImageReaderService" type="::io::IReader" autoComChannel="no" >
+	  <filename id="./sample/liverMask.vtk"/>
+        </service>
+        <service implementation="::qvtkSimpleNegato::RendererService" type="::fwQtRender::IRender" uid="myRenderingTuto" autoComChannel="yes" />
+        
+        <start type="::guiQt::aspect::IAspect" />
+	<start uid="myReaderPathFile" />
+   
+	<update uid="myReaderPathFile"/>
+	<update uid="myRenderingTuto"/>
+
+        <stop uid="myRenderingTuto"/>
+        <stop uid="myReaderPathFile"/>
+
+        <stop type="::guiQt::aspect::IAspect" />
+    </object>
+</extension>
+
+</plugin>
