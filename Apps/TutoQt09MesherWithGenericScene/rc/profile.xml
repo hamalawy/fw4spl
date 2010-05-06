@@ -1,0 +1,36 @@
+<profile name="Tuto09MesherWithGenericScene" version="0.1" check-single-instance="true"> 
+
+    <activate id="dataReg" version="0-1" />
+    <activate id="servicesReg" version="0-1" /> 
+
+    <activate id="guiQt" version="0-1" >
+        <param id="startingMode" value="windows" />
+        <param id="rootObject" value="::fwData::Composite" />
+        <param id="config" value="Tuto09MesherWithGenericScene" />
+        <param id="configFile" value="./Bundles/TutoQt09MesherWithGenericScene_0-1/configurations/configuration.xml" />
+    </activate>
+    <activate id="io" version="0-1" />
+    <activate id="ioQt" version="0-1" />
+    <activate id="visu" version="0-1" />
+
+    <activate id="ctrlSelection" version="0-1" />
+    
+    <activate id="ioQVTK" version="0-1" />
+    <activate id="ioQXML" version="0-1" />
+    
+    <activate id="visuQVTK" version="0-1" />
+    <activate id="visuQVTKAdaptor" version="0-1" />
+    
+    <activate id="uiIOQt" version="0-1" />
+    <activate id="uiQtVisu" version="0-1" />
+    <activate id="uiQtImage" version="0-1" />
+    <activate id="uiQAcquisition" version="0-1" />
+    <activate id="uiQReconstruction" version="0-1" />
+    <activate id="opQVTKMesh" version="0-1" />
+    
+    <!-- Start components -->
+    <start id="visuQVTK" />
+    <start id="visuQVTKAdaptor" />
+    <start id="guiQt" />
+
+</profile>

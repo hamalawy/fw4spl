@@ -1,0 +1,26 @@
+<profile name="Filter" version="0.1">
+
+   <!-- List of the basic bundles. -->
+  <activate id="dataReg" version="0-1"/>
+  <activate id="servicesReg" version="0-1"/>
+  <activate id="io" version="0-1"/>
+  <activate id="ioQt" version="0-1"/>  
+  <activate id="uiQt" version="0-1" />  
+  <activate id="visu" version="0-1"/>
+  
+  <activate id="guiQt" version="0-1">
+    <param id="startingMode" value="windows" />
+    <param id="rootObject" value="::fwData::Composite" />
+    <param id="configFile" value="./Bundles/TutoQt06Filter_0-1/configurations/config.xml" />
+    <param id="config" value="FilterConfig" />
+  </activate>
+   
+  <!-- List of the specific bundles. -->   
+  <activate id="qvtkSimpleNegato" version="0-1"/>
+  <activate id="ioQVTK" version="0-1" />
+  <activate id="uiIOQt" version="0-1" />
+  <activate id="opImageFilterQt" version="0-1" />
+  
+  <start id="dataReg" />
+  <start id="guiQt" />
+</profile>

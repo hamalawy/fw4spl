@@ -1,0 +1,127 @@
+
+<plugin id="MesherConfiguration">
+
+    <extension id="MesherConfig" implements="::fwData::Composite">
+  
+    <!--  Composite data creation. -->
+    <object id="MesherConfig" type="::fwData::Composite">
+  
+       <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+		<name>Mesher</name>
+     		<view uid="myDefaultView" autoStart="yes" />  
+	</service>
+	
+	<service uid="menuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
+		<menus>
+  	   		<menu uid="menu_File" />
+			<menu uid="menu_Mesher"/>
+
+     		</menus>
+	</service> 
+
+       <service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
+    		<views>
+     			  <view uid="RenderingImage" autoStart="yes"  />
+			  <view uid="RenderingMesh"  autoStart="yes" />
+     		</views>
+	</service>
+	
+       <service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+			<action uid="action_openImageFile"/>   
+			<action uid="action_saveImageFile"/> 
+			<action uid="action_openMeshFile"/>
+			<action uid="action_saveMeshFile"/>
+			<action uid="action_quit"/>
+	</service>
+	
+	<service name="Mesher" uid="menu_Mesher" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+            <action uid="actionCreateVTKMesh"/>  
+        </service>
+
+
+       	<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
+
+
+        <!-- Service associated to the Composite data :
+        menu services creation.
+        Actions in relationship with images and meshes-->
+        <service uid="action_openImageFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Open image file" autoComChannel="no" >
+            <start uid="readerPathImageFile"/>
+        </service>
+    
+        <service uid="action_saveImageFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Save image file" autoComChannel="no" >
+            <start uid="writerImageFile"/>
+        </service> 
+    
+        <service uid="action_openMeshFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Open mesh file" autoComChannel="no" >
+            <start uid="readerPathMeshFile"/>
+        </service>
+    
+        <service uid="action_saveMeshFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Save mesh file" autoComChannel="no" >
+            <start uid="writerMeshFile"/>
+        </service>       
+    
+    
+        <service uid="actionCreateVTKMesh" type="::guiQt::action::IAction" implementation="::opVTKMesh::action::qVTKMeshCreation" name="Compute Mesh (VTK)" autoComChannel="no" >
+            <image uid="myImage"/>
+            <mesh uid="myMesh"/>
+        </service>
+      
+        <!-- Image object creation 
+        Services contained between the tags <object> and </object>
+        are associated to the Image data. -->
+        <object id="myImage" uid="myImage" type="::fwData::Image">
+
+            <!-- Services associated to the Image data :
+            Visualization, reading and writing service creation. -->
+            <service implementation="::qvtkSimpleNegato::RendererService" type="::fwQtRender::IRender" uid="RenderingImage" autoComChannel="yes" />
+
+            <service implementation="::uiIOQt::editor::IOSelectorService" type="::guiQt::editor::IEditor" uid="readerPathImageFile" autoComChannel="no" >
+                <type mode="reader"/>
+            </service>
+
+            <service implementation="::uiIOQt::editor::IOSelectorService" type="::guiQt::editor::IEditor" uid="writerImageFile" autoComChannel="no" >
+                <type mode="writer"/>
+            </service>
+
+        </object>       
+
+        <!-- TriangularMesh objet creation. 
+        Services contained between the tags <object> and </object> 
+        are associated to the TriangularMesh data. -->
+        <object id="myMesh" uid="myMesh" type="::fwData::TriangularMesh">
+             
+            <!-- Services associated to the TriangularMesh data :
+            Visualization, reading and writing service creation. -->
+            <service implementation="::qvtkSimpleMesh::RendererService" type="::fwQtRender::IRender" uid="RenderingMesh" autoComChannel="yes" >
+                <masterSlaveRelation>master</masterSlaveRelation>
+            </service>
+                 
+            <service implementation="::uiIOQt::editor::IOSelectorService" type="::guiQt::editor::IEditor" uid="readerPathMeshFile" autoComChannel="no" >
+                <type mode="reader"/>
+            </service>
+      
+            <service implementation="::uiIOQt::editor::IOSelectorService" type="::guiQt::editor::IEditor" uid="writerMeshFile" autoComChannel="no" >
+                <type mode="writer"/>
+            </service>
+                 
+        </object> 
+    
+    <!-- In order to start the different services,
+    it does not need to follow the objects creation order.
+    Note that the services associated to the Image and TriangularMesh data
+    are not started between the tags corresponding to these two data definitions
+    but, before the end of the Composite data definition. -->
+      <start type="::guiQt::aspect::IAspect" />
+      <start type="::guiQt::aspect::IMenuBar" />
+      <start type="::guiQt::aspect::IMenu" />
+   
+      <update uid="RenderingImage"/>
+      <update uid="RenderingMesh"/>
+      
+      <stop type="::guiQt::aspect::IMenu" />
+      <stop type="::guiQt::aspect::IMenuBar" />
+      <stop type="::guiQt::aspect::IAspect" />
+  </object>
+  </extension>
+</plugin>    

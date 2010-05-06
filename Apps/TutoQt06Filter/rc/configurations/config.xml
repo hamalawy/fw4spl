@@ -1,0 +1,68 @@
+<plugin id="FilterConfiguration">
+    <extension id="FilterConfig" implements="::fwData::Composite">
+    <!-- Root object -->
+    <object id="FilterConfig" type="::fwData::Composite">
+        <!-- Windows & Main Menu -->
+       <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+		<name>Mesher</name>
+     		<view uid="myDefaultView" autoStart="yes" />  
+	</service>
+        
+       <service uid="myMenuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
+            <menus>
+                <menu uid="menuFile"/>
+                <menu uid="menuFilter"/>
+            </menus>
+        </service>
+        
+        <service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
+            <views>
+                <view uid="RenderingImage1" autoStart="yes" />
+                <view uid="RenderingImage2" minWidth="500" minHeight="100" autoStart="yes" />
+            </views>
+        </service> 
+        
+        <!-- Menus -->
+        <service name="File" uid="menuFile" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+            <action uid="actionOpenImageFile"/>
+            <action uid="actionQuit"/>
+        </service>         
+        <service name="Filter" uid="menuFilter" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+            <action uid="actionImageFilter"/>
+        </service>
+        <!-- Actions on Menus -->         
+        <service uid="actionQuit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction"  autoComChannel="no" />
+        <service uid="actionOpenImageFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Open image file" autoComChannel="no" >
+            <start uid="readerPathImageFile"/>
+        </service>
+        <service uid="actionImageFilter" type="::guiQt::action::IAction" implementation="::opImageFilter::action::imageFilter" name="Compute Image Filter" autoComChannel="no" >
+            <imageIn  uid="myImage1"/>
+            <imageOut uid="myImage2"/>
+        </service>
+        <!-- Services on objects -->
+        <!-- 1st Object of the composite -->
+        <object id="myImage1" uid="myImage1" type="::fwData::Image">
+            <service implementation="::qvtkSimpleNegato::RendererService" type="::fwQtRender::IRender" uid="RenderingImage1" autoComChannel="yes" />
+            <service implementation="::uiIOQt::editor::IOSelectorService" type="::guiQt::editor::IEditor" uid="readerPathImageFile" autoComChannel="no" >
+                <type mode="reader"/>
+            </service>
+        </object>
+        <!-- 2nd Object of the composite -->       
+        <object id="myImage2" uid="myImage2" type="::fwData::Image">
+            <service implementation="::qvtkSimpleNegato::RendererService" type="::fwQtRender::IRender" uid="RenderingImage2" autoComChannel="yes" />
+        </object> 
+    
+    <!-- Starting order of services -->
+      <start type="::guiQt::aspect::IAspect" />
+      <start type="::guiQt::aspect::IMenuBar" />
+      <start type="::guiQt::aspect::IMenu" />
+   
+      <update uid="RenderingImage1"/>
+      <update uid="RenderingImage2"/>
+      
+      <stop type="::guiQt::aspect::IMenu" />
+      <stop type="::guiQt::aspect::IMenuBar" />
+      <stop type="::guiQt::aspect::IAspect" />
+  </object>
+  </extension>
+</plugin>    
