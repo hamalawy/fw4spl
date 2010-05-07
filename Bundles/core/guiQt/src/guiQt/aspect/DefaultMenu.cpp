@@ -150,7 +150,7 @@ void DefaultMenu::stopping() throw( ::fwTools::Failed )
    }
    else
    {
-     SLM_FATAL(" List MenuBar empty ");
+    // SLM_FATAL(" List MenuBar empty ");
    }
    
     std::vector< ::guiQt::action::IAction::sptr > allActions = ::fwServices::OSR::getServices< ::guiQt::action::IAction >() ;

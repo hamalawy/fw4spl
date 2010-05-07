@@ -70,7 +70,7 @@ void IVtkAdaptorService::starting() throw(fwTools::Failed)
 //------------------------------------------------------------------------------
 
 void IVtkAdaptorService::stopping() throw(fwTools::Failed)
-{
+{std::cout<<"\n\n\n++++++++++++++++++<<<<<<<<<<<<<<<<<<<<<<<<<<<< IVTK  STOPPING()>>>>>>>>>>>>>>>>>>>>>>>>\n\n\n";
     /// Stop observation
     if(!m_communicationChannelService.expired())
     {

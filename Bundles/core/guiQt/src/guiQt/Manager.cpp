@@ -11,6 +11,7 @@
 #include <fwServices/Factory.hpp>
 #include <fwServices/helper.hpp>
 #include <fwServices/bundle/runtime.hpp>
+#include <fwRuntime/profile/Profile.hpp>
 
 #include <fwRuntime/Runtime.hpp>
 #include <fwRuntime/helper.hpp>
@@ -56,6 +57,28 @@ Manager::~Manager() throw()
 {
 	
 }
+void Manager::exit()
+{
+  std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  MAANAGER EXIT() >>>>>>>>>>>>>< \n\n\n";
+    
+     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+      profile->stop();
+}
+
+void Manager::windowClosed()
+{  std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  MAANAGER WINDOW CLOSED() >>>>>>>>>>>>>< \n\n\n";
+
+   ::fwServices::OSR::uninitializeRootObject();
+}
+
+void Manager::mainWindowClosed()
+{  std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  MAINNN WINDOW CLOSED() >>>>>>>>>>>>>< \n\n\n";
+
+   ::fwServices::OSR::uninitializeRootObject();
+   
+     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+      profile->stop();
+}
 
 
 void Manager::initialize()
@@ -65,7 +88,12 @@ void Manager::initialize()
   char** argv = NULL;
   int w,h;
   
-  QApplication app( argc,  argv);
+//  QApplication app( argc,  argv);
+  
+//  QObject::connect(&app, SIGNAL(aboutToQuit()), qApp, SLOT(exit()));
+ // QObject::connect(&app, SIGNAL(lastWindowClosed()), this, SLOT(windowClosed()));
+
+//       QObject::connect(m_sliceType, SIGNAL(currentIndexChanged(int)), this, SLOT(sliceTypeChange()));
   /*
   QWidget *widget = new QWidget();
   QVBoxLayout *layout = new QVBoxLayout();
@@ -76,17 +104,21 @@ void Manager::initialize()
   
   QWidget* mainWindow = new QMainWindow();
   
+
   QDesktopWidget *desk = QApplication::desktop();
   QRect screen = desk->screenGeometry(mainWindow);
   mainWindow->resize(screen.width(), screen.height());
 
-  app.setActiveWindow(mainWindow);
-  
+  //app.setActiveWindow(mainWindow);
+   qApp->setActiveWindow(mainWindow);
+
   ::fwServices::OSR::initializeRootObject();
 
   // a voir plus loin
   mainWindow->show();
-  app.exec();
+ // app.exec();
+  qApp->exec();
+
 }
 
 

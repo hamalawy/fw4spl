@@ -60,7 +60,7 @@ fwVtkCellPicker::fwVtkCellPicker()
 }
 
 fwVtkCellPicker::~fwVtkCellPicker()
-{
+{ 
   this->Cell->Delete();
 }
 
