@@ -471,7 +471,7 @@ void VtkRenderService::stopContext()
 
    m_renderWindow->Delete();
    
-   delete widget;
+ //  delete widget;
 
 /*
     if(m_interactor){

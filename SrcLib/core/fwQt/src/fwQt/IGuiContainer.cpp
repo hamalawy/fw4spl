@@ -87,8 +87,8 @@ void IGuiContainer::resetGuiParentContainer()
     if( m_isContainerLocallyCreated && m_container != 0 )
     {
         SLM_DEBUG("Destroying container") ;
-        delete m_container;
-        m_container = 0 ;
+         delete m_container;
+         m_container = 0 ;
     }
 }
 
@@ -119,9 +119,13 @@ void IGuiContainer::unregisterQtContainer(std::string uid)
 
     QWidget* container = m_subUIDToQtContainer[uid];
     SLM_ASSERT("Sorry, qtContainer is not correctly initialized", container);
+    
+    	m_container->close();
+
+    
     // Destroys the window safely
-    delete container;
-    container = 0;
+//     delete container;
+//     container = 0;
     // Removes container in internal map
     m_subUIDToQtContainer.erase(uid);
 

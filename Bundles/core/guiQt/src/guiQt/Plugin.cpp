@@ -25,6 +25,17 @@ static ::fwRuntime::utils::GenericExecutableFactoryRegistrar<Plugin> registrar("
 Plugin::~Plugin() throw()
 {}
 
+
+void Plugin::exit()
+{
+  std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  PLUGIN EXIT() >>>>>>>>>>>>>< \n\n\n";
+  
+     ::fwServices::OSR::uninitializeRootObject();
+
+     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+      profile->stop();
+}
+
 //-----------------------------------------------------------------------------
 
 void Plugin::start() throw(::fwRuntime::RuntimeException)
@@ -58,7 +69,12 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
         SLM_ASSERT("Profile is not initialized", profile);
         ::fwRuntime::profile::Profile::ParamsContainer params = profile->getParams();
 
-
+      
+	int argc = 1;
+	char** argv = NULL; 
+	QApplication app( argc,  argv);
+	QObject::connect(&app, SIGNAL(lastWindowClosed()), this, SLOT(exit()));
+	
 	::guiQt::Manager::initialize();
     }
     else

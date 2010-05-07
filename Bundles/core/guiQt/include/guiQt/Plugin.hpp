@@ -30,8 +30,9 @@ namespace guiQt
  * @date	2009.
  */
 
-class Plugin : public ::fwRuntime::Plugin
+class Plugin :  public  QObject, public ::fwRuntime::Plugin
 {
+  Q_OBJECT
 
 public:
 
@@ -52,6 +53,9 @@ public:
 	* @brief This method is used by runtime to close the bundle. Do nothing.
 	*/
 	void stop() throw();
+	
+public slots :
+  void exit();
 
 };
 
