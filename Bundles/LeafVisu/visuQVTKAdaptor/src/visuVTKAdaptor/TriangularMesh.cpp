@@ -435,12 +435,18 @@ TriangularMesh::~TriangularMesh() throw()
     m_clippingPlanes = 0;
 #ifndef USE_DEPTH_PEELING // replacement for depth peeling
 #ifdef USE_DEPTH_SORT
+
+  if(m_depthSort==0)
+    std::cout<<" \n\n\n  vtkDepthSortPolyData NULL \n\n\n ";
+  else
+    std::cout<<" \n\n\n Count : "<< m_depthSort->GetReferenceCount ()<<" \n\n\n ";
+
     m_depthSort->Delete();
     m_depthSort = 0;
 #endif
 #endif
 
-    m_normals->Delete();
+  //  m_normals->Delete();
     m_normals = 0;
 
     if(m_actor)

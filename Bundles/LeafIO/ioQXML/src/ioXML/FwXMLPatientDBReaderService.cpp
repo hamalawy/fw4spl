@@ -148,8 +148,8 @@ std::string FwXMLPatientDBReaderService::getSelectorDialogTitle()
     myLoader.read();
     
    // DialogBOx for WARNING here
-
     pPatientDB = ::fwData::PatientDB::dynamicCast( myLoader.getObject() );
+// /home/hchekatt/Dev/DEV_FOLDER/Src/fw4spl/Bundles/LeafIO/ioQXML/src/ioXML/FwXMLPatientDBReaderService.cpp:152
 
     return pPatientDB;
 }
@@ -252,7 +252,7 @@ bool FwXMLPatientDBReaderService::isAnFwxmlArchive( const ::boost::filesystem::p
     patientDB = createPatientDB( xmlfile );
 
     // Remove temp folder
-    ::boost::filesystem::remove_all( destFolder );
+   // ::boost::filesystem::remove_all( destFolder );
 
     return patientDB;
 }

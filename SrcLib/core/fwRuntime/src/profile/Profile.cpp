@@ -82,6 +82,7 @@ void Profile::start()
 
 void Profile::stop()
 {
+  std::cout<<"\n\n\n =======================  Profile::stop() ====================== \n\n\n";
     std::for_each( m_stoppers.rbegin(), m_stoppers.rend(), Apply< StopperContainer::value_type >() );
 }
 

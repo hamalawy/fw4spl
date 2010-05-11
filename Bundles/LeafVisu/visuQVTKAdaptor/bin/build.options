@@ -29,9 +29,8 @@ if racy.renv.system() == 'windows':
             ]
 else:
     DEF = [
-            #'USE_DEPTH_PEELING',
-            'USE_DEPTH_SORT',
-            'USE_COVERAGE_CULLER',
-#            'SHOW_ID_LABELS'  ,
+            'USE_DEPTH_PEELING',
+            #'USE_DEPTH_SORT'
+            #'USE_COVERAGE_CULLER',
+#            'SHOW_ID_LABELS' ,
             ]
-

@@ -13,6 +13,7 @@
 
 #include "guiQt/action/QuitAction.hpp"
 #include "guiQt/action/IAction.hpp"
+#include <fwRuntime/profile/Profile.hpp>
 
 
 namespace guiQt
@@ -45,9 +46,13 @@ void QuitAction::updating() throw( ::fwTools::Failed )
   // Lancement de l action   ---> correspond au  getDefault()->m_serviceCallBacks[id].lock()->update() ;
     SLM_INFO("QuitAction::updating");
     
+    
+      ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+      profile->stop();
+      
     ::fwServices::OSR::uninitializeRootObject();
     
-    
+
 
     qApp->quit();
     std::cout<<" Not quit ??? \n";
