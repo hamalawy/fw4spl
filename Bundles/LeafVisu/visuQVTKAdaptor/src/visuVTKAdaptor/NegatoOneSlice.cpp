@@ -149,7 +149,7 @@ NegatoOneSlice::NegatoOneSlice() throw()
 //------------------------------------------------------------------------------
 
 NegatoOneSlice::~NegatoOneSlice() throw()
-{
+{/*
     m_lut->Delete();
     m_lut = NULL;
 
@@ -169,6 +169,14 @@ NegatoOneSlice::~NegatoOneSlice() throw()
     m_planeOutlineMapper = NULL;
 
     m_planeOutlinePolyData->Delete();
+    m_planeOutlinePolyData = NULL;*/
+    
+    m_lut = NULL;
+    m_imageActor = NULL;
+    m_map2colors = NULL;    
+    m_imageData = NULL;    
+    m_planeOutlineActor = NULL;
+    m_planeOutlineMapper = NULL;
     m_planeOutlinePolyData = NULL;
 }
 

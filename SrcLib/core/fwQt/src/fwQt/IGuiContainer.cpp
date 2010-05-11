@@ -76,6 +76,7 @@ void IGuiContainer::resetGuiParentContainer()
         if (!m_container->layout())
         {
             QLayout* layout = m_container->layout();
+	  //  layout->deleteLater();
             QLayoutItem *child;
             while( (child = layout->takeAt( 0 )) )
             {
@@ -87,7 +88,8 @@ void IGuiContainer::resetGuiParentContainer()
     if( m_isContainerLocallyCreated && m_container != 0 )
     {
         SLM_DEBUG("Destroying container") ;
-         delete m_container;
+         //delete m_container;
+	 m_container->deleteLater();
          m_container = 0 ;
     }
 }
@@ -120,9 +122,8 @@ void IGuiContainer::unregisterQtContainer(std::string uid)
     QWidget* container = m_subUIDToQtContainer[uid];
     SLM_ASSERT("Sorry, qtContainer is not correctly initialized", container);
     
-    	m_container->close();
-
-    
+    container->deleteLater();
+    container = 0;   
     // Destroys the window safely
 //     delete container;
 //     container = 0;

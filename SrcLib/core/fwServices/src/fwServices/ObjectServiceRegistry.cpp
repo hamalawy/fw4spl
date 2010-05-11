@@ -217,6 +217,7 @@ void  ObjectServiceRegistry::registerService( ::fwTools::Object::sptr object , :
         }
     }
 
+
     // If first registration: object is registered as a new object (new reference key) as well as the service
     refKey = object ;
     getDefault()->m_container[refKey].push_back(service) ;
@@ -421,6 +422,7 @@ std::vector< ::fwTools::Object::sptr > ObjectServiceRegistry::getObjects()
                 allObjects.push_back( pos->first.lock( ) ) ;
             }
     }
+
 
     return allObjects ;
 }

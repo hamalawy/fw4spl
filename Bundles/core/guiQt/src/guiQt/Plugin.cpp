@@ -14,6 +14,7 @@
 #include "guiQt/Plugin.hpp"
 #include <QApplication>
 #include <QWidget>
+#include <QDesktopWidget>
 #include <iostream>
 
 namespace guiQt
@@ -25,12 +26,20 @@ static ::fwRuntime::utils::GenericExecutableFactoryRegistrar<Plugin> registrar("
 Plugin::~Plugin() throw()
 {}
 
+void Plugin::windowClosed()
+{  std::cout<<"\n\n\n <<<<<<<<<<<<<<<< d Plugin::windowClosed() >>>>>>>>>>>>>< \n\n\n";
+
+SLM_TRACE(" Plugin::windowClosed() boost::scoped_ptr ");
+
+  //::fwServices::OSR::uninitializeRootObject();
+}
+
 
 void Plugin::exit()
 {
   std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  PLUGIN EXIT() >>>>>>>>>>>>>< \n\n\n";
   
-     ::fwServices::OSR::uninitializeRootObject();
+    // ::fwServices::OSR::uninitializeRootObject();
 
      ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
       profile->stop();
@@ -72,10 +81,27 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
       
 	int argc = 1;
 	char** argv = NULL; 
-	QApplication app( argc,  argv);
-	QObject::connect(&app, SIGNAL(lastWindowClosed()), this, SLOT(exit()));
 	
-	::guiQt::Manager::initialize();
+	QApplication app( argc,  argv);
+ 	QObject::connect(&app, SIGNAL(lastWindowClosed()), this, SLOT(windowClosed()));
+ 	QObject::connect(&app, SIGNAL(aboutToQuit()), this, SLOT(exit()));
+	
+	QWidget* mainWindow = new QMainWindow();
+  
+	QDesktopWidget *desk = QApplication::desktop();
+	QRect screen = desk->screenGeometry(mainWindow);
+	
+	mainWindow->resize(screen.width(), screen.height());
+
+	app.setActiveWindow(mainWindow);
+
+	::fwServices::OSR::initializeRootObject();
+
+	mainWindow->show();
+	
+	app.exec();
+	
+	//::guiQt::Manager::initialize();
     }
     else
     {

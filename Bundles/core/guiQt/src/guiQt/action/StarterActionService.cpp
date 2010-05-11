@@ -55,7 +55,7 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
     {
         ActionType action =  m_uuidServices.at(i).second;
         std::string uid =  m_uuidServices.at(i).first;
-	
+        
         bool srv_exists = ::fwTools::UUID::exist(uid, ::fwTools::UUID::SIMPLE );
 
         // Manage special action
@@ -83,7 +83,7 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
         }
 
         if( action != DO_NOTHING)
-        {		   
+        {                  
             ::fwServices::IService::sptr service = ::fwServices::get( uid ) ;
             SLM_ASSERT("service not found", service);
             switch ( action )

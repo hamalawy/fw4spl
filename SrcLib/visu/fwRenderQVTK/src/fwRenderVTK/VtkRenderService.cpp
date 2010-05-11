@@ -63,8 +63,9 @@ VtkRenderService::VtkRenderService() throw() :
 
 //-----------------------------------------------------------------------------
 
-VtkRenderService::~VtkRenderService() throw() {
-
+VtkRenderService::~VtkRenderService() throw() 
+{
+ 
 }
 
 //-----------------------------------------------------------------------------
@@ -300,13 +301,9 @@ void VtkRenderService::configuring() throw(fwTools::Failed)
 
 void VtkRenderService::starting() throw(fwTools::Failed)
 {
-  //std:cout<<"VtkRenderService::starting() \n";
     SLM_TRACE_FUNC();
     this->initRender();
- // std:cout<<"VtkRenderService::starContext() \n";
-
     this->startContext();
-//  std:cout<<"NOP \n";
 
    // m_interactor->GetRenderWindow()->SetNumberOfLayers(m_renderers.size());
     for( RenderersMapType::iterator iter = m_renderers.begin(); iter != m_renderers.end(); ++iter )
@@ -349,7 +346,6 @@ void VtkRenderService::stopping() throw(fwTools::Failed)
     }
 
     this->stopContext();
-
     this->stopRender();
 }
 
@@ -386,7 +382,7 @@ void VtkRenderService::updating( ::fwServices::ObjectMsg::csptr message ) throw(
 
 void VtkRenderService::updating() throw(fwTools::Failed)
 {
-
+std::cout<<"\n\n\n <<<<<<<<<<<<<<<<<<<<<<<< UPDATING() >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n\n";
 //  assert( m_wxmanager );
 //  assert( m_interactor );
 
@@ -416,8 +412,7 @@ void VtkRenderService::startContext()
     assert( m_container ) ;
 
    // m_manager =  m_globalUIDToQtContainer.find(this->getUUID())->second;
-   QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
-
+    QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
     widget = new QVTKWidget(mainWidget);
 
     QVBoxLayout *layout = new QVBoxLayout();
@@ -430,8 +425,22 @@ void VtkRenderService::startContext()
    // m_manager->setLayout(layout);
     mainWidget->setLayout(layout);
     
-  //  m_interactor = new ::fwRenderVTK::fwWxVTKRenderWindowInteractor( m_container, -1 );
+    m_render = vtkRenderer::New();
+    m_renderWindow = vtkRenderWindow::New();
+    m_interactor = vtkRenderWindowInteractor::New();
+    
+    //m_renderWindow = widget->GetRenderWindow();
+    m_renderWindow->AddRenderer(m_render);
+    
+     //m_renderWindow->SetInteractor(m_interactor);
+     m_interactor->SetRenderWindow(m_renderWindow);
+    // m_interactor->Initialize(); //start() ?
 
+   // m_interactor =  m_renderWindow->GetInteractor();
+    
+   
+   // WX
+  //  m_interactor = new ::fwRenderVTK::fwWxVTKRenderWindowInteractor( m_container, -1 );
   //  m_interactor->SetRenderWhenDisabled(false);
   //  m_interactor->SetRenderModeToDirect();
 }
@@ -440,51 +449,42 @@ void VtkRenderService::startContext()
 
 void VtkRenderService::stopContext()
 {
-
     SLM_TRACE_FUNC();
-/*
-    if( m_wxmanager )
-    {
-        //UnInit have to be called before panels destruction
-        m_wxmanager->UnInit() ;
-        delete m_wxmanager;
-        m_wxmanager = 0 ;
-    }
-*/
-
 
     for( RenderersMapType::iterator iter = m_renderers.begin(); iter != m_renderers.end(); ++iter )
     {
         vtkRenderer *renderer = iter->second;
         renderer->InteractiveOff();
        // m_interactor->GetRenderWindow()->RemoveRenderer(renderer);
-        m_renderWindow->GetInteractor()->GetRenderWindow()->RemoveRenderer(renderer);
-        renderer->Delete();
+        //m_renderWindow->GetInteractor()->GetRenderWindow()->RemoveRenderer(renderer);	
+	m_renderWindow->RemoveRenderer(renderer);	
+       // renderer->Delete();
     }
-
-   m_renderers.clear();
+    m_renderers.clear();
+    
+    m_render->Delete();
+    m_render = 0;
+    
+    m_renderWindow->Finalize();
+    m_renderWindow->Delete();
+    m_renderWindow = 0;
    
-   m_renderWindow->GetInteractor()->GetRenderWindow()->Finalize();
-   m_renderWindow->GetInteractor()->Disable();
-   m_renderWindow->GetInteractor()->Delete();
-
-
-   m_renderWindow->Delete();
+   if(m_interactor != 0)
+   {
+      m_interactor->Disable();
+      m_interactor->Delete();
+      m_interactor = 0;
+   } 
    
- //  delete widget;
+//    delete widget;
+//    widget=0;
 
-/*
-    if(m_interactor){
-        m_interactor->DestroyChildren();
-        m_interactor->GetRenderWindow()->Finalize();
-        m_interactor->UseCaptureMouseOff();
-        m_interactor->Disable();
-        m_interactor->Delete();
-        m_interactor = 0;
-    }
+   widget->deleteLater();
+   widget=0;
 
-    m_container->DestroyChildren();
-  */  
+   m_container->deleteLater();
+   m_container=0;
+   
 }
 
 //-----------------------------------------------------------------------------

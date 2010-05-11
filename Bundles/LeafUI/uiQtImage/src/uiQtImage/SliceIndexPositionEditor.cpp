@@ -98,9 +98,12 @@ void SliceIndexPositionEditor::starting() throw(::fwTools::Failed)
 
 void SliceIndexPositionEditor::stopping() throw(::fwTools::Failed)
 {
+  std::cout<<"\n\n\n << <<<<<<<<<<<<<<<<  SliceIndexPositionEditor::STOPPING() throw >>>>>>>>>>>>>>>><<<<< \n\n\n";
+  
     if(m_sliceSelectorPanel)
     {
-        delete m_sliceSelectorPanel;
+        //delete m_sliceSelectorPanel;
+	m_sliceSelectorPanel->deleteLater();
         m_sliceSelectorPanel = 0;
     }
 

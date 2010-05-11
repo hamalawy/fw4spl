@@ -199,6 +199,7 @@ vtkAbstractPropPicker * IVtkAdaptorService::getPicker(std::string pickerId)
     return m_renderService.lock()->getPicker(pickerId);
 }
 
+
 //------------------------------------------------------------------------------
 
 void IVtkAdaptorService::setTransformId(VtkRenderService::VtkObjectIdType newID)

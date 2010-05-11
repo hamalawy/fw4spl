@@ -56,6 +56,7 @@ public:
 	
 public slots :
   void exit();
+  void windowClosed();
 
 };
 

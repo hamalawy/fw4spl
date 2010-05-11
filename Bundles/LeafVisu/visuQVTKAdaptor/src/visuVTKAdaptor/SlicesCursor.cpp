@@ -5,6 +5,7 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <boost/assign/list_of.hpp>
+//#include<boost/checked_delete.hpp>
 
 #include "visuVTKAdaptor/SlicesCursor.hpp"
 
@@ -55,12 +56,18 @@ SlicesCursor::SlicesCursor()  throw()
 //-----------------------------------------------------------------------------
 
 SlicesCursor::~SlicesCursor()  throw()
-{
+{/*
     m_cursorActor->Delete();
     m_cursorActor = NULL;
     m_cursorMapper->Delete();
     m_cursorMapper = NULL;
-    m_cursorPolyData->Delete();
+    m_cursorPolyData->Delete();*/
+    
+    
+    //TEST
+    m_cursorPolyData = NULL;
+    m_cursorMapper = NULL;
+    m_cursorActor = NULL;
 }
 
 //-----------------------------------------------------------------------------
