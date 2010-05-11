@@ -97,10 +97,10 @@ void RendererService::starting() throw(fwTools::Failed)
 //-----------------------------------------------------------------------------
 
 void RendererService::stopping() throw(fwTools::Failed)
-{/*
+{
     if( m_render == 0 ) return;
 
-    if( m_wxmanager == 0 ) return;
+ //   if( m_wxmanager == 0 ) return;
 
     if(m_bPipelineIsInit)
     {
@@ -111,21 +111,23 @@ void RendererService::stopping() throw(fwTools::Failed)
     }
 
     assert( m_interactor );
-    m_interactor->Delete();
+  //  m_interactor->Delete();   **********************
     m_interactor = 0;
 
-    assert( m_wxmanager );
-    m_wxmanager->UnInit();
-    delete m_wxmanager;
-    m_wxmanager = 0;
+//     assert( m_wxmanager );
+//     m_wxmanager->UnInit();
+//     delete m_wxmanager;
+//     m_wxmanager = 0;
 
-    m_container->DestroyChildren() ;
+    m_container->deleteLater();
+    m_container=0;
+//     m_container->DestroyChildren() ;
 
     assert( m_render );
     m_render->Delete();
     m_render = 0;
 
-    this->stopRender();*/
+    this->stopRender();
 }
 
 //-----------------------------------------------------------------------------

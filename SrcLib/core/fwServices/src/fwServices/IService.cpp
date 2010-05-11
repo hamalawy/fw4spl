@@ -200,6 +200,7 @@ void IService::update() throw(fwTools::Failed)
     OSLM_ASSERT("INVOKING update WHILE NOT IDLED ("<<m_updatingState<<") on this = " << this->className(), m_updatingState == NOTUPDATING );
     OSLM_ASSERT("INVOKING update WHILE NOT IDLED ("<<m_notificationState<<") on this = " << this->className(), !this->isSending() );
 
+
     m_updatingState = UPDATING ;
     this->updating( ) ;
     m_updatingState = NOTUPDATING ;
@@ -361,4 +362,3 @@ std::ostream & operator<<(std::ostream & _ostream, IService& _service)
 
 
 }
-

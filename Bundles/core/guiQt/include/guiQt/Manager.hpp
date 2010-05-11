@@ -24,11 +24,9 @@ namespace guiQt
   
 
   
-class  Manager : public  QObject, public ::fwCore::BaseObject
+class  Manager : public ::fwCore::BaseObject
 {
 
-  Q_OBJECT 
-  
 /**
  * @brief	Implements the controller
  * @note it is equivalent to a controller between application (basicDocument) and specific visualization bundle.
@@ -52,14 +50,7 @@ public:
 	 */
 	static void initialize() ;
 	
-	static const ::guiQt::Manager::sptr getDefault() throw();
-	
-	
-public slots :
-  void exit();
-  void windowClosed();
-  void mainWindowClosed();
-  
+	static const ::guiQt::Manager::sptr getDefault() throw(); 
 
 private:
 

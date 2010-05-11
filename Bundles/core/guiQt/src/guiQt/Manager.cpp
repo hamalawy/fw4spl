@@ -57,29 +57,6 @@ Manager::~Manager() throw()
 {
 	
 }
-void Manager::exit()
-{
-  std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  MAANAGER EXIT() >>>>>>>>>>>>>< \n\n\n";
-    
-     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-      profile->stop();
-}
-
-void Manager::windowClosed()
-{  std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  MAANAGER WINDOW CLOSED() >>>>>>>>>>>>>< \n\n\n";
-
-   ::fwServices::OSR::uninitializeRootObject();
-}
-
-void Manager::mainWindowClosed()
-{  std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  MAINNN WINDOW CLOSED() >>>>>>>>>>>>>< \n\n\n";
-
-   ::fwServices::OSR::uninitializeRootObject();
-   
-     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-      profile->stop();
-}
-
 
 void Manager::initialize()
 {

@@ -112,6 +112,8 @@ void RendererService::starting() throw(fwTools::Failed)
     
 //    widget->SetRenderWindow(renderWindow);
     m_interactor = renderWindow->GetInteractor();
+    //m_interactor->SetRenderWindow(renderWindow);
+
 }
 
 //-----------------------------------------------------------------------------
@@ -127,32 +129,25 @@ void RendererService::configuring() throw(::fwTools::Failed)
 //-----------------------------------------------------------------------------
 
 void RendererService::stopping() throw(fwTools::Failed)
-{/*
+{
     if( m_render == 0 ) return;
-
-    if( m_wxmanager == 0 ) return;
+    
+    assert( m_render );
+    m_render->Delete();
+    m_render = 0;
 
     assert( m_interactor );
     if ( m_isCamMaster )
     {
         m_interactor->RemoveObserver(m_loc);
     }
-    m_interactor->Delete();
+   // m_interactor->Delete();       ********************
     m_interactor = 0;
 
-    assert( m_wxmanager );
-    m_wxmanager->UnInit();
-    delete m_wxmanager;
-    m_wxmanager = 0;
+    m_container->deleteLater();
+    m_container=0;
 
-    m_container->DestroyChildren() ;
-
-    assert( m_render );
-    m_render->Delete();
-    m_render = 0;
-
-    this->stopRender();
-    */
+    this->stopRender(); 
 }
 
 //-----------------------------------------------------------------------------

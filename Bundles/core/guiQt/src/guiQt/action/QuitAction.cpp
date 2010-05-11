@@ -46,6 +46,8 @@ void QuitAction::updating() throw( ::fwTools::Failed )
     SLM_INFO("QuitAction::updating");
     
     ::fwServices::OSR::uninitializeRootObject();
+    
+    
 
     qApp->quit();
     std::cout<<" Not quit ??? \n";
