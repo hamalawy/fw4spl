@@ -125,6 +125,7 @@ void IEditionService::notify(
         ::fwServices::ObjectMsg::sptr _pMsg,
         ::fwServices::ComChannelService::MsgOptionsType options )
 {
+       std::cout<<" \n\n\n                        IEditionService::notify( 4 ARGS ) \n\n\n";
 
     _pSource->sendingModeOn();
     _pMsg->setSource(_pSource);
@@ -346,6 +347,7 @@ bool IEditionService::hasExpiredObserver()
 void IEditionService::notify( ::fwServices::ObjectMsg::csptr eventMessage, ::fwServices::ComChannelService::MsgOptionsType options )
 {
     SLM_ASSERT( "ACH : we have expired observer in the observer list", !hasExpiredObserver() );
+       std::cout<<" \n\n\n                        IEditionService::notify( 2 ARGS ) \n\n\n";
 
     typedef std::set< ::fwServices::ComChannelService::wptr, SetLess > NotifiedOberverContainer;
     NotifiedOberverContainer notifiedObservers;

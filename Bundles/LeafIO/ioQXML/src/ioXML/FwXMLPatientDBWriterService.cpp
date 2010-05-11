@@ -182,16 +182,17 @@ void FwXMLPatientDBWriterService::manageZipAndSavePatientDB( const ::boost::file
     // Save in tmp folder
     ::boost::filesystem::path srcFolder = ::fwTools::System::getTemporaryFolder() / "fwxmlArchiveFolder";
     ::boost::filesystem::path xmlfile = srcFolder / "patient.xml";
-    ::boost::filesystem::create_directories( srcFolder );
+    //::boost::filesystem::create_directories( srcFolder );
     savePatientDB(xmlfile,_pPatient);
 
     // Zip
     QString destZipFileName( inrFileDir.string().c_str() );
     QString srcFolderName( srcFolder.string().c_str() );
-    ::fwQt::ZipFolder::packFolder( srcFolderName, destZipFileName );
+    
+   // ::fwQt::ZipFolder::packFolder( srcFolderName, destZipFileName );
 
     // Remove temp folder
-    ::boost::filesystem::remove_all( srcFolder );
+   // ::boost::filesystem::remove_all( srcFolder );
 }
 
 //------------------------------------------------------------------------------

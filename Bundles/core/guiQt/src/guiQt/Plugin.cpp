@@ -32,6 +32,7 @@ void Plugin::windowClosed()
 SLM_TRACE(" Plugin::windowClosed() boost::scoped_ptr ");
 
   //::fwServices::OSR::uninitializeRootObject();
+
 }
 
 
@@ -41,8 +42,8 @@ void Plugin::exit()
   
     // ::fwServices::OSR::uninitializeRootObject();
 
-     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-      profile->stop();
+//      ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+//       profile->stop();
 }
 
 //-----------------------------------------------------------------------------
