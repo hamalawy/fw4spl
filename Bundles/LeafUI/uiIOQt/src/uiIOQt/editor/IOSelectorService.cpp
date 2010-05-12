@@ -126,7 +126,7 @@ void IOSelectorService::stopping() throw( ::fwTools::Failed )
 void IOSelectorService::startSelectedService()
 {
   std::string extensionId;
-  
+ 
   for(    std::vector< std::pair < std::string, std::string > >::iterator itExt = availableExtensionsMap.begin();itExt < availableExtensionsMap.end(); itExt++ )
   {
 //	std::cout<<m_selectedString<<"    FOR --> Second : "<<itExt->second<<" First :"<<itExt->first<<" \n";
@@ -137,15 +137,6 @@ void IOSelectorService::startSelectedService()
       }
    }
    
-  if(m_list->selectedItems().count()==0)
-  {
-    //  std::cout<<"\n NO ITEM SELECTED \n";
-	 //extensionId = selection.first();
-  }
-
-// std::cout<<"\n\n connect MODE = "<<m_mode<<"\n\n";
-
-
   if ( m_mode == READER_MODE )
   {
 
@@ -178,9 +169,8 @@ void IOSelectorService::getListIndex()
   QListWidgetItem *first =  l.first();
   
   m_selectedString = first->text().toStdString();
-  m_list->row(first);
-  
-  //std::cout<< m_list->row(first)<<" : "<<first->text().toStdString()<<" \n"; 
+  //m_list->row(first);
+ 
 }
 
 void IOSelectorService::doubleClickSelection()
@@ -288,11 +278,17 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
         if ( availableExtensionsSelector.size() > 1 )
         {
             //::fwWX::Selector selector( wxTheApp->GetTopWindow() , _("Reader to use") , availableExtensionsSelector );
+	    // Sort : asc and case sensitive
+	    selection.sort();
 	    ::fwQt::Selector selector(mainWidget, selection);
+	   // selector.m_list->sortItems(Qt::AscendingOrder);
 	    m_list = selector.m_list;
+	    // A tester : si list vide
+	    m_list->setCurrentRow(0);
+            m_selectedString = m_list->selectedItems().first()->text().toStdString();
+
 	    box = selector.box;
 	    
-	  //  std::cout<<"    CONNECT \n";
 	    QObject::connect(selector.m_okButton, SIGNAL(clicked()), this, SLOT(startSelectedService()));
 	    QObject::connect(selector.m_cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
 	    QObject::connect(selector.m_list, SIGNAL(itemSelectionChanged()), this, SLOT(getListIndex()));
@@ -303,8 +299,7 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
             {
                // selector.SetTitle( _("Writer to use") );
             }
-
-	 
+ 
 	  selector.box->setModal(true);
 	  selector.box->show();
 	}

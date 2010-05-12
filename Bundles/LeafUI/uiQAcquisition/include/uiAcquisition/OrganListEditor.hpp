@@ -79,7 +79,7 @@ protected:
 */
 private:
 
-//    void refreshVisibility();
+    void refreshVisibility();
     QGroupBox *m_organs;
     QCheckBox* m_showCheckBox;
     OrganNameReconstruction m_map ;    

@@ -27,8 +27,7 @@ Plugin::~Plugin() throw()
 {}
 
 void Plugin::windowClosed()
-{  std::cout<<"\n\n\n <<<<<<<<<<<<<<<< d Plugin::windowClosed() >>>>>>>>>>>>>< \n\n\n";
-
+{  
 SLM_TRACE(" Plugin::windowClosed() boost::scoped_ptr ");
 
  // ::fwServices::OSR::uninitializeRootObject();
@@ -38,7 +37,7 @@ SLM_TRACE(" Plugin::windowClosed() boost::scoped_ptr ");
 
 void Plugin::exit()
 {
-  std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  PLUGIN EXIT() >>>>>>>>>>>>>< \n\n\n";
+  //std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  PLUGIN EXIT() >>>>>>>>>>>>>< \n\n\n";
   
     // ::fwServices::OSR::uninitializeRootObject();
 

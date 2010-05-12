@@ -5,9 +5,7 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwCore/base.hpp>
-
 #include <fwTools/UUID.hpp>
-
 #include <fwServices/helper.hpp>
 #include <fwRuntime/ConfigurationElement.hpp>
 
@@ -16,7 +14,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QVBoxLayout>
-
 #include <QPushButton>
 #include <QString>
 

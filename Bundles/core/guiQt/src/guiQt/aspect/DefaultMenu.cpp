@@ -115,7 +115,7 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
                 {
 		//   std::cout<<" FOR m_menuName : "<<m_menuName<<" \n\n";
                     (*iterAction)->setMenuName( m_menuName ) ;
-		    std::cout<<"    iterAction-getMenuName() : "<<(*iterAction)->getMenuName()<<"\n";
+		//    std::cout<<"    iterAction-getMenuName() : "<<(*iterAction)->getMenuName()<<"\n";
 		//    std::cout<<"---> Start Actions \n";
 		    
 		//    std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<"\n";
