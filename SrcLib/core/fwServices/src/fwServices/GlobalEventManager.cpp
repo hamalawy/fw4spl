@@ -112,16 +112,13 @@ void GlobalEventManager::dispatch()
     SLM_WARN_IF( "Message's subject expired", pMsg->getSubject().expired() );
     if(!pMsg->getSubject().expired())
     {
-      std::cout<<" \n>>>>>>>> IF GlobalEventManager::dispatch : Message's source expired";
-
-      
+     
         SLM_INFO_IF( "Message's source expired", pMsg->getSource().expired());
         OSLM_INFO( "dispatching MSG : " << pMsg->getGeneralInfo() );
         ::fwTools::Object::sptr pSubject = pMsg->getSubject().lock();
 
         ::fwServices::IEditionService::sptr srv;
         srv = ::fwServices::get< ::fwServices::IEditionService >( pSubject );
-	 std::cout<<" \n>>>>>>>> >>>>>>>>>>>> RE notify ---> "<< m_deliveryType << "\n";
         srv->notify( pMsg, options ) ;
     }
     m_msgDeque.pop_front();
@@ -133,7 +130,6 @@ void GlobalEventManager::notify( ::fwServices::ObjectMsg::sptr _pMsg, ::fwServic
 
     if ( m_deliveryType == DELEGATED_BREADTH_FIRST )
     {
-      std::cout<<" \n>>>>>>>> 1 GlobalEventManager::notify :  DELEGATED_BREADTH_FIRST \n\n\n";
         OSLM_INFO( "MSG queued : " << _pMsg->getGeneralInfo() );
         MessageAndOptions msg ( _pMsg, _options );
         m_msgDeque.push_back( msg );
@@ -145,26 +141,21 @@ void GlobalEventManager::notify( ::fwServices::ObjectMsg::sptr _pMsg, ::fwServic
     }
     else if ( m_deliveryType == BREADTH_FIRST )
     {
-       std::cout<<" \n>>>>>>>> 2 GlobalEventManager::notify :  BREADTH_FIRST )";
-
         OSLM_INFO( "MSG queued for immediate notification : " << _pMsg->getGeneralInfo() );
         MessageAndOptions msg ( _pMsg, _options );
         m_msgDeque.push_back( msg );
         //pushEventInDeque( _pMsg, _options );
-	 std::cout<<" \n>>>>>>>> >>>>>>  m_msgDeque.size() = "<< m_msgDeque.size()<< "";
         if ( m_msgDeque.size() == 1 )
         {
             while ( GlobalEventManager::pending() )
-            {	 std::cout<<" \n>>>>>>>> >>>>>>  >>>>>> GlobalEventManager::dispatch(); \n\n\n";
+            {	 
 
                 GlobalEventManager::dispatch();
             }
         }
     }
     else if ( m_deliveryType == DEPTH_FIRST )
-    {
-       std::cout<<" \n>>>>>>>> 3 GlobalEventManager::notify :  DEPTH_FIRST ) \n\n\n";
-      
+    {      
         ::fwServices::IService::sptr pSource = _pMsg->getSource().lock();
         ::fwTools::Object::sptr pSubject = _pMsg->getSubject().lock();
 
