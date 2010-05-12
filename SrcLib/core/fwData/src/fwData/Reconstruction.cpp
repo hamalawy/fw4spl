@@ -61,9 +61,7 @@ Reconstruction::Reconstruction() :
 
 Reconstruction::~Reconstruction()
 {
-    SLM_WARN("::fwData::~Reconstruction() : (ToDo)");
-std::cout<<"\n\n\n =======================  DESTRCUTEUR ~Reconstruction() ====================== \n\n\n";
-   
+    SLM_WARN("::fwData::~Reconstruction() : (ToDo)");   
 }
 
 //------------------------------------------------------------------------------

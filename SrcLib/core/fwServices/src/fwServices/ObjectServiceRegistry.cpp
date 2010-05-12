@@ -287,7 +287,6 @@ void ObjectServiceRegistry::unregisterServices(  ::fwTools::Object::sptr  obj )
                     assert( (*lIter).use_count() != 0 );
                     if (*lIter != NULL )
                     {
-		      std::cout<<" \n\n\n ( *lIter) : "<< ( *lIter)->getUUID() <<"\n\n";
                         ( *lIter)->stop();
                         ::fwServices::unregisterComChannels( (*lIter) ) ;
                     }

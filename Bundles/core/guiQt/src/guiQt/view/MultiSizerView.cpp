@@ -167,14 +167,10 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
 	
 	if( pi->m_proportion==0)
 	{
-      	 // std::cout<<"\n <<<<<<<<<<<<<<<<<<<<<<<< Proportion 0 : PanelUID  "<<pi->m_uid<<" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
 	  pi->m_panel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	}
 	else
 	  pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-
-//	 pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-
 
 	layout->addWidget( pi->m_panel);
 	

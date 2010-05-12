@@ -153,6 +153,8 @@ void OrganListEditor::updateReconstructions()
         wxArrayString organChoices ;
         for( OrganNameReconstruction::iterator iter = m_map.begin(); iter != m_map.end(); ++iter )
         {
+	    std::cout<<" \n\n\n ADD ORGAN: \n\n\n";
+ 
             //Convert std::string to wxString
             organChoices.Add( ::fwWX::std2wx( (*iter).first.data() ) ) ;
         }

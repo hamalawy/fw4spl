@@ -97,24 +97,20 @@ void OrganListEditor::configuring() throw(fwTools::Failed)
 
 void OrganListEditor::updating() throw(::fwTools::Failed)
 {
- // std::cout<<"   \n UPDATING  \n \n";
   this->updateReconstructions();
-  //  this->refreshVisibility();
+  this->refreshVisibility();
 }
 
 //------------------------------------------------------------------------------
 
 void OrganListEditor::swapping() throw(::fwTools::Failed)
 {
-      std::cout<<"\n\n\n OrganListEditor::SW>APPING \n\n";
-
     this->updating();
 }
 //------------------------------------------------------------------------------
 
 void OrganListEditor::updating( ::fwServices::ObjectMsg::csptr msg ) throw(::fwTools::Failed)
 {
-    std::cout<<"\n\n\n OrganListEditor::updating(MSG) \n\n";
 
     ::fwComEd::AcquisitionMsg::csptr acquisitionMsg = ::fwComEd::AcquisitionMsg::dynamicConstCast( msg ) ;
     if ( acquisitionMsg )
@@ -139,15 +135,15 @@ void OrganListEditor::info( std::ostream &_sstream )
 
 void OrganListEditor::updateReconstructions()
 {
-  std::cout<<"\n\n\n OrganListEditor::updateReconstructions() \n\n";
   std::string string;
-
-   // m_organChoice->Clear();
+  
+    m_listW->clear();
     m_map.clear();
     
     ::fwData::Acquisition::sptr acq = this->getObject< ::fwData::Acquisition >();
     m_container->setEnabled(acq->getReconstructions().first != acq->getReconstructions().second);
     
+
     if(!m_container->isEnabled())
     {
       m_listW->clear();
@@ -164,16 +160,13 @@ void OrganListEditor::updateReconstructions()
         for( OrganNameReconstruction::iterator iter = m_map.begin(); iter != m_map.end(); ++iter )
         {
 	  string = (*iter).first.data();
-
 	  QListWidgetItem *item = new QListWidgetItem(string.c_str(), m_listW);
 	  item->setCheckState(Qt::Checked);
+	  
 	  //m_listW->addItem(item);
 	}
-
-
-
+	
 	QObject::connect(m_listW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(organChoiceSelection()));
-
 
         bool showAllRec = true;
         if (acq->getFieldSize("ShowReconstructions"))
@@ -216,9 +209,7 @@ void OrganListEditor::notifyOrganChoiceSelection()
 //------------------------------------------------------------------------------
 
 void OrganListEditor::organChoiceVisibility()
-{
-    //std::cout<<" SLOT() ---> VISIBILITY \n";
- 
+{ 
     std::string organSelected = m_item->text().toStdString();
     ::fwData::Reconstruction::sptr rec = m_map[organSelected] ;
     assert(rec) ;    
@@ -254,20 +245,23 @@ void OrganListEditor::showReconstructions()
 
     m_listW->setEnabled(!m_showCheckBox->isChecked());
 }
-/*
+
 //------------------------------------------------------------------------------
 
 void OrganListEditor::refreshVisibility()
 {
     int item=0;
     for( OrganNameReconstruction::iterator iter = m_map.begin(); iter != m_map.end(); ++iter, ++item )
-    {
-        m_organChoice->Check( item, iter->second->getIsVisible()  );
+    {     
+      if(iter->second->getIsVisible() == true)
+	m_listW->item(item)->setCheckState(Qt::Checked);
+      else
+	m_listW->item(item)->setCheckState(Qt::Unchecked);
     }
 }
 
 
 
-*/
+
 }
 

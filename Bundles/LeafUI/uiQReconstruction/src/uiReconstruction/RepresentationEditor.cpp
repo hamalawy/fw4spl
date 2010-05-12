@@ -72,9 +72,9 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
 
     
     QRadioButton *surface = new QRadioButton(QObject::tr("Surface"));
-    QRadioButton *point = new QRadioButton(QObject::tr("Poinr"));
+    QRadioButton *point = new QRadioButton(QObject::tr("Point"));
     QRadioButton *wireframe = new QRadioButton(QObject::tr("Wireframe"));
-    QRadioButton *edge = new QRadioButton(QObject::tr("Edges"));
+    QRadioButton *edge = new QRadioButton(QObject::tr("Edge"));
     
     QRadioButton *flat = new QRadioButton(QObject::tr("Flat"));
     QRadioButton *gouraud = new QRadioButton(QObject::tr("Gouraud"));

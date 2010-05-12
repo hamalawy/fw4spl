@@ -261,8 +261,6 @@ std::string ComChannelService::getNotificationInformation( ::fwServices::ObjectM
 
 void ComChannelService::sendMessage( ::fwServices::ObjectMsg::csptr _msg, ::fwServices::ComChannelService::MsgOptionsType options )
 {
-  
-  std::cout<<"\n\n\n  ComChannelService::sendMessage  \n\n\n";
     if( m_destination.lock()->isStarted())
     {  
         bool notifySource = options & ::fwServices::ComChannelService::NOTIFY_SOURCE;

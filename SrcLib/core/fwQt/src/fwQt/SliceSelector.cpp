@@ -43,9 +43,7 @@ SliceSelector::SliceSelector(QWidget* const parent ) throw()
      
      m_sliceType->setMinimumHeight(30);
      m_sliceIndex->setFixedHeight(20);
-     
-    m_sliceIndex->setRange(0, 121);
-    m_sliceIndex->setValue(121/2);
+
     m_sliceIndex->setTickPosition(QSlider::TicksBothSides);
     m_sliceIndex->setTickInterval(10);
     
