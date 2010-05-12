@@ -264,16 +264,13 @@ void ComChannelService::sendMessage( ::fwServices::ObjectMsg::csptr _msg, ::fwSe
   
   std::cout<<"\n\n\n  ComChannelService::sendMessage  \n\n\n";
     if( m_destination.lock()->isStarted())
-    {  std::cout<<" ========> IF \n";
-
+    {  
         bool notifySource = options & ::fwServices::ComChannelService::NOTIFY_SOURCE;
         if( m_destination.lock() !=  _msg->getSource().lock() || notifySource )
-        {std::cout<<" ========> IF========>IF \n";
+        {
             SLM_INFO( getNotificationInformation(_msg) );
             m_destination.lock()->update(_msg ) ;
-	    std::cout<<" ========> IF========>ENDIF \n";
         }
-	std::cout<<" ========> ENDIF \n";
     }
 }
 
