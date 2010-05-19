@@ -28,45 +28,42 @@ Plugin::~Plugin() throw()
 
 void Plugin::windowClosed()
 {    
-SLM_TRACE(" Plugin::windowClosed() boost::scoped_ptr ");
+  SLM_TRACE_FUNC();
   ::fwServices::OSR::uninitializeRootObject();
   
-SLM_TRACE(" FFFFFFFFFFFFFIIIIIIIIIIINNNNNNNNNNNNNNNN window closed");
+  SLM_TRACE(" OSR Unitialize DONE");
 
-::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-profile->stop();
+  ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+  profile->stop();
 
-SLM_TRACE(" VRAIMENT LA Fin ");
+  SLM_TRACE(" VRAIMENT LA Fin ");
 // OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
-// qApp->quit();std::cout<<" Not quit ??? \n";
 
 }
 
 
 void Plugin::exit()
-{OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
+{
+  SLM_TRACE_FUNC();
+  OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
 
-  SLM_TRACE(" <<<<<<<<<<<<<<<<  PLUGIN EXIT() >>>>>>>>>>>>>< ");
   qApp->flush();
     SLM_TRACE(" <<<<<<<<<<<<<<<<  FLUSH DONE >>>>>>>>>>>>>< ");
-qApp->exit(0);
+  qApp->exit(0);
     SLM_TRACE(" <<<<<<<<<<<<<<<<  EXIT DONE >>>>>>>>>>>>>< ");
-    
     OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
 
-
     // ::fwServices::OSR::uninitializeRootObject();
-
-//       ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-//        profile->stop();
+//     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+//     profile->stop();
 }
 
 void Plugin::printDestruction()
-{OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
-
-   SLM_TRACE_FUNC();
-   SLM_TRACE(" <<<<<<<<<<<<<<<<  qApp DESTROYED >>>>>>>>>>>>>< ");
-OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
+{
+  SLM_TRACE_FUNC();
+  OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
+  SLM_TRACE(" <<<<<<<<<<<<<<<<  qApp DESTROYED >>>>>>>>>>>>>< ");
+  OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
 
    
 }
