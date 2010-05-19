@@ -55,7 +55,7 @@ Manager::Manager() throw()
 
 Manager::~Manager() throw()
 {
-	
+	SLM_TRACE_FUNC();
 }
 
 void Manager::initialize()
@@ -86,6 +86,8 @@ void Manager::initialize()
   QRect screen = desk->screenGeometry(mainWindow);
   mainWindow->resize(screen.width(), screen.height());
 
+  // TESt
+  //mainWindow->setAttribute(Qt::WA_QuitOnClose);//Qt::WA_DeleteOnClose
   //app.setActiveWindow(mainWindow);
    qApp->setActiveWindow(mainWindow);
 
@@ -98,8 +100,7 @@ void Manager::initialize()
 
 }
 
-
-
+  
 const ::guiQt::Manager::sptr Manager::getDefault() throw()
 {
     if(m_instance.get() == 0)

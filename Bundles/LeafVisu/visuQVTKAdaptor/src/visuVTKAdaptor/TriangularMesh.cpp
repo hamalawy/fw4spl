@@ -280,11 +280,13 @@ class PlaneCollectionAdaptorStarter : public TriangularMeshVtkCommand
     }
 
     void Clear()
-    {
+    { 
+      SLM_TRACE_FUNC();
         BOOST_FOREACH( ::visuVTKAdaptor::TriangularMesh::wptr adaptor, m_meshServices )
         {
             if (!adaptor.expired())
             {
+	         SLM_TRACE("  TriangularMesh::clear() call  this->unregisterServices() on adaptor ");
                 ::fwServices::OSR::unregisterService(adaptor.lock());
             }
         }
@@ -435,19 +437,16 @@ TriangularMesh::~TriangularMesh() throw()
     m_clippingPlanes = 0;
 #ifndef USE_DEPTH_PEELING // replacement for depth peeling
 #ifdef USE_DEPTH_SORT
-
-  if(m_depthSort==0)
-    std::cout<<" \n\n\n  vtkDepthSortPolyData NULL \n\n\n ";
-  else
-    std::cout<<" \n\n\n Count : "<< m_depthSort->GetReferenceCount ()<<" \n\n\n ";
-
     m_depthSort->Delete();
     m_depthSort = 0;
 #endif
 #endif
 
-  //  m_normals->Delete();
-    m_normals = 0;
+    if(m_normals)
+    {
+//      m_normals->Delete();
+      m_normals = 0;
+    }
 
     if(m_actor)
     {
@@ -509,7 +508,8 @@ void TriangularMesh::doStop() throw(fwTools::Failed)
     {
         this->removeFromPicker(m_actor);
     }
-
+    
+  SLM_TRACE("  TriangularMesh::doStop() call to removeNormalsService(); ");
     removeNormalsService();
     removePlaneCollectionShifterCommand();
     removeServicesStarterCommand();
@@ -520,6 +520,7 @@ void TriangularMesh::doStop() throw(fwTools::Failed)
 #endif
 #endif
 
+  SLM_TRACE("  TriangularMesh::doStop() call  this->unregisterServices(); ");
     this->unregisterServices();
 }
 
@@ -697,8 +698,10 @@ void TriangularMesh::createNormalsService()
 
 void TriangularMesh::removeNormalsService()
 {
+  SLM_TRACE_FUNC();
     if ( !m_normalsService.expired() )
     {
+        SLM_TRACE("  TriangularMesh::removeNormalsService() call  this->unregisterServices(); ");
         ::fwServices::OSR::unregisterService(m_normalsService.lock());
     }
 }

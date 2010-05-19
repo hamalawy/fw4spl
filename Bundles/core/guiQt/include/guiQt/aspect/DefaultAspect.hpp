@@ -83,6 +83,7 @@ private:
 
     std::string  m_uid;
     bool         m_autostart;
+    std::vector< std::string >       m_managedServices;
 };
 
 

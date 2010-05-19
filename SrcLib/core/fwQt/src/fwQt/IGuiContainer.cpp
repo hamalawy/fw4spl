@@ -117,8 +117,11 @@ void IGuiContainer::unregisterQtContainer(std::string uid)
     QWidget* container = m_subUIDToQtContainer[uid];
     SLM_ASSERT("Sorry, qtContainer is not correctly initialized", container);
     
-    container->deleteLater();
-    container = 0;   
+    if(container != 0)
+    {
+      container->deleteLater();
+      container = 0;   
+    }
     // Destroys the window safely
 //     delete container;
 //     container = 0;

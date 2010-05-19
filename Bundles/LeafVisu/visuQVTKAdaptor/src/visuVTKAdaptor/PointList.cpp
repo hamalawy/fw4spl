@@ -54,11 +54,13 @@ void PointList::configuring() throw(fwTools::Failed)
 
 void PointList::doStart() throw(fwTools::Failed)
 {
+  SLM_TRACE_FUNC();
     this->doUpdate();
 }
 
 void PointList::doUpdate() throw(fwTools::Failed)
 {
+  SLM_TRACE_FUNC();
     this->doStop();
 
     ::fwData::PointList::sptr ptList = this->getObject< ::fwData::PointList >();
@@ -81,12 +83,16 @@ void PointList::doUpdate() throw(fwTools::Failed)
 
 void PointList::doSwap() throw(fwTools::Failed)
 {
+  SLM_TRACE_FUNC();
     this->doUpdate();
 }
 
 void PointList::doStop() throw(fwTools::Failed)
 {
+  SLM_TRACE_FUNC();
+  SLM_TRACE("PointList::doStop()  call to this->unregisterServices();");
     this->unregisterServices();
+  SLM_TRACE("PointList::doStop()  returned from this->unregisterServices(); ");  
 }
 
 

@@ -28,6 +28,7 @@ PointList::PointList ()
 PointList::~PointList ()
 {
     SLM_TRACE_FUNC();
+    SLM_TRACE(" lAFTER breakpoint");
 }
 
 //------------------------------------------------------------------------------

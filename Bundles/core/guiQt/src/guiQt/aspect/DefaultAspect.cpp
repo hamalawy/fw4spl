@@ -5,6 +5,11 @@
  * ****** END LICENSE BLOCK ****** */
 #include <QApplication>
 #include <QWidget>
+
+#include <boost/foreach.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/convenience.hpp>
+
 #include <fwServices/helper.hpp>
 #include <fwServices/macros.hpp>
 #include <fwServices/Factory.hpp>
@@ -66,6 +71,24 @@ void DefaultAspect::configuring() throw( ::fwTools::Failed )
     {
         SLM_WARN("No main view specified.");
     }
+    
+    m_managedServices.clear();
+    if (m_configuration->findConfigurationElement("services"))
+    {
+        ::fwRuntime::ConfigurationElement::sptr servicesCfgElt = m_configuration->findConfigurationElement("services");
+
+        std::vector < ::fwRuntime::ConfigurationElement::sptr > vectConfig = servicesCfgElt->find("service");
+        assert(!vectConfig.empty());
+
+        ::fwRuntime::ConfigurationElementContainer::Iterator iter;
+        for (iter = vectConfig.begin() ; iter != vectConfig.end() ; ++iter)
+        {
+            SLM_FATAL_IF("<services> node can only contain <service> node", (*iter)->getName()!="service" );
+            SLM_FATAL_IF("<service> node must contain uid attribute", !(*iter)->hasAttribute("uid") );
+            m_managedServices.push_back((*iter)->getExistingAttributeValue("uid"));
+        }
+    } 
+    
 }
 
 //-----------------------------------------------------------------------------
@@ -81,12 +104,28 @@ void DefaultAspect::starting() throw(::fwTools::Failed)
     ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
     service->start();
   }
+  
+   BOOST_FOREACH(std::string serviceUID, m_managedServices)
+    {
+        OSLM_FATAL_IF("Service " << serviceUID << " doesn't exist.", ! ::fwTools::UUID::exist(serviceUID, ::fwTools::UUID::SIMPLE ));
+        ::fwServices::IService::sptr service = ::fwServices::get( serviceUID ) ;
+        service->start();
+    }
 }
 
 //-----------------------------------------------------------------------------
 
 void DefaultAspect::stopping() throw(::fwTools::Failed)
 {
+  SLM_TRACE_FUNC();
+  
+   BOOST_REVERSE_FOREACH(std::string serviceUID, m_managedServices)
+    {
+        OSLM_FATAL_IF("Service " << serviceUID << " doesn't exist.", ! ::fwTools::UUID::exist(serviceUID, ::fwTools::UUID::SIMPLE ));
+        ::fwServices::IService::sptr service = ::fwServices::get( serviceUID ) ;
+        service->stop();
+    }
+  
   if(!m_uid.empty())
     {
         ::fwQt::IGuiContainer::unregisterGlobalQtContainer(m_uid);

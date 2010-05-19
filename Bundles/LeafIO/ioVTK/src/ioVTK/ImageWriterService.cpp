@@ -41,7 +41,8 @@ ImageWriterService::ImageWriterService() throw() :
 //------------------------------------------------------------------------------
 
 ImageWriterService::~ImageWriterService() throw()
-{}
+{    SLM_TRACE("ImageWriterService::~ImageWriterService()");
+}
 
 //------------------------------------------------------------------------------
 

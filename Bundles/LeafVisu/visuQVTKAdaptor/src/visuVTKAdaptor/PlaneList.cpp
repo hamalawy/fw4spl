@@ -290,8 +290,11 @@ void PlaneList::doStop() throw(fwTools::Failed)
         m_rightButtonCommand->Delete();
         m_rightButtonCommand = 0;
     }
-
+ SLM_TRACE_FUNC();
+ SLM_TRACE("PlaneList::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+ SLM_TRACE("PlaneList::doStop()  returned from this->unregisterServices(); ");  
+
 }
 
 

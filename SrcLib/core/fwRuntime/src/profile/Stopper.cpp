@@ -31,6 +31,7 @@ Stopper::Stopper( ::boost::shared_ptr< Starter > starter )
 void Stopper::apply()
 {
     SLM_TRACE_FUNC();
+    OSLM_TRACE("Stopper::apply()===> Bundle to stop : "<<m_identifier);
      ::boost::shared_ptr< Bundle >  bundle = Runtime::getDefault()->findBundle(m_identifier);
     if( bundle == 0 )
     {

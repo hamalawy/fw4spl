@@ -209,8 +209,11 @@ void Reconstruction::doStop() throw(fwTools::Failed)
     //{
         //this->removeFromPicker(this->getActor());
     //}
-
+ SLM_TRACE_FUNC();
+ SLM_TRACE("Reconstruction::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+ SLM_TRACE("Reconstruction::doStop()  returned from this->unregisterServices(); ");  
+   
 }
 
 //------------------------------------------------------------------------------

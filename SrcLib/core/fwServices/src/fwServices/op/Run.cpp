@@ -109,6 +109,8 @@ void stop( ::fwRuntime::ConfigurationElement::sptr _elt)
 
 void stopAndUnregister( ::fwRuntime::ConfigurationElement::sptr _elt)
 {
+      SLM_TRACE_FUNC();
+
     for( ::fwRuntime::ConfigurationElementContainer::Iterator iter = _elt->begin() ; iter != _elt->end() ; ++iter )
     {
         if( (*iter)->getName() == "stop" )
@@ -129,6 +131,8 @@ void stopAndUnregister( ::fwRuntime::ConfigurationElement::sptr _elt)
                 std::string uid = (*iter)->getExistingAttributeValue("uid") ;
                 OSLM_FATAL_IF("Configuration : element " << uid << " not found", ! ::fwServices::has(uid));
                 OSLM_INFO("Stopping service with UUID " << uid ) ;
+		
+                OSLM_TRACE("Stopping service with UUID " << uid ) ;
                 erase(::fwServices::get(uid)) ;
             }
         }

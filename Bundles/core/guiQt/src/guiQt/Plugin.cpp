@@ -27,22 +27,48 @@ Plugin::~Plugin() throw()
 {}
 
 void Plugin::windowClosed()
-{  
+{    
 SLM_TRACE(" Plugin::windowClosed() boost::scoped_ptr ");
+  ::fwServices::OSR::uninitializeRootObject();
+  
+SLM_TRACE(" FFFFFFFFFFFFFIIIIIIIIIIINNNNNNNNNNNNNNNN window closed");
 
- // ::fwServices::OSR::uninitializeRootObject();
+::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+profile->stop();
+
+SLM_TRACE(" VRAIMENT LA Fin ");
+// OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
+// qApp->quit();std::cout<<" Not quit ??? \n";
 
 }
 
 
 void Plugin::exit()
-{
-  //std::cout<<"\n\n\n <<<<<<<<<<<<<<<<  PLUGIN EXIT() >>>>>>>>>>>>>< \n\n\n";
-  
+{OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
+
+  SLM_TRACE(" <<<<<<<<<<<<<<<<  PLUGIN EXIT() >>>>>>>>>>>>>< ");
+  qApp->flush();
+    SLM_TRACE(" <<<<<<<<<<<<<<<<  FLUSH DONE >>>>>>>>>>>>>< ");
+qApp->exit(0);
+    SLM_TRACE(" <<<<<<<<<<<<<<<<  EXIT DONE >>>>>>>>>>>>>< ");
+    
+    OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
+
+
     // ::fwServices::OSR::uninitializeRootObject();
 
-    //  ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-    //   profile->stop();
+//       ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+//        profile->stop();
+}
+
+void Plugin::printDestruction()
+{OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
+
+   SLM_TRACE_FUNC();
+   SLM_TRACE(" <<<<<<<<<<<<<<<<  qApp DESTROYED >>>>>>>>>>>>>< ");
+OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
+
+   
 }
 
 //-----------------------------------------------------------------------------
@@ -83,8 +109,9 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
 	char** argv = NULL; 
 	
 	QApplication app( argc,  argv);
- 	QObject::connect(&app, SIGNAL(lastWindowClosed()), this, SLOT(windowClosed()));
- 	QObject::connect(&app, SIGNAL(aboutToQuit()), this, SLOT(exit()));
+  	QObject::connect(&app, SIGNAL(lastWindowClosed()), this, SLOT(windowClosed()));
+  	QObject::connect(&app, SIGNAL(aboutToQuit()), this, SLOT(exit()));
+	QObject::connect(&app, SIGNAL(destroyed()), this, SLOT(printDestruction()));
 	
 	QWidget* mainWindow = new QMainWindow();
   
@@ -113,6 +140,9 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
 //-----------------------------------------------------------------------------
 
 void Plugin::stop() throw()
-{}
+{
+SLM_TRACE_FUNC();
+
+}
 
 } // namespace gui

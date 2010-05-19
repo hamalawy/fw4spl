@@ -105,7 +105,11 @@ void Model::doSwap() throw(fwTools::Failed)
 
 void Model::doStop() throw(fwTools::Failed)
 {
+ SLM_TRACE_FUNC();
+ SLM_TRACE("Model::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+ SLM_TRACE("Model::doStop()  returned from this->unregisterServices(); ");  
+
 }
 
 //------------------------------------------------------------------------------

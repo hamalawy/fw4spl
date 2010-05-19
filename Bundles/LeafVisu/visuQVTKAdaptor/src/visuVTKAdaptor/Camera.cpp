@@ -79,7 +79,11 @@ void Camera::doSwap() throw(fwTools::Failed)
 
 void Camera::doStop() throw(fwTools::Failed)
 {
+  SLM_TRACE_FUNC();
+  SLM_TRACE("Camera::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+  SLM_TRACE("Camera::doStop()  returned from this->unregisterServices(); ");  
+  
 }
 
 

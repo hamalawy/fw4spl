@@ -92,7 +92,11 @@ void Medical3DCamera::doSwap() throw(fwTools::Failed)
 
 void Medical3DCamera::doStop() throw(fwTools::Failed)
 {
+  SLM_TRACE_FUNC();
+  SLM_TRACE("Medical3DCamera::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+  SLM_TRACE("Medical3DCamera::doStop()  returned from this->unregisterServices(); ");  
+  
 }
 
 //------------------------------------------------------------------------------

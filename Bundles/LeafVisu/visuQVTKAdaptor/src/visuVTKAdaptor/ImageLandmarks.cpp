@@ -228,7 +228,10 @@ void ImageLandmarks::doUpdate() throw(fwTools::Failed)
 
     if (!isShown || !hasLandmarkField  || m_needSubservicesDeletion)
     {
+      SLM_TRACE_FUNC();
+      SLM_TRACE("ImageLandmarks::doUpdate()  call this->unregisterServices();");
         this->unregisterServices();
+      SLM_TRACE("ImageLandmarks::doUpdate()  returned from this->unregisterServices(); ");  
         m_needSubservicesDeletion = false;
     }
 
@@ -291,8 +294,11 @@ void ImageLandmarks::doStop() throw(fwTools::Failed)
         m_rightButtonCommand->Delete();
         m_rightButtonCommand = 0;
     }
-
+    SLM_TRACE_FUNC();
+    SLM_TRACE("ImageLandmarks::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+    SLM_TRACE("ImageLandmarks::doStop()  returned from this->unregisterServices(); ");  
+
 }
 
 //------------------------------------------------------------------------------

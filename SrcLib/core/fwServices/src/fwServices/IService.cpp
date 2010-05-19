@@ -126,6 +126,7 @@ void IService::stop() throw(fwTools::Failed)
     {
         m_globalState = STOPPING ;
         fwServices::stopComChannels( this->getSptr() ) ;
+	OSLM_TRACE(" Serviceto STOP : "<<  this->getSptr()->getUUID());
         this->stopping() ;
         m_globalState = STOPPED ;
     }

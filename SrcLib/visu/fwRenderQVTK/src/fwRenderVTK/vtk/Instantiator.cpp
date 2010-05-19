@@ -48,10 +48,16 @@ void Instantiator::ClassInitialize()
 
 void Instantiator::ClassFinalize()
 {
+    SLM_TRACE_FUNC();
+
     vtkInstantiator::UnRegisterInstantiator("fwVtkPicker", vtkInstantiatorfwVtkPickerNew);
+    SLM_TRACE("fwVtkPicker DONe, NEXT :  fwVtkCellPicker");
     vtkInstantiator::UnRegisterInstantiator("fwVtkCellPicker", vtkInstantiatorfwVtkCellPickerNew);
+    SLM_TRACE("fwVtkCellPicker DONe, NEXT :  InteractorStyle2DForNegato");
     vtkInstantiator::UnRegisterInstantiator("InteractorStyle2DForNegato", vtkInstantiatorInteractorStyle2DForNegatoNew);
+    SLM_TRACE("InteractorStyle2DForNegato DONe, NEXT :  InteractorStyle3DForNegato");
     vtkInstantiator::UnRegisterInstantiator("InteractorStyle3DForNegato", vtkInstantiatorInteractorStyle2DForNegatoNew);
+    SLM_TRACE("fALL DONE");
 }
 } //vtk
 

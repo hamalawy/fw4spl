@@ -42,7 +42,6 @@
 #include <vtkRenderWindow.h>
 #include <vtkRenderer.h>
 
-
 REGISTER_SERVICE( ::fwQtRender::IRender , ::fwRenderVTK::VtkRenderService , ::fwData::Composite ) ;
 
 using namespace fwServices;
@@ -305,13 +304,15 @@ void VtkRenderService::starting() throw(fwTools::Failed)
     this->initRender();
     this->startContext();
 
-   // m_interactor->GetRenderWindow()->SetNumberOfLayers(m_renderers.size());
+    //m_interactor->GetRenderWindow()->SetNumberOfLayers(m_renderers.size());
+    widget->GetRenderWindow()->GetInteractor()->GetRenderWindow()->SetNumberOfLayers(m_renderers.size());
     for( RenderersMapType::iterator iter = m_renderers.begin(); iter != m_renderers.end(); ++iter )
     {
 	vtkRenderer *renderer = vtkRenderer::New();
 	renderer = (*iter).second;
-	m_renderWindow = widget->GetRenderWindow();
-	m_renderWindow->AddRenderer(renderer);
+	//m_renderWindow = widget->GetRenderWindow();
+	//m_renderWindow->AddRenderer(renderer);
+	widget->GetRenderWindow()->AddRenderer(renderer);
     }
 
     ::fwData::Composite::sptr composite = this->getObject< ::fwData::Composite >() ;
@@ -347,6 +348,7 @@ void VtkRenderService::stopping() throw(fwTools::Failed)
 
     this->stopContext();
     this->stopRender();
+    m_sceneAdaptors.clear();
 }
 
 //-----------------------------------------------------------------------------
@@ -382,18 +384,19 @@ void VtkRenderService::updating( ::fwServices::ObjectMsg::csptr message ) throw(
 
 void VtkRenderService::updating() throw(fwTools::Failed)
 {
-std::cout<<"\n\n\n <<<<<<<<<<<<<<<<<<<<<<<< UPDATING() >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n\n";
 //  assert( m_wxmanager );
-//  assert( m_interactor );
+  assert( m_interactor );
 
-//    m_interactor->Render();
+    //m_interactor->Render();
+    widget->GetRenderWindow()->GetInteractor()->Render();
 }
 
 //-----------------------------------------------------------------------------
 
 void VtkRenderService::render()
 {
-   m_interactor->Render();
+ //  m_interactor->Render();
+  widget->GetRenderWindow()->GetInteractor()->Render();
 }
 
 
@@ -412,37 +415,40 @@ void VtkRenderService::startContext()
     assert( m_container ) ;
 
    // m_manager =  m_globalUIDToQtContainer.find(this->getUUID())->second;
-    QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
-    widget = new QVTKWidget(mainWidget);
+    //QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
+    widget = new QVTKWidget(m_container);
 
     QVBoxLayout *layout = new QVBoxLayout();
 
-    widget->resize(mainWidget->width(), mainWidget->height());
+    widget->resize(m_container->width(), m_container->height());
     widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
     layout->addWidget(widget);
 
    // m_manager->setLayout(layout);
-    mainWidget->setLayout(layout);
+    m_container->setLayout(layout);
     
     m_render = vtkRenderer::New();
     m_renderWindow = vtkRenderWindow::New();
     m_interactor = vtkRenderWindowInteractor::New();
     
-    //m_renderWindow = widget->GetRenderWindow();
-    m_renderWindow->AddRenderer(m_render);
     
-     //m_renderWindow->SetInteractor(m_interactor);
-     m_interactor->SetRenderWindow(m_renderWindow);
-    // m_interactor->Initialize(); //start() ?
+    // TEST
+    vtkRenderWindow* renwin = vtkRenderWindow::New();
+    renwin->StereoCapableWindowOn();
+    widget->SetRenderWindow(renwin);
+    renwin->Delete();
+    // Fin TEST
+    widget->GetRenderWindow()->AddRenderer(m_render);  
+   // widget->SetRenderWindow(m_renderWindow); enleve seg fault
+   // m_renderWindow = widget->GetRenderWindow();
+//     m_interactor->SetRenderWindow( widget->GetRenderWindow());
 
-   // m_interactor =  m_renderWindow->GetInteractor();
-    
-   
-   // WX
-  //  m_interactor = new ::fwRenderVTK::fwWxVTKRenderWindowInteractor( m_container, -1 );
-  //  m_interactor->SetRenderWhenDisabled(false);
-  //  m_interactor->SetRenderModeToDirect();
+     // A remettre
+     //m_renderWindow->AddRenderer(m_render);
+    // m_interactor = widget->GetRenderWindow()->GetInteractor();
+   //  m_interactor->SetRenderWindow(m_renderWindow);
+  
 }
 
 //-----------------------------------------------------------------------------
@@ -455,35 +461,52 @@ void VtkRenderService::stopContext()
     {
         vtkRenderer *renderer = iter->second;
         renderer->InteractiveOff();
-       // m_interactor->GetRenderWindow()->RemoveRenderer(renderer);
-        //m_renderWindow->GetInteractor()->GetRenderWindow()->RemoveRenderer(renderer);	
-	m_renderWindow->RemoveRenderer(renderer);	
-       // renderer->Delete();
+	//m_renderWindow->RemoveRenderer(renderer);
+	 widget->GetRenderWindow()->RemoveRenderer(renderer);
+	if(renderer != 0)
+	{
+	 renderer->Delete(); 
+	}
+        
     }
     m_renderers.clear();
     
-    m_render->Delete();
-    m_render = 0;
-    
-    m_renderWindow->Finalize();
-    m_renderWindow->Delete();
-    m_renderWindow = 0;
+    if(m_render != 0)
+    {
+      m_render->Delete();
+      m_render = 0;
+    }
    
-   if(m_interactor != 0)
-   {
-      m_interactor->Disable();
-      m_interactor->Delete();
-      m_interactor = 0;
-   } 
+//     if(m_renderWindow != 0)
+//     {
+//       m_renderWindow->Finalize();
+//       m_renderWindow->Delete();
+//       m_renderWindow = 0;
+//     }
+   
+   
+//    if(m_interactor != 0)
+//    {
+//       m_interactor->Disable();
+//       m_interactor->Delete();
+//       m_interactor = 0;
+//    } 
    
 //    delete widget;
 //    widget=0;
-
-   widget->deleteLater();
-   widget=0;
-
-   m_container->deleteLater();
-   m_container=0;
+    if(widget != 0)
+    {
+      SLM_TRACE(" QVTKWIDGET NOT NULL : destroy it NOW");
+   //   widget->deleteLater();
+      widget=0;
+    }
+  
+    if(m_container != 0)
+    {
+      m_container->deleteLater();
+      m_container=0;
+    }
+   
    
 }
 

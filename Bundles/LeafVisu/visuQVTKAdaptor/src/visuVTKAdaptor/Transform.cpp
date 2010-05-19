@@ -98,7 +98,11 @@ void Transform::doSwap() throw(fwTools::Failed)
 
 void Transform::doStop() throw(fwTools::Failed)
 {
+ SLM_TRACE_FUNC();
+ SLM_TRACE("Transform::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+ SLM_TRACE("Transform::doStop()  returned from this->unregisterServices(); ");  
+
 }
 
 //------------------------------------------------------------------------------

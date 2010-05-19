@@ -202,6 +202,7 @@ void SliceListEditor::updating( ::fwServices::ObjectMsg::csptr msg ) throw(::fwT
     ::fwComEd::ImageMsg::csptr imageMsg = ::fwComEd::ImageMsg::dynamicConstCast( msg );
     if( imageMsg && imageMsg->hasEvent( "SCAN_SHOW"))
     {
+      SLM_TRACE(" SliceListEditor::updating ---> Event SCAN_SHOW eceived ");
         ::fwData::Object::csptr dataInfo = imageMsg->getDataInfo("SCAN_SHOW");
         SLM_ASSERT("dataInfo is missing", dataInfo);
         SLM_ASSERT("m_relatedServiceId is missing", dataInfo->getFieldSize( ::fwComEd::Dictionary::m_relatedServiceId ) );
@@ -209,7 +210,7 @@ void SliceListEditor::updating( ::fwServices::ObjectMsg::csptr msg ) throw(::fwT
         if( servId ==  m_adaptorUID )
         {
             ::fwData::Boolean::csptr isShowScan = ::fwData::Boolean::dynamicConstCast(dataInfo);
-         //   m_dropDownButton->Enable(isShowScan->value());
+            m_button->setEnabled(isShowScan->value());
         }
     }
     

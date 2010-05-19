@@ -123,8 +123,8 @@ void Material::doUpdate( ::fwServices::ObjectMsg::csptr msg ) throw(::fwTools::F
 
 void Material::doStop() throw(fwTools::Failed)
 {
-    //this->removeAllPropFromRenderer();
-    //this->unregisterServices();
+    this->removeAllPropFromRenderer();
+    this->unregisterServices();
 }
 
 //------------------------------------------------------------------------------
