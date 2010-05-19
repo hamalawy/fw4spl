@@ -49,7 +49,6 @@ public:
 	 * @brief set application top window and its menu handler, initialize general gui aspect and initialize application root object (and service from configuration)
 	 */
 	static void initialize() ;
-	
 	static const ::guiQt::Manager::sptr getDefault() throw(); 
 
 private:

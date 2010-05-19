@@ -339,7 +339,11 @@ void ImageMultiDistances::doUpdate() throw(fwTools::Failed)
 
     if ( !isShown || !hasDistanceField  )
     {
+      SLM_TRACE_FUNC();
+      SLM_TRACE("ImageMultiDistances::doUpdate()  call this->unregisterServices();");
         this->unregisterServices();
+      SLM_TRACE("ImageMultiDistances::doUpdate()  returned from this->unregisterServices(); ");  
+     
     }
 
     if( isShown && hasDistanceField )
@@ -377,7 +381,11 @@ void ImageMultiDistances::removeDistance(  ::fwData::PointList::sptr plToRemove 
 {
 
     ::fwData::Image::sptr image = this->getObject< ::fwData::Image >();
+    SLM_TRACE_FUNC();
+    SLM_TRACE("ImageMultiDistances::removeDistance()  call this->unregisterServices();");
     this->unregisterServices();
+    SLM_TRACE("ImageMultiDistances::doStop()  returned from this->unregisterServices(); ");  
+
     image->removeFieldElement( ::fwComEd::Dictionary::m_imageDistancesId , plToRemove);
     doUpdate();
 }
@@ -474,7 +482,11 @@ void ImageMultiDistances::doStop() throw(fwTools::Failed)
         m_rightButtonCommand = 0;
     }
 
+  SLM_TRACE_FUNC();
+  SLM_TRACE("ImageMultiDistances::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+  SLM_TRACE("ImageMultiDistances::doStop()  returned from this->unregisterServices(); ");  
+
 }
 
 //------------------------------------------------------------------------------

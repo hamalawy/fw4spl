@@ -241,8 +241,11 @@ void Plane::doStop() throw(fwTools::Failed)
             ::fwServices::unregisterCommunicationChannel(point, this->getSptr() );
         }
     }
-
+ SLM_TRACE_FUNC();
+ SLM_TRACE("Plane::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+ SLM_TRACE("Plane::doStop()  returned from this->unregisterServices(); ");  
+
     this->removeAllPropFromRenderer();
 }
 

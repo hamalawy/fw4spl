@@ -131,7 +131,11 @@ void ResectionDB::doSwap() throw(fwTools::Failed)
 
 void ResectionDB::doStop() throw(fwTools::Failed)
 {
+ SLM_TRACE_FUNC();
+ SLM_TRACE("ResectionDB::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+ SLM_TRACE("ResectionDB::doStop()  returned from this->unregisterServices(); ");  
+ 
 }
 
 //------------------------------------------------------------------------------

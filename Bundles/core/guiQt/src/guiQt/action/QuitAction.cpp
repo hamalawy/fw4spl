@@ -47,7 +47,7 @@ void QuitAction::updating() throw( ::fwTools::Failed )
     SLM_INFO("QuitAction::updating");
     
     // Surtout ppas sinon   : QCoreApplication::postEvent: Unexpected null receiver
-   // ::fwServices::OSR::uninitializeRootObject();
+    //::fwServices::OSR::uninitializeRootObject();
     
 //     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
 //     profile->stop();

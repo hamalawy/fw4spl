@@ -39,7 +39,7 @@ void convertTF2vtkTF(
         bool allow_transparency = false
         )
 {
-    SLM_TRACE_FUNC();
+    //SLM_TRACE_FUNC();
     //vtkWindowLevelLookupTable * lookupTable = vtkWindowLevelLookupTable::New();
 
     // Compute center and width
@@ -129,7 +129,7 @@ NegatoOneSlice::NegatoOneSlice() throw()
 {
     m_lut = vtkLookupTable::New();
     m_imageActor = vtkImageActor::New();
-    m_map2colors = vtkImageMapToColors::New();
+    m_map2colors = vtkImageMapToColors::New();      
     m_imageData = vtkImageData::New();
 
     //m_planeSource = vtkPlaneSource::New();
@@ -144,40 +144,64 @@ NegatoOneSlice::NegatoOneSlice() throw()
     addNewHandledEvent( ::fwComEd::ImageMsg::WINDOWING );
     addNewHandledEvent( ::fwComEd::ImageMsg::SLICE_INDEX );
     addNewHandledEvent( ::fwComEd::ImageMsg::CHANGE_SLICE_TYPE );
+    
+    //Debug
+    //m_map2colors->SetDebug(1);
+    //m_lut->SetDebug(1);
+   // m_imageActor->SetDebug(1);
+   // m_imageData->SetDebug(1);
+   // m_planeOutlinePolyData->SetDebug(1);
+ //   m_planeOutlineMapper->SetDebug(1);
+    //m_planeOutlineActor->SetDebug(1);
+
 }
 
 //------------------------------------------------------------------------------
 
 NegatoOneSlice::~NegatoOneSlice() throw()
-{/*
+{
+/*    m_lut->SetDebug(1); */
     m_lut->Delete();
     m_lut = NULL;
 
+/*    m_imageActor->SetDebug(1); */
     m_imageActor->Delete();
     m_imageActor = NULL;
+    
+/*      m_map2colors->SetDebug(1);*/
+      m_map2colors->Delete();
+      m_map2colors = NULL;
 
-    m_map2colors->Delete();
-    m_map2colors = NULL;
+/*      m_imageData->SetDebug(1);*/
+      m_imageData->Delete();
+      m_imageData = NULL;
 
-    m_imageData->Delete();
-    m_imageData = NULL;
-
+/*    m_planeOutlineActor->SetDebug(1);*/
     m_planeOutlineActor->Delete();
     m_planeOutlineActor = NULL;
+  
+/*      m_planeOutlineMapper->SetDebug(1);*/
+      m_planeOutlineMapper->Delete();
+      m_planeOutlineMapper = NULL;
 
-    m_planeOutlineMapper->Delete();
-    m_planeOutlineMapper = NULL;
-
-    m_planeOutlinePolyData->Delete();
-    m_planeOutlinePolyData = NULL;*/
+/*      m_planeOutlinePolyData->SetDebug(1);*/
+      m_planeOutlinePolyData->Delete();
+      m_planeOutlinePolyData = NULL;
     
-    m_lut = NULL;
-    m_imageActor = NULL;
-    m_map2colors = NULL;    
-    m_imageData = NULL;    
-    m_planeOutlineActor = NULL;
-    m_planeOutlineMapper = NULL;
-    m_planeOutlinePolyData = NULL;
+    /*
+    m_lut->SetDebug(1);
+    m_lut->Delete();   
+    m_imageActor->SetDebug(1);
+    m_imageActor->Delete();
+//    m_map2colors->SetDebug(1);
+//    m_map2colors->FastDelete();
+    OSLM_TRACE(" m_map2colors->GetReferenceCount() "<< m_map2colors->GetReferenceCount());
+    m_map2colors->SetDebug(1);
+    m_map2colors->Delete();
+
+    m_imageActor->Delete();
+    m_planeOutlineActor->Delete();
+*/
 }
 
 //------------------------------------------------------------------------------
@@ -433,6 +457,7 @@ void NegatoOneSlice::buildOutline()
     m_planeOutlineMapper = vtkPolyDataMapper::New();
     m_planeOutlineMapper->SetInput( m_planeOutlinePolyData );
     m_planeOutlineMapper->SetResolveCoincidentTopologyToPolygonOffset();
+
     m_planeOutlineActor->SetMapper(m_planeOutlineMapper);
     m_planeOutlineActor->PickableOff();
     if(!this->getTransformId().empty())

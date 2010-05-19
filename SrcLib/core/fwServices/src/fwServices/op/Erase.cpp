@@ -46,6 +46,7 @@ void eraseServices( ::fwTools::Object::sptr obj , std::string serviceId )
 
 void clear( ::fwTools::Object::sptr obj )
 {
+    SLM_TRACE("Erase::clear :  unregisterServices"); 
     OSR::unregisterServices( obj ) ;
 }
 

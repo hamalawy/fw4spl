@@ -286,6 +286,7 @@ void IVtkAdaptorService::unregisterServices()
     {
         if(!service.expired())
         {
+	    SLM_TRACE("  IVtkAdaptorService::unregisterServices() ");
             ::fwServices::OSR::unregisterService(service.lock());
         }
     }

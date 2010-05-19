@@ -111,7 +111,11 @@ void Acquisition::doSwap() throw(fwTools::Failed)
 
 void Acquisition::doStop() throw(fwTools::Failed)
 {
+ SLM_TRACE_FUNC();
+ SLM_TRACE("Acquisition::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+ SLM_TRACE("Acquisition::doStop()  returned from this->unregisterServices(); ");  
+
 }
 
 

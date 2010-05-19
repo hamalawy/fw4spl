@@ -70,6 +70,7 @@ namespace fwServices
         objParserSrv->start() ;
         objParserSrv->update() ;
         // unregister call stop before
+	SLM_TRACE("New::New :  unregisterServices"); 
         ::fwServices::OSR::unregisterService( objParserSrv );
 
         //::fwServices::erase< ::fwServices::IXMLParser >( obj ) ;

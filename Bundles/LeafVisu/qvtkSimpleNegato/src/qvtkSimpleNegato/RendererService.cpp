@@ -110,9 +110,9 @@ void RendererService::stopping() throw(fwTools::Failed)
         m_outline->Delete();
     }
 
-    assert( m_interactor );
-  //  m_interactor->Delete();   **********************
-    m_interactor = 0;
+//     assert( m_interactor );
+//   //  m_interactor->Delete();   **********************
+//     m_interactor = 0;
 
 //     assert( m_wxmanager );
 //     m_wxmanager->UnInit();

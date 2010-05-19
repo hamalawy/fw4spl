@@ -25,7 +25,11 @@ void DefaultObjectDeleter::Delete(::fwTools::Object *obj)
     }
 
     assert ( objExpired ); // if we pass here then the obj must be expired (in Deleter)
-    fwServices::ObjectServiceRegistry::getDefault()->unregisterServices( ::fwTools::Object::sptr()  ); // obj expired in OSR : will be removed
+
+      SLM_TRACE("DefaultObjectDeleter::Delete :  unregisterServices");
+      fwServices::ObjectServiceRegistry::getDefault()->unregisterServices( ::fwTools::Object::sptr()  ); // obj expired in OSR : will be removed
+
+    SLM_TRACE("FIN   unregisterServices");
 }
 
 

@@ -82,7 +82,10 @@ void Profile::start()
 
 void Profile::stop()
 {
+  SLM_TRACE_FUNC();
     std::for_each( m_stoppers.rbegin(), m_stoppers.rend(), Apply< StopperContainer::value_type >() );
+  //  std::for_each( m_stoppers.begin(), m_stoppers.end(), Apply< StopperContainer::value_type >() );
+    
 }
 
 Profile::ParamsContainer Profile::getParams()

@@ -36,7 +36,11 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
 
 void Plugin::stop() throw()
 {
+      SLM_TRACE_FUNC();
+
     ::fwRenderVTK::vtk::Instantiator::ClassFinalize();
+    
+    SLM_TRACE("          ::fwRenderVTK::vtk::Instantiator::ClassFinalize();  DONE");
 }
 
 } // namespace operators

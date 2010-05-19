@@ -62,7 +62,11 @@ void NegatoMPR::doStart() throw(fwTools::Failed)
 
 void NegatoMPR::doStop() throw(fwTools::Failed)
 {
+ SLM_TRACE_FUNC();
+ SLM_TRACE("NegatoMPR::doStop()  call this->unregisterServices();");
     this->unregisterServices();
+ SLM_TRACE("NegatoMPR::doStop()  returned from this->unregisterServices(); ");  
+
 }
 
 //------------------------------------------------------------------------------

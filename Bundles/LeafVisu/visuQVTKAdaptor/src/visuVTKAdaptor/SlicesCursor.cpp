@@ -51,23 +51,23 @@ SlicesCursor::SlicesCursor()  throw()
     addNewHandledEvent( ::fwComEd::ImageMsg::BUFFER );
     addNewHandledEvent( ::fwComEd::ImageMsg::NEW_IMAGE );
     addNewHandledEvent( "CROSS_TYPE" );
+    
+    
+   // m_cursorPolyData->SetDebug(1);
+   // m_cursorMapper->SetDebug(1);
+  //  m_cursorActor->SetDebug(1);
+
 }
 
 //-----------------------------------------------------------------------------
 
 SlicesCursor::~SlicesCursor()  throw()
-{/*
+{
     m_cursorActor->Delete();
     m_cursorActor = NULL;
-    m_cursorMapper->Delete();
-    m_cursorMapper = NULL;
-    m_cursorPolyData->Delete();*/
-    
-    
-    //TEST
-    m_cursorPolyData = NULL;
-    m_cursorMapper = NULL;
-    m_cursorActor = NULL;
+      m_cursorMapper->Delete();
+      m_cursorMapper = NULL;
+      m_cursorPolyData->Delete();
 }
 
 //-----------------------------------------------------------------------------

@@ -126,6 +126,7 @@ bool App::OnInit()
 
 int App::OnExit()
 {
+  SLM_TRACE_FUNC();
     m_profile->stop();
     delete m_checker;
     return 0;
