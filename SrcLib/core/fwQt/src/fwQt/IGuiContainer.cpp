@@ -66,7 +66,7 @@ void IGuiContainer::initGuiParentContainer()
 
 void IGuiContainer::resetGuiParentContainer()
 {
-    if(m_container != QApplication::activeWindow())
+    if(m_container != QApplication::activeWindow() && m_container)
     {
         if (!m_container->layout())
         {

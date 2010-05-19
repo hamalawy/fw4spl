@@ -100,8 +100,6 @@ void RendererService::stopping() throw(fwTools::Failed)
 {
     if( m_render == 0 ) return;
 
- //   if( m_wxmanager == 0 ) return;
-
     if(m_bPipelineIsInit)
     {
         m_negatoSagittal->Delete();
@@ -110,18 +108,10 @@ void RendererService::stopping() throw(fwTools::Failed)
         m_outline->Delete();
     }
 
-//     assert( m_interactor );
-//   //  m_interactor->Delete();   **********************
-//     m_interactor = 0;
 
-//     assert( m_wxmanager );
-//     m_wxmanager->UnInit();
-//     delete m_wxmanager;
-//     m_wxmanager = 0;
 
     m_container->deleteLater();
     m_container=0;
-//     m_container->DestroyChildren() ;
 
     assert( m_render );
     m_render->Delete();
