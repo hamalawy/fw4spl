@@ -37,8 +37,6 @@ TransfertFunction::TransfertFunction ()
 
 TransfertFunction::~TransfertFunction ()
 {
-    std::cout<<"\n\n\n =======================  DESTRCUTEUR TransfertFunction ====================== \n\n\n";
-
     SLM_WARN("::fwData::~TransfertFunction() : (ToDo) Destruction of study vector");
 }
 

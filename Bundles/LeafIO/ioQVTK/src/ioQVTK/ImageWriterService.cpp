@@ -126,7 +126,9 @@ void ImageWriterService::updating() throw(::fwTools::Failed)
      saveImage(m_fsImgPath,pImage);
     }
     else
-      	   std::cout<<"\n\n NOT CONFIGURED \n";
+    {
+      SLM_TRACE("NOT CONFIGURED ");
+    }
 }
 
 } // namespace ioVtk

@@ -166,8 +166,8 @@ void OrganMaterialEditor::colorButton()
     QString str = QObject::tr("background:") +color.name();
     
     if(color.isValid())
+    {
       m_colourButton->setStyleSheet(str);
-
   
     ::fwData::Reconstruction::sptr reconstruction = this->getObject< ::fwData::Reconstruction>();
     SLM_ASSERT("No Reconstruction!", reconstruction);
@@ -184,6 +184,7 @@ void OrganMaterialEditor::colorButton()
     material->ambient()->blue() = blue;
 
     this->materialNotification();
+    }
 }
 
 

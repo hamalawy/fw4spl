@@ -12,6 +12,7 @@
 #include <fwRuntime/ConfigurationElement.hpp>
 
 #include "guiQt/view/DefaultView.hpp"
+#include "guiQt/editor/IEditor.hpp"
 
 #include <QApplication>
 #include <QLayout>
@@ -32,7 +33,6 @@ REGISTER_SERVICE( ::guiQt::view::IView , ::guiQt::view::DefaultView , ::fwTools:
 
 DefaultView::DefaultView() throw()
 {
-  m_nbView=0;
 }
 
 //-----------------------------------------------------------------------------
@@ -62,10 +62,6 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
         SLM_FATAL_IF("<view> node must contain uid attribute", !(*iter)->hasAttribute("uid") );
         uid = (*iter)->getExistingAttributeValue("uid");
 	
-	std::cout<<" Incrementation nombre de view \n";
-	m_nbView++;
-	
-	
         if( (*iter)->hasAttribute("minWidth") )
         {
             std::string width = (*iter)->getExistingAttributeValue("minWidth") ;
@@ -85,11 +81,8 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
             vi.m_autostart = (autostart == "yes");
         }
 	
-	std::cout<<" UId panels : "<<uid<<"\n";
         m_panels[uid] = vi;
-    }
-    
-    std::cout<<" Nombre de view : "<<m_nbView<<" \n";
+    }  
 }
 
 //-----------------------------------------------------------------------------
@@ -112,6 +105,7 @@ void DefaultView::starting() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
     this->initGuiParentContainer();
+    //::guiQt::editor::IEditor::starting();
     
     QWidget *mainWidget = this->getQtContainer();
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
@@ -126,7 +120,7 @@ void DefaultView::starting() throw(::fwTools::Failed)
 	
 	pi->second.m_panel = new QWidget();
 	pi->second.m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-        widget->setWidget(pi->second.m_panel);
+        widget->setWidget(pi->second.m_panel);  // IMPORTANT : must use the widget provided by dockWidget though setWidget()
 
 	if(pi == m_panels.begin())
         {

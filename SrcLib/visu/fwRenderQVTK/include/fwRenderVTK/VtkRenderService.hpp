@@ -103,13 +103,13 @@ private :
 
 
     /// @brief required to facilitate resize of an empty vtk rendering window : why ?
-    QWidget * m_manager;
-    QVTKWidget *widget;
+   // QWidget * m_manager;
+    QVTKWidget *m_widget;
     vtkRenderer * m_render ;
 
     /// @brief VTK Interactor window
-    vtkRenderWindowInteractor *m_interactor;
-    vtkRenderWindow *m_renderWindow;
+//     vtkRenderWindowInteractor *m_interactor;
+//     vtkRenderWindow *m_renderWindow;
 
 
     /// @brief scene's renderers
