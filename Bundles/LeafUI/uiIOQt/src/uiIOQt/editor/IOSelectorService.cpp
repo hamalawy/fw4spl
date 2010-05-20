@@ -129,10 +129,8 @@ void IOSelectorService::startSelectedService()
  
   for(    std::vector< std::pair < std::string, std::string > >::iterator itExt = availableExtensionsMap.begin();itExt < availableExtensionsMap.end(); itExt++ )
   {
-//	std::cout<<m_selectedString<<"    FOR --> Second : "<<itExt->second<<" First :"<<itExt->first<<" \n";
      if (itExt->first == m_selectedString || itExt->second == m_selectedString)
       {
-	//   std::cout<<"FOR->IF---> "<<itExt->first<<"\n";
          extensionId = itExt->first ;
       }
    }
@@ -141,12 +139,8 @@ void IOSelectorService::startSelectedService()
   {
 
       ::io::IReader::sptr reader = ::fwServices::add< ::io::IReader >( this->getObject() , extensionId ) ;
-		
-  //    std::cout<<"\n\n START ===> "<<extensionId<<"\n";	
-      OSLM_INFO("\n START ===> "<<extensionId<<"\n");
-
       reader->start();
-            //    reader->configureWithIHM();
+       //    reader->configureWithIHM();
       reader->update();
       reader->stop();
   }
@@ -154,7 +148,7 @@ void IOSelectorService::startSelectedService()
   {
     ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;	
     writer->start();
-            //   writer->configureWithIHM();
+    //   writer->configureWithIHM();
     writer->update();
     writer->stop();
   }
@@ -191,7 +185,6 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
     SLM_TRACE_FUNC();
     
     QWidget *mainWidget = qApp->activeWindow();
- //   QStringList selection;
  
     // Retrieve implementation of type ::io::IReader for this object
     std::vector< std::string > availableExtensionsId;
@@ -200,17 +193,13 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
         // Erase all services of type ::io::IReader on the object
         // TODO : comment this line, because must be useless
         ::fwServices::eraseServices< ::io::IReader >( this->getObject() ) ;
-	
-	//std::cout<<"    ADD REDER implementation \n";
-	
+		
         availableExtensionsId = ::fwServices::getImplementationIds< ::io::IReader >( this->getObject() ) ;
     }
     else // m_mode == WRITER_MODE
     {
         ::fwServices::eraseServices< ::io::IWriter >( this->getObject() ) ;
-	
-//	std::cout<<"    ADD WRITER implementation \n";
-	
+		
         availableExtensionsId = ::fwServices::getImplementationIds< ::io::IWriter >( this->getObject() ) ;
     }
 
@@ -235,24 +224,19 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
 	   
             // Add this service
             const std::string infoUser = ::fwRuntime::getInfoForPoint( serviceId );
-	    
-	  //   std::cout<<"\n  UPDATING() :  ServiceID "<<serviceId<<"  infoUser "<< infoUser <<"\n";
-	     
+	    	     
             if (infoUser != "")
             {
                 availableExtensionsMap.push_back( std::pair < std::string, std::string > (serviceId, infoUser) );
                 availableExtensionsSelector.push_back( infoUser );
 		
-	//	std::cout<<"       ADD Selection infoUser :  "<<infoUser<<"\n";
 		selection << infoUser.c_str();
             }
             else
             {
                 availableExtensionsMap.push_back( std::pair < std::string, std::string > (serviceId, serviceId) );
                 availableExtensionsSelector.push_back( serviceId );
-		
-	//	std::cout<<"       ADD Selection serviceId :  "<<serviceId<<"\n";
-		
+				
 		selection << serviceId.c_str();
             }
 	   
@@ -267,9 +251,7 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
     if ( ! availableExtensionsMap.empty() )
     {
         std::string extensionId = availableExtensionsMap[0].first ;
-	
-//	std::cout<<"    AvailableExt -> extensionId : "<<extensionId<<"\n";
-	
+		
         extensionSelectionIsCanceled = false;
 
         // Selection of extension when availableExtensions.size() > 1
@@ -277,7 +259,6 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
 	
         if ( availableExtensionsSelector.size() > 1 )
         {
-            //::fwWX::Selector selector( wxTheApp->GetTopWindow() , _("Reader to use") , availableExtensionsSelector );
 	    // Sort : asc and case sensitive
 	    selection.sort();
 	    ::fwQt::Selector selector(mainWidget, selection);

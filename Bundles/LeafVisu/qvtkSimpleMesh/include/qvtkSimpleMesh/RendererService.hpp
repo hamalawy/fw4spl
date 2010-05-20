@@ -118,9 +118,9 @@ protected :
 
     /// @brief vtk renderer
      vtkRenderer * m_render ;
-     vtkRenderWindow *renderWindow;
+     vtkRenderWindow *m_renderWindow;
      vtkRenderWindowInteractor *m_interactor;
-     QVTKWidget *widget;
+     QVTKWidget *m_widget;
 
 private :
 

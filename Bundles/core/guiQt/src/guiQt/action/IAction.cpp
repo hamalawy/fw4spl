@@ -57,8 +57,6 @@ void IAction::configuring() throw( ::fwTools::Failed )
     }
     else
     {
-      
-      // 
        // m_actionIdInMenu  = 3;
     }
 
@@ -107,7 +105,6 @@ void IAction::info(std::ostream &_sstream )
 
 void IAction::starting() throw(::fwTools::Failed)
 {
- // std::cout<<" \n        DEBUT  IAction::starting() \n\n";
  // std::cout<<"    action " << this->getId() << " : info = " << *this;
 //  std::cout<<"        m_menuName = "<<m_menuName<<" \n";
   
@@ -124,9 +121,6 @@ void IAction::starting() throw(::fwTools::Failed)
    
    // setEnable(m_enable);
     //setCheck(m_isCheck);
-    
-  // std::cout<<" \n        FIN  IAction::starting() \n\n";
-
 }
 
 void IAction::run()

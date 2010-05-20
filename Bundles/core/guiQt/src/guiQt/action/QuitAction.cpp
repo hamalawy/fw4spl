@@ -46,17 +46,8 @@ void QuitAction::updating() throw( ::fwTools::Failed )
   // Lancement de l action   ---> correspond au  getDefault()->m_serviceCallBacks[id].lock()->update() ;
     SLM_INFO("QuitAction::updating");
     
-    // Surtout ppas sinon   : QCoreApplication::postEvent: Unexpected null receiver
     ::fwServices::OSR::uninitializeRootObject();
     qApp->activeWindow()->close();
-//       ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-//       profile->stop();
-
-//     qApp->quit();
-//     std::cout<<" Not quit ??? \n";
-
- //   ::fwServices::OSR::uninitializeRootObject();
-
 }
 }
 }

@@ -186,7 +186,7 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
     }
         centerView->setLayout(layout);
 
-	if(m_manager)
+	if(m_manager) // Si le cast a reussi donc si c'est une vu imbriquée dans une autre
 	{
 	  centerView->setParent(m_manager);
 	  m_manager->setCentralWidget(centerView);
@@ -196,16 +196,14 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
 	  // A voir : test V ou H
 	  QHBoxLayout *subLayout = new  QHBoxLayout();
 	  centerView->setParent(m_container);
-/*	   
-	   if( pi->m_proportion==0)
-	  {
-	    centerView->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-	  }
-	  else
-	    centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-*/
-	    centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-
+	   
+// 	   if( pi->m_proportion==0)
+// 	  {
+// 	    centerView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+// 	  }
+// 	  else
+// 	    centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+	  centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding); // TRES IMPORTANT
 	    
 	  subLayout->addWidget( centerView);
 	  m_container->setLayout(subLayout);

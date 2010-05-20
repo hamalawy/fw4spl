@@ -127,7 +127,9 @@ void VtkPatientDBReaderService::updating() throw(::fwTools::Failed)
       }
     }
    else
-      	   std::cout<<"\n\n NOT CONFIGURED \n";
+   {
+     SLM_TRACE("NOT CONFIGURED ");
+   }
 }
 
 //------------------------------------------------------------------------------

@@ -29,43 +29,29 @@ Plugin::~Plugin() throw()
 void Plugin::windowClosed()
 {    
   SLM_TRACE_FUNC();
-  ::fwServices::OSR::uninitializeRootObject();
-  
+  ::fwServices::OSR::uninitializeRootObject(); 
   SLM_TRACE(" OSR Unitialize DONE");
-
-  ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-  profile->stop();
-
-  SLM_TRACE(" VRAIMENT LA Fin ");
-// OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
-
 }
 
 
 void Plugin::exit()
 {
   SLM_TRACE_FUNC();
-  OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
-
+  
+  ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
+  profile->stop();  
+  SLM_TRACE(" Profile STOP DONE ");
+  
   qApp->flush();
-    SLM_TRACE(" <<<<<<<<<<<<<<<<  FLUSH DONE >>>>>>>>>>>>>< ");
+  SLM_TRACE(" FLUSH DONE ");
   qApp->exit(0);
-    SLM_TRACE(" <<<<<<<<<<<<<<<<  EXIT DONE >>>>>>>>>>>>>< ");
-    OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
-
-    // ::fwServices::OSR::uninitializeRootObject();
-//     ::fwRuntime::profile::Profile::sptr profile = ::fwRuntime::profile::getCurrentProfile();
-//     profile->stop();
+  SLM_TRACE(" EXIT DONE ");
 }
 
 void Plugin::printDestruction()
 {
   SLM_TRACE_FUNC();
-  OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
   SLM_TRACE(" <<<<<<<<<<<<<<<<  qApp DESTROYED >>>>>>>>>>>>>< ");
-  OSLM_TRACE(" BOOLEAN : "<<qApp->closingDown() );
-
-   
 }
 
 //-----------------------------------------------------------------------------
@@ -114,9 +100,7 @@ void Plugin::start() throw(::fwRuntime::RuntimeException)
   
 	QDesktopWidget *desk = QApplication::desktop();
 	QRect screen = desk->screenGeometry(mainWindow);
-	
 	mainWindow->resize(screen.width(), screen.height());
-
 	app.setActiveWindow(mainWindow);
 
 	::fwServices::OSR::initializeRootObject();

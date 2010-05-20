@@ -94,24 +94,24 @@ void RendererService::starting() throw(fwTools::Failed)
     m_bPipelineIsInit = false;
 
     QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
-    widget = new QVTKWidget(mainWidget);
+    m_widget = new QVTKWidget(mainWidget);
     
     QVBoxLayout *layout = new QVBoxLayout();
 
-    widget->resize(mainWidget->width(), mainWidget->height());
-    widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    m_widget->resize(mainWidget->width(), mainWidget->height());
+    m_widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
-    layout->addWidget(widget);
+    layout->addWidget(m_widget);
 
     mainWidget->setLayout(layout);
     
     m_render = vtkRenderer::New();
  //   renderWindow = vtkRenderWindow::New();
-    renderWindow = widget->GetRenderWindow();
-    renderWindow->AddRenderer(m_render);
+    m_renderWindow = m_widget->GetRenderWindow();
+    m_renderWindow->AddRenderer(m_render);
     
 //    widget->SetRenderWindow(renderWindow);
-    m_interactor = renderWindow->GetInteractor();
+    m_interactor = m_renderWindow->GetInteractor();
     //m_interactor->SetRenderWindow(renderWindow);
 
 }
@@ -157,7 +157,7 @@ void RendererService::stopping() throw(fwTools::Failed)
 
 void RendererService::updating() throw(fwTools::Failed)
 { 
-    renderWindow->Render();
+    m_renderWindow->Render();
 }
 
 //-----------------------------------------------------------------------------
@@ -196,7 +196,7 @@ void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTo
             }
         }
     }
-    renderWindow->Render();
+    m_renderWindow->Render();
 }
 
 //-----------------------------------------------------------------------------

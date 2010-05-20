@@ -66,12 +66,12 @@ void IGuiContainer::initGuiParentContainer()
 
 void IGuiContainer::resetGuiParentContainer()
 {
-    if(m_container != QApplication::activeWindow() && m_container)
+    
+    if(m_container != QApplication::activeWindow() && m_container)// Important : test if m_container  not null
     {
         if (!m_container->layout())
         {
             QLayout* layout = m_container->layout();
-	  //  layout->deleteLater();
             QLayoutItem *child;
             while( (child = layout->takeAt( 0 )) )
             {

@@ -11,7 +11,6 @@
 #include <vtkLookupTable.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkProperty.h>
-#include <vtkRenderWindow.h>
 #include <fwData/Image.hpp>
 #include <fwComEd/ImageMsg.hpp>
 #include <fwServices/Base.hpp>
@@ -73,21 +72,21 @@ void RendererService::starting() throw(fwTools::Failed)
     m_bPipelineIsInit = false;
 
     QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
-    widget = new QVTKWidget(mainWidget);
+    m_widget = new QVTKWidget(mainWidget);
     
     QVBoxLayout *layout = new QVBoxLayout();
 
   //  widget->resize(mainWidget->width(), mainWidget->height());
-    widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    m_widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
     
-    layout->addWidget(widget);
+    layout->addWidget(m_widget);
 
     mainWidget->setLayout(layout);
 
     m_render = vtkRenderer::New();
    // renderWindow = vtkRenderWindow::New();
-    renderWindow = widget->GetRenderWindow();
-    renderWindow->AddRenderer(m_render);
+    m_renderWindow = m_widget->GetRenderWindow();
+    m_renderWindow->AddRenderer(m_render);
 
  //   widget->SetRenderWindow(renderWindow);
 
@@ -163,7 +162,7 @@ void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTo
             m_negatoFrontal->SetSliceIndex( frontalIndex );
             m_negatoSagittal->SetSliceIndex( sagittalIndex );
 	    
-	    renderWindow->Render();
+	    m_renderWindow->Render();
            // m_interactor->Render();
         }
     }
@@ -196,7 +195,7 @@ void RendererService::initVTKPipeline()
 //    m_negatoSagittal->SetInteractor( m_interactor);
 
     SLM_TRACE("Interactor Sagittal");
-    m_negatoSagittal->SetInteractor(widget->GetRenderWindow()->GetInteractor());
+    m_negatoSagittal->SetInteractor(m_widget->GetRenderWindow()->GetInteractor());
     m_negatoSagittal->SetKeyPressActivationValue('x');
     m_negatoSagittal->SetPicker(picker);
     m_negatoSagittal->GetPlaneProperty()->SetColor(1,0,0);
@@ -210,7 +209,7 @@ void RendererService::initVTKPipeline()
     m_negatoFrontal = vtkImagePlaneWidget::New();
     //m_negatoFrontal->SetInteractor( m_interactor);
     SLM_TRACE("Interactor Sagittal");
-    m_negatoFrontal->SetInteractor(widget->GetRenderWindow()->GetInteractor());
+    m_negatoFrontal->SetInteractor(m_widget->GetRenderWindow()->GetInteractor());
     m_negatoFrontal->SetKeyPressActivationValue('y');
     m_negatoFrontal->SetPicker(picker);
     m_negatoFrontal->GetPlaneProperty()->SetColor(0,1,0);
@@ -224,7 +223,7 @@ void RendererService::initVTKPipeline()
 
     m_negatoAxial = vtkImagePlaneWidget::New();
     //m_negatoAxial->SetInteractor( m_interactor);
-    m_negatoAxial->SetInteractor(widget->GetRenderWindow()->GetInteractor());
+    m_negatoAxial->SetInteractor(m_widget->GetRenderWindow()->GetInteractor());
     m_negatoAxial->SetKeyPressActivationValue('z');
     m_negatoAxial->SetPicker(picker);
     m_negatoAxial->GetPlaneProperty()->SetColor(0,0,1);
