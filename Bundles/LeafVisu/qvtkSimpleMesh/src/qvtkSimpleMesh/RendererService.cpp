@@ -144,9 +144,12 @@ void RendererService::stopping() throw(fwTools::Failed)
    // m_interactor->Delete();       ********************
     m_interactor = 0;
 
-    m_container->deleteLater();
-    m_container=0;
-
+    if(m_container)
+    {
+      m_container->deleteLater();
+      m_container=0;
+    }
+   
     this->stopRender(); 
 }
 

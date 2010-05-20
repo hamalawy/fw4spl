@@ -109,9 +109,12 @@ void RendererService::stopping() throw(fwTools::Failed)
     }
 
 
-
-    m_container->deleteLater();
-    m_container=0;
+    if(m_container)
+    {
+      m_container->deleteLater();
+      m_container=0;
+    }
+   
 
     assert( m_render );
     m_render->Delete();
