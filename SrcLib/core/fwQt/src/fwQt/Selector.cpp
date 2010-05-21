@@ -1,7 +1,5 @@
 #include "fwQt/Selector.hpp"
 
-
-
 #include <QApplication>
 #include <QWidget>
 #include <QMainWindow>

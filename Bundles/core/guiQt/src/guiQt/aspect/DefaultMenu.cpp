@@ -78,7 +78,6 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
    
    if(!allMenuBar.isEmpty())
    {
-   
      menuBar = allMenuBar.first();
    }
    else
@@ -116,7 +115,6 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
 		//   std::cout<<" FOR m_menuName : "<<m_menuName<<" \n\n";
                     (*iterAction)->setMenuName( m_menuName ) ;
 		//    std::cout<<"    iterAction-getMenuName() : "<<(*iterAction)->getMenuName()<<"\n";
-		//    std::cout<<"---> Start Actions \n";
 		    
 		//    std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<"\n";
 		    (*iterAction)->setObjectName((*iterAction)->getNameInMenu().c_str());
@@ -129,7 +127,6 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
             }
             OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);    
     }  
-       // std::cout<<"\nFIN  DefaultMenu::starting() \n\n";
 
 }
 

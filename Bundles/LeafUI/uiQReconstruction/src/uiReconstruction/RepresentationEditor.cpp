@@ -49,13 +49,9 @@ RepresentationEditor::~RepresentationEditor() throw()
 
 void RepresentationEditor::starting() throw(::fwTools::Failed)
 {
-    std::cout<<"\n\n ==========> RepresentationEditor::starting()  \n \n";
-
-  
+ 
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
-
-
     
     m_groupRepresentation = new QGroupBox(QObject::tr("Representation"), m_container);
     m_groupShading = new QGroupBox(QObject::tr("Shading"), m_container);
@@ -63,7 +59,8 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
     
     m_normalsCheckBox = new QCheckBox(QObject::tr("Show normals"), m_container);
  //   m_normalsCheckBox->setChecked(false);
-    QObject::connect(m_normalsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showNormals()));
+   // QObject::connect(m_normalsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showNormals()));
+    QObject::connect(m_normalsCheckBox, SIGNAL(clicked(bool)), this, SLOT(showNormals()));
 
 
     layout = new QVBoxLayout();    
@@ -123,7 +120,6 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
 void RepresentationEditor::stopping() throw(::fwTools::Failed)
 {
    SLM_TRACE_FUNC();
-   std::cout<<"\n\n ==========> RepresentationEditor::stopping()  \n \n";
  
    QList<QAbstractButton *> buttons = m_groupButtonRepresentation->buttons();
        
@@ -161,18 +157,9 @@ void RepresentationEditor::updating() throw(::fwTools::Failed)
     ::fwData::Reconstruction::sptr reconstruction = this->getObject< ::fwData::Reconstruction>();
     SLM_ASSERT("No Reconstruction!", reconstruction);
 
-    std::cout<<"\n\n ==========> RepresentationEditor::updating(FAILED)   \n \n";
-
     m_material = reconstruction->getMaterial() ;
     m_container->setEnabled(!reconstruction->getOrganName().empty());
     
-     if(!m_container->isEnabled())
-    {
-      std::cout<<"==============> REP : NOT ENABLED \n\n";
-    }
-    else
-     std::cout<<" ====================> REP : ENABLED \n\n";
-
     this->refreshRepresentation();
     this->refreshNormals();
     this->refreshShading() ;
@@ -183,8 +170,6 @@ void RepresentationEditor::updating() throw(::fwTools::Failed)
 
 void RepresentationEditor::swapping() throw(::fwTools::Failed)
 {
-    std::cout<<"\n\n ==========> RepresentationEditor::swapping()   \n \n";
-
     this->updating();
 }
 
@@ -192,7 +177,6 @@ void RepresentationEditor::swapping() throw(::fwTools::Failed)
 
 void RepresentationEditor::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
 {
-      std::cout<<"\n\n ==========> RepresentationEditor::updating(MSG)   \n \n";
 }
 
 //------------------------------------------------------------------------------
@@ -206,16 +190,19 @@ void RepresentationEditor::info( std::ostream &_sstream )
 
 void RepresentationEditor::showNormals()
 {
+  SLM_TRACE_FUNC();
   
     if ( m_normalsCheckBox->isChecked() )
     {
+      SLM_TRACE(" setOptionsMode : MODE_NORMALS ");
         m_material->setOptionsMode( ::fwData::Material::MODE_NORMALS );
     }
     else
     {
+      SLM_TRACE(" setOptionsMode : MODE_STANDARD ");
         m_material->setOptionsMode( ::fwData::Material::MODE_STANDARD );
     }
-
+    SLM_TRACE(" Call to notifyTriangularMesh ");
     this->notifyTriangularMesh();
 }
 
@@ -223,9 +210,12 @@ void RepresentationEditor::showNormals()
 
 void RepresentationEditor::notifyTriangularMesh()
 {
+  SLM_TRACE_FUNC();
+  
     ::fwData::Reconstruction::sptr reconstruction = this->getObject< ::fwData::Reconstruction>();
 
     ::fwComEd::MaterialMsg::NewSptr msg;
+   SLM_TRACE(" SEND MSG  MATERIAL_IS_MODIFIED "); 
     msg->addEvent( ::fwComEd::MaterialMsg::MATERIAL_IS_MODIFIED ) ;
     ::fwServices::IEditionService::notify(this->getSptr(), reconstruction->getTriangularMesh(), msg);
 }
@@ -234,6 +224,7 @@ void RepresentationEditor::notifyTriangularMesh()
 
 void RepresentationEditor::refreshNormals()
 {
+  SLM_TRACE_FUNC();
     m_normalsCheckBox->setChecked(m_material->getOptionsMode() == ::fwData::Material::MODE_NORMALS);
 }
 
@@ -243,9 +234,6 @@ void RepresentationEditor::refreshNormals()
 
 void RepresentationEditor::changeRepresentation()
 {
-  
-  //  std::cout<<" Bouton cliked :  "<<m_groupButtonRepresentation->checkedId()<<"\n";
-
     int choix = m_groupButtonRepresentation->checkedId();
     ::fwData::Material::REPRESENTATION_MODE selectedMode = ::fwData::Material::MODE_SURFACE;
 
@@ -317,9 +305,11 @@ void RepresentationEditor::changeShading()
 
 void RepresentationEditor::notifyMaterial()
 {
+  SLM_TRACE_FUNC();
     ::fwData::Reconstruction::sptr reconstruction = this->getObject< ::fwData::Reconstruction>();
 
     ::fwComEd::MaterialMsg::NewSptr msg;
+    SLM_TRACE(" notifyMaterial ===> SEND MATERIAL_IS_MODIFIED ");
     msg->addEvent( ::fwComEd::MaterialMsg::MATERIAL_IS_MODIFIED ) ;
     ::fwServices::IEditionService::notify(this->getSptr(), reconstruction->getMaterial(), msg);
 }
