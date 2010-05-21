@@ -61,8 +61,10 @@ void OrganListEditor::starting() throw(::fwTools::Failed)
     
     m_showCheckBox = new QCheckBox(QObject::tr("Hide organs"), m_organs);
     QObject::connect(m_showCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showReconstructions()));
-  
+
     m_listW = new QListWidget(m_organs);
+    QObject::connect(m_listW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(organChoiceSelection()));
+
    
     groupLayout->addWidget(m_showCheckBox);
     groupLayout->addWidget(m_listW);
@@ -80,8 +82,6 @@ void OrganListEditor::starting() throw(::fwTools::Failed)
 void OrganListEditor::stopping() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
-   
-
     ::guiQt::editor::IEditor::stopping();
 }
 
@@ -166,7 +166,7 @@ void OrganListEditor::updateReconstructions()
 	  //m_listW->addItem(item);
 	}
 	
-	QObject::connect(m_listW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(organChoiceSelection()));
+// 	QObject::connect(m_listW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(organChoiceSelection()));
 
         bool showAllRec = true;
         if (acq->getFieldSize("ShowReconstructions"))
@@ -182,6 +182,7 @@ void OrganListEditor::updateReconstructions()
 
 void OrganListEditor::organChoiceSelection()
 {
+  SLM_TRACE_FUNC();
   m_item = m_listW->selectedItems().first();
   //std::cout<<" m_item : "<<m_item->text().toStdString()<<"   curent : "<<m_listW->currentItem()->text().toStdString()<<"\n";
   
@@ -222,8 +223,6 @@ void OrganListEditor::organChoiceVisibility()
     }
     else if(m_item->checkState()==Qt::Unchecked)
       rec->setIsVisible(false);
-
-   // std::cout<<"           Organ SELECTED : "<<organSelected<<" Visible : "<<rec->getIsVisible()<<"\n";
 
     ::fwComEd::ReconstructionMsg::NewSptr msg;
     msg->addEvent( ::fwComEd::ReconstructionMsg::VISIBILITY ) ;

@@ -149,7 +149,6 @@ std::string FwXMLPatientDBReaderService::getSelectorDialogTitle()
     
    // DialogBOx for WARNING here
     pPatientDB = ::fwData::PatientDB::dynamicCast( myLoader.getObject() );
-// /home/hchekatt/Dev/DEV_FOLDER/Src/fw4spl/Bundles/LeafIO/ioQXML/src/ioXML/FwXMLPatientDBReaderService.cpp:152
 
     return pPatientDB;
 }

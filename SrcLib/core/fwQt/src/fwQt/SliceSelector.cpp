@@ -23,45 +23,39 @@ SliceSelector::SliceSelector(QWidget* const parent ) throw()
 {
     m_fctChangeIndexCallback = ::boost::bind( &::fwQt::SliceSelector::printIndex, this, _1);
     m_fctChangeTypeCallback = ::boost::bind( &::fwQt::SliceSelector::printType, this, _1);
-    
-  //  QHBoxLayout *layout = new QHBoxLayout(parent);
-    
+        
     m_sliceType = new QComboBox();
     m_pSliceIndexText = new QTextEdit();
     m_sliceIndex = new QSlider(Qt::Horizontal);
     layout = new QHBoxLayout();
-//       
-     m_sliceType->addItem(QObject::tr("Sagittal"),Sagittal);
-     m_sliceType->addItem(QObject::tr("Frontal"),Frontal);
-     m_sliceType->addItem(QObject::tr("Axial"), Axial);
-     m_sliceType->setMaximumWidth(100);
+    
+    m_sliceType->addItem(QObject::tr("Sagittal"),Sagittal);
+    m_sliceType->addItem(QObject::tr("Frontal"),Frontal);
+    m_sliceType->addItem(QObject::tr("Axial"), Axial);
+    m_sliceType->setMaximumWidth(100);
      
-     QObject::connect(m_sliceType, SIGNAL(currentIndexChanged(int)), this, SLOT(sliceTypeChange()));
-
+    QObject::connect(m_sliceType, SIGNAL(currentIndexChanged(int)), this, SLOT(sliceTypeChange()));
      
-     // harmobniser height avec les autres widget
-     
-     m_sliceType->setMinimumHeight(30);
-     m_sliceIndex->setFixedHeight(20);
-
+    m_sliceType->setMinimumHeight(30);
+    m_sliceIndex->setFixedHeight(20);
     m_sliceIndex->setTickPosition(QSlider::TicksBothSides);
     m_sliceIndex->setTickInterval(10);
     
-     m_pSliceIndexText->setFixedHeight(20);
-     m_pSliceIndexText->setFixedWidth(90);
-     m_pSliceIndexText->setReadOnly(true);
+    m_pSliceIndexText->setFixedHeight(20);
+    m_pSliceIndexText->setFixedWidth(90);
+    m_pSliceIndexText->setReadOnly(true);
 
     m_sliceType->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
     m_sliceIndex->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
     m_pSliceIndexText->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
 
-     layout->setContentsMargins(0,0,0,0);
+    layout->setContentsMargins(0,0,0,0);
 
-     layout->addWidget(m_sliceType);
-     layout->addWidget(m_sliceIndex);
-     layout->addWidget(m_pSliceIndexText);
+    layout->addWidget(m_sliceType);
+    layout->addWidget(m_sliceIndex);
+    layout->addWidget(m_pSliceIndexText);
 
-  parent->setLayout(layout);   
+    parent->setLayout(layout);   
 }
 
 //------------------------------------------------------------------------------
@@ -95,13 +89,10 @@ void SliceSelector::setSliceValue( int index )
 
 void SliceSelector::setSliceIndexText()
 {
-  // connect(slide, SIGNAL(valueChanged(int)), this, SLOT());
   m_currentSliderIndex = m_sliceIndex->value();
- // m_ss = m_currentSliderIndex <<" / "<<m_maxSliderIndex;
   m_ss.append(m_currentSliderIndex);
   m_ss.append("/");
   m_ss.append(m_maxSliderIndex);
-
   m_pSliceIndexText->setText(m_ss);
 }
 

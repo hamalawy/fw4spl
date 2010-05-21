@@ -481,7 +481,7 @@ void TriangularMesh::doUpdate( ::fwServices::ObjectMsg::csptr msg ) throw(::fwTo
 {
     ::fwComEd::MaterialMsg::csptr materialMsg = ::fwComEd::MaterialMsg::dynamicConstCast(msg);
     if( materialMsg && materialMsg->hasEvent(::fwComEd::MaterialMsg::MATERIAL_IS_MODIFIED) )
-    {
+    {   SLM_TRACE(" RECEIVE MSG  MATERIAL_IS_MODIFIED "); 
         this->updateOptionsMode();
     }
 }
@@ -658,7 +658,7 @@ void TriangularMesh::updateOptionsMode()
         createNormalsService();
     }
     else
-    {
+    {   SLM_TRACE("MODE_STANDARD ===>removeNormalsService()    "); 
         removeNormalsService();
     }
 }

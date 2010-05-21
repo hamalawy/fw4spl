@@ -287,6 +287,7 @@ void RepresentationEditor::notifyMaterial()
     ::fwData::Reconstruction::sptr reconstruction = this->getObject< ::fwData::Reconstruction>();
 
     ::fwComEd::MaterialMsg::NewSptr msg;
+       SLM_TRACE(" SEND MSG  MATERIAL_IS_MODIFIED "); 
     msg->addEvent( ::fwComEd::MaterialMsg::MATERIAL_IS_MODIFIED ) ;
     ::fwServices::IEditionService::notify(this->getSptr(), reconstruction->getMaterial(), msg);
 }
