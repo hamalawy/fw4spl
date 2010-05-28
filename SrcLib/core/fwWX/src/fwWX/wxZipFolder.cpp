@@ -28,16 +28,11 @@ wxDirTraverseResult wxDirTraverserZIP::OnFile( const wxString & _filename )
     do
     {
         wxFileName newFileName( _filename );
-	
-	std::cout<<"\n\n FILENAME : "<< _filename.c_str() << "\n";
-	
         newFileName.MakeRelativeTo( m_baseDir );
         if ( ! m_stream.PutNextEntry( newFileName.GetFullPath() ) )
         {
             break;
         }
-
-	std::cout<<"\n\n newFilnamePath  : "<< newFileName.GetFullPath().c_str() << "\n";
 
         wxFileInputStream in(_filename);
         if(!in.IsOk())
@@ -100,10 +95,6 @@ bool wxZipFolder::packFolder( const wxString & _srcFolderName, const wxString & 
 
 bool wxZipFolder::unpackFolder( const wxString & _srcZipFileName, const wxString & _destFolderName )
 {
-  
-    std::cout<<"\n\n sourcZipFile : "<< _srcZipFileName.c_str() << "\n";
-    std::cout<<" destFolder  : "<< _destFolderName.c_str() << "\n\n";
-
 
     std::auto_ptr<wxZipEntry> entry;
 
@@ -120,12 +111,10 @@ bool wxZipFolder::unpackFolder( const wxString & _srcZipFileName, const wxString
             // access meta-data
             wxString name = _destFolderName + "/" + entry->GetName();
             OSLM_DEBUG( "File Path = " << name.mb_str() );
-            std::cout<<"\n\n <<<<<<<<<<<<<<<<<<<< File Path = " << name.mb_str() <<"\n\n";
 
             // File Name
             wxFileName filePath ( name );
             OSLM_DEBUG( "Dir Path = " << filePath.GetPath().mb_str() );
-            std::cout<<"\n\n <<<<<<<<<<<<<<<<<<<< Dir Path = " << filePath.GetPath().mb_str() <<"\n\n";
 
             // Create Directories
             wxFileName dirPath = wxFileName::DirName( filePath.GetPath() );
