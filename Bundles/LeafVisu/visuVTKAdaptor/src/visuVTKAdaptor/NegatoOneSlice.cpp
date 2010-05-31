@@ -3,6 +3,10 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Contributors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
 
 #include <fwTools/helpers.hpp>
 
@@ -15,6 +19,7 @@
 #include <fwData/TransfertFunction.hpp>
 #include <fwData/Color.hpp>
 #include <fwData/String.hpp>
+#include <fwData/Float.hpp>
 
 #include <vtkIO/vtk.hpp>
 
@@ -144,6 +149,7 @@ NegatoOneSlice::NegatoOneSlice() throw()
     addNewHandledEvent( ::fwComEd::ImageMsg::WINDOWING );
     addNewHandledEvent( ::fwComEd::ImageMsg::SLICE_INDEX );
     addNewHandledEvent( ::fwComEd::ImageMsg::CHANGE_SLICE_TYPE );
+    addNewHandledEvent( ::fwComEd::ImageMsg::OPACITY );
 }
 
 //------------------------------------------------------------------------------
@@ -211,6 +217,7 @@ void NegatoOneSlice::doUpdate() throw(::fwTools::Failed)
         updateOutline();
         updateTransfertFunction(image);
         updateWindowing(image);
+        updateOpacity(image);
     }
 }
 
@@ -267,6 +274,10 @@ void NegatoOneSlice::doUpdate(::fwServices::ObjectMsg::csptr msg) throw(::fwTool
                 doUpdate();
             }
         }
+        if ( msg->hasEvent( ::fwComEd::ImageMsg::OPACITY ) )
+        {
+            updateOpacity(image);
+        }
     }
 }
 
@@ -275,13 +286,37 @@ void NegatoOneSlice::doUpdate(::fwServices::ObjectMsg::csptr msg) throw(::fwTool
 void NegatoOneSlice::configuring() throw(fwTools::Failed)
 {
     SLM_TRACE_FUNC();
-
-    assert(m_configuration->getName() == "config");
-    this->setRenderId( m_configuration->getAttributeValue("renderer") );
-    this->setPickerId( m_configuration->getAttributeValue("picker") );
-    if(m_configuration->hasAttribute("sliceIndex"))
+    ::fwRuntime::ConfigurationElement::sptr cfg;
+    //To be managed by ::fwRenderVTK::VtkRenderService
+    if(m_configuration->getName() == "config")
     {
-         std::string  orientation = m_configuration->getAttributeValue("sliceIndex");
+        cfg = m_configuration;
+    }
+    //When directly declared as an image service
+    else if( m_configuration->findConfigurationElement("config") )
+    {
+        cfg = m_configuration->findConfigurationElement("config") ;
+    }
+    else
+    {
+        assert(false);
+    }
+
+    if( cfg->hasAttribute("scene") )
+    {
+        OSLM_TRACE("m_configuration->hasAttributeValue scene: true");
+        this->setSceneId(cfg->getAttributeValue("scene"));
+    }
+    else
+    {
+        OSLM_TRACE("m_configuration->hasAttributeValue scene: false");
+    }
+
+    this->setRenderId( cfg->getAttributeValue("renderer") );
+    this->setPickerId( cfg->getAttributeValue("picker") );
+    if(cfg->hasAttribute("sliceIndex"))
+    {
+         std::string  orientation = cfg->getAttributeValue("sliceIndex");
          if(orientation == "axial" )
          {
              m_orientation = Z_AXIS;
@@ -295,9 +330,10 @@ void NegatoOneSlice::configuring() throw(fwTools::Failed)
              m_orientation = X_AXIS;
          }
     }
-    if(m_configuration->hasAttribute("transform") )
+
+    if( cfg->hasAttribute("transform") )
     {
-        this->setTransformId( m_configuration->getAttributeValue("transform") );
+        this->setTransformId( cfg->getAttributeValue("transform") );
     }
 }
 
@@ -319,6 +355,8 @@ void NegatoOneSlice::updateImage( ::fwData::Image::sptr image  )
 
 void NegatoOneSlice::updateSliceIndex( ::fwData::Image::sptr image )
 {
+    bool fieldsAreModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkImageSliceIndex( image );
+
     unsigned int axialIndex    = m_axialIndex->value();
     unsigned int frontalIndex  = m_frontalIndex->value();
     unsigned int sagittalIndex = m_sagittalIndex->value();
@@ -335,19 +373,28 @@ void NegatoOneSlice::updateSliceIndex( ::fwData::Image::sptr image )
 
 void NegatoOneSlice::updateWindowing( ::fwData::Image::sptr image )
 {
-    //std::pair<bool,bool> fieldsAreModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkMinMaxTF( image );
+    std::pair<bool,bool> fieldsAreModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkMinMaxTF( image );
     // Temp test because theses cases are not manage ( need to notify if there are modifications of Min/Max/TF )
-    //assert( ! fieldsAreModified.first && ! fieldsAreModified.second );
+    assert( ! fieldsAreModified.first && ! fieldsAreModified.second );
 
     m_lut->SetTableRange( m_windowMin->value(), m_windowMax->value() );
     m_lut->Modified();
     setVtkPipelineModified();
 }
 
+void NegatoOneSlice::updateOpacity( ::fwData::Image::sptr image )
+{
+    bool fieldIsModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkOpacity( image );
+    float opacity = image->getFieldSingleElement< ::fwData::Float >( ::fwComEd::Dictionary::m_opacityId )->value();
+    m_imageActor->SetOpacity ((double)opacity );
+    setVtkPipelineModified();
+}
 //------------------------------------------------------------------------------
 
 void NegatoOneSlice::updateTransfertFunction( ::fwData::Image::sptr image )
 {
+    std::pair<bool,bool> fieldsAreModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkMinMaxTF( image );
+
     ::fwData::Composite::sptr tfComposite = m_transfertFunctions;
     std::string tfName = m_transfertFunctionId->value();
     ::fwData::TransfertFunction::sptr pTransfertFunction = ::fwData::TransfertFunction::dynamicCast(tfComposite->getRefMap()[tfName]);
@@ -380,6 +427,7 @@ void NegatoOneSlice::setSlice( int slice )
 
 void NegatoOneSlice::buildPipeline( )
 {
+
     m_map2colors->SetLookupTable(m_lut);
     m_imageActor->SetInput(m_map2colors->GetOutput());
     if(!this->getTransformId().empty())
@@ -465,6 +513,9 @@ void NegatoOneSlice::updateOutline()
     setVtkPipelineModified();
 }
 
-
+vtkImageActor * NegatoOneSlice::getImageActor() throw()
+{
+    return m_imageActor ;
+}
 
 } //namespace visuVTKAdaptor

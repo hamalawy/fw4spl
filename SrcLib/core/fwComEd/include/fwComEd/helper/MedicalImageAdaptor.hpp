@@ -44,7 +44,10 @@ public:
 
     FWCOMED_API void setOrientation( Orientation orientation );
     FWCOMED_API Orientation getOrientation(){ return m_orientation; }
-
+    
+    FWCOMED_API void worldToSliceIndex(const double world[3],int index[3] );
+    FWCOMED_API void worldToImageSliceIndex(const double world[3], int index[3] );
+    
 protected:
 
     FWCOMED_API MedicalImageAdaptor(); // this class VISUVTKADAPTOR_CLASS_API must be specialized
@@ -59,8 +62,6 @@ protected:
     /// retreive the grey level from an image from physicial world
     //float getPixelvalue( double worldPosition[3]);
 
-    FWCOMED_API void worldToSliceIndex(const double world[3],int index[3] );
-    FWCOMED_API void worldToImageSliceIndex(const double world[3], int index[3] );
     /// return the 4 points of the image plane
     /// points are ordered in the following way : image origin is the first point
     /// points are insterted using the preference follow X axis if exist, if not exist follow Y axis
