@@ -4,6 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
+#include <fwTools/helpers.hpp>
+
 #include <fwComEd/fieldHelper/MedicalImageHelpers.hpp>
 #include <fwComEd/ImageMsg.hpp>
 #include <fwComEd/Dictionary.hpp>
@@ -123,7 +125,7 @@ namespace visuVTKAdaptor
 
 //------------------------------------------------------------------------------
 
-NegatoOneSlice::NegatoOneSlice() throw() : IImagesAdaptor()
+NegatoOneSlice::NegatoOneSlice() throw()
 {
     m_lut = vtkLookupTable::New();
     m_imageActor = vtkImageActor::New();
@@ -234,11 +236,13 @@ void NegatoOneSlice::doUpdate(::fwServices::ObjectMsg::csptr msg) throw(::fwTool
 
         if ( msg->hasEvent( ::fwComEd::ImageMsg::WINDOWING ) )
         {
+            ::fwComEd::ImageMsg::dynamicConstCast(msg)->getWindowMinMax( m_windowMin, m_windowMax);
             updateWindowing(image);
         }
 
         if ( msg->hasEvent( ::fwComEd::ImageMsg::SLICE_INDEX ) )
         {
+            ::fwComEd::ImageMsg::dynamicConstCast(msg)->getSliceIndex( m_axialIndex, m_frontalIndex, m_sagittalIndex);
             updateSliceIndex(image);
             updateOutline();
         }
@@ -275,8 +279,6 @@ void NegatoOneSlice::configuring() throw(fwTools::Failed)
     assert(m_configuration->getName() == "config");
     this->setRenderId( m_configuration->getAttributeValue("renderer") );
     this->setPickerId( m_configuration->getAttributeValue("picker") );
-    this->setTransformId ( m_configuration->getAttributeValue ( "transform" ) );
-
     if(m_configuration->hasAttribute("sliceIndex"))
     {
          std::string  orientation = m_configuration->getAttributeValue("sliceIndex");
@@ -293,6 +295,10 @@ void NegatoOneSlice::configuring() throw(fwTools::Failed)
              m_orientation = X_AXIS;
          }
     }
+    if(m_configuration->hasAttribute("transform") )
+    {
+        this->setTransformId( m_configuration->getAttributeValue("transform") );
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -301,6 +307,9 @@ void NegatoOneSlice::updateImage( ::fwData::Image::sptr image  )
 {
     ::vtkIO::toVTKImage(image,m_imageData);
     m_map2colors->SetInput(m_imageData);
+
+    this->updateImageInfos(image);
+
     this->setVtkPipelineModified();
 }
 
@@ -308,9 +317,9 @@ void NegatoOneSlice::updateImage( ::fwData::Image::sptr image  )
 
 void NegatoOneSlice::updateSliceIndex( ::fwData::Image::sptr image )
 {
-    unsigned int axialIndex = image->getFieldSingleElement< ::fwData::Integer >( ::fwComEd::Dictionary::m_axialSliceIndexId )->value();
-    unsigned int frontalIndex = image->getFieldSingleElement< ::fwData::Integer >( ::fwComEd::Dictionary::m_frontalSliceIndexId )->value();
-    unsigned int sagittalIndex = image->getFieldSingleElement< ::fwData::Integer >( ::fwComEd::Dictionary::m_sagittalSliceIndexId )->value();
+    unsigned int axialIndex    = m_axialIndex->value();
+    unsigned int frontalIndex  = m_frontalIndex->value();
+    unsigned int sagittalIndex = m_sagittalIndex->value();
 
     int pos[3];
     pos[2]= axialIndex;
@@ -324,15 +333,11 @@ void NegatoOneSlice::updateSliceIndex( ::fwData::Image::sptr image )
 
 void NegatoOneSlice::updateWindowing( ::fwData::Image::sptr image )
 {
-    std::pair<bool,bool> fieldsAreModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkMinMaxTF( image );
+    //std::pair<bool,bool> fieldsAreModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkMinMaxTF( image );
     // Temp test because theses cases are not manage ( need to notify if there are modifications of Min/Max/TF )
-    assert( ! fieldsAreModified.first && ! fieldsAreModified.second );
+    //assert( ! fieldsAreModified.first && ! fieldsAreModified.second );
 
-    // Get Min and Max
-    ::fwData::Integer::sptr min = image->getFieldSingleElement< ::fwData::Integer >( fwComEd::Dictionary::m_windowMinId );
-    ::fwData::Integer::sptr max = image->getFieldSingleElement< ::fwData::Integer >( fwComEd::Dictionary::m_windowMaxId );
-
-    m_lut->SetTableRange( min->value(), max->value() );
+    m_lut->SetTableRange( m_windowMin->value(), m_windowMax->value() );
     m_lut->Modified();
     setVtkPipelineModified();
 }
@@ -341,8 +346,8 @@ void NegatoOneSlice::updateWindowing( ::fwData::Image::sptr image )
 
 void NegatoOneSlice::updateTransfertFunction( ::fwData::Image::sptr image )
 {
-    ::fwData::Composite::sptr tfComposite = image->getFieldSingleElement< ::fwData::Composite >( fwComEd::Dictionary::m_transfertFunctionCompositeId );;
-    std::string tfName = image->getFieldSingleElement< ::fwData::String >( fwComEd::Dictionary::m_transfertFunctionId )->value();
+    ::fwData::Composite::sptr tfComposite = m_transfertFunctions;
+    std::string tfName = m_transfertFunctionId->value();
     ::fwData::TransfertFunction::sptr pTransfertFunction = ::fwData::TransfertFunction::dynamicCast(tfComposite->getRefMap()[tfName]);
     convertTF2vtkTF( pTransfertFunction, m_lut );
     setVtkPipelineModified();
@@ -373,18 +378,15 @@ void NegatoOneSlice::setSlice( int slice )
 
 void NegatoOneSlice::buildPipeline( )
 {
-
     m_map2colors->SetLookupTable(m_lut);
     m_imageActor->SetInput(m_map2colors->GetOutput());
+    if(!this->getTransformId().empty())
+    {
+        m_imageActor->SetUserTransform(this->getTransform());
+    }
 //  m_imageActor->InterpolateOff();
     buildOutline();
-
-    if( ! this->getTransformId().empty() )
-    {
-        m_imageActor->SetUserTransform( this->getTransform() );
-    }
-
-    setVtkPipelineModified();
+    this->setVtkPipelineModified();
 }
 
 //------------------------------------------------------------------------------
@@ -423,7 +425,11 @@ void NegatoOneSlice::buildOutline()
     m_planeOutlineMapper->SetResolveCoincidentTopologyToPolygonOffset();
     m_planeOutlineActor->SetMapper(m_planeOutlineMapper);
     m_planeOutlineActor->PickableOff();
-    setVtkPipelineModified();
+    if(!this->getTransformId().empty())
+    {
+        m_planeOutlineActor->SetUserTransform(this->getTransform());
+    }
+    this->setVtkPipelineModified();
 }
 
 //------------------------------------------------------------------------------
