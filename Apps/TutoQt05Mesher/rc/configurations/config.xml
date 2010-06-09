@@ -6,41 +6,38 @@
     <!--  Composite data creation. -->
     <object id="MesherConfig" type="::fwData::Composite">
   
-       <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
-		<name>Mesher</name>
-     		<view uid="myDefaultView" autoStart="yes" />  
-	</service>
-	
-	<service uid="menuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
-		<menus>
-  	   		<menu uid="menu_File" />
-			<menu uid="menu_Mesher"/>
+        <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+            <name>Mesher</name>
+            <view uid="myDefaultView" autoStart="yes" />  
+        </service>
+    
+        <service uid="menuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
+            <menus>
+                <menu uid="menu_File" />
+                <menu uid="menu_Mesher"/>
+            </menus>
+        </service> 
 
-     		</menus>
-	</service> 
-
-       <service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
-    		<views>
-     			  <view uid="RenderingImage" autoStart="yes"  />
-			  <view uid="RenderingMesh"  autoStart="yes" />
-     		</views>
-	</service>
-	
-       <service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
-			<action uid="action_openImageFile"/>   
-			<action uid="action_saveImageFile"/> 
-			<action uid="action_openMeshFile"/>
-			<action uid="action_saveMeshFile"/>
-			<action uid="action_quit"/>
-	</service>
-	
-	<service name="Mesher" uid="menu_Mesher" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+        <service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
+            <views>
+                <view uid="RenderingImage" autoStart="yes"  />
+                <view uid="RenderingMesh"  autoStart="yes" />
+            </views>
+        </service>
+    
+        <service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
+            <action uid="action_openImageFile"/>   
+            <action uid="action_saveImageFile"/> 
+            <action uid="action_openMeshFile"/>
+            <action uid="action_saveMeshFile"/>
+            <action uid="action_quit"/>
+        </service>
+    
+        <service name="Mesher" uid="menu_Mesher" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
             <action uid="actionCreateVTKMesh"/>  
         </service>
 
-
-       	<service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
-
+        <service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
 
         <!-- Service associated to the Composite data :
         menu services creation.
@@ -51,7 +48,7 @@
     
         <service uid="action_saveImageFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Save image file" autoComChannel="no" >
             <start uid="writerImageFile"/>
-        </service> 
+        </service>
     
         <service uid="action_openMeshFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Open mesh file" autoComChannel="no" >
             <start uid="readerPathMeshFile"/>
@@ -59,7 +56,7 @@
     
         <service uid="action_saveMeshFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Save mesh file" autoComChannel="no" >
             <start uid="writerMeshFile"/>
-        </service>       
+        </service>
     
     
         <service uid="actionCreateVTKMesh" type="::guiQt::action::IAction" implementation="::opVTKMesh::action::qVTKMeshCreation" name="Compute Mesh (VTK)" autoComChannel="no" >
@@ -83,8 +80,7 @@
             <service implementation="::uiIOQt::editor::IOSelectorService" type="::guiQt::editor::IEditor" uid="writerImageFile" autoComChannel="no" >
                 <type mode="writer"/>
             </service>
-
-        </object>       
+        </object>
 
         <!-- TriangularMesh objet creation. 
         Services contained between the tags <object> and </object> 
@@ -122,6 +118,6 @@
       <stop type="::guiQt::aspect::IMenu" />
       <stop type="::guiQt::aspect::IMenuBar" />
       <stop type="::guiQt::aspect::IAspect" />
-  </object>
-  </extension>
-</plugin>    
+    </object>
+    </extension>
+</plugin>

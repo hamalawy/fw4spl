@@ -25,7 +25,7 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QHBoxLayout>
-#include <QVBoxLayout>	
+#include <QVBoxLayout>
 
 
 REGISTER_SERVICE( ::guiQt::aspect::IMenuBar , ::guiQt::aspect::DefaultMenuBar , ::fwTools::Object );
@@ -40,43 +40,50 @@ namespace aspect
 //-----------------------------------------------------------------------------
 
 DefaultMenuBar::DefaultMenuBar() throw()
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
 DefaultMenuBar::~DefaultMenuBar() throw()
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
 void DefaultMenuBar::configuring() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 // TODO : spacer
 void DefaultMenuBar::starting() throw( ::fwTools::Failed )
 {
-  QWidget *mainWidget = qApp->activeWindow();
-  QMainWindow *mainWindow = qobject_cast<QMainWindow *>(mainWidget);
+    SLM_TRACE_FUNC();
+    QWidget *mainWidget = qApp->activeWindow();
+    QMainWindow *mainWindow = qobject_cast<QMainWindow *>(mainWidget);
 
-  QMenuBar * menuBar = new QMenuBar(mainWindow);
-  menuBar->show();  //sinon ajout menu incorrete
-  
-  mainWindow->setMenuBar(menuBar);
+    QMenuBar * menuBar = new QMenuBar(mainWindow);
+    menuBar->show();  //sinon ajout menu incorrete
+
+    mainWindow->setMenuBar(menuBar);
 }
 
 //-----------------------------------------------------------------------------
 
 void DefaultMenuBar::stopping() throw( ::fwTools::Failed )
 {
-   
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 
 void DefaultMenuBar::updating() throw(::fwTools::Failed)
 {
+    SLM_TRACE_FUNC();
     SLM_FATAL("ACH : an DefaultMenuBar service does not be updated." );
 }
 
@@ -84,6 +91,7 @@ void DefaultMenuBar::updating() throw(::fwTools::Failed)
 
 void DefaultMenuBar::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
 {
+    SLM_TRACE_FUNC();
     SLM_FATAL("ACH : an DefaultMenuBar service does not received a message." );
 }
 

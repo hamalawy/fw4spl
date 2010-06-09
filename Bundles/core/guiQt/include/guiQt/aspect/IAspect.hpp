@@ -21,17 +21,17 @@ namespace guiQt
 namespace aspect
 {
   
-class  IAspect : public ::fwServices::IService
+class  GUIQT_CLASS_API IAspect : public ::fwServices::IService
 {
 
 public :
     fwCoreNonInstanciableClassDefinitionsMacro ( (IAspect)( ::fwServices::IService::Baseclass) ) ;
 
-     IAspect() throw() ;
+    GUIQT_API IAspect() throw() ;
 
-     virtual ~IAspect() throw() ;
+    GUIQT_API virtual ~IAspect() throw() ;
 
-    std::string getName() ;
+    GUIQT_API std::string getName() ;
 
     /**
      * @brief This method returns the application minimum height and width size, IAspect::m_minSizeHeight and IAspect::m_minSizeWidth.
@@ -50,30 +50,30 @@ protected :
      *
      * @todo ACH: It should be useful to verify the config is well formed.
      */
-     virtual void configuring() throw( ::fwTools::Failed ) ;
+    GUIQT_API virtual void configuring() throw( ::fwTools::Failed ) ;
 
     /// This method first registers the aspect gui manager and it starts the menus contained in the IAspect::m_menus.
-    virtual void starting() throw( ::fwTools::Failed );
+    GUIQT_API virtual void starting() throw( ::fwTools::Failed );
 
     /// This method first unregisters the aspect gui manager and it stops the menus contained in the IAspect::m_menus.
-    virtual void stopping() throw( ::fwTools::Failed );
+    GUIQT_API virtual void stopping() throw( ::fwTools::Failed );
 
     /**
      * @brief   Normally, perform some computations according to object (this service is attached to) attribute values and its internal state. Do nothing here.
      *
      * @todo ACH: This method should not be implemented, but imposed to its children classes.
      */
-     virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw( ::fwTools::Failed ) = 0;
+    GUIQT_API virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw( ::fwTools::Failed ) = 0;
 
     /**
      * @brief   Normally, perform some computations according to object (this service is attached to) attribute values and its internal state. Do nothing here.
      *
      * @todo ACH: This method should not be implemented, but imposed to its children classes.
      */
-     virtual void updating() throw( ::fwTools::Failed ) = 0 ;
+    GUIQT_API virtual void updating() throw( ::fwTools::Failed ) = 0 ;
 
      /// Gives informations about the class. Do nothing.
-     virtual void info(std::ostream &_sstream ) ;
+    GUIQT_API virtual void info(std::ostream &_sstream ) ;
 
     ///@}
 

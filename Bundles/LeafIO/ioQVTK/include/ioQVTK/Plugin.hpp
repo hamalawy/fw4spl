@@ -8,7 +8,7 @@
 #define _ioQVTK_PLUGIN_HPP_
 
 #include <fwRuntime/Plugin.hpp>
-
+#include "ioQVTK/config.hpp"
 /**
  * @brief   Namespace ioVTK.
  * @namespace   ioVTK.
@@ -20,11 +20,11 @@
 namespace ioQVTK
 {
 
-class Plugin : public ::fwRuntime::Plugin
+class IOQVTK_CLASS_API Plugin : public ::fwRuntime::Plugin
 {
 public:
     //! @brief Destructor.
-    ~Plugin() throw();
+	IOQVTK_API ~Plugin() throw();
 
     /**
     * @brief Start method.
@@ -32,14 +32,14 @@ public:
     * @exception ::fwRuntime::RuntimeException.
     * This method is used by runtime in order to initialize the bundle.
     */
-    void start() throw(::fwRuntime::RuntimeException);
+	IOQVTK_API void start() throw(::fwRuntime::RuntimeException);
 
     /**
     * @brief Stop method.
     *
     * This method is used by runtime in order to close the bundle.
     */
-    void stop() throw();
+	IOQVTK_API void stop() throw();
     
 };
 

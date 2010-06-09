@@ -28,7 +28,7 @@ namespace ioData
  * Service registered details : \n
  * REGISTER_SERVICE( ::io::IWriter , ::ioData::TriangularMeshWriterService , ::fwData::TriangularMesh )
  */
-class  TriangularMeshWriterService : public ::io::IWriter
+class  IOQT_CLASS_API TriangularMeshWriterService : public ::io::IWriter
 {
 
 
@@ -42,12 +42,12 @@ public:
     /**
      * @brief   Constructor : does nothing
      */
-     TriangularMeshWriterService() ;
+    IOQT_API TriangularMeshWriterService() ;
 
     /**
      * @brief   destructor
      */
-     ~TriangularMeshWriterService() throw() ;
+    IOQT_API ~TriangularMeshWriterService() throw() ;
 
     /** @name Specified writer service methods ( override from ::io::IWriter )
      * @{
@@ -56,7 +56,7 @@ public:
     /**
      * @brief   returns  (filename) extension
      */
-     virtual std::vector< std::string > getSupportedExtensions() ;
+    IOQT_API virtual std::vector< std::string > getSupportedExtensions() ;
 
     /**
      * @brief Configure the image path.
@@ -64,7 +64,7 @@ public:
      * This method is used to find
      * the file path  using a file selector.
      */
-     void configureWithIHM();
+    IOQT_API void configureWithIHM();
     /// @}
 
 protected:
@@ -78,14 +78,14 @@ protected:
      *
      * This method is used to initialize the service.
      */
-     virtual void starting() throw(::fwTools::Failed){};
+    IOQT_API virtual void starting() throw(::fwTools::Failed){};
 
     /**
      * @brief Stopping method : default does nothing.
      *
      * The stopping method is empty for this service.
      */
-     virtual void stopping() throw(::fwTools::Failed){};
+    IOQT_API virtual void stopping() throw(::fwTools::Failed){};
 
 
     /**
@@ -100,7 +100,7 @@ protected:
      *
      * Configure mesh filename.
      */
-     virtual void configuring( ) throw(::fwTools::Failed);
+    IOQT_API virtual void configuring( ) throw(::fwTools::Failed);
 
     /**
      * @brief Updating method. This method is called by update() from base service ( ::fwServices::IService )
@@ -109,7 +109,7 @@ protected:
      * The mesh is written with the writer ::fwDataIO::writer::TriangularMeshWriter.
      * Notify writing.
      */
-     void updating() throw(::fwTools::Failed);
+    IOQT_API void updating() throw(::fwTools::Failed);
 
     /**
      * @brief React on modifications : default does nothing.
@@ -118,7 +118,7 @@ protected:
      *
      * @param[in] _msg information message for modification
      */
-     void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw(::fwTools::Failed){};
+    IOQT_API void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw(::fwTools::Failed){};
 
 
     /**
@@ -129,7 +129,7 @@ protected:
      *
      * @param[out] _sstream output stream
      */
-     virtual void info(std::ostream &_sstream ) ;
+    IOQT_API virtual void info(std::ostream &_sstream ) ;
     /// @}
 
 private :

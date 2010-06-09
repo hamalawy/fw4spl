@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _VISUVTKADAPTOR_POINTLABEL_HPP_
-#define _VISUVTKADAPTOR_POINTLABEL_HPP_
+#ifndef _VISUQVTKADAPTOR_POINTLABEL_HPP_
+#define _VISUQVTKADAPTOR_POINTLABEL_HPP_
 
 #include <string>
 
@@ -14,38 +14,30 @@
 #include "visuVTKAdaptor/config.hpp"
 #include "visuVTKAdaptor/Text.hpp"
 
-class VISUVTKADAPTOR_CLASS_API vtkTextActor;
+class VISUQVTKADAPTOR_CLASS_API vtkTextActor;
 
 namespace visuVTKAdaptor
 {
 
-
-
-class VISUVTKADAPTOR_CLASS_API PointLabel: public Text
+class VISUQVTKADAPTOR_CLASS_API PointLabel: public Text
 {
 
 public:
     fwCoreServiceClassDefinitionsMacro ( (PointLabel)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API PointLabel();
+    VISUQVTKADAPTOR_API PointLabel();
 
 protected:
 
-    VISUVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doUpdate( ::fwServices::ObjectMsg::csptr msg ) throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate( ::fwServices::ObjectMsg::csptr msg ) throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
 
     void starting() throw(::fwTools::Failed);
     void stopping() throw(::fwTools::Failed);
-
-
-
-
 };
-
-
 
 } //namespace visuVTKAdaptor
 
-#endif //  _VISUVTKADAPTOR_POINTLABEL_HPP_
+#endif //  _VISUQVTKADAPTOR_POINTLABEL_HPP_
 

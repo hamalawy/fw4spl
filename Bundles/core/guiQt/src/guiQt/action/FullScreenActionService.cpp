@@ -24,18 +24,21 @@ REGISTER_SERVICE( ::guiQt::action::IAction , ::guiQt::action::FullScreenActionSe
 
 FullScreenActionService::FullScreenActionService() throw(): m_isFullScreen(false)
 {
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 
 FullScreenActionService::~FullScreenActionService() throw()
 {
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 
 void FullScreenActionService::configuring() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     SLM_INFO("FullScreenActionService::configuring");
     this->::guiQt::action::IAction::configuring();
 }
@@ -44,10 +47,11 @@ void FullScreenActionService::configuring() throw( ::fwTools::Failed )
 
 void FullScreenActionService::updating() throw(::fwTools::Failed)
 {
+    SLM_TRACE_FUNC();
     SLM_INFO("FullScreenActionService::updating");
-   
+
     //this->::guiQt::action::IAction::updating();
-    
+
      QWidget *mainWidget = qApp->activeWindow();
 
      m_isFullScreen = !m_isFullScreen;
@@ -60,8 +64,6 @@ void FullScreenActionService::updating() throw(::fwTools::Failed)
      {
         mainWidget->setWindowState(Qt::WindowNoState);
      }
-
-   
 }
 
 //-----------------------------------------------------------------------------
@@ -70,10 +72,5 @@ void FullScreenActionService::info(std::ostream &_sstream )
 {
     _sstream << "FullScreen Action" << std::endl;
 }
-
 }
-
 }
-
-
-

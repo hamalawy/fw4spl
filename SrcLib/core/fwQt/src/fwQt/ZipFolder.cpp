@@ -104,7 +104,7 @@ bool ZipFolder::packFolder( QString _srcFolderName, QString _destZipFileName )
     fpOut.write(compressedBuffer);
     fpOut.close();
     */
-    
+  return false;  
 }
 
 //------------------------------------------------------------------------------
@@ -186,6 +186,7 @@ bool ZipFolder::unpackFolder(QString _srcZipFileName, QString _destFolderName )
     fpOut.write(uncompressedData);
     fpOut.close();
    */
+   return false;
 }
 
 //------------------------------------------------------------------------------

@@ -24,12 +24,14 @@ REGISTER_SERVICE( ::guiQt::action::IAction , ::guiQt::action::NothingAction , ::
 
 NothingAction::NothingAction() throw()
 {
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 
-NothingAction::~NothingAction() throw() 
+NothingAction::~NothingAction() throw()
 {
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
@@ -43,6 +45,7 @@ void NothingAction::info(std::ostream &_sstream )
 
 void NothingAction::updating() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     SLM_TRACE("NothingAction::update") ;
 
 }

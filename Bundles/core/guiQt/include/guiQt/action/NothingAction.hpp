@@ -21,7 +21,7 @@ namespace action
 
  * @date    2009.
  */
-class  NothingAction : public ::guiQt::action::IAction
+class  GUIQT_CLASS_API NothingAction : public ::guiQt::action::IAction
 {
 
 public :
@@ -29,24 +29,24 @@ public :
     /**
     * @brief Constructor. Do nothing.
     */
-    NothingAction() throw() ;
+	GUIQT_API NothingAction() throw() ;
 
     /**
     * @brief Destructor. Do nothing.
     */
-    virtual ~NothingAction() throw() ;
+	GUIQT_API virtual ~NothingAction() throw() ;
 
 protected:
 
     /**
      * @brief This method is used to update services on notification. Do nothing.
      */
-    virtual void updating() throw(::fwTools::Failed);
+	GUIQT_API virtual void updating() throw(::fwTools::Failed);
 
     /**
      * @brief This method gives information about the class. Do nothing.
      */
-    virtual void info(std::ostream &_sstream ) ;
+	GUIQT_API virtual void info(std::ostream &_sstream ) ;
     
 };
 

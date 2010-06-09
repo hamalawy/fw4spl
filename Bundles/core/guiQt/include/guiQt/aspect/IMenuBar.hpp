@@ -27,7 +27,7 @@ namespace aspect
 
  * @date    2009.
  */
-class IMenuBar : public ::fwServices::IService
+class GUIQT_CLASS_API IMenuBar : public ::fwServices::IService
 {
 
 public :
@@ -35,10 +35,10 @@ public :
     fwCoreNonInstanciableClassDefinitionsMacro ( (IMenuBar)( ::fwServices::IService::Baseclass) ) ;
 
     /// Default constructor, do nothing.
-    IMenuBar() throw() ;
+    GUIQT_API IMenuBar() throw() ;
 
     /// Default destructor, do nothing.
-    virtual ~IMenuBar() throw() ;
+    GUIQT_API virtual ~IMenuBar() throw() ;
 
 };
 

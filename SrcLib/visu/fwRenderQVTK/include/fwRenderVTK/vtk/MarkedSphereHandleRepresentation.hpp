@@ -25,7 +25,7 @@ namespace vtk
 {
 
 
-class FWRENDERVTK_CLASS_API  MarkedSphereHandleRepresentation 
+class FWRENDERVTK_CLASS_API  MarkedSphereHandleRepresentation
                         : public vtkSphereHandleRepresentation
 {
 public:
@@ -43,8 +43,8 @@ public:
   // Description:
   // Set/Get the handle properties when unselected and selected.
   FWRENDERVTK_API void SetMarkerProperty(vtkProperty*);
-  FWRENDERVTK_API vtkGetObjectMacro(MarkerProperty,vtkProperty);
-  
+  vtkGetObjectMacro(MarkerProperty,vtkProperty);
+
   // Description:
   // Methods to make this class properly act like a vtkWidgetRepresentation.
   FWRENDERVTK_API virtual void BuildRepresentation();
@@ -70,7 +70,7 @@ protected:
   // the manipulator in general.
   vtkProperty *MarkerProperty;
   void         CreateDefaultProperties();
-  
+
 private:
   MarkedSphereHandleRepresentation(const MarkedSphereHandleRepresentation&);  //Not implemented
   void operator=(const MarkedSphereHandleRepresentation&);  //Not implemented

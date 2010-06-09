@@ -4,7 +4,6 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-
 #include <fwServices/IService.hpp>
 
 #include "guiQt/action/IAction.hpp"
@@ -21,32 +20,32 @@ namespace action
 
  * @date    2009.
  */
-class CloseAction : public ::guiQt::action::IAction
+class GUIQT_CLASS_API CloseAction : public ::guiQt::action::IAction
 {
 
 public :
-    
+
     /**
     * @brief Constructor. Do nothing.
     */
-    CloseAction() throw() ;
+	GUIQT_API CloseAction() throw() ;
 
     /**
     * @brief Destructor. Do nothing.
     */
-    virtual ~CloseAction() throw() ;
+    GUIQT_API virtual ~CloseAction() throw() ;
 
 protected:
 
     /**
      * @brief This method is used to reset root object. All services are eliminated as well as objects composing the root object.
      */
-    virtual void updating() throw(::fwTools::Failed);
+    GUIQT_API virtual void updating() throw(::fwTools::Failed);
 
     /**
      * @brief This method gives information about the class. Do nothing.
      */
-    virtual void info(std::ostream &_sstream ) ;
+    GUIQT_API virtual void info(std::ostream &_sstream ) ;
 
 };
 

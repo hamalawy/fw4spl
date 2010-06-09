@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _VISUVTKADAPTOR_NEGATOONESLICE_HPP_
-#define _VISUVTKADAPTOR_NEGATOONESLICE_HPP_
+#ifndef _VISUQVTKADAPTOR_NEGATOONESLICE_HPP_
+#define _VISUQVTKADAPTOR_NEGATOONESLICE_HPP_
 
 #include <fwData/Image.hpp>
 
@@ -26,33 +26,32 @@ class vtkActor;
 namespace visuVTKAdaptor
 {
 
-class VISUVTKADAPTOR_CLASS_API NegatoOneSlice: public ::fwComEd::helper::MedicalImageAdaptor, public ::fwRenderVTK::IVtkAdaptorService 
+class VISUQVTKADAPTOR_CLASS_API NegatoOneSlice: public ::fwComEd::helper::MedicalImageAdaptor, public ::fwRenderVTK::IVtkAdaptorService
 {
 
 public:
 
     fwCoreServiceClassDefinitionsMacro ( (NegatoOneSlice)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API NegatoOneSlice() throw();
+    VISUQVTKADAPTOR_API NegatoOneSlice() throw();
 
-    VISUVTKADAPTOR_API virtual ~NegatoOneSlice() throw();
+    VISUQVTKADAPTOR_API virtual ~NegatoOneSlice() throw();
 
 protected :
 
-    VISUVTKADAPTOR_API void doStart() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doStop() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStart() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStop() throw(fwTools::Failed);
 
-    VISUVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void configuring() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void configuring() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
 
 
     void buildPipeline();
     void buildOutline();
 
     void updateOutline();
-
 
     // update DisplayExtent according to orientation
     void setSlice( int slice );
@@ -70,13 +69,8 @@ protected :
     vtkPolyData *m_planeOutlinePolyData;
     vtkPolyDataMapper *m_planeOutlineMapper;
     vtkActor *m_planeOutlineActor;
-
-
 };
-
-
-
 
 } //namespace visuVTKAdaptor
 
-#endif // _VISUVTKADAPTOR_NEGATOONESLICE_HPP_
+#endif // _VISUQVTKADAPTOR_NEGATOONESLICE_HPP_

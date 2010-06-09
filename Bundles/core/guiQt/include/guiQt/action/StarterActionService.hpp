@@ -12,7 +12,6 @@
 
 #include "guiQt/action/IAction.hpp"
 
-
 namespace guiQt
 {
 
@@ -25,7 +24,7 @@ namespace action
  * @author  IRCAD (Research and Development Team).
  * @date    2009.
  */
-class  StarterActionService : public ::guiQt::action::IAction
+class  GUIQT_CLASS_API StarterActionService : public ::guiQt::action::IAction
 {
 
 public :
@@ -33,12 +32,12 @@ public :
     /**
     * @brief Constructor. Do nothing.
     */
-    StarterActionService() throw();
+	GUIQT_API StarterActionService() throw();
 
     /**
     * @brief Destructor. Do nothing.
     */
-    virtual ~StarterActionService() throw();
+	GUIQT_API virtual ~StarterActionService() throw();
 
 protected:
 
@@ -53,17 +52,17 @@ protected:
     /**
      * @brief This method gives information about the class. Do nothing.
      */
-    virtual void info(std::ostream &_sstream ) ;
+    GUIQT_API virtual void info(std::ostream &_sstream ) ;
 
     /**
      * @brief This method starts-updates or stops the specified services
      */
-    void updating()throw (fwTools::Failed);
+    GUIQT_API void updating()throw (fwTools::Failed);
 
     /**
      * @brief This method is used to configure the service parameters: specifies which services must be started or stopped
      */
-    void configuring() throw( ::fwTools::Failed );
+    GUIQT_API void configuring() throw( ::fwTools::Failed );
 
 private:
     // vector representing uuid's services that must be started (true) or stopped (false)

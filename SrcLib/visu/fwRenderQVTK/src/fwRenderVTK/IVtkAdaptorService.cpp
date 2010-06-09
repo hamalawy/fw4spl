@@ -172,10 +172,10 @@ VtkRenderService::sptr  IVtkAdaptorService:: getRenderService()
 vtkRenderer* IVtkAdaptorService::getRenderer()
 {
   SLM_TRACE_FUNC();
-  
+
   if(m_renderService.expired())
     SLM_TRACE(" vtkRenderer EXPIRED ");
-  
+
     return m_renderService.lock()->getRenderer(m_rendererId);
 }
 
@@ -394,6 +394,18 @@ void IVtkAdaptorService::removeAllPropFromRenderer()
     }
     this->unregisterProps();
     this->setVtkPipelineModified();
+}
+
+//------------------------------------------------------------------------------
+void IVtkAdaptorService::show(bool b)
+{
+
+}
+
+//------------------------------------------------------------------------------
+void IVtkAdaptorService::hide()
+{
+    this->show(false);
 }
 
 

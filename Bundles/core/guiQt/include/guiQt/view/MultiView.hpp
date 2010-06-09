@@ -27,7 +27,7 @@ namespace view
 
  * @date    2009.
  */
-class MultiView : public ::guiQt::view::IView
+class GUIQT_CLASS_API MultiView : public ::guiQt::view::IView
 {
     class ViewInfo
     {
@@ -61,34 +61,34 @@ class MultiView : public ::guiQt::view::IView
 public :
 
     /// Constructor, does nothing.
-    MultiView() throw() ;
+    GUIQT_API MultiView() throw() ;
 
     /// Destructor, does nothing.
-    virtual ~MultiView() throw() ;
+    GUIQT_API  virtual ~MultiView() throw() ;
 
     /// Analyses xml configuration to configure this service, espacially umber of panel and the layout of this view.
-    void configuring() throw( ::fwTools::Failed );
+    GUIQT_API  void configuring() throw( ::fwTools::Failed );
 
     /// Reconfigures service, does nothing.
-    void reconfiguring() throw( ::fwTools::Failed );
+    GUIQT_API  void reconfiguring() throw( ::fwTools::Failed );
 
     /// Builds defined layout and creates wxPanel.
-    void starting() throw( ::fwTools::Failed );
+    GUIQT_API  void starting() throw( ::fwTools::Failed );
 
     /// Uninit layout and destroy panel.
-    void stopping() throw( ::fwTools::Failed );
+    GUIQT_API  void stopping() throw( ::fwTools::Failed );
 
     /// Swap associated object, does nothing.
-    void swappping() throw( ::fwTools::Failed );
+    GUIQT_API void swappping() throw( ::fwTools::Failed );
 
     /// Updates service, does nothing.
-    void updating() throw( ::fwTools::Failed );
+    GUIQT_API  void updating() throw( ::fwTools::Failed );
 
     /// Updates service on notification, does nothing.
-    void updating( ::boost::shared_ptr< const fwServices::ObjectMsg > _msg ) throw( ::fwTools::Failed );
+    GUIQT_API void updating( ::boost::shared_ptr< const fwServices::ObjectMsg > _msg ) throw( ::fwTools::Failed );
 
     /// Prints service name
-    void info(std::ostream &_sstream );
+    GUIQT_API  void info(std::ostream &_sstream );
 
 protected :
 

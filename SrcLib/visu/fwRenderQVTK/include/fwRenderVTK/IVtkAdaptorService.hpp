@@ -45,8 +45,8 @@ public :
 
 
     /// To set a representation
-    FWRENDERVTK_API virtual void show(bool b = true) {};
-    FWRENDERVTK_API virtual void hide() {this->show(false);};
+    FWRENDERVTK_API virtual void show(bool b = true); // {};
+    FWRENDERVTK_API virtual void hide(); // {this->show(false);};
 
 
     FWRENDERVTK_API void setRenderService( VtkRenderService::sptr service );

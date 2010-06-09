@@ -35,7 +35,7 @@ namespace ioVTK
  * Service registered details : \n
  * REGISTER_SERVICE( ::io::IWriter , ::ioVTK::MeshWriterService , ::fwData::TriangularMesh )
  */
-class  MeshWriterService : public ::io::IWriter
+class IOQVTK_CLASS_API MeshWriterService : public ::io::IWriter
 {
 
 public :
@@ -44,12 +44,12 @@ public :
      * @brief   Constructor
      *
      */
-     MeshWriterService() throw();
+    IOQVTK_API MeshWriterService() throw();
 
     /**
      * @brief   Destructor
      */
-     virtual ~MeshWriterService() throw();
+    IOQVTK_API virtual ~MeshWriterService() throw();
 
     /**
     * @brief Configure the mesh path.
@@ -57,7 +57,7 @@ public :
     * This method is used to find
     * the file path  using a file selector.
     */
-     virtual void configureWithIHM();
+    IOQVTK_API virtual void configureWithIHM();
 
 
 protected:
@@ -73,21 +73,21 @@ protected:
     @endverbatim
     * This method is used to configure the service.
     */
-     virtual void configuring() throw(::fwTools::Failed) ;
+    IOQVTK_API virtual void configuring() throw(::fwTools::Failed) ;
 
     /**
     * @brief Starting method.
     *
     * This method is used to initialize the service.
     */
-     virtual void starting() throw(::fwTools::Failed);
+    IOQVTK_API virtual void starting() throw(::fwTools::Failed);
 
     /**
     * @brief Stopping method.
     *
     * The stopping method is empty for this service.
     */
-     virtual void stopping() throw(::fwTools::Failed);
+    IOQVTK_API virtual void stopping() throw(::fwTools::Failed);
 
     /**
     * @brief Updating method.
@@ -95,7 +95,7 @@ protected:
     * This method is used to update the service.
     * The mesh is read.
     */
-     void updating() throw(::fwTools::Failed);
+    IOQVTK_API void updating() throw(::fwTools::Failed);
 
     /**
      * @brief React on modifications : default does nothing.
@@ -104,7 +104,7 @@ protected:
      *
      * @param[in] _msg information message for modification
      */
-     void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw(::fwTools::Failed){};
+    IOQVTK_API void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw(::fwTools::Failed){};
 
     /**
     * @brief Info method.
@@ -112,7 +112,7 @@ protected:
     * This method is used to give
     * informations about the service.
     */
-     void info(std::ostream &_sstream ) ;
+    IOQVTK_API void info(std::ostream &_sstream ) ;
 
 
 private :

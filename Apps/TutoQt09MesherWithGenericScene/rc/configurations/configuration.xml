@@ -5,7 +5,7 @@
 
     
     <service uid="MyIHM" type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
-		<name>Tuto09MesherWithGenericScene</name>
+        <name>Tuto09MesherWithGenericScene</name>
                 <icon>Bundles/Tuto09MesherWithGenericScene_0-1/tuto.ico</icon>
                 <view uid="multiView_scene1" autoStart="yes" />
     </service>
@@ -21,8 +21,8 @@
         <views>
             <view uid="genericScene" align="center" autoStart="yes" />
             <view uid="listOrganEditor" align="right" />
-	    <view uid="organMaterialEditor" align="right" />
-            <view uid="representationEditor" align="right" />	     
+        <view uid="organMaterialEditor" align="right" />
+            <view uid="representationEditor" align="right" />         
             <view uid="multiView_scene1_bottom" align="bottom" minHeight="30" resizable="no" autoStart="yes" />
         </views>
     </service>
@@ -81,7 +81,7 @@
         <service uid="myUpdaterComCannelImg" implementation="::fwServices::ComChannelService" type="::fwServices::ICommunication" autoComChannel="no" >
             <target>myUpdaterImg</target>
         </service>
-	 <service uid="myUpdaterComCannelReconst" implementation="::fwServices::ComChannelService" type="::fwServices::ICommunication" autoComChannel="no" >
+     <service uid="myUpdaterComCannelReconst" implementation="::fwServices::ComChannelService" type="::fwServices::ICommunication" autoComChannel="no" >
             <target>myUpdaterReconst</target>
         </service>
     </object>
@@ -102,8 +102,8 @@
             <update compositeKey="myImage" onEvent="NEW_PATIENT" fromUID="myPatientDB" actionType="ADD_OR_SWAP"/>
             <update compositeKey="myImage" onEvent="CLEAR_PATIENT" fromUID="myPatientDB" actionType="REMOVE"/>
         </service>
-	
-	  <service uid="myUpdaterReconst" implementation="::ctrlSelection::updater::ReconstructionFromAcqUpdaterSrv" type="::ctrlSelection::IUpdaterSrv" autoComChannel="no" autoStart="yes" >
+    
+      <service uid="myUpdaterReconst" implementation="::ctrlSelection::updater::ReconstructionFromAcqUpdaterSrv" type="::ctrlSelection::IUpdaterSrv" autoComChannel="no" autoStart="yes" >
             <update compositeKey="myReconstruction" onEvent="NEW_RECONSTRUCTION_SELECTED" fromUID="*" actionType="ADD_OR_SWAP"/>
             <update compositeKey="myReconstruction" onEvent="NEW_PATIENT" fromUID="myPatientDB" actionType="REMOVE_IF_PRESENT"/>
             <update compositeKey="myReconstruction" onEvent="NEW_LOADED_PATIENT" fromUID="myPatientDB" actionType="REMOVE_IF_PRESENT"/>
@@ -114,7 +114,7 @@
             <mode type="stop" />
             <config>
                 <object id="myAcquisition" type="::fwData::Acquisition" >
-		 <service uid="myUpdaterComCannelReconst2" implementation="::fwServices::ComChannelService" type="::fwServices::ICommunication" autoComChannel="no" >
+         <service uid="myUpdaterComCannelReconst2" implementation="::fwServices::ComChannelService" type="::fwServices::ICommunication" autoComChannel="no" >
                          <target>myUpdaterReconst</target>
                  </service>
                   <service uid="listOrganEditor"  implementation="::uiAcquisition::OrganListEditor" type="::guiQt::editor::IEditor"  autoComChannel="yes" />
@@ -135,7 +135,7 @@
                      </service>
                      <service uid="sliderIndexEditor" type="::guiQt::editor::IEditor"  implementation="::uiImage::SliceIndexPositionEditor" autoComChannel="yes" sliceIndex="axial" />
                  </object>
-		  <object id="myReconstruction" type="::fwData::Reconstruction" >
+          <object id="myReconstruction" type="::fwData::Reconstruction" >
                      <service uid="organMaterialEditor" implementation="::uiReconstruction::OrganMaterialEditor" type="::guiQt::editor::IEditor" autoComChannel="yes"  />
                      <service uid="representationEditor" implementation="::uiReconstruction::RepresentationEditor" type="::guiQt::editor::IEditor" autoComChannel="yes"  />
                  </object>
@@ -181,7 +181,7 @@
     <start uid="myUpdaterComCannelImg"/>
     <start uid="myUpdaterComCannelReconst"/>
 
-	
+    
     <stop uid="myUpdaterComCannelReconst"/>
     <stop uid="myUpdaterComCannelImg"/>
     <stop uid="myUpdaterComCannelAcq"/>

@@ -60,9 +60,9 @@ VtkRenderService::VtkRenderService() throw() :
 
 //-----------------------------------------------------------------------------
 
-VtkRenderService::~VtkRenderService() throw() 
+VtkRenderService::~VtkRenderService() throw()
 {
- 
+
 }
 
 //-----------------------------------------------------------------------------
@@ -418,11 +418,11 @@ void VtkRenderService::startContext()
 
     layout->addWidget(m_widget);
     m_container->setLayout(layout);
-    
+
     m_render = vtkRenderer::New();
 
     // IMPORTANT : use QVTKWidget own objects (vtkRenderWindow and vtkRenderWindowInteractor)
-    m_widget->GetRenderWindow()->AddRenderer(m_render);   
+    m_widget->GetRenderWindow()->AddRenderer(m_render);
 }
 
 //-----------------------------------------------------------------------------
@@ -436,35 +436,35 @@ void VtkRenderService::stopContext()
         vtkRenderer *renderer = iter->second;
         renderer->InteractiveOff();
 	m_widget->GetRenderWindow()->RemoveRenderer(renderer);
-	
+
 	if(renderer != 0)
 	{
-	 renderer->Delete(); 
+	 renderer->Delete();
 	}
-        
+
     }
     m_renderers.clear();
-    
+
     if(m_render != 0)
     {
       m_render->Delete();
       m_render = 0;
     }
-   
+
     if(m_widget != 0)
     {
       //delete m_widget;
       m_widget->deleteLater();
       m_widget=0;
     }
-  
+
     if(m_container != 0)
     {
       m_container->deleteLater();
       m_container=0;
     }
-   
-   
+
+
 }
 
 //-----------------------------------------------------------------------------
@@ -502,6 +502,19 @@ vtkObject * VtkRenderService::getVtkObject(VtkObjectIdType objectId)
         return NULL;
     }
     return m_vtkObjects[objectId];
+}
+
+//-----------------------------------------------------------------------------
+
+bool VtkRenderService::getPendingRenderRequest()
+{
+    return m_pendingRenderRequest;
+}
+
+//-----------------------------------------------------------------------------
+void VtkRenderService::setPendingRenderRequest(bool b)
+{
+    m_pendingRenderRequest=b;
 }
 
 } //namespace fwRenderVTK

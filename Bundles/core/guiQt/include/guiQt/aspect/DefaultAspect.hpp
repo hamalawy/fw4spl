@@ -31,16 +31,16 @@ namespace aspect
 
  * @date    2009.
  */
-class  DefaultAspect : public ::guiQt::aspect::IAspect
+class  GUIQT_CLASS_API DefaultAspect : public ::guiQt::aspect::IAspect
 {
 
 public :
     
     /// Constructor. Do nothing.
-    DefaultAspect() throw() ;
+	GUIQT_API DefaultAspect() throw() ;
 
     /// Destructor. Do nothing.
-    virtual ~DefaultAspect() throw() ;
+	GUIQT_API virtual ~DefaultAspect() throw() ;
 
 protected:
 
@@ -48,36 +48,36 @@ protected:
      * @brief   This method initializes class member parameters from configuration elements.
      *
      */
-    virtual void configuring() throw( ::fwTools::Failed ) ;
+	GUIQT_API virtual void configuring() throw( ::fwTools::Failed ) ;
 
     /**
      * @brief This method first registers the aspect gui manager.
      * It secondly starts the menus contained in the IAspect::m_menus
      * and finally all IView services contained in the IAspect::m_views
      */
-     virtual void starting() throw(::fwTools::Failed);
+	GUIQT_API virtual void starting() throw(::fwTools::Failed);
 
     /**
      * @brief This method first unregisters the aspect gui manager.
      * It secondly stops the menus contained in the IAspect::m_menus
      * and finally all IView services contained in the IAspect::m_views
      */
-     virtual void stopping() throw(::fwTools::Failed);
+	GUIQT_API virtual void stopping() throw(::fwTools::Failed);
 
     /// This method gives information about the class. Do nothing.
-     virtual void info(std::ostream &_sstream ) ;
+	GUIQT_API virtual void info(std::ostream &_sstream ) ;
 
     /**
      * @brief   Normally, perform some computations according to object (this service is attached to) attribute values and its internal state.
      *          Do nothing here.
      */
-     virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw( ::fwTools::Failed );
+     GUIQT_API virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw( ::fwTools::Failed );
 
     /**
      * @brief   Normally, perform some computations according to object (this service is attached to) attribute values and its internal state.
      *          Do nothing here.
      */
-     virtual void updating() throw( ::fwTools::Failed );
+     GUIQT_API virtual void updating() throw( ::fwTools::Failed );
      
 private:
 

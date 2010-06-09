@@ -26,16 +26,16 @@ namespace aspect
 
  * @date    2009.
  */
-class  DefaultToolBar : public IToolBar
+class  GUIQT_CLASS_API DefaultToolBar : public IToolBar
 {
 
 public :
 
     /// Constructor. Do nothing.
-     DefaultToolBar();
+	GUIQT_API DefaultToolBar();
 
     /// Destructor. Do nothing.
-     virtual ~DefaultToolBar() throw();
+	GUIQT_API virtual ~DefaultToolBar() throw();
 
 protected:
 
@@ -46,32 +46,32 @@ protected:
     /**
      * @brief This method create a new ToolBar in frame.
      */
-     virtual void starting() throw( ::fwTools::Failed ) ;
+	GUIQT_API virtual void starting() throw( ::fwTools::Failed ) ;
 
     /**
      * @brief This method remove the tools situated in the ToolBar and delete ToolBar.
      */
-     virtual void stopping() throw( ::fwTools::Failed );
+	GUIQT_API virtual void stopping() throw( ::fwTools::Failed );
 
     /**
      * @brief This method is used to update services on notification. Do nothing.
      */
-     virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
+	GUIQT_API virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
 
     /**
      * @brief This method is used to update services. Do nothing.
      */
-     virtual void updating() throw(::fwTools::Failed);
+	GUIQT_API virtual void updating() throw(::fwTools::Failed);
 
     /**
      * @brief This method is used to configure the class parameters. Do nothing.
     */
-     virtual void configuring() throw( ::fwTools::Failed );
+	GUIQT_API virtual void configuring() throw( ::fwTools::Failed );
 
     /**
      * @brief This method is used to give information about the service. Do nothing.
      */
-     virtual void info(std::ostream &_sstream );
+	GUIQT_API virtual void info(std::ostream &_sstream );
     ///@}
 
 

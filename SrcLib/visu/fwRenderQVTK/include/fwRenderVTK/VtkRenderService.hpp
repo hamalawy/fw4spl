@@ -22,6 +22,7 @@
 #include <vtkRenderWindow.h>
 #include <vtkRenderer.h>
 
+
 namespace fwData
 {
 
@@ -35,7 +36,7 @@ namespace fwRenderVTK
 
 class IVtkAdaptorService;
 
-class  VtkRenderService : public ::fwQtRender::IRender
+class  FWRENDERVTK_CLASS_API VtkRenderService : public ::fwQtRender::IRender
 {
 public :
     fwCoreServiceClassDefinitionsMacro ( (VtkRenderService)(::fwQtRender::IRender::Baseclass) ) ;
@@ -46,37 +47,37 @@ public :
     typedef std::string AdaptorIdType;
     typedef std::string VtkObjectIdType;
 
-    VtkRenderService() throw() ;
+    FWRENDERVTK_API VtkRenderService() throw() ;
 
-    virtual ~VtkRenderService() throw() ;
+    FWRENDERVTK_API virtual ~VtkRenderService() throw() ;
 
-    vtkRenderer * getRenderer(RendererIdType rendererId);
+    FWRENDERVTK_API vtkRenderer * getRenderer(RendererIdType rendererId);
 
-    void render();
+    FWRENDERVTK_API void render();
     bool isShownOnScreen();
 
-    vtkAbstractPropPicker * getPicker(PickerIdType pickerId);
+    FWRENDERVTK_API vtkAbstractPropPicker * getPicker(PickerIdType pickerId);
 
-    vtkObject * getVtkObject(VtkObjectIdType objectId);
+    FWRENDERVTK_API vtkObject * getVtkObject(VtkObjectIdType objectId);
 
     // For temporary NegatoAdaptor use
     // wxAuiManager* getWxManager(){return m_wxmanager;};
 
-     bool getPendingRenderRequest(){return m_pendingRenderRequest;}
-     void setPendingRenderRequest(bool b){m_pendingRenderRequest=b;}
+    FWRENDERVTK_API bool getPendingRenderRequest(); // {return m_pendingRenderRequest;}
+    FWRENDERVTK_API void setPendingRenderRequest(bool b);  //{m_pendingRenderRequest=b;}
 
 protected:
 
     /// Install observations : should be implemented in IService
-     virtual void starting() throw( ::fwTools::Failed);
+    FWRENDERVTK_API virtual void starting() throw( ::fwTools::Failed);
     /// Uninstall observations : should be implemented in IService
-     virtual void stopping() throw( ::fwTools::Failed);
+    FWRENDERVTK_API virtual void stopping() throw( ::fwTools::Failed);
 
-     virtual void configuring() throw( ::fwTools::Failed) ;
+    FWRENDERVTK_API virtual void configuring() throw( ::fwTools::Failed) ;
 
-     void updating( ::fwServices::ObjectMsg::csptr message ) throw( ::fwTools::Failed);
+    FWRENDERVTK_API void updating( ::fwServices::ObjectMsg::csptr message ) throw( ::fwTools::Failed);
 
-     void updating() throw( ::fwTools::Failed);
+    FWRENDERVTK_API void updating() throw( ::fwTools::Failed);
 
 private :
 

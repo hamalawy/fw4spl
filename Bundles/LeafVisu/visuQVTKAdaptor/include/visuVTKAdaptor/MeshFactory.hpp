@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _VISUVTKADAPTOR_VTKADAPTOR_MESHFACTORY_HPP_
-#define _VISUVTKADAPTOR_VTKADAPTOR_MESHFACTORY_HPP_
+#ifndef _VISUQVTKADAPTOR_VTKADAPTOR_MESHFACTORY_HPP_
+#define _VISUQVTKADAPTOR_VTKADAPTOR_MESHFACTORY_HPP_
 
 
 #include <fwData/Material.hpp>
@@ -21,15 +21,14 @@ class  vtkPlaneCollection;
 namespace visuVTKAdaptor
 {
 
-
-class VISUVTKADAPTOR_CLASS_API MeshFactory
+class VISUQVTKADAPTOR_CLASS_API MeshFactory
 {
 
 public:
 
-    VISUVTKADAPTOR_API MeshFactory();
+    VISUQVTKADAPTOR_API MeshFactory();
 
-    VISUVTKADAPTOR_API virtual ~MeshFactory();
+    VISUQVTKADAPTOR_API virtual ~MeshFactory();
 
 protected:
 
@@ -59,13 +58,8 @@ protected:
 
     double m_normalsFeatureAngle;
 
-
 };
-
-
-
-
 } //namespace visuVTKAdaptor
 
-#endif // _VISUVTKADAPTOR_VTKADAPTOR_MESHFACTORY_HPP_
+#endif // _VISUQVTKADAPTOR_VTKADAPTOR_MESHFACTORY_HPP_
 

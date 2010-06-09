@@ -18,28 +18,28 @@ namespace opImageFilter
 namespace action
 {
 
-class  imageFilter : public ::guiQt::action::IAction
+class  OPIMAGEFILTERQT_CLASS_API imageFilter : public ::guiQt::action::IAction
 {
 
 public :
 
     fwCoreServiceClassDefinitionsMacro ( (imageFilter)(::guiQt::action::IAction::Baseclass) ) ;
 
-     imageFilter() throw() ;
+    OPIMAGEFILTERQT_API imageFilter() throw() ;
 
-     virtual ~imageFilter() throw() ;
+    OPIMAGEFILTERQT_API virtual ~imageFilter() throw() ;
 
-     void starting() throw ( ::fwTools::Failed );
+    OPIMAGEFILTERQT_API void starting() throw ( ::fwTools::Failed );
 
-     void stopping() throw ( ::fwTools::Failed );
+    OPIMAGEFILTERQT_API void stopping() throw ( ::fwTools::Failed );
 
-     void updating( fwServices::ObjectMsg::csptr _pMsg ) throw ( ::fwTools::Failed );
+    OPIMAGEFILTERQT_API void updating( fwServices::ObjectMsg::csptr _pMsg ) throw ( ::fwTools::Failed );
 
-     void configuring() throw ( ::fwTools::Failed );
+    OPIMAGEFILTERQT_API void configuring() throw ( ::fwTools::Failed );
 
-     void updating() throw ( ::fwTools::Failed );
+    OPIMAGEFILTERQT_API void updating() throw ( ::fwTools::Failed );
 
-     void info ( std::ostream &_sstream ) ;
+    OPIMAGEFILTERQT_API void info ( std::ostream &_sstream ) ;
 
 private :
 

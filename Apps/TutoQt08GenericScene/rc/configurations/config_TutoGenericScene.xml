@@ -3,11 +3,11 @@
     <extension id="Tuto08GenericScene" implements="::fwData::Composite">
 
         <object id="Tuto08GenericScene" type="::fwData::Composite">
-	    
-	     <service uid="MyIHM" type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
-		<name>SG</name>
+        
+         <service uid="MyIHM" type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+        <name>SG</name>
                 <view uid="multiView_scene1" autoStart="yes" />
-	    </service>
+        </service>
             
             <service uid="myMenuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
                 <menus>
@@ -21,19 +21,19 @@
                  <view uid="multiView_scene1_bottom" align="bottom"  autoStart="yes" />  
                 </views>
             </service>
-	    
-	    
+        
+        
 
             <service uid="multiView_scene1_bottom" type="::guiQt::view::IView" implementation="::gui::view::MultiSizerView" autoComChannel="no">
                 <views orientation="horizontal">
-		    <view uid="sliceListEditor" proportion="0" />
+            <view uid="sliceListEditor" proportion="0" />
                     <view uid="showScanEditor" proportion="0"  />   
                     <view uid="sliderIndexEditor" proportion="1" />
-		    <view uid="snapshotScene1Editor" proportion="0"  autoStart="yes" />
+            <view uid="snapshotScene1Editor" proportion="0"  autoStart="yes" />
                 </views>
             </service>
 
-	    <service uid="snapshotScene1Editor" type="::guiQt::editor::IEditor" implementation="::uiVisu::SnapshotEditor" autoComChannel="no">
+        <service uid="snapshotScene1Editor" type="::guiQt::editor::IEditor" implementation="::uiVisu::SnapshotEditor" autoComChannel="no">
                 <snap>
                     <scene uid="genericScene" />
                 </snap>
@@ -78,14 +78,14 @@
                     <config>
                         <object id="myImage" type="::fwData::Image">
                             <service uid="medicalImageConverter" implementation="::ctrlSelection::MedicalImageSrv" type="::fwServices::IController"  autoComChannel="no" />
-			    
+                
                             <service uid="sliceListEditor" type="::guiQt::editor::IEditor" implementation="::uiImage::SliceListEditor" autoComChannel="yes">
                                 <negatoAdaptor uid="MPRNegatoScene3D" slices="3" />
                             </service>
                             <service uid="showScanEditor" type="::guiQt::editor::IEditor" implementation="::uiImage::ShowScanEditor" autoComChannel="no">
                                 <negatoAdaptor uid="MPRNegatoScene3D" />
                             </service>
-			    
+                
                             <service uid="sliderIndexEditor" type="::guiQt::editor::IEditor" implementation="::uiImage::SliceIndexPositionEditor" autoComChannel="yes" sliceIndex="axial" />
                         </object>
                     </config>
@@ -110,12 +110,12 @@
                         </adaptor>
                     </scene>
                 </service>
-		
+        
               </object>
 
-            <start uid="MyIHM" />   	
+            <start uid="MyIHM" />       
             <start uid="myMenuBar" />
-	    <start type="::guiQt::aspect::IMenu" />
+            <start type="::guiQt::aspect::IMenu" />
             <start uid="myUpdaterAcq" />
             <start uid="myUpdaterImg" />
             <start uid="myManager" />

@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _VISUVTKADAPTOR_DISTANCE_HPP_
-#define _VISUVTKADAPTOR_DISTANCE_HPP_
+#ifndef _VISUQVTKADAPTOR_DISTANCE_HPP_
+#define _VISUQVTKADAPTOR_DISTANCE_HPP_
 
 #include <vector>
 
@@ -24,28 +24,28 @@ class vtkLineSource;
 namespace visuVTKAdaptor
 {
 
-class VISUVTKADAPTOR_CLASS_API Distance: public ::fwRenderVTK::IVtkAdaptorService
+class VISUQVTKADAPTOR_CLASS_API Distance: public ::fwRenderVTK::IVtkAdaptorService
 {
 
 public:
 
     fwCoreServiceClassDefinitionsMacro ( (Distance)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API Distance() throw();
+    VISUQVTKADAPTOR_API Distance() throw();
 
-    VISUVTKADAPTOR_API virtual ~Distance() throw();
+    VISUQVTKADAPTOR_API virtual ~Distance() throw();
 
     /// set Distance Axis color AND alpha
-    VISUVTKADAPTOR_API void setAxisColor( ::fwData::Color::sptr newColor) throw();
+    VISUQVTKADAPTOR_API void setAxisColor( ::fwData::Color::sptr newColor) throw();
 
 protected:
 
-    VISUVTKADAPTOR_API void configuring() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doUpdate( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
-    VISUVTKADAPTOR_API void doStart();
-    VISUVTKADAPTOR_API void doStop();
+    VISUQVTKADAPTOR_API void configuring() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStart();
+    VISUQVTKADAPTOR_API void doStop();
 
 
     vtkDistanceRepresentation2D * m_distanceRepresentation;
@@ -60,9 +60,6 @@ protected:
     ::fwData::Point::wptr m_point2;
 };
 
-
-
-
 } //namespace visuVTKAdaptor
 
-#endif // _VISUVTKADAPTOR_DISTANCE_HPP_
+#endif // _VISUQVTKADAPTOR_DISTANCE_HPP_

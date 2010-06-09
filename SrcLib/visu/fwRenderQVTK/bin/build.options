@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 USE = [
     'boost',
-    'vtkInria3dWxVtk',
-    'QVTK',
+    'QVtk',
     ]
 LIB = [
     'fwComEd_0-1',

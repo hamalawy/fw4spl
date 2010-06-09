@@ -22,7 +22,7 @@ namespace opVTKMesh
  * @author IRCAD (Research and Development Team).
  * @date   2009-2010.
  */
-class  IMesher : public ::fwServices::IService
+class  OPQVTKMESH_CLASS_API IMesher : public ::fwServices::IService
 {
 
 public:
@@ -30,10 +30,10 @@ public:
     fwCoreServiceClassDefinitionsMacro ( (IMesher)(::fwServices::IService::Baseclass) ) ;
 
     ///@brief IMesher constructor. Do nothing.
-     IMesher();
+    OPQVTKMESH_API IMesher();
 
     ///@brief IMesher destructor. Do nothing.
-     virtual ~IMesher();
+    OPQVTKMESH_API virtual ~IMesher();
 
 };
 

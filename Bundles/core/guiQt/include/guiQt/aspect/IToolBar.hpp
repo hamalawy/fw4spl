@@ -24,7 +24,7 @@ namespace aspect
  * @author  IRCAD (Research and Development Team)
  * @date    2009.
  */
-class  IToolBar : public ::fwServices::IService
+class  GUIQT_CLASS_API IToolBar : public ::fwServices::IService
 {
 
 public :
@@ -34,12 +34,12 @@ public :
     /**
      * @brief Constructor. Do nothing (Just initialize parameters).
      */
-     IToolBar() throw() ;
+    GUIQT_API IToolBar() throw() ;
 
     /**
      * @brief Destructor. Do nothing.
      */
-     virtual ~IToolBar() throw() ;
+    GUIQT_API virtual ~IToolBar() throw() ;
 
 protected :
 
@@ -50,34 +50,34 @@ protected :
     /**
      * @brief This method create a new ToolBar in frame, and add tools with IToolBar::m_actionIds list.
      */
-     virtual void starting() throw( ::fwTools::Failed ) = 0;
+    GUIQT_API virtual void starting() throw( ::fwTools::Failed ) = 0;
 
     /**
      * @brief This method remove the tools situated in the ToolBar and delete ToolBar.
      */
-     virtual void stopping() throw( ::fwTools::Failed ) = 0;
+    GUIQT_API virtual void stopping() throw( ::fwTools::Failed ) = 0;
 
     /**
      * @brief This method is used to update services on notification. Do nothing.
      * @attention An IToolBar service does not received a message.
      */
-     virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed) = 0 ;
+     GUIQT_API virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed) = 0 ;
 
     /**
      * @brief This method is used to update services. Do nothing.
      */
-     virtual void updating() throw(::fwTools::Failed) = 0;
+     GUIQT_API virtual void updating() throw(::fwTools::Failed) = 0;
 
     /**
      * @brief This method is used to configure the class parameters. Do nothing.
     */
-     virtual void configuring() throw( ::fwTools::Failed ) = 0;
+     GUIQT_API virtual void configuring() throw( ::fwTools::Failed ) = 0;
 
     /**
      * @brief This method is used to give information about the service. Do nothing.
      * @todo Must be not implemented and class child declaration should be imposed.
      */
-     virtual void info(std::ostream &_sstream ) = 0;
+     GUIQT_API virtual void info(std::ostream &_sstream ) = 0;
 
     ///@}
 };

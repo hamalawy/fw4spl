@@ -21,7 +21,7 @@ namespace action
 
  * @date    2009.
  */
-class QuitAction : public ::guiQt::action::IAction
+class GUIQT_CLASS_API QuitAction : public ::guiQt::action::IAction
 {
 
 public :
@@ -29,24 +29,24 @@ public :
     /**
     * @brief Constructor. Do nothing.
     */
-    QuitAction() throw() ;
+	GUIQT_API QuitAction() throw() ;
 
     /**
     * @brief Destructor. Do nothing.
     */
-    virtual ~QuitAction() throw() ;
+	GUIQT_API virtual ~QuitAction() throw() ;
 
 protected:
 
     /**
      * @brief This method tries to close the window and reset root object.
      */
-    virtual void updating() throw(::fwTools::Failed);
+	GUIQT_API virtual void updating() throw(::fwTools::Failed);
 
     /*
      * @brief This method gives information about the class.
      */
-    virtual void info(std::ostream &_sstream ) ;
+	GUIQT_API virtual void info(std::ostream &_sstream ) ;
 
 };
 

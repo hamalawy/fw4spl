@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _VISUVTKADAPTOR_MODEL_HPP_
-#define _VISUVTKADAPTOR_MODEL_HPP_
+#ifndef _VISUQVTKADAPTOR_MODEL_HPP_
+#define _VISUQVTKADAPTOR_MODEL_HPP_
 
 #include <fwRenderVTK/IVtkAdaptorService.hpp>
 
@@ -16,34 +16,30 @@
 namespace visuVTKAdaptor
 {
 
-
-class VISUVTKADAPTOR_CLASS_API Model: public ::fwRenderVTK::IVtkAdaptorService, protected MeshFactory
+class VISUQVTKADAPTOR_CLASS_API Model: public ::fwRenderVTK::IVtkAdaptorService, protected MeshFactory
 {
 
 public:
 
     fwCoreServiceClassDefinitionsMacro ( (Model)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API Model() throw();
+    VISUQVTKADAPTOR_API Model() throw();
 
-    VISUVTKADAPTOR_API virtual ~Model() throw();
+    VISUQVTKADAPTOR_API virtual ~Model() throw();
 
 protected:
 
-    VISUVTKADAPTOR_API void doStart() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doStop() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStart() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStop() throw(fwTools::Failed);
 
-    VISUVTKADAPTOR_API void configuring() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void configuring() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
     // redraw all (stop then restart sub services)
-    VISUVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
 
 };
 
-
-
-
 } //namespace visuVTKAdaptor
 
-#endif // _VISUVTKADAPTOR_MODEL_HPP_
+#endif // _VISUQVTKADAPTOR_MODEL_HPP_
