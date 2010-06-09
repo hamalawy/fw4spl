@@ -5,6 +5,7 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwTools/UUID.hpp>
+
 #include <fwData/Image.hpp>
 #include <fwData/TriangularMesh.hpp>
 #include <fwServices/macros.hpp>
@@ -37,17 +38,22 @@ qVTKMeshCreation::qVTKMeshCreation() throw() :
     m_imageUID(""),
     m_meshUID(""),
     m_reduction(0)
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
 qVTKMeshCreation::~qVTKMeshCreation() throw()
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
 void qVTKMeshCreation::starting() throw ( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     ::guiQt::action::IAction::starting();
 }
 
@@ -55,25 +61,27 @@ void qVTKMeshCreation::starting() throw ( ::fwTools::Failed )
 
 void qVTKMeshCreation::stopping() throw ( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     ::guiQt::action::IAction::stopping();
 }
 
 //-----------------------------------------------------------------------------
 
 void qVTKMeshCreation::updating( fwServices::ObjectMsg::csptr _pMsg ) throw ( ::fwTools::Failed )
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
 void qVTKMeshCreation::configuring() throw ( ::fwTools::Failed )
 {
-    ::guiQt::action::IAction::configuring();
+    SLM_TRACE_FUNC();
 
+    ::guiQt::action::IAction::configuring();
     SLM_ASSERT( "Mesh UID andImage UID must be defined in the service configuration",  m_configuration->findConfigurationElement("image") && m_configuration->findConfigurationElement("mesh") );
 
-    
     m_imageUID = m_configuration->findConfigurationElement("image")->getExistingAttributeValue("uid");
-
     m_meshUID = m_configuration->findConfigurationElement("mesh")->getExistingAttributeValue("uid");
 
     if (m_configuration->findConfigurationElement("percentReduction") && m_configuration->findConfigurationElement("percentReduction")->hasAttribute("value"))
@@ -123,29 +131,27 @@ void qVTKMeshCreation::updating() throw ( ::fwTools::Failed )
     smoothFilter->FeatureEdgeSmoothingOn();
     smoothFilter->Update();
 
-
     // Get polyData
-      vtkPolyData * polyData;
+    vtkPolyData * polyData;
 
-      // decimate filter
-      unsigned int reduction = m_reduction;
-      if( reduction > 0 )
-      {
-          vtkDecimatePro * decimate = vtkDecimatePro::New();
-          decimate->SetInput( smoothFilter->GetOutput() );
-          decimate->SetTargetReduction( reduction/100.0 );
-          decimate->PreserveTopologyOff();
-          decimate->SplittingOn();
-          decimate->BoundaryVertexDeletionOn();
-          decimate->SetSplitAngle( 120 );
-          decimate->Update();
-          polyData = decimate->GetOutput();
-      }
-      else
-      {
-          polyData = smoothFilter->GetOutput();
-      }
-
+    // decimate filter
+    unsigned int reduction = m_reduction;
+    if( reduction > 0 )
+    {
+        vtkDecimatePro * decimate = vtkDecimatePro::New();
+        decimate->SetInput( smoothFilter->GetOutput() );
+        decimate->SetTargetReduction( reduction/100.0 );
+        decimate->PreserveTopologyOff();
+        decimate->SplittingOn();
+        decimate->BoundaryVertexDeletionOn();
+        decimate->SetSplitAngle( 120 );
+        decimate->Update();
+        polyData = decimate->GetOutput();
+    }
+    else
+    {
+        polyData = smoothFilter->GetOutput();
+    }
 
     OSLM_TRACE("final GetNumberOfCells = " << polyData->GetNumberOfCells());
     bool res = ::vtkIO::fromVTKMesh( polyData, pMesh);
@@ -159,8 +165,11 @@ void qVTKMeshCreation::updating() throw ( ::fwTools::Failed )
 //-----------------------------------------------------------------------------
 
 void qVTKMeshCreation::info ( std::ostream &_sstream )
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
-} }
+}
+}

@@ -26,7 +26,7 @@ namespace fwQt
  * @brief A wxWidgets panel used to control a VTK 2D Negatoscope view.
  * @author IRCAD (Research and Development Team).
  */
-class SliceSelector : public QObject
+class FWQT_CLASS_API SliceSelector : public QObject
 {
   Q_OBJECT
   
@@ -36,24 +36,24 @@ public:
      * @param parent The parent window.
      * @param id     The window ID.
      */
-     SliceSelector( QWidget*  parent) throw();
+  FWQT_API SliceSelector( QWidget*  parent) throw();
 
 
     /// @brief Destructor.
-     virtual ~SliceSelector() throw();
+     FWQT_API virtual ~SliceSelector() throw();
 
-     void setSliceRange( int min, int max );
+     FWQT_API void setSliceRange( int min, int max );
 
-     void setSliceValue( int index );
+     FWQT_API void setSliceValue( int index );
 
-     void setTypeSelection( int type );
+     FWQT_API void setTypeSelection( int type );
 
 
     typedef ::boost::function1<void, int > ChangeIndexCallback;
-     void setChangeIndexCallback(ChangeIndexCallback fct);
+    FWQT_API void setChangeIndexCallback(ChangeIndexCallback fct);
 
     typedef ::boost::function1<void, int > ChangeTypeCallback;
-     void setChangeTypeCallback(ChangeTypeCallback fct);
+    FWQT_API void setChangeTypeCallback(ChangeTypeCallback fct);
 
      QHBoxLayout *layout;
      QStringList m_sliceTypes;

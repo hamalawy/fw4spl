@@ -53,6 +53,7 @@ DefaultAspect::~DefaultAspect() throw()
 
 void DefaultAspect::configuring() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     this->::guiQt::aspect::IAspect::configuring();
     if(m_configuration->findConfigurationElement("view"))
     {
@@ -71,7 +72,7 @@ void DefaultAspect::configuring() throw( ::fwTools::Failed )
     {
         SLM_WARN("No main view specified.");
     }
-    
+
     m_managedServices.clear();
     if (m_configuration->findConfigurationElement("services"))
     {
@@ -87,25 +88,26 @@ void DefaultAspect::configuring() throw( ::fwTools::Failed )
             SLM_FATAL_IF("<service> node must contain uid attribute", !(*iter)->hasAttribute("uid") );
             m_managedServices.push_back((*iter)->getExistingAttributeValue("uid"));
         }
-    } 
-    
+    }
+
 }
 
 //-----------------------------------------------------------------------------
 
 void DefaultAspect::starting() throw(::fwTools::Failed)
 {
-  
-  QWidget *container = qApp->activeWindow();
-  ::fwQt::IGuiContainer::registerGlobalQtContainer(m_uid, container);
 
-  if(m_uid!="")
-  {
-    ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
-    service->start();
-  }
-  
-   BOOST_FOREACH(std::string serviceUID, m_managedServices)
+    SLM_TRACE_FUNC();
+    QWidget *container = qApp->activeWindow();
+    ::fwQt::IGuiContainer::registerGlobalQtContainer(m_uid, container);
+
+    if(m_uid!="")
+    {
+        ::fwServices::IService::sptr service = ::fwServices::get( m_uid ) ;
+        service->start();
+    }
+
+    BOOST_FOREACH(std::string serviceUID, m_managedServices)
     {
         OSLM_FATAL_IF("Service " << serviceUID << " doesn't exist.", ! ::fwTools::UUID::exist(serviceUID, ::fwTools::UUID::SIMPLE ));
         ::fwServices::IService::sptr service = ::fwServices::get( serviceUID ) ;
@@ -117,16 +119,16 @@ void DefaultAspect::starting() throw(::fwTools::Failed)
 
 void DefaultAspect::stopping() throw(::fwTools::Failed)
 {
-  SLM_TRACE_FUNC();
-  
-   BOOST_REVERSE_FOREACH(std::string serviceUID, m_managedServices)
+    SLM_TRACE_FUNC();
+
+    BOOST_REVERSE_FOREACH(std::string serviceUID, m_managedServices)
     {
         OSLM_FATAL_IF("Service " << serviceUID << " doesn't exist.", ! ::fwTools::UUID::exist(serviceUID, ::fwTools::UUID::SIMPLE ));
         ::fwServices::IService::sptr service = ::fwServices::get( serviceUID ) ;
         service->stop();
     }
-  
-  if(!m_uid.empty())
+
+    if(!m_uid.empty())
     {
         ::fwQt::IGuiContainer::unregisterGlobalQtContainer(m_uid);
         if (::fwTools::UUID::exist(m_uid, ::fwTools::UUID::SIMPLE ))
@@ -142,6 +144,7 @@ void DefaultAspect::stopping() throw(::fwTools::Failed)
 
 void DefaultAspect::info(std::ostream &_sstream )
 {
+    SLM_TRACE_FUNC();
     _sstream << "Manage aspect in main GUI application" ;
 }
 
@@ -156,7 +159,7 @@ void DefaultAspect::updating( ::fwServices::ObjectMsg::csptr _msg ) throw( ::fwT
 
 void DefaultAspect::updating() throw( ::fwTools::Failed )
 {
-    SLM_TRACE_FUNC();
+   SLM_TRACE_FUNC();
 }
 
 }

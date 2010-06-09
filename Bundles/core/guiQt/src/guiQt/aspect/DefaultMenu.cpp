@@ -19,10 +19,10 @@
 #include "guiQt/aspect/DefaultMenu.hpp"
 
  #include <QList>
- 
+
  #include <iostream>
  #include <QString>
- 
+
 REGISTER_SERVICE( ::guiQt::aspect::IMenu , ::guiQt::aspect::DefaultMenu , ::fwTools::Object );
 
 namespace guiQt
@@ -35,17 +35,22 @@ const std::string  DefaultMenu::SEPARATOR_UID = "SEPARATOR_UID";
 //-----------------------------------------------------------------------------
 
 DefaultMenu::DefaultMenu() throw()
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
 DefaultMenu::~DefaultMenu() throw()
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
 void DefaultMenu::configuring() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     SLM_ASSERT("name tag missing", m_configuration->hasAttribute("name")) ;
     m_menuName = m_configuration->getExistingAttributeValue("name");
 
@@ -70,12 +75,13 @@ void DefaultMenu::configuring() throw( ::fwTools::Failed )
 
 void DefaultMenu::starting() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
   // Get the main widget
   QWidget *mainWidget = qApp->activeWindow();
-  
+
    QList< QMenuBar*> allMenuBar =  mainWidget->findChildren<QMenuBar *>();
    QMenuBar *menuBar;
-   
+
    if(!allMenuBar.isEmpty())
    {
      menuBar = allMenuBar.first();
@@ -84,15 +90,15 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
    {
      SLM_FATAL(" List MenuBar empty ");
    }
-   
-  
+
+
   if(menuBar != 0)
   {
 
     QMenu *menu = new QMenu(m_menuName.c_str(), mainWidget);
     menu->setObjectName(m_menuName.c_str());
     menuBar->addMenu(menu);
-    
+
   }
   else
   {
@@ -103,30 +109,30 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
      std::vector< ::guiQt::action::IAction::sptr > allActions = ::fwServices::OSR::getServices< ::guiQt::action::IAction >() ;
     for(std::vector< std::string >::iterator iterUUID = m_actionsUID.begin() ; iterUUID != m_actionsUID.end() ; ++iterUUID )
     {
-        
+
             bool actionIsFound = false;
             for(    std::vector< ::guiQt::action::IAction::sptr >::iterator iterAction = allActions.begin();
                     iterAction != allActions.end() && ! actionIsFound ;
                     ++iterAction )
             {
-	      //  std::cout<<" getUUID : "<<(*iterAction)->getUUID()<<"  UUID : "<<*iterUUID<<"\n";
+          //  std::cout<<" getUUID : "<<(*iterAction)->getUUID()<<"  UUID : "<<*iterUUID<<"\n";
                 if( (*iterAction)->getUUID() == *iterUUID )
                 {
-		//   std::cout<<" FOR m_menuName : "<<m_menuName<<" \n\n";
+        //   std::cout<<" FOR m_menuName : "<<m_menuName<<" \n\n";
                     (*iterAction)->setMenuName( m_menuName ) ;
-		//    std::cout<<"    iterAction-getMenuName() : "<<(*iterAction)->getMenuName()<<"\n";
-		    
-		//    std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<"\n";
-		    (*iterAction)->setObjectName((*iterAction)->getNameInMenu().c_str());
-		//     std::cout<<"*ObjectName :  "<<(*iterAction)->objectName().toStdString()<<"\n";
+        //    std::cout<<"    iterAction-getMenuName() : "<<(*iterAction)->getMenuName()<<"\n";
+
+        //    std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<"\n";
+            (*iterAction)->setObjectName((*iterAction)->getNameInMenu().c_str());
+        //     std::cout<<"*ObjectName :  "<<(*iterAction)->objectName().toStdString()<<"\n";
 
                     (*iterAction)->start() ;
                     actionIsFound = true;
                 }
-		
+
             }
-            OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);    
-    }  
+            OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);
+    }
 
 }
 
@@ -134,12 +140,13 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
 
 void DefaultMenu::stopping() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     // Recupee mainFrame et dtruire les menus
    QWidget *mainWidget = qApp->activeWindow();
-  
+
    QList< QMenuBar*> allMenuBar =  mainWidget->findChildren<QMenuBar *>();
    QMenuBar *menuBar;
-    
+
    if(!allMenuBar.isEmpty())
    {
      menuBar = allMenuBar.first();
@@ -149,11 +156,11 @@ void DefaultMenu::stopping() throw( ::fwTools::Failed )
    {
     // SLM_FATAL(" List MenuBar empty ");
    }
-   
+
     std::vector< ::guiQt::action::IAction::sptr > allActions = ::fwServices::OSR::getServices< ::guiQt::action::IAction >() ;
     for(std::vector< std::string >::iterator iterUUID = m_actionsUID.begin() ; iterUUID != m_actionsUID.end() ; ++iterUUID )
     {
-        
+
             bool actionIsFound = false;
             for(    std::vector< ::guiQt::action::IAction::sptr >::iterator iterAction = allActions.begin();
                     iterAction != allActions.end() && ! actionIsFound ;
@@ -161,22 +168,23 @@ void DefaultMenu::stopping() throw( ::fwTools::Failed )
             {
                 if( (*iterAction)->getUUID() == *iterUUID )
                 {
-		    
+
                     (*iterAction)->stop() ;
-		//  std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<" STOPPED\n";
+        //  std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<" STOPPED\n";
 
                     actionIsFound = true;
                 }
-		
+
             }
-    }  
-   
+    }
+
 }
 
 //-----------------------------------------------------------------------------
 
 void DefaultMenu::updating() throw(::fwTools::Failed)
 {
+    SLM_TRACE_FUNC();
     SLM_FATAL("ACH : an DefaultMenu service does not be updated." );
 }
 
@@ -184,6 +192,7 @@ void DefaultMenu::updating() throw(::fwTools::Failed)
 
 void DefaultMenu::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
 {
+    SLM_TRACE_FUNC();
     SLM_FATAL("ACH : an DefaultMenu service does not received a message." );
 }
 

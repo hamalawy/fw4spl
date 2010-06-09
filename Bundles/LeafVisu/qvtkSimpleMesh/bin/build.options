@@ -1,5 +1,5 @@
 TYPE    = 'bundle'
-USE     = ['qvtk','vtkWidgets','boost','vtkInria3dWxVtk']
+USE     = ['QVtk','vtkWidgets','boost','vtkInria3dWxVtk']
 LIB     = [
           'fwCore_0-1',
           'fwRuntime_0-3',

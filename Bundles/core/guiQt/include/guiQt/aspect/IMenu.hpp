@@ -27,7 +27,7 @@ namespace aspect
 
  * @date    2009.
  */
-class IMenu : public ::fwServices::IService
+class GUIQT_CLASS_API IMenu : public ::fwServices::IService
 {
 
 public :
@@ -35,10 +35,10 @@ public :
     fwCoreNonInstanciableClassDefinitionsMacro ( (IMenu)( ::fwServices::IService::Baseclass) ) ;
 
     /// Default constructor, do nothing.
-    IMenu() throw() ;
+    GUIQT_API IMenu() throw() ;
 
     /// Default destructor, do nothing.
-    virtual ~IMenu() throw() ;
+    GUIQT_API virtual ~IMenu() throw() ;
 
 };
 

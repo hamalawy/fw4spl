@@ -28,7 +28,7 @@ public:
      * @brief   Destructor
      */
     ~Plugin() throw();
-    
+
     /**
     * @brief Start method.
     *
@@ -43,9 +43,9 @@ public:
     * This method is used by runtime to stop the bundle.
     */
     void stop() throw();
-    
+
 };
 
-} // namespace vtkSimpleNegato
+} // namespace qvtkSimpleNegato
 
 #endif //_VTKSIMPLENEGATO_PLUGIN_HPP_

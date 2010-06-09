@@ -10,9 +10,6 @@
 #include <fwServices/IService.hpp>
 
 #include "guiQt/action/IAction.hpp"
-#include "guiQt/config.hpp"
-
-
 
 namespace guiQt
 {
@@ -26,7 +23,7 @@ namespace action
  * @author  IRCAD (Research and Development Team).
  * @date    2009.
  */
-class  FullScreenActionService : public ::guiQt::action::IAction
+class  GUIQT_CLASS_API FullScreenActionService : public ::guiQt::action::IAction
 {
 
 public:
@@ -36,30 +33,30 @@ public:
     *
     * By default, the m_isFullScreen is defined as false.
     */
-     FullScreenActionService() throw();
+	GUIQT_API FullScreenActionService() throw();
 
     /*
      * @brief Destructor. Do nothing.
      */
-     virtual ~FullScreenActionService() throw();
+	GUIQT_API virtual ~FullScreenActionService() throw();
 
 protected:
 
     /**
      * @brief This method is used to configure the class parameters. Do nothing.
      */
-     void configuring() throw( ::fwTools::Failed ) ;
+	GUIQT_API void configuring() throw( ::fwTools::Failed ) ;
 
     /**
      * @brief This method is used to update services on notification.
      * Show the current window in full screen mode or restored to its normal state.
      */
-     void updating() throw(::fwTools::Failed) ;
+	GUIQT_API void updating() throw(::fwTools::Failed) ;
 
     /*
      * @brief This method gives information about the class.
      */
-     void info(std::ostream &_sstream ) ;
+	GUIQT_API void info(std::ostream &_sstream ) ;
 
 private:
 

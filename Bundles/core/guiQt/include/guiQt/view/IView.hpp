@@ -33,7 +33,7 @@ namespace view
  * @date    2009.
  *
  */
-class  IView : public fwQt::IGuiContainer
+class GUIQT_CLASS_API IView : public fwQt::IGuiContainer
 {
 
     
@@ -44,12 +44,12 @@ public :
     /**
     * @brief Constructor. Do nothing (Just initialize parameters).
     */
-     IView() throw() ;
+    GUIQT_API IView() throw() ;
 
     /**
      * @brief Destructor. Do nothing.
      */
-     virtual ~IView() throw() ;
+    GUIQT_API virtual ~IView() throw() ;
 
 
 

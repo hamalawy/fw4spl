@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef fwRenderVTK_IVtkAdaptorService_Text
-#define fwRenderVTK_IVtkAdaptorService_Text
+#ifndef _VISUQVTKADAPTOR_TEXT_HPP_
+#define _VISUQVTKADAPTOR_TEXT_HPP_
 
 
 #include <string>
@@ -21,27 +21,27 @@ class vtkTextMapper;
 namespace visuVTKAdaptor
 {
 
-class VISUVTKADAPTOR_CLASS_API Text: public ::fwRenderVTK::IVtkAdaptorService
+class VISUQVTKADAPTOR_CLASS_API Text: public ::fwRenderVTK::IVtkAdaptorService
 {
 
 public:
     fwCoreServiceClassDefinitionsMacro ( (Text)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API Text() throw();
-    VISUVTKADAPTOR_API virtual ~Text() throw();
+    VISUQVTKADAPTOR_API Text() throw();
+    VISUQVTKADAPTOR_API virtual ~Text() throw();
 
-    VISUVTKADAPTOR_API virtual void setText(std::string str);
-    VISUVTKADAPTOR_API virtual std::string getText(){return m_text;};
+    VISUQVTKADAPTOR_API virtual void setText(std::string str);
+    VISUQVTKADAPTOR_API virtual std::string getText(){return m_text;};
 
 protected:
 
-    VISUVTKADAPTOR_API virtual void doStart() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API virtual void doStop() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API virtual void doSwap() throw(fwTools::Failed){};
-    VISUVTKADAPTOR_API virtual void doUpdate() throw(fwTools::Failed){};
-    VISUVTKADAPTOR_API virtual void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed){};
-    VISUVTKADAPTOR_API virtual void configuring() throw(fwTools::Failed);
- 
+    VISUQVTKADAPTOR_API virtual void doStart() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API virtual void doStop() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API virtual void doSwap() throw(fwTools::Failed){};
+    VISUQVTKADAPTOR_API virtual void doUpdate() throw(fwTools::Failed){};
+    VISUQVTKADAPTOR_API virtual void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed){};
+    VISUQVTKADAPTOR_API virtual void configuring() throw(fwTools::Failed);
+
 
     std::string m_text;
 
@@ -50,9 +50,6 @@ protected:
 
 };
 
-
-
-
 } //namespace visuVTKAdaptor
 
-#endif //fwRenderVTK_IVtkAdaptorService_Text
+#endif //_VISUQVTKADAPTOR_TEXT_HPP_

@@ -18,13 +18,14 @@
 #include "guiQt/view/DefaultView.hpp"
 #include "guiQt/aspect/DefaultAspect.hpp"
 #include "guiQt/action/IAction.hpp"
+#include "guiQt/config.hpp"
 
 namespace guiQt
 {
   
 
   
-class  Manager : public ::fwCore::BaseObject
+class  GUIQT_CLASS_API Manager : public ::fwCore::BaseObject
 {
 
 /**
@@ -43,7 +44,7 @@ public:
 	 * @brief Ctor
 	 */
 
-	 virtual ~Manager() throw();
+	GUIQT_API virtual ~Manager() throw();
 
 	/**
 	 * @brief set application top window and its menu handler, initialize general gui aspect and initialize application root object (and service from configuration)

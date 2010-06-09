@@ -13,30 +13,30 @@
 namespace opVTKMesh
 {
 
-class  VTKMesherService : public ::opVTKMesh::IMesher
+class  OPQVTKMESH_CLASS_API VTKMesherService : public ::opVTKMesh::IMesher
 {
 
 public :
 
     fwCoreServiceClassDefinitionsMacro ( (VTKMesherService)(::opVTKMesh::IMesher::Baseclass) ) ;
 
-     VTKMesherService() throw() ;
+    OPQVTKMESH_API VTKMesherService() throw() ;
 
-     virtual ~VTKMesherService() throw() ;
+    OPQVTKMESH_API virtual ~VTKMesherService() throw() ;
 
 protected:
 
-     virtual void starting() throw ( ::fwTools::Failed );
+    OPQVTKMESH_API virtual void starting() throw ( ::fwTools::Failed );
 
-     virtual void stopping() throw ( ::fwTools::Failed );
+    OPQVTKMESH_API virtual void stopping() throw ( ::fwTools::Failed );
 
-     virtual void updating( fwServices::ObjectMsg::csptr _pMsg ) throw ( ::fwTools::Failed );
+    OPQVTKMESH_API virtual void updating( fwServices::ObjectMsg::csptr _pMsg ) throw ( ::fwTools::Failed );
 
-     virtual void configuring() throw ( ::fwTools::Failed );
+    OPQVTKMESH_API virtual void configuring() throw ( ::fwTools::Failed );
 
-     virtual void updating() throw ( ::fwTools::Failed );
+    OPQVTKMESH_API virtual void updating() throw ( ::fwTools::Failed );
 
-     virtual  void info ( std::ostream &_sstream ) ;
+    OPQVTKMESH_API virtual  void info ( std::ostream &_sstream ) ;
 
 private :
 

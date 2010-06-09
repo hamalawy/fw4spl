@@ -42,24 +42,24 @@ namespace fwQtRender
  * @li Finally we must call stop() before deleting the service
  *
  */
-class  IRender : public ::fwQt::IGuiContainer
+class  FWQTRENDER_CLASS_API IRender : public ::fwQt::IGuiContainer
 {
 
 public :
     fwCoreServiceClassDefinitionsMacro ( (IRender)(::fwServices::IService::Baseclass) ) ;
 
     /// Clock rate identifiant (for persistance)
-    static const std::string ClockRateId ;
+    FWQTRENDER_API static const std::string ClockRateId ;
 
     /**
      * @brief   Constructor. Initialize default values.
      */
-     IRender() throw() ;
+    FWQTRENDER_API IRender() throw() ;
 
     /**
      * @brief   Destructor. Do nothing.
      */
-     virtual ~IRender() throw() ;
+    FWQTRENDER_API virtual ~IRender() throw() ;
 
 
 
@@ -73,7 +73,7 @@ public :
      *
      * Configure clock rate if it's specified in the configuration.
      */
-     void initClockRate();
+    FWQTRENDER_API  void initClockRate();
 
 
     /**
@@ -84,14 +84,14 @@ public :
      *
      * @note This method should be called in starting() method by concrete services.
      */
-     void initRender();
+    FWQTRENDER_API void initRender();
 
     /**
      * @brief Stop the timer and destroy the container if they where configured.
      *
      * @note This method should be called in stopping() method by concrete services.
      */
-     void stopRender();
+    FWQTRENDER_API void stopRender();
     //@}
 
 
@@ -109,7 +109,7 @@ public :
      *
      * @param[out] _sstream output stream
      */
-     virtual void info(std::ostream &_sstream ) ;
+    FWQTRENDER_API virtual void info(std::ostream &_sstream ) ;
 
     //@}
 
@@ -123,7 +123,7 @@ public :
      *
      * @param[in] _rate clock rate
      */
-     virtual void setClockRate(int _rate) ;
+    FWQTRENDER_API virtual void setClockRate(int _rate) ;
 
     /**
      * @brief   retrieve the clock rate
@@ -131,7 +131,7 @@ public :
      * @li m_clockRate.first == true if clock rate is configured
      * @li m_clockRate.second = clock rate value
      */
-      virtual std::pair< bool , int > getClockRate() ;
+    FWQTRENDER_API virtual std::pair< bool , int > getClockRate() ;
 
     //@}
 

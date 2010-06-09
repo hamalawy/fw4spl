@@ -30,7 +30,7 @@ namespace fwQt
  * @date    2009-2010.
  *
  */
-class  IGuiContainer : public fwServices::IService
+class  FWQT_CLASS_API IGuiContainer : public fwServices::IService
 {
 
 public :
@@ -44,12 +44,12 @@ public :
     /**
      * @brief   Constructor. Initialize default values.
      */
-     IGuiContainer() throw() ;
+    FWQT_API IGuiContainer() throw() ;
 
     /**
      * @brief   Destructor. Do nothing.
      */
-     virtual ~IGuiContainer() throw() ;
+    FWQT_API virtual ~IGuiContainer() throw() ;
 
     /**
      * @name    Helper service methods
@@ -59,47 +59,47 @@ public :
     /**
      * @brief Returns parent QWidget
      */
-     virtual QWidget* getQtContainer() ;
+    FWQT_API virtual QWidget* getQtContainer() ;
 
     /**
      * @brief Configure parent container associated wit the service (use it before start).
      * If any container has been reserved for this service, parent container will be locally created in a new QWidget.
      */
-     void initGuiParentContainer();
+    FWQT_API void initGuiParentContainer();
 
     /**
      * @brief Reset parent QWidget and destroy it if parent container has been locally created.
      */
-     void resetGuiParentContainer();
+    FWQT_API void resetGuiParentContainer();
     /**
      * @brief Registers associate container with specific service's uid in the global and local UID-Container map.
      */
-     void registerQtContainer(std::string uid , QWidget* container);
+    FWQT_API void registerQtContainer(std::string uid , QWidget* container);
 
     /**
      * @brief Unregisters all container in global and local containers (with service UID associated), and stop associated service.
      */
-     void unregisterQtContainer(std::string uid);
+    FWQT_API void unregisterQtContainer(std::string uid);
 
     /**
      * @brief Unregisters all container in global and local containers, and stop associated services.
      */
-     void unregisterAllQtContainer();
+    FWQT_API  void unregisterAllQtContainer();
 
     /**
      * @brief Registers container in global container (with service UID associated).
      */
-     static void registerGlobalQtContainer(std::string uid, QWidget* container);
+    FWQT_API static void registerGlobalQtContainer(std::string uid, QWidget* container);
 
     /**
      * @brief Unregisters container in global container (with service UID associated).
      */
-     static void unregisterGlobalQtContainer(std::string uid);
+    FWQT_API static void unregisterGlobalQtContainer(std::string uid);
 
     /**
      * @brief Returns QWidget associate with service uid.
      */
-     static QWidget* getQtContainer(std::string uid);
+    FWQT_API static QWidget* getQtContainer(std::string uid);
 
     //@}
 
@@ -108,7 +108,7 @@ protected :
     // Parent QtContainer
     QWidget* m_container;
     
-    static ContainerMapType m_globalUIDToQtContainer;
+    FWQT_API static ContainerMapType m_globalUIDToQtContainer;
 
      /**
      * @brief Internal sub wxContainer created for specific uid's service

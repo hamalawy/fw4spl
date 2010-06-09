@@ -21,8 +21,8 @@
 #include <QMainWindow>
 #include <QToolBar>
  #include <QSpinBox>
- 
- 
+
+
 REGISTER_SERVICE( ::guiQt::aspect::IToolBar , ::guiQt::aspect::DefaultToolBar , ::fwTools::Object ) ;
 
 namespace guiQt
@@ -31,13 +31,15 @@ namespace guiQt
 namespace aspect
 {
 
-DefaultToolBar::DefaultToolBar() 
+DefaultToolBar::DefaultToolBar()
 {}
 
 //-----------------------------------------------------------------------------
 
 DefaultToolBar::~DefaultToolBar() throw()
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
@@ -45,27 +47,16 @@ void DefaultToolBar::starting()  throw ( ::fwTools::Failed )
 {
     SLM_TRACE_FUNC();
 
-     
     QWidget *mainWidget = qApp->activeWindow();
     QMainWindow *mainWindow = qobject_cast<QMainWindow *>(mainWidget);
 
-    
    // QList< QToolBar*> allToolBar =  mainWindow->findChildren<QToolBar *>();
     QToolBar *toolBar = new QToolBar("ToolBar",mainWindow);
     // ajouter posibilte choix position dans config
     mainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
-//      if(!allToolBar.isEmpty())
-//    {
-//      toolBar = allToolBar.first();
-//    }
-//    else
-//    {
-//      
-//    }
-
      // If no menu bar yet : create it
-    
+
      // Reconfiguring and starting appropriate actions
      ::fwRuntime::ConfigurationElementContainer::Iterator iter ;
      std::string name;
@@ -115,7 +106,7 @@ void DefaultToolBar::starting()  throw ( ::fwTools::Failed )
 
 void DefaultToolBar::stopping()  throw ( ::fwTools::Failed )
 {
-    // 
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------

@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _VISUVTKADAPTOR_TRIANGULARMESH_HPP_
-#define _VISUVTKADAPTOR_TRIANGULARMESH_HPP_
+#ifndef _VISUQVTKADAPTOR_TRIANGULARMESH_HPP_
+#define _VISUQVTKADAPTOR_TRIANGULARMESH_HPP_
 
 
 #include <fwRenderVTK/IVtkAdaptorService.hpp>
@@ -26,55 +26,55 @@ namespace visuVTKAdaptor
 {
 
 
-class VISUVTKADAPTOR_CLASS_API TriangularMeshVtkCommand ;
+class VISUQVTKADAPTOR_CLASS_API TriangularMeshVtkCommand ;
 
-class VISUVTKADAPTOR_CLASS_API TriangularMesh: public ::fwRenderVTK::IVtkAdaptorService
+class VISUQVTKADAPTOR_CLASS_API TriangularMesh: public ::fwRenderVTK::IVtkAdaptorService
 {
 
 public:
     fwCoreServiceClassDefinitionsMacro ( (TriangularMesh)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API TriangularMesh() throw();
-    VISUVTKADAPTOR_API virtual ~TriangularMesh() throw();
+    VISUQVTKADAPTOR_API TriangularMesh() throw();
+    VISUQVTKADAPTOR_API virtual ~TriangularMesh() throw();
 
-    VISUVTKADAPTOR_API ::fwData::Material::sptr getMaterial();
-    VISUVTKADAPTOR_API void setMaterial(::fwData::Material::sptr material);
+    VISUQVTKADAPTOR_API ::fwData::Material::sptr getMaterial();
+    VISUQVTKADAPTOR_API void setMaterial(::fwData::Material::sptr material);
 
-    VISUVTKADAPTOR_API ::fwData::Material::sptr getUnclippedMaterial();
-    VISUVTKADAPTOR_API void setUnclippedPartMaterial(::fwData::Material::sptr material);
+    VISUQVTKADAPTOR_API ::fwData::Material::sptr getUnclippedMaterial();
+    VISUQVTKADAPTOR_API void setUnclippedPartMaterial(::fwData::Material::sptr material);
 
 
-    VISUVTKADAPTOR_API void setSharpEdgeAngle  ( double angle );
-    VISUVTKADAPTOR_API double getSharpEdgeAngle( );
+    VISUQVTKADAPTOR_API void setSharpEdgeAngle  ( double angle );
+    VISUQVTKADAPTOR_API double getSharpEdgeAngle( );
 
-    VISUVTKADAPTOR_API void setShowClippedPart ( bool show );
-    VISUVTKADAPTOR_API void setClippingPlanesId( ::fwRenderVTK::VtkRenderService::VtkObjectIdType id );
+    VISUQVTKADAPTOR_API void setShowClippedPart ( bool show );
+    VISUQVTKADAPTOR_API void setClippingPlanesId( ::fwRenderVTK::VtkRenderService::VtkObjectIdType id );
 
-    VISUVTKADAPTOR_API void setVtkClippingPlanes               ( vtkPlaneCollection *planes );
-    VISUVTKADAPTOR_API void setMapperInput                     ( vtkAlgorithmOutput *input  );
-    VISUVTKADAPTOR_API vtkAlgorithmOutput *getMapperInput      ( );
-    VISUVTKADAPTOR_API void setActorPropertyToUnclippedMaterial( bool opt );
+    VISUQVTKADAPTOR_API void setVtkClippingPlanes               ( vtkPlaneCollection *planes );
+    VISUQVTKADAPTOR_API void setMapperInput                     ( vtkAlgorithmOutput *input  );
+    VISUQVTKADAPTOR_API vtkAlgorithmOutput *getMapperInput      ( );
+    VISUQVTKADAPTOR_API void setActorPropertyToUnclippedMaterial( bool opt );
 
-    VISUVTKADAPTOR_API void updateVisibility ( bool isVisible );
-    VISUVTKADAPTOR_API bool getVisibility();
+    VISUQVTKADAPTOR_API void updateVisibility ( bool isVisible );
+    VISUQVTKADAPTOR_API bool getVisibility();
 
-    VISUVTKADAPTOR_API void updateOptionsMode();
+    VISUQVTKADAPTOR_API void updateOptionsMode();
 
 #ifndef USE_DEPTH_PEELING // replacement for depth peeling
-    VISUVTKADAPTOR_API vtkDepthSortPolyData * getDepthSort();
-    VISUVTKADAPTOR_API void updateDepthSort               ();
-    VISUVTKADAPTOR_API void removeDepthSortCommand        ();
+    VISUQVTKADAPTOR_API vtkDepthSortPolyData * getDepthSort();
+    VISUQVTKADAPTOR_API void updateDepthSort               ();
+    VISUQVTKADAPTOR_API void removeDepthSortCommand        ();
 #endif
 
 
 protected:
 
-   VISUVTKADAPTOR_API void doStart    () throw(fwTools::Failed);
-   VISUVTKADAPTOR_API void configuring() throw(fwTools::Failed);
-   VISUVTKADAPTOR_API void doStop     () throw(fwTools::Failed);
-   VISUVTKADAPTOR_API void doSwap   () throw(fwTools::Failed);
-   VISUVTKADAPTOR_API void doUpdate   () throw(fwTools::Failed);
-   VISUVTKADAPTOR_API void doUpdate   (::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStart    () throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void configuring() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStop     () throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doSwap   () throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate   () throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate   (::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
 
 
     vtkActor *newActor();
@@ -138,4 +138,4 @@ protected:
 
 } //namespace visuVTKAdaptor
 
-#endif // _VISUVTKADAPTOR_TRIANGULARMESH_HPP_
+#endif // _VISUQVTKADAPTOR_TRIANGULARMESH_HPP_

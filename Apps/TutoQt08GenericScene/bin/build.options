@@ -19,5 +19,5 @@ BUNDLES = [
     'visuQVTK_0-1'       ,
     'visuQVTKAdaptor_0-1',
     'visu_0-1'          ,
-    'launcher_0-1'      ,
+    'launcher_0-1'      
  ]

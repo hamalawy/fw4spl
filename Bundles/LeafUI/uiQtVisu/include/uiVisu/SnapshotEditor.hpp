@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _UIVISU_SNAPSHOTEDITOR_HPP_
-#define _UIVISU_SNAPSHOTEDITOR_HPP_
+#ifndef _UIQTVISU_SNAPSHOTEDITOR_HPP_
+#define _UIQTVISU_SNAPSHOTEDITOR_HPP_
 
 #include <fwTools/Failed.hpp>
 #include <guiQt/editor/IEditor.hpp>
@@ -30,7 +30,7 @@ namespace uiVisu
  * @author  IRCAD (Research and Development Team).
  * @date    2010.
  */
-class  SnapshotEditor : public ::guiQt::editor::IEditor
+class  UIQTVISU_CLASS_API SnapshotEditor : public ::guiQt::editor::IEditor
 {
   Q_OBJECT
 
@@ -39,12 +39,12 @@ public :
     fwCoreServiceClassDefinitionsMacro ( (SnapshotEditor)(::guiQt::editor::IEditor::Baseclass) ) ;
 
     /// Constructor. Do nothing.
-     SnapshotEditor() throw() ;
+    UIQTVISU_API SnapshotEditor() throw() ;
 
     /// Destructor. Do nothing.
-     virtual ~SnapshotEditor() throw() ;
+    UIQTVISU_API virtual ~SnapshotEditor() throw() ;
 
-     
+
 private slots:
      void snapShoot();
 
@@ -74,7 +74,7 @@ protected:
 private:
 
     std::vector< std::string > m_scenesUID;
-    
+
      QPixmap m_pixmap;
      QLabel *m_screenshotLabel;
      QPushButton *m_snapButton;

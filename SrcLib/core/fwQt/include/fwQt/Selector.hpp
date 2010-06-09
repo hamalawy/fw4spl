@@ -4,15 +4,17 @@
 
 #include <QListWidget>
 #include <QPushButton>
- #include <QDialog>
+#include <QDialog>
+
+#include "fwQt/config.hpp"
 
 namespace fwQt
 {
 
-class Selector
+class FWQT_CLASS_API Selector
 {
 public:
-  Selector(QWidget *parent, QStringList selection);
+ FWQT_API Selector(QWidget *parent, QStringList selection);
 
   QDialog *box;
   QListWidget *m_list;
@@ -24,4 +26,4 @@ public:
 }
 
 
-#endif 
+#endif

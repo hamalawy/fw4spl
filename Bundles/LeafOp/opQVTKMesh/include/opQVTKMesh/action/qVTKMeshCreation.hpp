@@ -9,7 +9,6 @@
 
 #include <guiQt/action/IAction.hpp>
 
-
 #include "opQVTKMesh/config.hpp"
 
 namespace opVTKMesh
@@ -18,28 +17,27 @@ namespace opVTKMesh
 namespace action
 {
 
-class  qVTKMeshCreation : public ::guiQt::action::IAction
+class  OPQVTKMESH_CLASS_API qVTKMeshCreation : public ::guiQt::action::IAction
 {
-
 public :
 
     fwCoreServiceClassDefinitionsMacro ( (qVTKMeshCreation)(::guiQt::action::IAction::Baseclass) ) ;
 
-     qVTKMeshCreation() throw() ;
+    OPQVTKMESH_API qVTKMeshCreation() throw() ;
 
-     virtual ~qVTKMeshCreation() throw() ;
+    OPQVTKMESH_API virtual ~qVTKMeshCreation() throw() ;
 
-     void starting() throw ( ::fwTools::Failed );
+    OPQVTKMESH_API void starting() throw ( ::fwTools::Failed );
 
-     void stopping() throw ( ::fwTools::Failed );
+    OPQVTKMESH_API void stopping() throw ( ::fwTools::Failed );
 
-     void updating( fwServices::ObjectMsg::csptr _pMsg ) throw ( ::fwTools::Failed );
+    OPQVTKMESH_API void updating( fwServices::ObjectMsg::csptr _pMsg ) throw ( ::fwTools::Failed );
 
-     void configuring() throw ( ::fwTools::Failed );
+    OPQVTKMESH_API void configuring() throw ( ::fwTools::Failed );
 
-     void updating() throw ( ::fwTools::Failed );
+    OPQVTKMESH_API void updating() throw ( ::fwTools::Failed );
 
-     void info ( std::ostream &_sstream ) ;
+    OPQVTKMESH_API void info ( std::ostream &_sstream ) ;
 
 private :
 
@@ -54,4 +52,4 @@ private :
 } // namespace opVTKMesh
 
 
-#endif // _OPVTKMESH_ACTION_VTKMESHCREATION_HPP_
+#endif // _OPVTKMESH_ACTION_QVTKMESHCREATION_HPP_

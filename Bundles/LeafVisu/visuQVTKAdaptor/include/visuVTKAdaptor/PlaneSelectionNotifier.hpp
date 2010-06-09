@@ -5,8 +5,8 @@
  * ****** END LICENSE BLOCK ****** */
 
 
-#ifndef _VISUVTKADAPTOR_PLANESELECTIONNOTIFIER_HPP_
-#define _VISUVTKADAPTOR_PLANESELECTIONNOTIFIER_HPP_
+#ifndef _VISUQVTKADAPTOR_PLANESELECTIONNOTIFIER_HPP_
+#define _VISUQVTKADAPTOR_PLANESELECTIONNOTIFIER_HPP_
 
 #include <fwData/Object.hpp>
 #include <fwData/PlaneList.hpp>
@@ -18,37 +18,37 @@
 namespace visuVTKAdaptor
 {
 
-class VISUVTKADAPTOR_CLASS_API PlaneSelectionNotifier: public ::fwRenderVTK::IVtkAdaptorService
+class VISUQVTKADAPTOR_CLASS_API PlaneSelectionNotifier: public ::fwRenderVTK::IVtkAdaptorService
 {
 
 public:
 
     fwCoreServiceClassDefinitionsMacro ( (PlaneSelectionNotifier)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API PlaneSelectionNotifier() throw();
+    VISUQVTKADAPTOR_API PlaneSelectionNotifier() throw();
 
-    VISUVTKADAPTOR_API virtual ~PlaneSelectionNotifier() throw();
+    VISUQVTKADAPTOR_API virtual ~PlaneSelectionNotifier() throw();
 
-    VISUVTKADAPTOR_API void setPlaneListId(std::string id)
+    VISUQVTKADAPTOR_API void setPlaneListId(std::string id)
     { m_planeListId = id; }
 
-    VISUVTKADAPTOR_API void setPlaneSelectionId(std::string id)
+    VISUQVTKADAPTOR_API void setPlaneSelectionId(std::string id)
     { m_planeSelectionId = id;}
 
-    VISUVTKADAPTOR_API void selectPlane( ::fwData::Object::sptr plane );
+    VISUQVTKADAPTOR_API void selectPlane( ::fwData::Object::sptr plane );
 
-    VISUVTKADAPTOR_API void deselectPlane();
+    VISUQVTKADAPTOR_API void deselectPlane();
 
 protected:
 
-    VISUVTKADAPTOR_API void doStart() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doStop() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStart() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStop() throw(fwTools::Failed);
 
-    VISUVTKADAPTOR_API void configuring() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
-    
-    VISUVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void configuring() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
+
+    VISUQVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
 
     std::string m_planeListId;
     std::string m_planeSelectionId;
@@ -56,9 +56,6 @@ protected:
     ::fwData::PlaneList::wptr m_currentPlaneList;
 };
 
-
-
-
 } //namespace visuVTKAdaptor
 
-#endif // _VISUVTKADAPTOR_PLANESELECTIONNOTIFIER_HPP_
+#endif // _VISUQVTKADAPTOR_PLANESELECTIONNOTIFIER_HPP_

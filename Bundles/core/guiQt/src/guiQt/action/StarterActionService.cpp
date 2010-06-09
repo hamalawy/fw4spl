@@ -29,25 +29,29 @@ REGISTER_SERVICE( ::guiQt::action::IAction , ::guiQt::action::StarterActionServi
 
 StarterActionService::StarterActionService() throw()
 {
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 
 StarterActionService::~StarterActionService() throw()
 {
+    SLM_TRACE_FUNC();
 }
 
 //-----------------------------------------------------------------------------
 
 void StarterActionService::info(std::ostream &_sstream )
 {
+    SLM_TRACE_FUNC();
     _sstream << "Starter Action" << std::endl;
 }
 
 //-----------------------------------------------------------------------------
 
 void StarterActionService::updating() throw( ::fwTools::Failed )
-{  
+{
+    SLM_TRACE_FUNC();
     SLM_TRACE("updating StarterActionService") ;
     this->::guiQt::action::IAction::updating();
 
@@ -55,7 +59,7 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
     {
         ActionType action =  m_uuidServices.at(i).second;
         std::string uid =  m_uuidServices.at(i).first;
-        
+
         bool srv_exists = ::fwTools::UUID::exist(uid, ::fwTools::UUID::SIMPLE );
 
         // Manage special action
@@ -83,7 +87,7 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
         }
 
         if( action != DO_NOTHING)
-        {                  
+        {
             ::fwServices::IService::sptr service = ::fwServices::get( uid ) ;
             SLM_ASSERT("service not found", service);
             switch ( action )
@@ -116,18 +120,19 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
         else
         {
             std::string msgInfo = "Sorry, the service is unavailable.";
-           
+
             OSLM_INFO("Do nothing for Service " << m_uuidServices.at(i).first);
         }
     }
-    
+
 }
 
 //-----------------------------------------------------------------------------
 
 void StarterActionService::configuring() throw( ::fwTools::Failed )
 {
-    SLM_TRACE("configuring StarterActionService") ;        
+    SLM_TRACE_FUNC();
+    SLM_TRACE("configuring StarterActionService") ;
     this->::guiQt::action::IAction::configuring() ;
 
     ::fwRuntime::ConfigurationElementContainer::Iterator iter = this->m_configuration->begin() ;

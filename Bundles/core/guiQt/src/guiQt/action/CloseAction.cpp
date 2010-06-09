@@ -22,19 +22,23 @@ namespace action
 {
 REGISTER_SERVICE( ::guiQt::action::IAction , ::guiQt::action::CloseAction , ::fwTools::Object ) ;
 
-
 CloseAction::CloseAction() throw()
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
-CloseAction::~CloseAction() throw() 
-{}
+CloseAction::~CloseAction() throw()
+{
+    SLM_TRACE_FUNC();
+}
 
 //-----------------------------------------------------------------------------
 
 void CloseAction::info(std::ostream &_sstream )
 {
+    SLM_TRACE_FUNC();
     _sstream << "Close Action" << std::endl;
 }
 
@@ -42,6 +46,7 @@ void CloseAction::info(std::ostream &_sstream )
 
 void CloseAction::updating() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     ::fwServices::OSR::uninitializeRootObject();
 }
 

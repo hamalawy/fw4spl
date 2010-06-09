@@ -36,17 +36,22 @@ IAspect::IAspect() throw():
     m_name("NO NAME"),
     m_minSizeHeight(-1),
     m_minSizeWidth(-1)
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //---------------------------------------------------------------------------
 
 IAspect::~IAspect() throw()
-{}
+{
+    SLM_TRACE_FUNC();
+}
 
 //---------------------------------------------------------------------------
 
 std::string IAspect::getName()
 {
+    SLM_TRACE_FUNC();
     return m_name ;
 }
 
@@ -55,9 +60,10 @@ std::string IAspect::getName()
 
 void IAspect::configuring() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
     SLM_TRACE("IAspect::configuring");
-        
-    /* Parsing  de <service ... <name> <icon> <minSize> <menus> <toolBar>.... </service> */ 
+
+    /* Parsing  de <service ... <name> <icon> <minSize> <menus> <toolBar>.... </service> */
 
     SLM_TRACE("IQtAspect::configuring");
     SLM_FATAL_IF( "Depreciated tag \"views\" in configuration", m_configuration->findConfigurationElement("views") );
@@ -79,7 +85,7 @@ void IAspect::configuring() throw( ::fwTools::Failed )
         if( (*iter)->getName() == "icon" )
         {
             OSLM_TRACE("icon: "<< (*iter)->getValue());
-       //     m_icon = ::boost::shared_ptr< wxIcon >(createIcon((*iter)->getValue()));
+            //     m_icon = ::boost::shared_ptr< wxIcon >(createIcon((*iter)->getValue()));
         }
 
         if( (*iter)->getName() == "minSize" )
@@ -98,33 +104,28 @@ void IAspect::configuring() throw( ::fwTools::Failed )
             }
         }
     }
-    
-    
-    
 }
 
 //---------------------------------------------------------------------------
 
 void IAspect::starting() throw(::fwTools::Failed)
 {
-
-   
+    SLM_TRACE_FUNC();
 }
 //---------------------------------------------------------------------------
 
 void IAspect::stopping() throw(::fwTools::Failed)
 {
-   
+    SLM_TRACE_FUNC();
 }
 
 //---------------------------------------------------------------------------
 
 void IAspect::info(std::ostream &_sstream )
 {
+    SLM_TRACE_FUNC();
     _sstream << "Manage aspect in main GUI application" ;
 }
-
-
 }
 }
 

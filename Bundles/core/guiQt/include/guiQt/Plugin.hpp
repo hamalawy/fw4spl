@@ -4,6 +4,8 @@
  * published by the Free Software Foundation.  
  * ****** END LICENSE BLOCK ****** */
 
+#include "guiQt/config.hpp"
+
 #include <fwRuntime/Plugin.hpp>
 
 #include <QApplication>
@@ -30,14 +32,14 @@ namespace guiQt
  * @date	2009.
  */
 
-class Plugin :  public  QObject, public ::fwRuntime::Plugin
+class GUIQT_CLASS_API Plugin :  public  QObject, public ::fwRuntime::Plugin
 {
   Q_OBJECT
 
 public:
 
 	 ///@brief	Destructor. Do nothing.
-	~Plugin() throw();
+	 GUIQT_API ~Plugin() throw();
 
 	/**
 	 * @brief This method is used by runtime to initialize the bundle.
@@ -47,12 +49,12 @@ public:
 	 * Register first basic services of type IAction, IEditor, IAspect and IView.
 	 * Secondly, verifies if the command line and profile.xml are well formed and starts the wxWidgets IHM.
 	 */
-	void start() throw(::fwRuntime::RuntimeException);
+	 GUIQT_API void start() throw(::fwRuntime::RuntimeException);
 
 	/**
 	* @brief This method is used by runtime to close the bundle. Do nothing.
 	*/
-	void stop() throw();
+	  GUIQT_API void stop() throw();
 	
 public slots :
   void exit();

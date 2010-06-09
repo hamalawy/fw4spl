@@ -28,7 +28,7 @@ namespace ioQt
  * Service registered details : \n
  * REGISTER_SERVICE( ::io::IReader , ::ioData::TriangularMeshReaderService , ::fwData::TriangularMesh )
  */
-class  TriangularMeshReaderService : public ::io::IReader
+class  IOQT_CLASS_API TriangularMeshReaderService : public ::io::IReader
 {
 
 public:
@@ -41,12 +41,12 @@ public:
     /**
      * @brief   Constructor : does nothing
      */
-     TriangularMeshReaderService() ;
+    IOQT_API TriangularMeshReaderService() ;
 
     /**
      * @brief   Destructor
      */
-     ~TriangularMeshReaderService() throw() ;
+    IOQT_API ~TriangularMeshReaderService() throw() ;
 
     /** @name Specified reader service methods ( override from ::io::IReader )
      * @{
@@ -55,7 +55,7 @@ public:
     /**
      * @brief   returns  (filename) extension
      */
-     virtual std::vector< std::string > getSupportedExtensions() ;
+    IOQT_API virtual std::vector< std::string > getSupportedExtensions() ;
 
     /**
      * @brief Configure the image path.
@@ -63,7 +63,7 @@ public:
      * This method is used to find
      * the file path  using a file selector.
      */
-     void configureWithIHM();
+    IOQT_API void configureWithIHM();
     /// @}
 
 protected:
@@ -77,14 +77,14 @@ protected:
      *
      * This method is used to initialize the service.
      */
-     virtual void starting() throw(::fwTools::Failed){};
+    IOQT_API virtual void starting() throw(::fwTools::Failed){};
 
     /**
      * @brief Stopping method : default does nothing.
      *
      * The stopping method is empty for this service.
      */
-     virtual void stopping() throw(::fwTools::Failed){};
+    IOQT_API virtual void stopping() throw(::fwTools::Failed){};
 
 
     /**
@@ -99,7 +99,7 @@ protected:
      *
      * Configure mesh filename.
      */
-     virtual void configuring( ) throw(::fwTools::Failed);
+    IOQT_API virtual void configuring( ) throw(::fwTools::Failed);
 
     /**
      * @brief Updating method. This method is called by update() from base service ( ::fwServices::IService )
@@ -108,7 +108,7 @@ protected:
      * The mesh is read with the reader ::fwDataIO::reader::TriangularMeshReader.
      * Notify reading.
      */
-     void updating() throw(::fwTools::Failed);
+    IOQT_API void updating() throw(::fwTools::Failed);
 
     /**
      * @brief React on modifications : default does nothing.
@@ -117,7 +117,7 @@ protected:
      *
      * @param[in] _msg information message for modification
      */
-     void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw(::fwTools::Failed){};
+    IOQT_API void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw(::fwTools::Failed){};
 
 
     /**
@@ -128,7 +128,7 @@ protected:
      *
      * @param[out] _sstream output stream
      */
-     virtual void info(std::ostream &_sstream ) ;
+    IOQT_API virtual void info(std::ostream &_sstream ) ;
     /// @}
 
 private:

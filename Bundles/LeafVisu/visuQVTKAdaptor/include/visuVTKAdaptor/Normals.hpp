@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _VISUVTKADAPTOR_NORMALS_HPP_
-#define _VISUVTKADAPTOR_NORMALS_HPP_
+#ifndef _VISUQVTKADAPTOR_NORMALS_HPP_
+#define _VISUQVTKADAPTOR_NORMALS_HPP_
 
 #include <fwServices/ObjectMsg.hpp>
 
@@ -23,28 +23,25 @@ namespace visuVTKAdaptor
 {
 
 
-class VISUVTKADAPTOR_CLASS_API Normals: public ::fwRenderVTK::IVtkAdaptorService
+class VISUQVTKADAPTOR_CLASS_API Normals: public ::fwRenderVTK::IVtkAdaptorService
 {
 
 public:
 
     fwCoreServiceClassDefinitionsMacro ( (Normals)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API Normals() throw();
-
-    VISUVTKADAPTOR_API virtual ~Normals() throw();
-
-    VISUVTKADAPTOR_API void setMapperInput(vtkAlgorithmOutput *input);
+    VISUQVTKADAPTOR_API Normals() throw();
+    VISUQVTKADAPTOR_API virtual ~Normals() throw();
+    VISUQVTKADAPTOR_API void setMapperInput(vtkAlgorithmOutput *input);
 
 protected:
 
-   VISUVTKADAPTOR_API void doStart() throw(fwTools::Failed);
-   VISUVTKADAPTOR_API void configuring() throw(fwTools::Failed);
-   VISUVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
-   VISUVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
-   VISUVTKADAPTOR_API virtual void doUpdate( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
-   VISUVTKADAPTOR_API void doStop() throw(fwTools::Failed);
-
+   VISUQVTKADAPTOR_API void doStart() throw(fwTools::Failed);
+   VISUQVTKADAPTOR_API void configuring() throw(fwTools::Failed);
+   VISUQVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
+   VISUQVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
+   VISUQVTKADAPTOR_API virtual void doUpdate( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
+   VISUQVTKADAPTOR_API void doStop() throw(fwTools::Failed);
 
     vtkActor* getActor();
     void updateNormals();
@@ -58,8 +55,6 @@ private:
     vtkActor2D * m_cellsIdActor2D ;
 };
 
-
-
 } //namespace visuVTKAdaptor
 
-#endif // _VISUVTKADAPTOR_NORMALS_HPP_
+#endif // _VISUQVTKADAPTOR_NORMALS_HPP_

@@ -32,4 +32,4 @@ struct Plugin : public ::fwRuntime::Plugin
 
 } // namespace uiVisu
 
-#endif //_UIVISU_PLUGIN_HPP_
+#endif //_UIQTVISU_PLUGIN_HPP_

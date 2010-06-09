@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _VISUVTKADAPTOR_NEGATOMPR_HPP_
-#define _VISUVTKADAPTOR_NEGATOMPR_HPP_
+#ifndef _VISUQVTKADAPTOR_NEGATOMPR_HPP_
+#define _VISUQVTKADAPTOR_NEGATOMPR_HPP_
 
 #include <boost/logic/tribool.hpp>
 
@@ -17,17 +17,16 @@
 namespace visuVTKAdaptor
 {
 
-
-class VISUVTKADAPTOR_CLASS_API NegatoMPR: public ::fwComEd::helper::MedicalImageAdaptor,public ::fwRenderVTK::IVtkAdaptorService 
+class VISUQVTKADAPTOR_CLASS_API NegatoMPR: public ::fwComEd::helper::MedicalImageAdaptor,public ::fwRenderVTK::IVtkAdaptorService
 {
 
 public:
 
     fwCoreServiceClassDefinitionsMacro ( (NegatoMPR)(::fwRenderVTK::IVtkAdaptorService::Baseclass) ) ;
 
-    VISUVTKADAPTOR_API NegatoMPR() throw();
+    VISUQVTKADAPTOR_API NegatoMPR() throw();
 
-    VISUVTKADAPTOR_API virtual ~NegatoMPR() throw();
+    VISUQVTKADAPTOR_API virtual ~NegatoMPR() throw();
 
     typedef enum
     {
@@ -40,13 +39,13 @@ protected :
 
     typedef ::fwRuntime::ConfigurationElement::sptr Configuration;
 
-    VISUVTKADAPTOR_API void doStart() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doStop() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStart() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doStop() throw(fwTools::Failed);
 
-    VISUVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void configuring() throw(fwTools::Failed);
-    VISUVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doUpdate(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void configuring() throw(fwTools::Failed);
+    VISUQVTKADAPTOR_API void doSwap() throw(fwTools::Failed);
 
     void addAdaptor(std::string adaptor, int axis=-1);
 
@@ -62,9 +61,6 @@ private:
     SliceMode m_backupedSliceMode;
 };
 
-
-
-
 } //namespace visuVTKAdaptor
 
-#endif // _VISUVTKADAPTOR_NEGATOMPR_HPP_
+#endif // _VISUQVTKADAPTOR_NEGATOMPR_HPP_

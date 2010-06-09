@@ -34,7 +34,7 @@ namespace ioQVTK
  * Service registered details : \n
  * REGISTER_SERVICE( ::io::IReader , ::ioVTK::ImageReaderService , ::fwData::Image )
  */
-class  ImageReaderService : public ::io::IReader
+class IOQVTK_CLASS_API ImageReaderService : public ::io::IReader
 {
 
 public :
@@ -44,10 +44,10 @@ public :
      * @post ImageReaderService::m_bServiceIsConfigured is equal to false : service not configured
      * @post ImageReaderService::m_fsImgPath is empty : path to read not defined
      */
-     ImageReaderService() throw();
+    IOQVTK_API ImageReaderService() throw();
 
     /// Destructor, do nothing.
-     virtual ~ImageReaderService() throw();
+    IOQVTK_API virtual ~ImageReaderService() throw();
 
 
     /**
@@ -56,7 +56,7 @@ public :
      * This method is used to find the file path using a file selector.
      */
     // important sinon 
-     virtual void configureWithIHM();
+    IOQVTK_API virtual void configureWithIHM();
 
 
 protected:
@@ -72,13 +72,13 @@ protected:
      </service>
      @endverbatim
      */
-     virtual void configuring() throw ( ::fwTools::Failed );
+    IOQVTK_API virtual void configuring() throw ( ::fwTools::Failed );
 
     /// Method called when the service is started, does nothing.
-     virtual void starting() throw ( ::fwTools::Failed );
+    IOQVTK_API virtual void starting() throw ( ::fwTools::Failed );
 
     /// Method called when the service is stopped, does nothing.
-     virtual void stopping() throw ( ::fwTools::Failed );
+    IOQVTK_API virtual void stopping() throw ( ::fwTools::Failed );
 
     /**
      * @brief Updating method execute the read process.
@@ -86,17 +86,17 @@ protected:
      * This method is used to update the service.
      * The image is read.
      */
-     void updating() throw(::fwTools::Failed);
+    IOQVTK_API void updating() throw(::fwTools::Failed);
 
     /**
      * @brief React on modifications : here, this method does nothing.
      * @note This method is automaticaly called by update( msg ) method from base service ( ::fwServices::IService ).
      * @param[in] _msg information message for modification
      */
-     void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw ( ::fwTools::Failed );
+    IOQVTK_API void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw ( ::fwTools::Failed );
 
     /// Info method gives some informations on service.
-     void info(std::ostream &_sstream ) ;
+    IOQVTK_API void info(std::ostream &_sstream ) ;
 
 private :
 

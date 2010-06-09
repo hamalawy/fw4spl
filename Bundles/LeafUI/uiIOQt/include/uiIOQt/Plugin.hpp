@@ -9,6 +9,7 @@
 
 #include <fwRuntime/Plugin.hpp>
 
+#include "uiIOQt/config.hpp"
 /**
  * @brief   Namespace uiIO.
  * @namespace   uiIO.
@@ -20,19 +21,19 @@
 namespace uiIOQt
 {
 
-class Plugin : public ::fwRuntime::Plugin
+class UIIOQT_CLASS_API Plugin : public ::fwRuntime::Plugin
 {
 
 public :
 
     /// PLugin destructor
-    ~Plugin() throw();
+	UIIOQT_API ~Plugin() throw();
     
     /// This method is used by runtime to initialize the bundle.
-    void start() throw( ::fwRuntime::RuntimeException );
+	UIIOQT_API void start() throw( ::fwRuntime::RuntimeException );
 
     /// This method is used by runtime to stop the bundle.
-    void stop() throw();
+	UIIOQT_API void stop() throw();
     
 };
 

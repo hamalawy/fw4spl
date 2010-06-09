@@ -4,9 +4,9 @@
     <object id="FilterConfig" type="::fwData::Composite">
         <!-- Windows & Main Menu -->
        <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
-		<name>Mesher</name>
-     		<view uid="myDefaultView" autoStart="yes" />  
-	</service>
+        <name>Mesher</name>
+             <view uid="myDefaultView" autoStart="yes" />  
+        </service>
         
        <service uid="myMenuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
             <menus>
