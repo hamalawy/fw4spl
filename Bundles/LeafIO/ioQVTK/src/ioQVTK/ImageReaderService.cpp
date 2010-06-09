@@ -66,7 +66,7 @@ void ImageReaderService::configureWithIHM()
     SLM_TRACE_FUNC();
 
     QString file = QFileDialog::getOpenFileName(0,QObject::tr("Open File"), QDir::currentPath(), QObject::tr("VTKImages (*.vtk *.VTK )"));
-    
+
     // If the user choose an vtk file, the image path is initialized and we tag the service as configured.
     if( file.isEmpty() == false )
     {
@@ -101,8 +101,8 @@ void ImageReaderService::info( std::ostream &_sstream )
 void ImageReaderService::updating() throw ( ::fwTools::Failed )
 {
       SLM_TRACE_FUNC();
-  
- 
+
+
     if( !m_bServiceIsConfigured )
     {
        configureWithIHM();
@@ -113,15 +113,15 @@ void ImageReaderService::updating() throw ( ::fwTools::Failed )
         assert(pImage);
       if ( loadImage( m_fsImgPath, pImage ) )
       {
-	   notificationOfDBUpdate();
+       notificationOfDBUpdate();
       }
     }
     else
     {
       SLM_TRACE("NOT CONFIGURED ");
     }
-      	   
-      
+
+
 }
 
 //------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ void ImageReaderService::updating() throw ( ::fwTools::Failed )
 bool ImageReaderService::loadImage( const ::boost::filesystem::path vtkFile, ::fwData::Image::sptr _pImg )
 {
     SLM_TRACE_FUNC();
-   
+
     bool ok = true;
 
     // Use a reader of vtkIO library to read a vtk image
@@ -156,7 +156,7 @@ void ImageReaderService::updating( ::boost::shared_ptr< const ::fwServices::Obje
 void ImageReaderService::notificationOfDBUpdate()
 {
     SLM_TRACE_FUNC();
-    
+
     ::fwData::Image::sptr pImage = this->getObject< ::fwData::Image >();
     assert( pImage );
 
@@ -170,7 +170,7 @@ void ImageReaderService::notificationOfDBUpdate()
 
     // Notify message to all service listeners
     ::fwServices::IEditionService::notify(this->getSptr(), pImage, msg);
-    
+
 }
 
 } // namespace ioVtk

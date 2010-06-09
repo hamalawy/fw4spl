@@ -51,11 +51,11 @@ public :
 
 
     /**
-     * @brief Configure the image path with an wxWidget dialogBox.
+     * @brief Configure the image path with an dialogBox.
      *
      * This method is used to find the file path using a file selector.
      */
-    // important sinon 
+    // important sinon
     IOQVTK_API virtual void configureWithIHM();
 
 

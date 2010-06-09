@@ -63,12 +63,12 @@ void SliceListEditor::starting() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
-    
+
  //   QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
 
     m_widget = new QWidget(m_container);
     QHBoxLayout *layout = new  QHBoxLayout();
-  
+
    m_button = new QPushButton(QObject::tr(">"),m_widget);
   // m_button->setMinimumWidth(m_buttonWidth);
    m_button->setFixedWidth(m_buttonWidth);
@@ -77,25 +77,25 @@ void SliceListEditor::starting() throw(::fwTools::Failed)
    m_button->setContextMenuPolicy(Qt::CustomContextMenu);
    m_button->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
 
-   QObject::connect(m_button, SIGNAL(clicked()), this, SLOT(createPopUpMenu())); 
-   
+   QObject::connect(m_button, SIGNAL(clicked()), this, SLOT(createPopUpMenu()));
+
   m_menu = new QMenu(QObject::tr(">"), m_widget);
   m_sliceGroup = new QActionGroup(m_menu);
   m_sliceGroup->setExclusive(true);
-    
+
   m_oneSliceItem = new QAction(QObject::tr(" One slice "), m_sliceGroup);
   m_threeSlicesItem = new QAction(QObject::tr(" Three slice "), m_sliceGroup);
-  
+
   m_oneSliceItem->setObjectName(QObject::tr("One slice"));
   m_threeSlicesItem->setObjectName(QObject::tr("Three slice"));
-  
+
   m_oneSliceItem->setCheckable(true);
   m_threeSlicesItem->setCheckable(true);
-  
+
   m_threeSlicesItem->setChecked(true);
 
   m_menu->addActions(m_sliceGroup->actions());
-   
+
 
     m_widget->setMinimumWidth(m_buttonWidth);
     m_widget->setFixedHeight(30);
@@ -104,14 +104,14 @@ void SliceListEditor::starting() throw(::fwTools::Failed)
     layout->setContentsMargins(0,0,0,0);
 
     m_container->setLayout(layout);
-    
+
     m_container->setFixedWidth(m_buttonWidth);
     m_container->setFixedHeight(30);
 }
 
 
 void SliceListEditor::createPopUpMenu()
-{   
+{
   m_menu->move(m_widget->mapToGlobal(QPoint(m_button->x()+m_buttonWidth, m_button->y())));
   m_menu->show();
   QObject::connect(m_sliceGroup, SIGNAL(triggered(QAction *)),this, SLOT(changeSliceMode()));
@@ -124,7 +124,7 @@ void SliceListEditor::changeSliceMode()
   ::fwData::Integer::NewSptr dataInfo;
 
   QAction *action=m_sliceGroup->checkedAction();
-  
+
   if(action->objectName()=="One slice")
   {
      dataInfo->value() = 1;
@@ -134,19 +134,19 @@ void SliceListEditor::changeSliceMode()
 
   }
   else if(action->objectName()=="Three slice")
-  {          
+  {
     dataInfo->value() = 3;
     m_nbSlice = 3;
     m_threeSlicesItem->setChecked(true);
 
   }
   else
-      std::cout<<" ERROR \n";
-  
+      OSLM_TRACE(" ERROR \n");
+
    ::fwServices::IService::sptr service = ::fwServices::get(m_adaptorUID);
    ::fwData::Image::sptr image = service->getObject< ::fwData::Image >();
    SLM_ASSERT("SliceListEditor adaptorUID " << m_adaptorUID <<" isn't an Adaptor on an Image?" , image);
-  
+
   dataInfo->setFieldSingleElement(::fwComEd::Dictionary::m_relatedServiceId ,  ::fwData::String::NewSptr( m_adaptorUID ) );
   ::fwComEd::ImageMsg::NewSptr imageMsg;
   imageMsg->addEvent( "SLICE_MODE", dataInfo );
@@ -179,7 +179,7 @@ void SliceListEditor::configuring() throw(fwTools::Failed)
         std::string value(placeInSceneConfig.at(0)->getAttributeValue("slices"));
         m_nbSlice = ::boost::lexical_cast<int >(value.c_str());
     }
-    
+
 }
 
 //------------------------------------------------------------------------------
@@ -213,7 +213,7 @@ void SliceListEditor::updating( ::fwServices::ObjectMsg::csptr msg ) throw(::fwT
             m_button->setEnabled(isShowScan->value());
         }
     }
-    
+
 }
 
 //------------------------------------------------------------------------------

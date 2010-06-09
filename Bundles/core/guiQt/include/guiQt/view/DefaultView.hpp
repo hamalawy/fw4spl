@@ -41,10 +41,10 @@ class  GUIQT_CLASS_API DefaultView : public ::guiQt::view::IView
             m_autostart(false)
             {}
         std::pair< int, int >   m_minSize;
-    	QWidget*		m_panel;
+        QWidget*        m_panel;
         bool                    m_autostart;
     };
-    
+
 
 public :
 
@@ -77,7 +77,7 @@ public :
 
     /// Prints service name
    GUIQT_API void info(std::ostream &_sstream );
-    
+
 protected :
 
     /// Layout manager of this view

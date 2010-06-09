@@ -12,14 +12,14 @@
 
 
 #include <fwComEd/LocationMsg.hpp>
-#include <fwData/location/SingleFile.hpp>  
+#include <fwData/location/SingleFile.hpp>
 
 #include <fwServices/Base.hpp>
 
 #include "uiQt/ImageEditor.hpp"
 
 #include <QLayout>
-#include <QVBoxLayout>	
+#include <QVBoxLayout>
 
 
 #include <QVTKWidget.h>
@@ -33,14 +33,14 @@
 
 REGISTER_SERVICE( ::guiQt::editor::IEditor , ::uiQt::ImageEditor , ::fwData::location::SingleFile) ;
 
-   
+
 namespace uiQt
 {
 
 ImageEditor::ImageEditor() throw()
 {
     SLM_TRACE_FUNC();
-   
+
     addNewHandledEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED );
 }
 
@@ -64,11 +64,11 @@ void ImageEditor::starting() throw(fwTools::Failed)
 {
    QWidget* container;
    QWidget* view;
-   
+
    QLayout *layout = new QVBoxLayout();
 
    ::guiQt::editor::IEditor::starting();
-   std::cout<<"Servie UUID : "<<this->getUUID()<<"\n";
+   OSLM_TRACE("Servie UUID : "<<this->getUUID()<<"\n");
 
    //container = m_globalUIDToQtContainer[this->getUUID()];
    container = m_globalUIDToQtContainer.find(this->getUUID())->second;
@@ -78,26 +78,26 @@ void ImageEditor::starting() throw(fwTools::Failed)
     view->setMinimumWidth(container->width());
 
   view->resize(container->width(), container->height());
-   
+
    //layout->setAlignment(Qt::AlignCenter);
 
    layout->addWidget(view);
 
    container->setLayout(layout);
-      
+
    // important le setParent
    imageLabel = new QLabel();
    imageLabel->setParent(view);//container
-   
+
 
  imageLabel->setMinimumHeight(view->height());
    imageLabel->setMinimumWidth(view->width());
   // imageLabel->setMargin(20);
-  
-  
-     
-   
-   
+
+
+
+
+
 /*
  QVTKWidget *widget = new QVTKWidget(container);
  widget->resize(500, 500);
@@ -144,18 +144,18 @@ void ImageEditor::updating() throw(fwTools::Failed)
   // Recuperation de l'objet
     ::fwData::location::SingleFile::sptr file = this->getObject < ::fwData::location::SingleFile >();
     OSLM_INFO("FileMsg : " << file->getPath());
-    
+
     image = new QImage(file->getPath().string().c_str());
-    
-     if (image->isNull()) 
+
+     if (image->isNull())
      {
-	//QMessageBox::information(this, QObject::tr("Image Viewer"),QObject::tr("Cannot load %1.").arg(file->getPath().string()));
+    //QMessageBox::information(this, QObject::tr("Image Viewer"),QObject::tr("Cannot load %1.").arg(file->getPath().string()));
         return;
       }
       imageLabel->setPixmap(QPixmap::fromImage(*image));
       imageLabel->setScaledContents(true);
       imageLabel->setAlignment(Qt::AlignHCenter);
-    //  imageLabel->show();  
+    //  imageLabel->show();
 
 }
 
@@ -163,15 +163,15 @@ void ImageEditor::updating() throw(fwTools::Failed)
 
 void ImageEditor::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTools::Failed)
 {
-  
-  
+
+
   ::fwComEd::LocationMsg::csptr fileMsg =  ::fwComEd::LocationMsg::dynamicConstCast( _msg );
-  
+
     if ( fileMsg && fileMsg->hasEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED ) )
     {
         this->updating();
     }
-   
+
 }
 
 //-----------------------------------------------------------------------------

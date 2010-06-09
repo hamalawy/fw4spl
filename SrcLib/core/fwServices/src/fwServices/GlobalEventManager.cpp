@@ -112,7 +112,7 @@ void GlobalEventManager::dispatch()
     SLM_WARN_IF( "Message's subject expired", pMsg->getSubject().expired() );
     if(!pMsg->getSubject().expired())
     {
-     
+
         SLM_INFO_IF( "Message's source expired", pMsg->getSource().expired());
         OSLM_INFO( "dispatching MSG : " << pMsg->getGeneralInfo() );
         ::fwTools::Object::sptr pSubject = pMsg->getSubject().lock();
@@ -148,14 +148,14 @@ void GlobalEventManager::notify( ::fwServices::ObjectMsg::sptr _pMsg, ::fwServic
         if ( m_msgDeque.size() == 1 )
         {
             while ( GlobalEventManager::pending() )
-            {	 
+            {
 
                 GlobalEventManager::dispatch();
             }
         }
     }
     else if ( m_deliveryType == DEPTH_FIRST )
-    {      
+    {
         ::fwServices::IService::sptr pSource = _pMsg->getSource().lock();
         ::fwTools::Object::sptr pSubject = _pMsg->getSubject().lock();
 
@@ -165,8 +165,8 @@ void GlobalEventManager::notify( ::fwServices::ObjectMsg::sptr _pMsg, ::fwServic
         srv->notify( _pMsg, _options ) ;
     }
     else
-       std::cout<<" \n\n\n>>>>>>>>>>> ELSE DEFAULT <<<<<<<<<<<<\n\n\n";
-      
+       SLM_TRACE(" \n\n\n>>>>>>>>>>> ELSE DEFAULT <<<<<<<<<<<<\n\n\n");
+
 
 }
 

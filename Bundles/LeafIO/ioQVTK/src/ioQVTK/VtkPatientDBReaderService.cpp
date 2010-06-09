@@ -58,9 +58,9 @@ void VtkPatientDBReaderService::configuring() throw(::fwTools::Failed)
 //------------------------------------------------------------------------------
 
 void VtkPatientDBReaderService::configureWithIHM()
-{  
-    QString folder = QFileDialog::getOpenFileName(0,QObject::tr("Choose an Vtkimage file"), QDir::currentPath(), QObject::tr("VTKImages (*.vtk *.VTK )"));    
-    
+{
+    QString folder = QFileDialog::getOpenFileName(0,QObject::tr("Choose an Vtkimage file"), QDir::currentPath(), QObject::tr("VTKImages (*.vtk *.VTK )"));
+
     // If the user choose an vtk file, the image path is initialized and we tag the service as configured.
     if( folder.isEmpty() == false )
     {
@@ -87,7 +87,7 @@ bool VtkPatientDBReaderService::createImage( const ::boost::filesystem::path vtk
     myLoader.setFile(vtkFileDir);
     myLoader.read();
     res = true;
-      
+
     return res;
 }
 
@@ -108,22 +108,22 @@ void VtkPatientDBReaderService::updating() throw(::fwTools::Failed)
 
       if (res && image != NULL )
       {
-	    // Build patient
-	   ::fwData::PatientDB::NewSptr pNewPatientDB;
-	   ::fwData::Patient::NewSptr pNewPatient;
-	   ::fwData::Study::NewSptr pNewStudy;
-	   ::fwData::Acquisition::NewSptr pNewAcquisition;
-	    pNewAcquisition->setImage(image);
-	    pNewStudy->addAcquisition(pNewAcquisition);
-	    pNewPatient->addStudy(pNewStudy);
-	    pNewPatient->setCRefName(m_fsImagePath.filename());
-	    pNewPatientDB->addPatient(pNewPatient);
-	    // Retrieve dataStruct associated with this service
-	    ::fwData::PatientDB::sptr pPatientDB = this->getObject< ::fwData::PatientDB >();
-	    //( *( pPatientDB ) ) = ( *( pNewPatientDB.get() ) ) ;
-	    pPatientDB->shallowCopy( pNewPatientDB );
+        // Build patient
+       ::fwData::PatientDB::NewSptr pNewPatientDB;
+       ::fwData::Patient::NewSptr pNewPatient;
+       ::fwData::Study::NewSptr pNewStudy;
+       ::fwData::Acquisition::NewSptr pNewAcquisition;
+        pNewAcquisition->setImage(image);
+        pNewStudy->addAcquisition(pNewAcquisition);
+        pNewPatient->addStudy(pNewStudy);
+        pNewPatient->setCRefName(m_fsImagePath.filename());
+        pNewPatientDB->addPatient(pNewPatient);
+        // Retrieve dataStruct associated with this service
+        ::fwData::PatientDB::sptr pPatientDB = this->getObject< ::fwData::PatientDB >();
+        //( *( pPatientDB ) ) = ( *( pNewPatientDB.get() ) ) ;
+        pPatientDB->shallowCopy( pNewPatientDB );
 
-	    notificationOfDBUpdate();
+        notificationOfDBUpdate();
       }
     }
    else

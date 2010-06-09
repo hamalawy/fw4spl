@@ -32,12 +32,12 @@ public :
     /**
     * @brief Constructor. Do nothing.
     */
-	GUIQT_API StarterActionService() throw();
+    GUIQT_API StarterActionService() throw();
 
     /**
     * @brief Destructor. Do nothing.
     */
-	GUIQT_API virtual ~StarterActionService() throw();
+    GUIQT_API virtual ~StarterActionService() throw();
 
 protected:
 

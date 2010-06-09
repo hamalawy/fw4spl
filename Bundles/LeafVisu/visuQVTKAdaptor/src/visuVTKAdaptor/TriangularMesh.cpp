@@ -280,13 +280,13 @@ class PlaneCollectionAdaptorStarter : public TriangularMeshVtkCommand
     }
 
     void Clear()
-    { 
+    {
       SLM_TRACE_FUNC();
         BOOST_FOREACH( ::visuVTKAdaptor::TriangularMesh::wptr adaptor, m_meshServices )
         {
             if (!adaptor.expired())
             {
-	         SLM_TRACE("  TriangularMesh::clear() call  this->unregisterServices() on adaptor ");
+             SLM_TRACE("  TriangularMesh::clear() call  this->unregisterServices() on adaptor ");
                 ::fwServices::OSR::unregisterService(adaptor.lock());
             }
         }
@@ -489,7 +489,7 @@ void TriangularMesh::doUpdate( ::fwServices::ObjectMsg::csptr msg ) throw(::fwTo
     ::fwComEd::MaterialMsg::csptr materialMsg = ::fwComEd::MaterialMsg::dynamicConstCast(msg);
     if( materialMsg && materialMsg->hasEvent(::fwComEd::MaterialMsg::MATERIAL_IS_MODIFIED) )
     {
-        SLM_TRACE(" RECEIVE MSG  MATERIAL_IS_MODIFIED "); 
+        SLM_TRACE(" RECEIVE MSG  MATERIAL_IS_MODIFIED ");
         this->updateOptionsMode();
     }
 }
@@ -511,7 +511,7 @@ void TriangularMesh::doStop() throw(fwTools::Failed)
     {
         this->removeFromPicker(m_actor);
     }
-    
+
   SLM_TRACE("  TriangularMesh::doStop() call to removeNormalsService(); ");
     removeNormalsService();
     removePlaneCollectionShifterCommand();
@@ -664,15 +664,15 @@ void TriangularMesh::setMapperInput(vtkAlgorithmOutput *input)
 void TriangularMesh::updateOptionsMode()
 {
   SLM_TRACE_FUNC();
-  
+
     if (m_material->getOptionsMode() == ::fwData::Material::MODE_NORMALS)
     {
-       SLM_TRACE("MODE_NORMALS ===>createNormalsService()    "); 
+       SLM_TRACE("MODE_NORMALS ===>createNormalsService()    ");
         createNormalsService();
     }
     else
     {
-        SLM_TRACE("MODE_STANDARD ===>removeNormalsService()    "); 
+        SLM_TRACE("MODE_STANDARD ===>removeNormalsService()    ");
         removeNormalsService();
     }
 }
@@ -680,7 +680,7 @@ void TriangularMesh::updateOptionsMode()
 void TriangularMesh::createNormalsService()
 {
   SLM_TRACE_FUNC();
-  
+
     ::fwData::TriangularMesh::sptr TriangularMesh
         = this->getObject < ::fwData::TriangularMesh >();
 

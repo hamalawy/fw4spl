@@ -5,7 +5,7 @@
  * ****** END LICENSE BLOCK ****** */
 
 #ifndef UIQT_IMAGE_EDITOR_HPP_
-#define  UIQT_IMAGE_EDITOR_HPP_
+#define UIQT_IMAGE_EDITOR_HPP_
 
 #include <QLabel>
 #include <QFrame>
@@ -41,7 +41,7 @@ public :
     * @brief    Destructor
     */
      virtual ~ImageEditor() throw() ;
-     
+
      QLabel *imageLabel;
      QImage *image;
     QFrame *m_frame;
@@ -87,7 +87,7 @@ protected :
      virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
 
     /// @brief vtk renderer
-   
+
 };
 
 }

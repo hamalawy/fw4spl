@@ -60,7 +60,7 @@ void FwXMLPatientDBWriterService::configuring() throw(::fwTools::Failed)
 
 void FwXMLPatientDBWriterService::configureWithIHM()
 {
-   
+
     //QString folder = QFileDialog::getSaveFileName(0,QObject::tr("Choose an vtk file to save image"), QDir::currentPath(), QObject::tr("fwXML archive (*.fxz)|*.fxz|fwXML (*.xml)|*.xml"));
 
     QString format = "xml";
@@ -69,7 +69,7 @@ void FwXMLPatientDBWriterService::configureWithIHM()
                                 QObject::tr("%1 Files (*.%2);;All Files (*)")
                                 .arg(format.toUpper())
                                 .arg(format));
-				
+
     if( folder.isEmpty() == false)
     {
         m_fsPatientDBPath = ::boost::filesystem::path(  folder.toStdString(), ::boost::filesystem::native );
@@ -188,7 +188,7 @@ void FwXMLPatientDBWriterService::manageZipAndSavePatientDB( const ::boost::file
     // Zip
     QString destZipFileName( inrFileDir.string().c_str() );
     QString srcFolderName( srcFolder.string().c_str() );
-    
+
    // ::fwQt::ZipFolder::packFolder( srcFolderName, destZipFileName );
 
     // Remove temp folder

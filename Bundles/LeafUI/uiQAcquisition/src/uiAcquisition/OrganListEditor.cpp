@@ -50,22 +50,22 @@ void OrganListEditor::starting() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
-    
+
     QVBoxLayout *layout = new QVBoxLayout();
     QVBoxLayout *groupLayout = new QVBoxLayout();
-    
+
     m_listLayout = new QVBoxLayout();
 
     m_organs = new QGroupBox(QObject::tr("Organs"), m_container);
     m_organs->setEnabled(false);
-    
+
     m_showCheckBox = new QCheckBox(QObject::tr("Hide organs"), m_organs);
     QObject::connect(m_showCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showReconstructions()));
 
     m_listW = new QListWidget(m_organs);
     QObject::connect(m_listW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(organChoiceSelection()));
 
-   
+
     groupLayout->addWidget(m_showCheckBox);
     groupLayout->addWidget(m_listW);
     m_organs->setLayout(groupLayout);
@@ -73,7 +73,7 @@ void OrganListEditor::starting() throw(::fwTools::Failed)
     layout->addWidget(m_organs);
 
     m_container->setLayout(layout);
-    
+
     this->updating();
 }
 
@@ -136,13 +136,13 @@ void OrganListEditor::info( std::ostream &_sstream )
 void OrganListEditor::updateReconstructions()
 {
   std::string string;
-  
+
     m_listW->clear();
     m_map.clear();
-    
+
     ::fwData::Acquisition::sptr acq = this->getObject< ::fwData::Acquisition >();
     m_container->setEnabled(acq->getReconstructions().first != acq->getReconstructions().second);
-    
+
 
     if(!m_container->isEnabled())
     {
@@ -159,14 +159,14 @@ void OrganListEditor::updateReconstructions()
         }
         for( OrganNameReconstruction::iterator iter = m_map.begin(); iter != m_map.end(); ++iter )
         {
-	  string = (*iter).first.data();
-	  QListWidgetItem *item = new QListWidgetItem(string.c_str(), m_listW);
-	  item->setCheckState(Qt::Checked);
-	  
-	  //m_listW->addItem(item);
-	}
-	
-// 	QObject::connect(m_listW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(organChoiceSelection()));
+      string = (*iter).first.data();
+      QListWidgetItem *item = new QListWidgetItem(string.c_str(), m_listW);
+      item->setCheckState(Qt::Checked);
+
+      //m_listW->addItem(item);
+    }
+
+//     QObject::connect(m_listW, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(organChoiceSelection()));
 
         bool showAllRec = true;
         if (acq->getFieldSize("ShowReconstructions"))
@@ -185,7 +185,7 @@ void OrganListEditor::organChoiceSelection()
   SLM_TRACE_FUNC();
   m_item = m_listW->selectedItems().first();
   //std::cout<<" m_item : "<<m_item->text().toStdString()<<"   curent : "<<m_listW->currentItem()->text().toStdString()<<"\n";
-  
+
   this->notifyOrganChoiceSelection();
   this->organChoiceVisibility();
 }
@@ -204,17 +204,17 @@ void OrganListEditor::notifyOrganChoiceSelection()
         msg->addEvent( ::fwComEd::AcquisitionMsg::NEW_RECONSTRUCTION_SELECTED, ::fwData::String::New( ::fwTools::UUID::get(rec)) );
         ::fwServices::IEditionService::notify(this->getSptr(), acq, msg);
     }
-    
+
 }
 
 //------------------------------------------------------------------------------
 
 void OrganListEditor::organChoiceVisibility()
-{ 
+{
     std::string organSelected = m_item->text().toStdString();
     ::fwData::Reconstruction::sptr rec = m_map[organSelected] ;
-    assert(rec) ;    
-    
+    assert(rec) ;
+
    // std::cout<<" \nOrgan SELECTED : "<<organSelected<<" Visible : "<<rec->getIsVisible()<<"\n";
     //rec->setIsVisible(!rec->getIsVisible());
     if(m_item->checkState()==Qt::Checked)
@@ -227,7 +227,7 @@ void OrganListEditor::organChoiceVisibility()
     ::fwComEd::ReconstructionMsg::NewSptr msg;
     msg->addEvent( ::fwComEd::ReconstructionMsg::VISIBILITY ) ;
     ::fwServices::IEditionService::notify(this->getSptr(), rec, msg);
-    
+
 }
 
 
@@ -251,11 +251,11 @@ void OrganListEditor::refreshVisibility()
 {
     int item=0;
     for( OrganNameReconstruction::iterator iter = m_map.begin(); iter != m_map.end(); ++iter, ++item )
-    {     
+    {
       if(iter->second->getIsVisible() == true)
-	m_listW->item(item)->setCheckState(Qt::Checked);
+    m_listW->item(item)->setCheckState(Qt::Checked);
       else
-	m_listW->item(item)->setCheckState(Qt::Unchecked);
+    m_listW->item(item)->setCheckState(Qt::Unchecked);
     }
 }
 

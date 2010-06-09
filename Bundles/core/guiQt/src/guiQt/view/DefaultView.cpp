@@ -16,7 +16,7 @@
 
 #include <QApplication>
 #include <QLayout>
-#include <QVBoxLayout>	
+#include <QVBoxLayout>
 #include <QDesktopWidget>
 
 
@@ -44,7 +44,7 @@ DefaultView::~DefaultView() throw()
 
 void DefaultView::configuring() throw( ::fwTools::Failed )
 {
-   assert( m_configuration->getName() == "service" );
+    assert( m_configuration->getName() == "service" );
     SLM_FATAL_IF( "missing views configuration" , !m_configuration->findConfigurationElement("views") );
 
     ::fwRuntime::ConfigurationElement::sptr viewsCfgElt = m_configuration->findConfigurationElement("views");
@@ -61,7 +61,7 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
 
         SLM_FATAL_IF("<view> node must contain uid attribute", !(*iter)->hasAttribute("uid") );
         uid = (*iter)->getExistingAttributeValue("uid");
-	
+
         if( (*iter)->hasAttribute("minWidth") )
         {
             std::string width = (*iter)->getExistingAttributeValue("minWidth") ;
@@ -80,9 +80,9 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
                     autostart == "yes" || autostart == "no");
             vi.m_autostart = (autostart == "yes");
         }
-	
+
         m_panels[uid] = vi;
-    }  
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -106,7 +106,7 @@ void DefaultView::starting() throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
     this->initGuiParentContainer();
     //::guiQt::editor::IEditor::starting();
-    
+
     QWidget *mainWidget = this->getQtContainer();
     m_manager =  qobject_cast<QMainWindow *>(mainWidget);
     // Pour MacOs
@@ -114,23 +114,23 @@ void DefaultView::starting() throw(::fwTools::Failed)
 
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
-    {    
-	QDockWidget *widget = new QDockWidget(m_manager);
-	widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
-	
-	pi->second.m_panel = new QWidget();
-	pi->second.m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    {
+        QDockWidget *widget = new QDockWidget(m_manager);
+        widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+
+        pi->second.m_panel = new QWidget();
+        pi->second.m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
         widget->setWidget(pi->second.m_panel);  // IMPORTANT : must use the widget provided by dockWidget though setWidget()
 
-	if(pi == m_panels.begin())
+        if(pi == m_panels.begin())
         {
-	   m_manager->setCentralWidget(pi->second.m_panel);	
+            m_manager->setCentralWidget(pi->second.m_panel);
         }
         else
         {
-	   m_manager->addDockWidget(Qt::RightDockWidgetArea,  widget);	 
+            m_manager->addDockWidget(Qt::RightDockWidgetArea,  widget);
         }
-	
+
         this->registerQtContainer(pi->first,  pi->second.m_panel);
 
         if(pi->second.m_autostart)
@@ -167,7 +167,7 @@ void DefaultView::stopping() throw(::fwTools::Failed)
     // Destroy wxAuiManager
     if( m_manager )
     {
-       //delete it
+        //delete it
     }
     this->resetGuiParentContainer();
 }

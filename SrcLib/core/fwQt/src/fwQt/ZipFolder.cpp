@@ -82,29 +82,29 @@ bool ZipFolder::packFolder( QString _srcFolderName, QString _destZipFileName )
     }
     while(false);
     return false;
- 
+
     */
     /*
     QFile fpIn(_srcFolderName);
-    
+
     if (!fpIn.open(QIODevice::ReadOnly))
         QCoreApplication::exit(2);
-    
+
     QByteArray fileContent = fpIn.readAll();
     fpIn.close();
-    
+
     QByteArray compressedBuffer = qCompress(fileContent);
-    
+
     // Writing to file
     QFile fpOut(_destZipFileName);
-    
+
     if (!fpOut.open(QIODevice::WriteOnly))
         QCoreApplication::exit(1);
-    
+
     fpOut.write(compressedBuffer);
     fpOut.close();
     */
-  return false;  
+  return false;
 }
 
 //------------------------------------------------------------------------------
@@ -145,44 +145,44 @@ bool ZipFolder::unpackFolder(QString _srcZipFileName, QString _destFolderName )
         }
     }
     return true;
-    
-    
+
+
     */
-  
-  
-   std::cout<<"\n\n >>>>>>>>>>>>>> sourcZipFile : "<< _srcZipFileName.toStdString() << "\n";
-    std::cout<<" >>>>>>>>>>>>>>>>>< destFolder  : "<< _destFolderName.toStdString() << "\n\n";
-    
+
+
+//   std::cout<<"\n\n >>>>>>>>>>>>>> sourcZipFile : "<< _srcZipFileName.toStdString() << "\n";
+//    std::cout<<" >>>>>>>>>>>>>>>>>< destFolder  : "<< _destFolderName.toStdString() << "\n\n";
+
     QFile fpIn(_srcZipFileName);
-    
+
     if (!fpIn.open(QIODevice::ReadOnly))
         QCoreApplication::exit(2);
-    
-    
-    
-  
+
+
+
+
   /*
     QFile fpIn(_srcZipFileName);
-    
+
     if (!fpIn.open(QIODevice::ReadOnly))
         QCoreApplication::exit(2);
-    
+
     QByteArray fileContent = fpIn.readAll();
     fpIn.close();
     QByteArray uncompressedData = qUncompress(fileContent);
-    
+
     QString name = _destFolderName + "/"; // +
-    
+
     QFileInfo fileInfo(name);
-    
+
     QDir *folder = new QDir();
     folder->mkdir(fileInfo.filePath());
-    
+
     QFile fpOut(name);
-    
+
     if (!fpOut.open(QIODevice::WriteOnly))
         QCoreApplication::exit(1);
-    
+
     fpOut.write(uncompressedData);
     fpOut.close();
    */

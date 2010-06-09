@@ -107,10 +107,10 @@ protected :
 
     // Parent QtContainer
     QWidget* m_container;
-    
+
     FWQT_API static ContainerMapType m_globalUIDToQtContainer;
 
-     /**
+    /**
      * @brief Internal sub wxContainer created for specific uid's service
      */
     ContainerMapType m_subUIDToQtContainer;

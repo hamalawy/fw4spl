@@ -2,17 +2,13 @@
 
     <extension id="tutoQtBasicConfig" implements="::fwTools::Object">
         <object id="tutoQtBasicObject" type="::fwTools::Object">
-        
-        <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+            <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
                 <name>tutoQtBasicApplicationName</name>
-        <icon>Bundles/Tuto01Basic_0-1/tuto.ico</icon>
-        </service>
+            <icon>Bundles/Tuto01Basic_0-1/tuto.ico</icon>
+            </service>
 
-          
-      <start type="::guiQt::aspect::IAspect" />    
-      <stop type="::guiQt::aspect::IAspect" />
-
+            <start type="::guiQt::aspect::IAspect" />    
+            <stop type="::guiQt::aspect::IAspect" />
         </object>
     </extension>
-
 </plugin>

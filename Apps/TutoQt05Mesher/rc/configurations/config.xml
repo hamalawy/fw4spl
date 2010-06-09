@@ -1,8 +1,6 @@
 
 <plugin id="MesherConfiguration">
-
-    <extension id="MesherConfig" implements="::fwData::Composite">
-  
+<extension id="MesherConfig" implements="::fwData::Composite">
     <!--  Composite data creation. -->
     <object id="MesherConfig" type="::fwData::Composite">
   
@@ -103,21 +101,22 @@
                  
         </object> 
     
-    <!-- In order to start the different services,
-    it does not need to follow the objects creation order.
-    Note that the services associated to the Image and TriangularMesh data
-    are not started between the tags corresponding to these two data definitions
-    but, before the end of the Composite data definition. -->
-      <start type="::guiQt::aspect::IAspect" />
-      <start type="::guiQt::aspect::IMenuBar" />
-      <start type="::guiQt::aspect::IMenu" />
-   
-      <update uid="RenderingImage"/>
-      <update uid="RenderingMesh"/>
-      
-      <stop type="::guiQt::aspect::IMenu" />
-      <stop type="::guiQt::aspect::IMenuBar" />
-      <stop type="::guiQt::aspect::IAspect" />
+        <!-- In order to start the different services,
+        it does not need to follow the objects creation order.
+        Note that the services associated to the Image and TriangularMesh data
+        are not started between the tags corresponding to these two data definitions
+        but, before the end of the Composite data definition. -->
+        <start type="::guiQt::aspect::IAspect" />
+        <start type="::guiQt::aspect::IMenuBar" />
+        <start type="::guiQt::aspect::IMenu" />
+     
+        <update uid="RenderingImage"/>
+        <update uid="RenderingMesh"/>
+        
+        <stop type="::guiQt::aspect::IMenu" />
+        <stop type="::guiQt::aspect::IMenuBar" />
+        <stop type="::guiQt::aspect::IAspect" />
     </object>
-    </extension>
+    
+</extension>
 </plugin>

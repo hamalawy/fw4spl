@@ -100,7 +100,7 @@ void IOSelectorService::configuring() throw( ::fwTools::Failed )
             std::string mode = (*iter)->getExistingAttributeValue("mode") ;
             assert( mode == "writer" || mode == "reader" );
             m_mode = ( mode == "writer" ) ? WRITER_MODE : READER_MODE;
-	    	    
+
             OSLM_DEBUG( "mode => " << mode );
         }
     }
@@ -126,7 +126,7 @@ void IOSelectorService::stopping() throw( ::fwTools::Failed )
 void IOSelectorService::startSelectedService()
 {
   std::string extensionId;
- 
+
   for(    std::vector< std::pair < std::string, std::string > >::iterator itExt = availableExtensionsMap.begin();itExt < availableExtensionsMap.end(); itExt++ )
   {
      if (itExt->first == m_selectedString || itExt->second == m_selectedString)
@@ -134,7 +134,7 @@ void IOSelectorService::startSelectedService()
          extensionId = itExt->first ;
       }
    }
-   
+
   if ( m_mode == READER_MODE )
   {
 
@@ -146,27 +146,27 @@ void IOSelectorService::startSelectedService()
   }
   else
   {
-    ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;	
+    ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;
     writer->start();
     //   writer->configureWithIHM();
     writer->update();
     writer->stop();
   }
-        
+
    selection.clear();
    box->close();
 }
-
+//-----------------------------------------------------------------------------
 void IOSelectorService::getListIndex()
 {
   QList<QListWidgetItem *> l = m_list->selectedItems();
   QListWidgetItem *first =  l.first();
-  
+
   m_selectedString = first->text().toStdString();
   //m_list->row(first);
- 
-}
 
+}
+//-----------------------------------------------------------------------------
 void IOSelectorService::doubleClickSelection()
 {
   getListIndex();
@@ -179,13 +179,14 @@ void IOSelectorService::cancel()
  box->close();
 }
 
+//-----------------------------------------------------------------------------
 
 void IOSelectorService::updating() throw( ::fwTools::Failed )
 {
     SLM_TRACE_FUNC();
-    
+
     QWidget *mainWidget = qApp->activeWindow();
- 
+
     // Retrieve implementation of type ::io::IReader for this object
     std::vector< std::string > availableExtensionsId;
     if ( m_mode == READER_MODE )
@@ -193,13 +194,13 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
         // Erase all services of type ::io::IReader on the object
         // TODO : comment this line, because must be useless
         ::fwServices::eraseServices< ::io::IReader >( this->getObject() ) ;
-		
+
         availableExtensionsId = ::fwServices::getImplementationIds< ::io::IReader >( this->getObject() ) ;
     }
     else // m_mode == WRITER_MODE
     {
         ::fwServices::eraseServices< ::io::IWriter >( this->getObject() ) ;
-		
+
         availableExtensionsId = ::fwServices::getImplementationIds< ::io::IWriter >( this->getObject() ) ;
     }
 
@@ -221,25 +222,25 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
         if( m_servicesAreExcluded && ! serviceIsSelectedByUser ||
             ! m_servicesAreExcluded && serviceIsSelectedByUser )
         {
-	   
+
             // Add this service
             const std::string infoUser = ::fwRuntime::getInfoForPoint( serviceId );
-	    	     
+
             if (infoUser != "")
             {
                 availableExtensionsMap.push_back( std::pair < std::string, std::string > (serviceId, infoUser) );
                 availableExtensionsSelector.push_back( infoUser );
-		
-		selection << infoUser.c_str();
+
+        selection << infoUser.c_str();
             }
             else
             {
                 availableExtensionsMap.push_back( std::pair < std::string, std::string > (serviceId, serviceId) );
                 availableExtensionsSelector.push_back( serviceId );
-				
-		selection << serviceId.c_str();
+
+        selection << serviceId.c_str();
             }
-	   
+
         }
     }
 
@@ -251,59 +252,59 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
     if ( ! availableExtensionsMap.empty() )
     {
         std::string extensionId = availableExtensionsMap[0].first ;
-		
+
         extensionSelectionIsCanceled = false;
 
         // Selection of extension when availableExtensions.size() > 1
         bool extensionIdFound = false;
-	
+
         if ( availableExtensionsSelector.size() > 1 )
         {
-	    // Sort : asc and case sensitive
-	    selection.sort();
-	    ::fwQt::Selector selector(mainWidget, selection);
-	   // selector.m_list->sortItems(Qt::AscendingOrder);
-	    m_list = selector.m_list;
-	    // A tester : si list vide
-	    m_list->setCurrentRow(0);
+        // Sort : asc and case sensitive
+        selection.sort();
+        ::fwQt::Selector selector(mainWidget, selection);
+       // selector.m_list->sortItems(Qt::AscendingOrder);
+        m_list = selector.m_list;
+        // A tester : si list vide
+        m_list->setCurrentRow(0);
             m_selectedString = m_list->selectedItems().first()->text().toStdString();
 
-	    box = selector.box;
-	    
-	    QObject::connect(selector.m_okButton, SIGNAL(clicked()), this, SLOT(startSelectedService()));
-	    QObject::connect(selector.m_cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
-	    QObject::connect(selector.m_list, SIGNAL(itemSelectionChanged()), this, SLOT(getListIndex()));
-	    QObject::connect(selector.m_list, SIGNAL(itemDoubleClicked(QListWidgetItem * )), this, SLOT(doubleClickSelection()));
+        box = selector.box;
+
+        QObject::connect(selector.m_okButton, SIGNAL(clicked()), this, SLOT(startSelectedService()));
+        QObject::connect(selector.m_cancelButton, SIGNAL(clicked()), this, SLOT(cancel()));
+        QObject::connect(selector.m_list, SIGNAL(itemSelectionChanged()), this, SLOT(getListIndex()));
+        QObject::connect(selector.m_list, SIGNAL(itemDoubleClicked(QListWidgetItem * )), this, SLOT(doubleClickSelection()));
 
 
             if ( m_mode != READER_MODE )
             {
                // selector.SetTitle( _("Writer to use") );
             }
- 
-	  selector.box->setModal(true);
-	  selector.box->show();
-	}
-	else
-	{
-	   if ( m_mode == READER_MODE )
-	   {
-	    ::io::IReader::sptr reader = ::fwServices::add< ::io::IReader >( this->getObject() , extensionId ) ;
 
-	    reader->start();
+      selector.box->setModal(true);
+      selector.box->show();
+    }
+    else
+    {
+       if ( m_mode == READER_MODE )
+       {
+        ::io::IReader::sptr reader = ::fwServices::add< ::io::IReader >( this->getObject() , extensionId ) ;
+
+        reader->start();
             //    reader->configureWithIHM();
-	    reader->update();
-	    reader->stop();
-	    }
-	    else
-	    {
-	      ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;	
-	      writer->start();
+        reader->update();
+        reader->stop();
+        }
+        else
+        {
+          ::io::IWriter::sptr writer = ::fwServices::add< ::io::IWriter >( this->getObject() , extensionId ) ;
+          writer->start();
             //   writer->configureWithIHM();
-	      writer->update();
-	      writer->stop();
-	    }
-	}
+          writer->update();
+          writer->stop();
+        }
+    }
 
     }
     else
@@ -329,7 +330,7 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
     {
         ::fwServices::eraseServices< ::io::IWriter >( this->getObject() ) ;
     }
-    
+
 }
 
 //------------------------------------------------------------------------------
@@ -338,7 +339,7 @@ void IOSelectorService::info( std::ostream &_sstream )
 {
     // Update message
     _sstream << "IOSelectorService";
-    
+
     // Info à ajouter dans plugin.xml des ervices
    /* <extension implements="::ioXML::FwXMLPatientDBReaderService" >
         <info text="fwXML Reader (Ircad)"/>

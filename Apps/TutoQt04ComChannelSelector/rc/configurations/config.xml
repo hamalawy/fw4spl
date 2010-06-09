@@ -1,7 +1,5 @@
 <plugin id="Mesh">
 <extension id="Mesh" implements="::fwData::TriangularMesh">
-
-
     <object id="Mesh" type="::fwData::TriangularMesh">
 
         <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
@@ -39,7 +37,6 @@
         </service>
     
         <!--    <service uid="myReaderPathFile" implementation="::ioQt::TriangularMeshReaderService" type="::io::IReader" autoComChannel="no" />  -->
-        
         
         <service implementation="::qvtkSimpleMesh::RendererService" type="::fwQtRender::IRender" uid="myRenderingTuto1" autoComChannel="yes" >
             <masterSlaveRelation>master</masterSlaveRelation> 

@@ -37,7 +37,7 @@ public:
      * @see this method use wxDirTraverserZIP class to realize the directory exploration
      * @todo Set in parameter the compression rate.
      */
-	FWQT_API static bool packFolder(QString _srcFolderName, QString _destZipFileName );
+    FWQT_API static bool packFolder(QString _srcFolderName, QString _destZipFileName );
 
     /**
      * @brief This method is used to uncompress (zip format) a folder
@@ -45,7 +45,7 @@ public:
      * @param[in] destFolderName file path resulting to folder decompression
      * @return true if folder decompression is a success
      */
-	FWQT_API static bool unpackFolder( QString _srcZipFileName, QString _destFolderName );
+    FWQT_API static bool unpackFolder( QString _srcZipFileName, QString _destFolderName );
 
 };
 

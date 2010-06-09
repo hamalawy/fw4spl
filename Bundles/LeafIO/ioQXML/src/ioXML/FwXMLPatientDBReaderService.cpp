@@ -79,9 +79,9 @@ void FwXMLPatientDBReaderService::configuring() throw(::fwTools::Failed)
 //------------------------------------------------------------------------------
 
 void FwXMLPatientDBReaderService::configureWithIHM()
-{ 
+{
     QString file = QFileDialog::getOpenFileName(0,QObject::tr("Open File"), QDir::currentPath(), QObject::tr("fwXML (*.fxz *.xml)"));
-    
+
     if( file.isEmpty() == false )
     {
      //   fixFilename(file);
@@ -146,7 +146,7 @@ std::string FwXMLPatientDBReaderService::getSelectorDialogTitle()
 
     myLoader.setFile(inrFileDir);
     myLoader.read();
-    
+
    // DialogBOx for WARNING here
     pPatientDB = ::fwData::PatientDB::dynamicCast( myLoader.getObject() );
 
@@ -169,13 +169,13 @@ void FwXMLPatientDBReaderService::updating() throw(::fwTools::Failed)
         ::fwData::PatientDB::sptr patientDB;
         if ( isAnFwxmlArchive( m_fsPatientDBPath ) )
         {
-	  
-	  std::cout<<" ARCHIVE file .fxz \n\n";
+
+            SLM_TRACE(" ARCHIVE file .fxz \n\n");
        //     patientDB = manageZipAndCreatePatientDB( m_fsPatientDBPath );
         }
         else
         {
-	  std::cout<<"\n\n XML  : "<< m_fsPatientDBPath.string() <<" \n\n";
+            OSLM_TRACE("\n\n XML  : "<< m_fsPatientDBPath.string() <<" \n\n");
             patientDB = createPatientDB( m_fsPatientDBPath );
         }
 
@@ -241,11 +241,11 @@ bool FwXMLPatientDBReaderService::isAnFwxmlArchive( const ::boost::filesystem::p
 
     QString srcZipFileName( _pArchivePath.string().c_str() );
     QString destFolderName( destFolder.string().c_str() );
-    
-    
+
+
  //   ::fwQt::ZipFolder::unpackFolder( srcZipFileName, destFolderName );
- 
-    std::cout<<"\n\n XML  : "<< xmlfile.string() <<" \n";
+
+    OSLM_TRACE("\n\n XML  : "<< xmlfile.string() <<" \n");
 
     // Load
     patientDB = createPatientDB( xmlfile );

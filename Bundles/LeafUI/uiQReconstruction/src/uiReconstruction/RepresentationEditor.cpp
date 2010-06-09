@@ -27,7 +27,7 @@
 #include <QTextEdit>
  #include <QButtonGroup>
  #include <QRadioButton>
- 
+
 
 namespace uiReconstruction
 {
@@ -49,70 +49,70 @@ RepresentationEditor::~RepresentationEditor() throw()
 
 void RepresentationEditor::starting() throw(::fwTools::Failed)
 {
- 
+
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
-    
+
     m_groupRepresentation = new QGroupBox(QObject::tr("Representation"), m_container);
     m_groupShading = new QGroupBox(QObject::tr("Shading"), m_container);
 
-    
+
     m_normalsCheckBox = new QCheckBox(QObject::tr("Show normals"), m_container);
  //   m_normalsCheckBox->setChecked(false);
    // QObject::connect(m_normalsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(showNormals()));
     QObject::connect(m_normalsCheckBox, SIGNAL(clicked(bool)), this, SLOT(showNormals()));
 
 
-    layout = new QVBoxLayout();    
+    layout = new QVBoxLayout();
     repLayout = new QVBoxLayout();
     shadingLayout = new QVBoxLayout();
 
-    
+
     QRadioButton *surface = new QRadioButton(QObject::tr("Surface"));
     QRadioButton *point = new QRadioButton(QObject::tr("Point"));
     QRadioButton *wireframe = new QRadioButton(QObject::tr("Wireframe"));
     QRadioButton *edge = new QRadioButton(QObject::tr("Edge"));
-    
+
     QRadioButton *flat = new QRadioButton(QObject::tr("Flat"));
     QRadioButton *gouraud = new QRadioButton(QObject::tr("Gouraud"));
     QRadioButton *phong = new QRadioButton(QObject::tr("Phong"));
-    
+
     m_groupButtonRepresentation = new QButtonGroup();
     m_groupButtonRepresentation->addButton(surface,0);
     m_groupButtonRepresentation->addButton(point,1);
     m_groupButtonRepresentation->addButton(wireframe,2);
-    m_groupButtonRepresentation->addButton(edge,3);    
-    surface->setChecked(true);        
+    m_groupButtonRepresentation->addButton(edge,3);
+    surface->setChecked(true);
     QObject::connect(m_groupButtonRepresentation, SIGNAL(buttonClicked(int)), this, SLOT(changeRepresentation()));
-    
+
     m_groupButtonShading = new QButtonGroup();
     m_groupButtonShading->addButton(flat,0);
     m_groupButtonShading->addButton(gouraud,1);
     m_groupButtonShading->addButton(phong,2);
-    phong->setChecked(true);        
+    phong->setChecked(true);
     QObject::connect(m_groupButtonShading, SIGNAL(buttonClicked(int)), this, SLOT(changeShading()));
 
     repLayout->addWidget(surface);
     repLayout->addWidget(point);
     repLayout->addWidget(wireframe);
     repLayout->addWidget(edge);
-    
+
     shadingLayout->addWidget(flat);
     shadingLayout->addWidget(gouraud);
     shadingLayout->addWidget(phong);
 
     m_groupRepresentation->setLayout(repLayout);
     m_groupShading->setLayout(shadingLayout);
-    
+
     layout->addWidget(m_groupRepresentation);
     layout->addWidget(m_groupShading);
     layout->addWidget(m_normalsCheckBox);
 
     m_container->setLayout(layout);
-    
+
     //m_container->setEnabled(false);
-     
-    this->updating();   
+
+    this->updating();
 }
 
 //------------------------------------------------------------------------------
@@ -120,21 +120,21 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
 void RepresentationEditor::stopping() throw(::fwTools::Failed)
 {
    SLM_TRACE_FUNC();
- 
+
    QList<QAbstractButton *> buttons = m_groupButtonRepresentation->buttons();
-       
-      for (int i = 0; i < buttons.count(); i++) 
+
+      for (int i = 0; i < buttons.count(); i++)
       {
-		buttons.at(i)->deleteLater();
+        buttons.at(i)->deleteLater();
       }
-    
+
     m_groupRepresentation->deleteLater();
     m_groupShading->deleteLater();
     m_groupButtonRepresentation->deleteLater();
     m_groupButtonShading->deleteLater();
-    
+
     m_normalsCheckBox->deleteLater();
-    
+
     layout->deleteLater();
     repLayout->deleteLater();
     shadingLayout->deleteLater();
@@ -159,11 +159,11 @@ void RepresentationEditor::updating() throw(::fwTools::Failed)
 
     m_material = reconstruction->getMaterial() ;
     m_container->setEnabled(!reconstruction->getOrganName().empty());
-    
+
     this->refreshRepresentation();
     this->refreshNormals();
     this->refreshShading() ;
-    
+
 }
 
 //------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ void RepresentationEditor::info( std::ostream &_sstream )
 void RepresentationEditor::showNormals()
 {
   SLM_TRACE_FUNC();
-  
+
     if ( m_normalsCheckBox->isChecked() )
     {
       SLM_TRACE(" setOptionsMode : MODE_NORMALS ");
@@ -211,11 +211,11 @@ void RepresentationEditor::showNormals()
 void RepresentationEditor::notifyTriangularMesh()
 {
   SLM_TRACE_FUNC();
-  
+
     ::fwData::Reconstruction::sptr reconstruction = this->getObject< ::fwData::Reconstruction>();
 
     ::fwComEd::MaterialMsg::NewSptr msg;
-   SLM_TRACE(" SEND MSG  MATERIAL_IS_MODIFIED "); 
+   SLM_TRACE(" SEND MSG  MATERIAL_IS_MODIFIED ");
     msg->addEvent( ::fwComEd::MaterialMsg::MATERIAL_IS_MODIFIED ) ;
     ::fwServices::IEditionService::notify(this->getSptr(), reconstruction->getTriangularMesh(), msg);
 }
@@ -262,7 +262,7 @@ void RepresentationEditor::changeRepresentation()
     }
 
     m_material->setRepresentationMode( selectedMode );
-    this->notifyMaterial();   
+    this->notifyMaterial();
 }
 
 
@@ -296,7 +296,7 @@ void RepresentationEditor::changeShading()
 
     m_material->setShadingMode( selectedMode );
     this->notifyMaterial();
-    
+
 }
 
 
@@ -374,9 +374,9 @@ void RepresentationEditor::refreshShading()
     }
     default :
         m_groupButtonShading->button(2)->setChecked(true);
-    
+
     }
-    
+
 }
 
 

@@ -76,7 +76,7 @@ void TriangularMeshWriterService::configuring( ) throw(::fwTools::Failed)
 
 void TriangularMeshWriterService::configureWithIHM()
 {
-    
+
      //QString file = QFileDialog::getSaveFileName(0,QObject::tr("Choose an TrianMesh file"), QDir::currentPath(), QObject::tr("TrianMesh (*.trian)"));
 
     QString format = "trian";
@@ -85,7 +85,7 @@ void TriangularMeshWriterService::configureWithIHM()
                                 QObject::tr("%1 Files (*.%2);;All Files (*)")
                                 .arg(format.toUpper())
                                 .arg(format));
-    
+
     // If the user choose an vtk file, the image path is initialized and we tag the service as configured.
     if( file.isEmpty() == false )
     {
@@ -112,7 +112,7 @@ void TriangularMeshWriterService::updating() throw(::fwTools::Failed)
         writer.write();
     }
     */
-    
+
     if( !m_bServiceIsConfigured )
     {
        configureWithIHM();
@@ -128,6 +128,7 @@ void TriangularMeshWriterService::updating() throw(::fwTools::Failed)
         writer.write();
     }
     else
-      	   std::cout<<"\n\n NOT CONFIGURED \n";
+        SLM_INFO( "NOT CONFIGURED." );
+
 }
 }

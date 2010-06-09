@@ -44,9 +44,9 @@ ObjectServiceRegistry::~ObjectServiceRegistry()
 {
     SLM_TRACE_FUNC();
     if(m_instance)
-      m_instance.reset() ;
+        m_instance.reset() ;
     else
-      SLM_TRACE("ObjectServiceRegistry::~ObjectServiceRegistry() ===> m_instnace NULL");
+        SLM_TRACE("ObjectServiceRegistry::~ObjectServiceRegistry() ===> m_instnace NULL");
 }
 void ObjectServiceRegistry::setRootObjectClassName(std::string name)
 {
@@ -81,15 +81,15 @@ bool ObjectServiceRegistry::isRootObjectConfigurationValid()
         assert( getDefault()->m_rootObjectClassName.first ) ;
         assert( getDefault()->m_rootObjectConfigurationName.first ) ;
         std::vector< SPTR(::fwRuntime::Extension) > extensions = ::fwServices::bundle::findExtensionsForPoint( getDefault()->m_rootObjectClassName.second ) ;
-       for( std::vector< SPTR(::fwRuntime::Extension) >::iterator iter = extensions.begin() ; iter != extensions.end() ; ++iter )
-       {
-           if( (*iter)->getIdentifier() == getDefault()->m_rootObjectConfigurationName.second )
-           {
-               return ::fwServices::validation::checkObject( *((*iter)->begin()) ) ;
-           }
-       }
+        for( std::vector< SPTR(::fwRuntime::Extension) >::iterator iter = extensions.begin() ; iter != extensions.end() ; ++iter )
+        {
+            if( (*iter)->getIdentifier() == getDefault()->m_rootObjectConfigurationName.second )
+            {
+                return ::fwServices::validation::checkObject( *((*iter)->begin()) ) ;
+            }
+        }
     }
-   return true ;
+    return true ;
 }
 void ObjectServiceRegistry::initializeRootObject()
 {
@@ -130,28 +130,28 @@ void ObjectServiceRegistry::uninitializeRootObject()
 
     if( getDefault()->m_isRootInitialized )
     {SLM_TRACE(" sexion DANS IF");
-        assert( getDefault()->m_rootObjectClassName.first ) ;
-        assert( getDefault()->m_rootObjectConfigurationName.first ) ;
-	SLM_TRACE(" sexion BEGIN stopAndUnregister");
-        // Stop services reported in m_rootObjectConfiguration before stopping everything
-        ::fwServices::stopAndUnregister(getDefault()->m_rootObjectConfiguration) ;
-	SLM_TRACE(" sexion END stopAndUnregister => BEGIN unregisterServices");
-        // Unregister root object services
-        ::fwServices::OSR::unregisterServices(getDefault()->m_rootObject);
+    assert( getDefault()->m_rootObjectClassName.first ) ;
+    assert( getDefault()->m_rootObjectConfigurationName.first ) ;
+    SLM_TRACE(" sexion BEGIN stopAndUnregister");
+    // Stop services reported in m_rootObjectConfiguration before stopping everything
+    ::fwServices::stopAndUnregister(getDefault()->m_rootObjectConfiguration) ;
+    SLM_TRACE(" sexion END stopAndUnregister => BEGIN unregisterServices");
+    // Unregister root object services
+    ::fwServices::OSR::unregisterServices(getDefault()->m_rootObject);
 
-        SLM_TRACE("uninitializeRootObject : Reset the last shared_ptr on root object.");
-        // Reset the root object: involve complete m_container clearing
-		  
-		  SLM_TRACE("sexion BEFORE Reset");
-        getDefault()->m_rootObject.reset();
-	        SLM_TRACE("sexion AFTER Reset");
+    SLM_TRACE("uninitializeRootObject : Reset the last shared_ptr on root object.");
+    // Reset the root object: involve complete m_container clearing
 
-        //assert( getDefault()->m_rootObject.use_count() == 0 );
-        // Setting initialization to false
-        getDefault()->m_isRootInitialized = false ;
-	SLM_TRACE("sexion THE END (after getDefault)");
+    SLM_TRACE("sexion BEFORE Reset");
+    getDefault()->m_rootObject.reset();
+    SLM_TRACE("sexion AFTER Reset");
+
+    //assert( getDefault()->m_rootObject.use_count() == 0 );
+    // Setting initialization to false
+    getDefault()->m_isRootInitialized = false ;
+    SLM_TRACE("sexion THE END (after getDefault)");
     }
-    
+
     SLM_TRACE("sexion ???");
 }
 
@@ -180,9 +180,9 @@ void ObjectServiceRegistry::registerObject( ::fwTools::Object::sptr obj )
     }
     if( !isAlreadyRegistered )
     {
-         ::fwTools::Object::wptr newRef(obj) ;
-         getDefault()->m_container.insert( std::make_pair( newRef , SContainer() ) );
-         getDefault()-> updateObjectDeleter(obj);
+        ::fwTools::Object::wptr newRef(obj) ;
+        getDefault()->m_container.insert( std::make_pair( newRef , SContainer() ) );
+        getDefault()-> updateObjectDeleter(obj);
     }
 }
 
@@ -208,7 +208,7 @@ void  ObjectServiceRegistry::registerService( ::fwTools::Object::sptr object , :
 {
     SLM_TRACE_FUNC();
     OSLM_TRACE(" SERVICE : "<<*service);
-    
+
     ::fwTools::Object::wptr refKey ;
     for ( OSContainer::iterator iter = getDefault()->m_container.begin(); iter!= getDefault()->m_container.end() ; ++iter )
     {
@@ -246,57 +246,57 @@ void  ObjectServiceRegistry::registerService( ::fwTools::Object::sptr object , :
 
 void ObjectServiceRegistry::swapService(  ::fwTools::Object::sptr  _objSrc, ::fwTools::Object::sptr  _objDst, ::fwServices::IService::sptr _service )
 {
-   SLM_TRACE_FUNC();
+    SLM_TRACE_FUNC();
 
-        std::vector< ::fwTools::Object::wptr >   lobjects;
-        for ( OSContainer::iterator iter = getDefault()->m_container.begin(); iter != getDefault()->m_container.end() ; ++iter )
+    std::vector< ::fwTools::Object::wptr >   lobjects;
+    for ( OSContainer::iterator iter = getDefault()->m_container.begin(); iter != getDefault()->m_container.end() ; ++iter )
+    {
+        // Usually, unregisterServices is invoked at obj destruction (from its destructor) : its weak_ptr has therefore expired
+        // For this reason, for that method only, one unregister all fwServices because expired weak_ptr can (but not sure) correspond to the considered obj
+        if( iter->first.expired() )
         {
-            // Usually, unregisterServices is invoked at obj destruction (from its destructor) : its weak_ptr has therefore expired
-            // For this reason, for that method only, one unregister all fwServices because expired weak_ptr can (but not sure) correspond to the considered obj
-            if( iter->first.expired() )
+            SLM_WARN( "Expired object discovered : swap on expired object !" ) ;
+        }
+        // Normal case : obj is not expired
+        else if( iter->first.lock() == _objSrc )
+        {
+            SContainer::iterator lIter = iter->second.begin() ;
+            bool bFind = false;
+            while(  !bFind  && lIter != iter->second.end() )
             {
-                SLM_WARN( "Expired object discovered : swap on expired object !" ) ;
-            }
-            // Normal case : obj is not expired
-            else if( iter->first.lock() == _objSrc )
-            {
-                SContainer::iterator lIter = iter->second.begin() ;
-                bool bFind = false;
-                while(  !bFind  && lIter != iter->second.end() )
+                if ( (*lIter) == _service )
                 {
-                    if ( (*lIter) == _service )
-                    {
-                        iter->second.erase(lIter);
-                        bFind = true;
-                    }
-                    else
-                    {
-                        ++lIter;
-                    }
+                    iter->second.erase(lIter);
+                    bFind = true;
+                }
+                else
+                {
+                    ++lIter;
                 }
             }
         }
-        getDefault()->registerService(_objDst, _service);
+    }
+    getDefault()->registerService(_objDst, _service);
 }
 
 void ObjectServiceRegistry::unregisterServices(  ::fwTools::Object::sptr  obj )
 {
-  SLM_TRACE_FUNC();
-  
-        OSContainer len = getDefault()->m_container;
-	std::vector< ::fwTools::Object::wptr >   lobjects;
+    SLM_TRACE_FUNC();
+
+    OSContainer len = getDefault()->m_container;
+    std::vector< ::fwTools::Object::wptr >   lobjects;
 
     if(!len.empty())
     {
-	SLM_TRACE(" m_container still exist");
-	   OSLM_TRACE(" Count = "<<len.size());
-       // OSContainer::iterator test = getDefault()->m_container.begin();
+        SLM_TRACE(" m_container still exist");
+        OSLM_TRACE(" Count = "<<len.size());
+        // OSContainer::iterator test = getDefault()->m_container.begin();
 
-	
+
         for ( OSContainer::iterator iter = getDefault()->m_container.begin(); iter != getDefault()->m_container.end() ; ++iter )
         {
 
-	  SLM_TRACE(" 		DANS LE FOR ");
+            SLM_TRACE("         DANS LE FOR ");
             // TODO Normally always true (shared_ptr definition)
             SLM_ASSERT("ACH : shared_ptr def ?", ! iter->first.expired() || iter->first.use_count() == 0  );
             SLM_ASSERT("ACH : wptr in the map not initialized ?", iter->first.expired() || iter->first.use_count() != 0 );
@@ -304,25 +304,25 @@ void ObjectServiceRegistry::unregisterServices(  ::fwTools::Object::sptr  obj )
             // Usually, unregisterServices is invoked at obj destruction (from its destructor) : its weak_ptr has therefore expired
             // For this reason, for that method only, one unregister all fwServices because expired weak_ptr can (but not sure) correspond to the considered obj
             if( iter->first.expired() )
-            {	  SLM_TRACE(" 		OBJECt is EXPIRED ");
+            {      SLM_TRACE("         OBJECt is EXPIRED ");
 
-                ::fwTools::Object::wptr tmp1 = iter->first;
+            ::fwTools::Object::wptr tmp1 = iter->first;
 
-                SLM_WARN( "Expired object discovered : stopping and unregistering all associated fwServices" ) ;
-                lobjects.push_back( iter->first ) ;
-                // Clean service vector clearing
-                OSContainer::iterator _pos = iter ;
-                size_t tmpsize = _pos->second.size() ;
-                for( SContainer::iterator lIter = _pos->second.begin() ; lIter != _pos->second.end() ; ++lIter )
+            SLM_WARN( "Expired object discovered : stopping and unregistering all associated fwServices" ) ;
+            lobjects.push_back( iter->first ) ;
+            // Clean service vector clearing
+            OSContainer::iterator _pos = iter ;
+            size_t tmpsize = _pos->second.size() ;
+            for( SContainer::iterator lIter = _pos->second.begin() ; lIter != _pos->second.end() ; ++lIter )
+            {
+                assert( (*lIter).use_count() != 0 );
+                if (*lIter != NULL )
                 {
-                    assert( (*lIter).use_count() != 0 );
-                    if (*lIter != NULL )
-                    {
-                        ( *lIter)->stop();
-                        ::fwServices::unregisterComChannels( (*lIter) ) ;
-                    }
+                    ( *lIter)->stop();
+                    ::fwServices::unregisterComChannels( (*lIter) ) ;
                 }
-                _pos->second.clear() ;
+            }
+            _pos->second.clear() ;
             }
             // Normal case : obj is not expired
             else if( iter->first.lock() == obj )
@@ -344,22 +344,22 @@ void ObjectServiceRegistry::unregisterServices(  ::fwTools::Object::sptr  obj )
     }
     else
     {
-      SLM_TRACE(" m_container DESTROYED");
+        SLM_TRACE(" m_container DESTROYED");
     }
     //End TEST
 
     if(!lobjects.empty())
     {      SLM_TRACE(" lobjects VECTOR NPT EMPTY");
 
-        // Erase all associated object with the refKey
-        for ( std::vector< ::fwTools::Object::wptr >::iterator iter = lobjects.begin(); iter != lobjects.end() ; ++iter )
-        {	SLM_TRACE("  FOR number 2");
+    // Erase all associated object with the refKey
+    for ( std::vector< ::fwTools::Object::wptr >::iterator iter = lobjects.begin(); iter != lobjects.end() ; ++iter )
+    {    SLM_TRACE("  FOR number 2");
 
-            getDefault()->m_container.erase( *iter ) ;
-        }
+    getDefault()->m_container.erase( *iter ) ;
+    }
     }
     else
-      SLM_TRACE(" lobjects EMPTY");
+        SLM_TRACE(" lobjects EMPTY");
 }
 
 void ObjectServiceRegistry::unregisterService( ::fwServices::IService::sptr _service )
@@ -380,15 +380,15 @@ void ObjectServiceRegistry::removeFromContainer( ::fwServices::IService::sptr _s
         for( SContainer::iterator lIter = pos->second.begin() ; lIter != pos->second.end() ; ++lIter )
         {
             OSLM_TRACE( "OBJ=" <<::fwTools::UUID::get(_service->getObject()) <<
-                        " SContainer::iterator lIter" << ::fwTools::UUID::get( ( *lIter) )
-                      );
+                    " SContainer::iterator lIter" << ::fwTools::UUID::get( ( *lIter) )
+            );
             if( ( *lIter) == _service )
             {
                 SLM_ASSERT( "service registered twice for the same object :"
-                            << " OBJ=" <<::fwTools::UUID::get(_service->getObject())
-                            << " SRV=" << ::fwTools::UUID::get( ( *lIter) ),
-                            positionToDelete == pos->second.end()
-                          );
+                        << " OBJ=" <<::fwTools::UUID::get(_service->getObject())
+                << " SRV=" << ::fwTools::UUID::get( ( *lIter) ),
+                positionToDelete == pos->second.end()
+                );
                 positionToDelete = lIter ;
             }
         }
@@ -438,14 +438,14 @@ bool ObjectServiceRegistry::hasObject(::fwServices::IService * _service)
 {
     for ( OSContainer::iterator pos = getDefault()->m_container.begin(); pos!= getDefault()->m_container.end() ; ++pos )
     {
-            assert( !pos->first.expired() ) ;
-            for( SContainer::iterator lIter = pos->second.begin() ; lIter != pos->second.end() ; ++lIter )
+        assert( !pos->first.expired() ) ;
+        for( SContainer::iterator lIter = pos->second.begin() ; lIter != pos->second.end() ; ++lIter )
+        {
+            if ((*lIter).get() == _service )
             {
-                if ((*lIter).get() == _service )
-                {
-                    return (*lIter) ;
-                }
+                return (*lIter) ;
             }
+        }
     }
     std::stringstream msg;
     msg << "Requested ObjectServiceRegistry::shared_from( fwServices::IService *_service [(" << _service << "]) for object not registred in  ObjectServiceRegistry";
@@ -461,11 +461,11 @@ std::vector< ::fwTools::Object::sptr > ObjectServiceRegistry::getObjects()
     std::vector< ::fwTools::Object::sptr > allObjects ;
     for ( OSContainer::iterator pos = getDefault()->m_container.begin(); pos!= getDefault()->m_container.end() ; ++pos )
     {
-            assert( !pos->first.expired() ) ;
-            if( std::find( allObjects.begin() , allObjects.end() , pos->first.lock() ) == allObjects.end() )
-            {
-                allObjects.push_back( pos->first.lock( ) ) ;
-            }
+        assert( !pos->first.expired() ) ;
+        if( std::find( allObjects.begin() , allObjects.end() , pos->first.lock() ) == allObjects.end() )
+        {
+            allObjects.push_back( pos->first.lock( ) ) ;
+        }
     }
 
 

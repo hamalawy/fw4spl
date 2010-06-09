@@ -342,8 +342,8 @@ void ImageMultiDistances::doUpdate() throw(fwTools::Failed)
       SLM_TRACE_FUNC();
       SLM_TRACE("ImageMultiDistances::doUpdate()  call this->unregisterServices();");
         this->unregisterServices();
-      SLM_TRACE("ImageMultiDistances::doUpdate()  returned from this->unregisterServices(); ");  
-     
+      SLM_TRACE("ImageMultiDistances::doUpdate()  returned from this->unregisterServices(); ");
+
     }
 
     if( isShown && hasDistanceField )
@@ -384,7 +384,7 @@ void ImageMultiDistances::removeDistance(  ::fwData::PointList::sptr plToRemove 
     SLM_TRACE_FUNC();
     SLM_TRACE("ImageMultiDistances::removeDistance()  call this->unregisterServices();");
     this->unregisterServices();
-    SLM_TRACE("ImageMultiDistances::doStop()  returned from this->unregisterServices(); ");  
+    SLM_TRACE("ImageMultiDistances::doStop()  returned from this->unregisterServices(); ");
 
     image->removeFieldElement( ::fwComEd::Dictionary::m_imageDistancesId , plToRemove);
     doUpdate();
@@ -433,15 +433,15 @@ void ImageMultiDistances::doUpdate( ::fwServices::ObjectMsg::csptr msg ) throw(:
 
     if ( imgMsg && imgMsg->hasEvent( ::fwComEd::ImageMsg::NEW_DISTANCE ) )
     {
-		::fwData::String::csptr dataInfo = ::fwData::String::dynamicConstCast(imgMsg->getDataInfo(::fwComEd::ImageMsg::NEW_DISTANCE));
-		OSLM_FATAL_IF(" ImageMultiDistances::doUpdate with RenderService "<<  sceneId << "missing sceneId dataInfo !!!", !dataInfo);
-		if ( dataInfo->value() == sceneId )
-		{
-			this->createNewDistance( sceneId );
-		    ::fwComEd::ImageMsg::NewSptr msg;
-		    msg->addEvent( ::fwComEd::ImageMsg::DISTANCE );
-		    ::fwServices::IEditionService::notify( this->getSptr(), image, msg );
-		}
+        ::fwData::String::csptr dataInfo = ::fwData::String::dynamicConstCast(imgMsg->getDataInfo(::fwComEd::ImageMsg::NEW_DISTANCE));
+        OSLM_FATAL_IF(" ImageMultiDistances::doUpdate with RenderService "<<  sceneId << "missing sceneId dataInfo !!!", !dataInfo);
+        if ( dataInfo->value() == sceneId )
+        {
+            this->createNewDistance( sceneId );
+            ::fwComEd::ImageMsg::NewSptr msg;
+            msg->addEvent( ::fwComEd::ImageMsg::DISTANCE );
+            ::fwServices::IEditionService::notify( this->getSptr(), image, msg );
+        }
     }
 
     if ( imgMsg && imgMsg->hasEvent( ::fwComEd::ImageMsg::DISTANCE ) )
@@ -450,7 +450,7 @@ void ImageMultiDistances::doUpdate( ::fwServices::ObjectMsg::csptr msg ) throw(:
         // update only if the distance is added in this scene
         // or if the service is not filtered
         if ( !dataInfo || dataInfo->value() == ::fwTools::UUID::get( getRenderService() )
-			|| m_configuration->getAttributeValue("filter") == "false")
+            || m_configuration->getAttributeValue("filter") == "false")
         {
             doUpdate();
         }
@@ -485,7 +485,7 @@ void ImageMultiDistances::doStop() throw(fwTools::Failed)
   SLM_TRACE_FUNC();
   SLM_TRACE("ImageMultiDistances::doStop()  call this->unregisterServices();");
     this->unregisterServices();
-  SLM_TRACE("ImageMultiDistances::doStop()  returned from this->unregisterServices(); ");  
+  SLM_TRACE("ImageMultiDistances::doStop()  returned from this->unregisterServices(); ");
 
 }
 

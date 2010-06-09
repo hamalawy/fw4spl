@@ -52,18 +52,18 @@ void FullScreenActionService::updating() throw(::fwTools::Failed)
 
     //this->::guiQt::action::IAction::updating();
 
-     QWidget *mainWidget = qApp->activeWindow();
+    QWidget *mainWidget = qApp->activeWindow();
 
-     m_isFullScreen = !m_isFullScreen;
+    m_isFullScreen = !m_isFullScreen;
 
-     if(m_isFullScreen)
-     {
-	mainWidget->setWindowState(Qt::WindowFullScreen);
-     }
-     else
-     {
+    if(m_isFullScreen)
+    {
+        mainWidget->setWindowState(Qt::WindowFullScreen);
+    }
+    else
+    {
         mainWidget->setWindowState(Qt::WindowNoState);
-     }
+    }
 }
 
 //-----------------------------------------------------------------------------

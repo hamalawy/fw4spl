@@ -26,8 +26,8 @@
 #include <QApplication>
 #include <QWidget>
 #include <QFrame>
-  
-  
+
+
 #include <iostream>
 
 namespace ioQt
@@ -59,8 +59,6 @@ ImageReaderService::~ImageReaderService() throw()
 
 void ImageReaderService::configuring() throw ( ::fwTools::Failed )
 {
-     std::cout<<" configuring() \n";
-
     SLM_TRACE_FUNC();
     // Test if in the service configuration the tag filename is defined. If it is defined, the image path is initialized and we tag the service as configured.
     if( m_configuration->findConfigurationElement("filename") )
@@ -77,35 +75,34 @@ void ImageReaderService::configuring() throw ( ::fwTools::Failed )
 void ImageReaderService::configureWithIHM()
 {
     SLM_TRACE_FUNC();
-   std::cout<<" configuringWITHIHM() \n";
 
   QWidget *mainWidget = qApp->activeWindow();
-    
+
   QString fileName = QFileDialog::getOpenFileName(mainWidget,QObject::tr("Open File"), QDir::currentPath());
-  std::cout<<"PATH_FILE : "<<fileName.toStdString()<<"\n";
-  
-  if (!fileName.isEmpty()) 
+  OSLM_TRACE("PATH_FILE : "<<fileName.toStdString()<<"\n");
+
+  if (!fileName.isEmpty())
   {
     m_bServiceIsConfigured = true;
 
     QImage image(fileName);
-    if (image.isNull()) 
+    if (image.isNull())
     {
-       std::cout<<" Image opening FAILED \n";
+       SLM_TRACE(" Image opening FAILED \n");
      // QMessageBox::information(this, tr("Image Viewer"),tr("Cannot load %1.").arg(fileName));
     }
     else
     {
-      std::cout<<" Image opened \n";
+      SLM_TRACE(" Image opened \n");
     }
 
 /*    QWidget *mainWidget = qApp->activeWindow();
     QFrame *frame = new QFrame(mainWidget);
     imageLabel = new QLabel(frame);
     imageLabel->setPixmap(QPixmap::fromImage(image));
-    
+
     std::cout<<"Picture loaded \n";
-    
+
      QPainter *painter = new QPainter(frame);
      painter->drawPixmap(0, 0, *imageLabel->pixmap());
 frame->show();*/
@@ -156,7 +153,7 @@ bool ImageReaderService::loadImage( , ::fwData::Image::sptr _pImg )
 
     bool ok = true;
 
-   
+
 
     return ok;
 }
@@ -173,7 +170,7 @@ void ImageReaderService::updating( ::boost::shared_ptr< const ::fwServices::Obje
 
 void ImageReaderService::notificationOfDBUpdate()
 {
-   
+
 }
 
 //------------------------------------------------------------------------------
