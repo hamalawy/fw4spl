@@ -47,18 +47,18 @@ public :
      * @post ImageReaderService::m_bServiceIsConfigured is equal to false : service not configured
      * @post ImageReaderService::m_fsImgPath is empty : path to read not defined
      */
-	IOQT_API ImageReaderService() throw();
+    IOQT_API ImageReaderService() throw();
 
     /// Destructor, do nothing.
-	IOQT_API virtual ~ImageReaderService() throw();
+    IOQT_API virtual ~ImageReaderService() throw();
 
 
     /**
-     * @brief Configure the image path with an wxWidget dialogBox.
+     * @brief Configure the image path with an dialogBox.
      *
      * This method is used to find the file path using a file selector.
      */
-	IOQT_API virtual void configureWithIHM();
+    IOQT_API virtual void configureWithIHM();
 
     QLabel *imageLabel;
 

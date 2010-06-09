@@ -35,7 +35,7 @@ namespace editor
 
 class  GUIQT_CLASS_API IEditor : public  QObject, public ::fwQt::IGuiContainer
 {
- 
+
 public :
     fwCoreServiceClassDefinitionsMacro ( (IEditor)(::fwServices::IService::Baseclass) ) ;
 
@@ -62,7 +62,7 @@ protected :
      * @brief This method retrieves or builds the container.
      *
      * If the container Id does not exist, the container is created (m_isContainerLocallyCreated = true).
-     * Else, the method retrieves and sets the container thanks to wxWidgets API (FindWindowById).
+     * Else, the method retrieves and sets the container .
      */
     GUIQT_API virtual void starting() throw(::fwTools::Failed);
 

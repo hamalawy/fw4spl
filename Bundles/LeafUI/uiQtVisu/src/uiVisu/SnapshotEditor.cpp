@@ -45,7 +45,7 @@ REGISTER_SERVICE( ::guiQt::editor::IEditor , ::uiVisu::SnapshotEditor , ::fwTool
 
 SnapshotEditor::SnapshotEditor() throw()
 {
-  
+
      m_screenshotLabel = new QLabel;
      m_screenshotLabel->setSizePolicy(QSizePolicy::Expanding,
                                     QSizePolicy::Expanding);
@@ -65,12 +65,12 @@ void SnapshotEditor::starting() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
-    
+
 //    QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
     QWidget *widget = new QWidget(m_container);
-    
+
     QHBoxLayout *layout = new  QHBoxLayout();
-    
+
     m_icon = QIcon();
 
     QString str = QObject::tr("Bundles/uiQtVisu_") + QObject::tr(UIQTVISU_VER) + QObject::tr("/camera-photo.png");
@@ -80,15 +80,15 @@ void SnapshotEditor::starting() throw(::fwTools::Failed)
     m_snapButton = new QPushButton(widget);
     m_snapButton->setFixedWidth(35);
     m_snapButton->setFixedHeight(30);
-    
+
     m_icon.addPixmap(QPixmap::fromImage(m_imageSnap), QIcon::Normal);
     m_snapButton->setIcon(m_icon);
     m_snapButton->setIconSize(QSize(m_snapButton->width(), m_snapButton->height()));
-    
-    QObject::connect(m_snapButton, SIGNAL(clicked()), this, SLOT(snapShoot())); 
-    
+
+    QObject::connect(m_snapButton, SIGNAL(clicked()), this, SLOT(snapShoot()));
+
     m_snapButton->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
-    
+
     layout->addWidget( widget);
     layout->setContentsMargins(0,0,0,0);
 
@@ -158,9 +158,9 @@ void SnapshotEditor::info( std::ostream &_sstream )
 void SnapshotEditor::snapShoot()
 {
     SLM_TRACE_FUNC();
-    
+
     QWidget *mainWidget = qApp->activeWindow();
-   
+
         for(unsigned int i=0; i < m_scenesUID.size(); i++)
         {
             ::fwServices::IService::sptr service = ::fwServices::get(m_scenesUID.at(i));
@@ -172,25 +172,25 @@ void SnapshotEditor::snapShoot()
             ::fwData::String::NewSptr sceneID;
             sceneID->value() = m_scenesUID.at(i);
             ::fwData::String::NewSptr filename;
-	    
-	    m_pixmap = QPixmap();
-	   // m_pixmap = QPixmap::grabWindow(QApplication::desktop()->winId());
-	    m_pixmap = QPixmap::grabWindow(mainWidget->winId());
-		
-	    m_screenshotLabel->setPixmap(m_pixmap.scaled(m_screenshotLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));	
-		
-	    QString format = "png";
-	    QString initialPath = QDir::currentPath() + QObject::tr("/untitled.") + format;
 
-	    QString fileName = QFileDialog::getSaveFileName(0, tr("Save As"), initialPath,
+        m_pixmap = QPixmap();
+       // m_pixmap = QPixmap::grabWindow(QApplication::desktop()->winId());
+        m_pixmap = QPixmap::grabWindow(mainWidget->winId());
+
+        m_screenshotLabel->setPixmap(m_pixmap.scaled(m_screenshotLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+        QString format = "png";
+        QString initialPath = QDir::currentPath() + QObject::tr("/untitled.") + format;
+
+        QString fileName = QFileDialog::getSaveFileName(0, tr("Save As"), initialPath,
                                 tr("%1 Files (*.%2);;All Files (*)")
                                 .arg(format.toUpper())
                                 .arg(format));
-	    if (!fileName.isEmpty())
-	      m_pixmap.save(fileName, format.toAscii());
-	    
+        if (!fileName.isEmpty())
+          m_pixmap.save(fileName, format.toAscii());
 
-	    filename->value() = fileName.toStdString();
+
+        filename->value() = fileName.toStdString();
             if(!filename->value().empty())
             {
                 dataInfo->setFieldSingleElement("sceneID", sceneID);
@@ -201,8 +201,8 @@ void SnapshotEditor::snapShoot()
 
             }
         }
-    
-   
+
+
 }
 
 

@@ -54,32 +54,32 @@ public :
      GUIQT_API void setMenuName(std::string _menuName) ;
 
     /**
-     * @brief This method is used to get the id of a wxMenuItem that represents this action.
+     * @brief This method is used to get the id of a MenuItem that represents this action.
      *
-     * @return WxMenuItem id.
+     * @return MenuItem id.
      */
      GUIQT_API int getId() ;
 
     /**
-     * @brief This method is used to get the name of a wxMenuItem.
+     * @brief This method is used to get the name of a MenuItem.
      *
-     * @return WxMenuItem name.
+     * @return MenuItem name.
      */
      GUIQT_API std::string getNameInMenu() ;
 
      GUIQT_API QAction* getMenuItem();
 
     /**
-     * @brief This method is used to get the name of a wxMenu.
+     * @brief This method is used to get the name of a Menu.
      *
-     * @return WxMenu name.
+     * @return Menu name.
      */
      GUIQT_API std::string getMenuName() ;
 
     /**
-     * @brief This method is used to get the wxMenuItem.
+     * @brief This method is used to get the MenuItem.
      *
-     * @return WxMenuItem corresponding to this action.
+     * @return MenuItem corresponding to this action.
      */
      GUIQT_API QAction* getMenuAction() ;
 
@@ -91,16 +91,16 @@ public :
      GUIQT_API bool isEnable();
 
     /**
-     * @brief   Activate or not this action. unable action, unable the wxMenuItem also.
+     * @brief   Activate or not this action. unable action, unable the MenuItem also.
      *
      * @param[in] _enable true if the action is activated.
      */
      GUIQT_API void setEnable(bool _enable);
 
     /**
-     * @brief   Check or uncheck the wxMenuItem when it is possible.
+     * @brief   Check or uncheck the MenuItem when it is possible.
      *
-     * @param[in] _check true in order to check wxMenuItem.
+     * @param[in] _check true in order to check MenuItem.
      */
      // void setCheck(bool _check);
 
@@ -121,7 +121,7 @@ protected :
      GUIQT_API virtual void configuring() throw( ::fwTools::Failed ) ;
 
     /*
-     * @brief Add a new item in wxMenuBar, and register this action in ::gui::Manager.
+     * @brief Add a new item in MenuBar, and register this action in ::gui::Manager.
      */
      GUIQT_API virtual void starting() throw(::fwTools::Failed);
 

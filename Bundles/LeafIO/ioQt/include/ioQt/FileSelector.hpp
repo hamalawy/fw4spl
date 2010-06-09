@@ -40,10 +40,10 @@ public :
      * @post ImageReaderService::m_bServiceIsConfigured is equal to false : service not configured
      * @post ImageReaderService::m_fsImgPath is empty : path to read not defined
      */
-	IOQT_API FileSelector() throw();
+    IOQT_API FileSelector() throw();
 
     /// Destructor, do nothing.
-	IOQT_API virtual ~FileSelector() throw();
+    IOQT_API virtual ~FileSelector() throw();
 
 protected:
 
@@ -58,13 +58,13 @@ protected:
      </service>
      @endverbatim
      */
-	IOQT_API virtual void configuring() throw ( ::fwTools::Failed );
+    IOQT_API virtual void configuring() throw ( ::fwTools::Failed );
 
     /// Method called when the service is started, does nothing.
-	IOQT_API virtual void starting() throw ( ::fwTools::Failed );
+    IOQT_API virtual void starting() throw ( ::fwTools::Failed );
 
     /// Method called when the service is stopped, does nothing.
-	IOQT_API virtual void stopping() throw ( ::fwTools::Failed );
+    IOQT_API virtual void stopping() throw ( ::fwTools::Failed );
 
     /**
      * @brief Updating method execute the read process.
@@ -72,7 +72,7 @@ protected:
      * This method is used to update the service.
      * The image is read.
      */
-	IOQT_API void updating() throw(::fwTools::Failed);
+    IOQT_API void updating() throw(::fwTools::Failed);
 
     /**
      * @brief React on modifications : here, this method does nothing.
@@ -81,7 +81,7 @@ protected:
      */
 
     /// Info method gives some informations on service.
-	IOQT_API void info(std::ostream &_sstream ) ;
+    IOQT_API void info(std::ostream &_sstream ) ;
 
 private :
 

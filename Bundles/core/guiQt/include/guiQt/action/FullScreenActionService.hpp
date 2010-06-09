@@ -33,30 +33,30 @@ public:
     *
     * By default, the m_isFullScreen is defined as false.
     */
-	GUIQT_API FullScreenActionService() throw();
+    GUIQT_API FullScreenActionService() throw();
 
     /*
      * @brief Destructor. Do nothing.
      */
-	GUIQT_API virtual ~FullScreenActionService() throw();
+    GUIQT_API virtual ~FullScreenActionService() throw();
 
 protected:
 
     /**
      * @brief This method is used to configure the class parameters. Do nothing.
      */
-	GUIQT_API void configuring() throw( ::fwTools::Failed ) ;
+    GUIQT_API void configuring() throw( ::fwTools::Failed ) ;
 
     /**
      * @brief This method is used to update services on notification.
      * Show the current window in full screen mode or restored to its normal state.
      */
-	GUIQT_API void updating() throw(::fwTools::Failed) ;
+    GUIQT_API void updating() throw(::fwTools::Failed) ;
 
     /*
      * @brief This method gives information about the class.
      */
-	GUIQT_API void info(std::ostream &_sstream ) ;
+    GUIQT_API void info(std::ostream &_sstream ) ;
 
 private:
 

@@ -47,7 +47,7 @@ public:
     }
     void Execute(vtkObject* _caller, unsigned long _event, void* _obj)
     {
-      
+
         OSLM_INFO("ail like to LEFT : _event " << _event );
 
         if (_event == vtkCommand::StartInteractionEvent )
@@ -57,7 +57,7 @@ public:
             this->m_isMousePressed = true;
         }
         else if (_event == vtkCommand::EndInteractionEvent )
-        { 
+        {
             //SLM_INFO(" ________________END___________________________");
             this->m_isMousePressed = false;
         }
@@ -95,7 +95,7 @@ void RendererService::starting() throw(fwTools::Failed)
 
     QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
     m_widget = new QVTKWidget(mainWidget);
-    
+
     QVBoxLayout *layout = new QVBoxLayout();
 
     m_widget->resize(mainWidget->width(), mainWidget->height());
@@ -104,12 +104,12 @@ void RendererService::starting() throw(fwTools::Failed)
     layout->addWidget(m_widget);
 
     mainWidget->setLayout(layout);
-    
+
     m_render = vtkRenderer::New();
  //   renderWindow = vtkRenderWindow::New();
     m_renderWindow = m_widget->GetRenderWindow();
     m_renderWindow->AddRenderer(m_render);
-    
+
 //    widget->SetRenderWindow(renderWindow);
     m_interactor = m_renderWindow->GetInteractor();
     //m_interactor->SetRenderWindow(renderWindow);
@@ -131,7 +131,7 @@ void RendererService::configuring() throw(::fwTools::Failed)
 void RendererService::stopping() throw(fwTools::Failed)
 {
     if( m_render == 0 ) return;
-    
+
     assert( m_render );
     m_render->Delete();
     m_render = 0;
@@ -149,14 +149,14 @@ void RendererService::stopping() throw(fwTools::Failed)
       m_container->deleteLater();
       m_container=0;
     }
-   
-    this->stopRender(); 
+
+    this->stopRender();
 }
 
 //-----------------------------------------------------------------------------
 
 void RendererService::updating() throw(fwTools::Failed)
-{ 
+{
     m_renderWindow->Render();
 }
 
@@ -164,11 +164,11 @@ void RendererService::updating() throw(fwTools::Failed)
 
 void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTools::Failed)
 {
-  
+
     ::fwComEd::TriangularMeshMsg::csptr TriangularMeshMsg = ::fwComEd::TriangularMeshMsg::dynamicConstCast(_msg);
-    
+
     if ( TriangularMeshMsg && TriangularMeshMsg->hasEvent( ::fwComEd::TriangularMeshMsg::NEW_MESH ) )
-    { 
+    {
         if(!m_bPipelineIsInit)
         {
             initVTKPipeline();
@@ -180,9 +180,9 @@ void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTo
         }
     }
     else
-    {  
+    {
         if ( !m_isCamMaster )
-        {	       
+        {
 
             ::fwComEd::CameraMsg::csptr camMsg = ::fwComEd::CameraMsg::dynamicConstCast(_msg);
             if( camMsg && camMsg->hasEvent( ::fwComEd::CameraMsg::CAMERA_MOVING ) )

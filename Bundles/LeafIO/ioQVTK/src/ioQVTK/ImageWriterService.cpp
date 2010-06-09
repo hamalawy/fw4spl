@@ -54,16 +54,16 @@ void ImageWriterService::configuring() throw(::fwTools::Failed)
 void ImageWriterService::configureWithIHM()
 {
   //  QString file = QFileDialog::getSaveFileName(0,QObject::tr("Choose an vtk file to save image"), QDir::currentPath(), QObject::tr("Images (*.vtk *.VTK )"));
-    
+
     QString format = "vtk";
     QString initialPath = QDir::currentPath() + QObject::tr("/untitled.") + format;
     QString file = QFileDialog::getSaveFileName(0, QObject::tr("Choose an vtk file to save image"), initialPath,
                                 QObject::tr("%1 Files (*.%2);;All Files (*)")
                                 .arg(format.toUpper())
                                 .arg(format));
-    
-    
-	    
+
+
+
     if( file.isEmpty() == false)
     {
         m_fsImgPath = ::boost::filesystem::path(  file.toStdString(), ::boost::filesystem::native );
@@ -105,7 +105,7 @@ bool ImageWriterService::saveImage( const ::boost::filesystem::path vtkFile, ::b
     bool bValue = true;
     myWriter.write();
 
- 
+
     return bValue;
 }
 

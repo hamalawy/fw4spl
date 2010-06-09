@@ -55,32 +55,32 @@ public :
      void setMenuName(std::string _menuName) ;
 
     /**
-     * @brief This method is used to get the id of a wxMenuItem that represents this action.
+     * @brief This method is used to get the id of a MenuItem that represents this action.
      *
-     * @return WxMenuItem id.
+     * @return MenuItem id.
      */
      int getId() ;
 
     /**
-     * @brief This method is used to get the name of a wxMenuItem.
+     * @brief This method is used to get the name of a MenuItem.
      *
-     * @return WxMenuItem name.
+     * @return MenuItem name.
      */
      std::string getNameInMenu() ;
 
      QAction* getMenuItem();
 
     /**
-     * @brief This method is used to get the name of a wxMenu.
+     * @brief This method is used to get the name of a Menu.
      *
-     * @return WxMenu name.
+     * @return Menu name.
      */
      std::string getMenuName() ;
 
     /**
-     * @brief This method is used to get the wxMenuItem.
+     * @brief This method is used to get the MenuItem.
      *
-     * @return WxMenuItem corresponding to this action.
+     * @return MenuItem corresponding to this action.
      */
      QAction* getMenuAction() ;
 
@@ -115,16 +115,16 @@ public :
      bool isEnable();
 
     /**
-     * @brief   Activate or not this action. unable action, unable the wxMenuItem also.
+     * @brief   Activate or not this action. unable action, unable the MenuItem also.
      *
      * @param[in] _enable true if the action is activated.
      */
      void setEnable(bool _enable);
 
     /**
-     * @brief   Check or uncheck the wxMenuItem when it is possible.
+     * @brief   Check or uncheck the MenuItem when it is possible.
      *
-     * @param[in] _check true in order to check wxMenuItem.
+     * @param[in] _check true in order to check MenuItem.
      */
      // void setCheck(bool _check);
 
@@ -135,7 +135,7 @@ public :
       virtual void configuring(::fwRuntime::ConfigurationElement::sptr configuration) throw( ::fwTools::Failed ) ;
 
      /*
-      * @brief Add a new item in wxMenuBar, and register this action in ::gui::Manager.
+      * @brief Add a new item in MenuBar, and register this action in ::gui::Manager.
       */
       virtual void starting() throw(::fwTools::Failed);
 
@@ -196,13 +196,13 @@ protected :
     /// a shared pointer to the shortcut or null when none.
  //   ::gui::action::Shortcut::sptr   m_shortcut;
 
-    /// Id of the wxMenuItem.
+    /// Id of the MenuItem.
     int m_actionIdInMenu ;
 
-    /// Name of the wxMenuItem.
+    /// Name of the MenuItem.
     std::string m_actionNameInMenu ;
 
-    /// Name of the wxMenu.
+    /// Name of the Menu.
     std::string m_menuName ;
 
     // Action

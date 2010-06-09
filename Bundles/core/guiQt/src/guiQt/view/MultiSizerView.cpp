@@ -138,9 +138,9 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
     this->initGuiParentContainer(); // a chanegr en gui:: ...
-    
+
     //QWidget *mainWidget =  m_globalUIDToQtContainer[this->getUUID()];  //this->getQtContainer();  mainWidget = m_container
-    
+
     m_manager =  qobject_cast<QMainWindow *>(m_container);
 
     QWidget* centerView = new QWidget();
@@ -149,32 +149,32 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
 
     if(m_bOrient)
     {
-      layout = new  QVBoxLayout();
+        layout = new  QVBoxLayout();
     }
     else
     {
-      layout = new  QHBoxLayout();
+        layout = new  QHBoxLayout();
     }
     layout->setContentsMargins(0,0,0,0);
     layout->setSpacing(0);
 
-    
+
     std::list<ViewInfo>::iterator pi = m_views.begin();
     for ( pi; pi!= m_views.end() ; ++pi )
     {
 
         pi->m_panel = new QWidget(centerView);
-	
-	if( pi->m_proportion==0)
-	{
-	  pi->m_panel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-	}
-	else
-	  pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
-	layout->addWidget( pi->m_panel);
-	
-	this->registerQtContainer(pi->m_uid, pi->m_panel);
+        if( pi->m_proportion==0)
+        {
+            pi->m_panel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        }
+        else
+            pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+        layout->addWidget( pi->m_panel);
+
+        this->registerQtContainer(pi->m_uid, pi->m_panel);
 
         if(pi->m_autostart)
         {
@@ -182,34 +182,34 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
             ::fwServices::IService::sptr service = ::fwServices::get( pi->m_uid ) ;
             service->start();
         }
-	
-    }
-        centerView->setLayout(layout);
 
-	if(m_manager) // Si le cast a reussi donc si c'est une vu imbriquée dans une autre
-	{
-	  centerView->setParent(m_manager);
-	  m_manager->setCentralWidget(centerView);
-	}
-	else
-	{
-	  // A voir : test V ou H
-	  QHBoxLayout *subLayout = new  QHBoxLayout();
-	  centerView->setParent(m_container);
-	   
-// 	   if( pi->m_proportion==0)
-// 	  {
-// 	    centerView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-// 	  }
-// 	  else
-// 	    centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-	  centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding); // TRES IMPORTANT
-	    
-	  subLayout->addWidget( centerView);
-	  m_container->setLayout(subLayout);
-	  
-	}
-	
+    }
+    centerView->setLayout(layout);
+
+    if(m_manager) // Si le cast a reussi donc si c'est une vu imbriquée dans une autre
+    {
+        centerView->setParent(m_manager);
+        m_manager->setCentralWidget(centerView);
+    }
+    else
+    {
+        // A voir : test V ou H
+        QHBoxLayout *subLayout = new  QHBoxLayout();
+        centerView->setParent(m_container);
+
+        //        if( pi->m_proportion==0)
+        //       {
+        //         centerView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        //       }
+        //       else
+        //         centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+        centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding); // TRES IMPORTANT
+
+        subLayout->addWidget( centerView);
+        m_container->setLayout(subLayout);
+
+    }
+
 }
 //-----------------------------------------------------------------------------
 

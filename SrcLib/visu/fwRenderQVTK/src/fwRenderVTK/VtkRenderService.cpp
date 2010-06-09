@@ -53,7 +53,7 @@ namespace fwRenderVTK
 //-----------------------------------------------------------------------------
 
 VtkRenderService::VtkRenderService() throw() :
-     m_pendingRenderRequest(false)
+             m_pendingRenderRequest(false)
 {
     addNewHandledEvent( ::fwComEd::CompositeMsg::MODIFIED_FIELDS );
 }
@@ -61,9 +61,9 @@ VtkRenderService::VtkRenderService() throw() :
 //-----------------------------------------------------------------------------
 
 VtkRenderService::~VtkRenderService() throw()
-{
+        {
 
-}
+        }
 
 //-----------------------------------------------------------------------------
 
@@ -161,7 +161,7 @@ void VtkRenderService::configureObject( ConfigurationType conf )
     const unsigned int compositeObjectCount = composite->getRefMap().count(objectId);
 
     OSLM_TRACE_IF(objectId << " not found in composite. If it exist, associated Adaptor will be destroyed",
-                  ! (compositeObjectCount == 1 || objectId == compositeName) );
+            ! (compositeObjectCount == 1 || objectId == compositeName) );
 
 
     ::fwTools::Object::sptr object;
@@ -232,7 +232,7 @@ void VtkRenderService::configureObject( ConfigurationType conf )
     }
     else
     {
-            OSLM_TRACE ( "'"<< objectId << "' inexistant, passing by '" << adaptor << "'");
+        OSLM_TRACE ( "'"<< objectId << "' inexistant, passing by '" << adaptor << "'");
     }
 }
 
@@ -257,7 +257,7 @@ void VtkRenderService::configureVtkObject( ConfigurationType conf )
 //-----------------------------------------------------------------------------
 
 void VtkRenderService::configuring() throw(fwTools::Failed)
-{
+        {
     SLM_TRACE_FUNC();
     SLM_FATAL_IF( "Depreciated tag \"win\" in configuration", m_configuration->findConfigurationElement("win") );
 
@@ -292,12 +292,12 @@ void VtkRenderService::configuring() throw(fwTools::Failed)
             OSLM_ASSERT("Bad scene configurationType, unknown xml node : " << (*iter)->getName(), false);
         }
     }
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 void VtkRenderService::starting() throw(fwTools::Failed)
-{
+        {
     SLM_TRACE_FUNC();
     this->initRender();
     this->startContext();
@@ -306,11 +306,11 @@ void VtkRenderService::starting() throw(fwTools::Failed)
     m_widget->GetRenderWindow()->GetInteractor()->GetRenderWindow()->SetNumberOfLayers(m_renderers.size());
     for( RenderersMapType::iterator iter = m_renderers.begin(); iter != m_renderers.end(); ++iter )
     {
-	vtkRenderer *renderer = vtkRenderer::New();
-	renderer = (*iter).second;
-	m_widget->GetRenderWindow()->AddRenderer(renderer);
-	//m_renderWindow = widget->GetRenderWindow();
-	//m_renderWindow->AddRenderer(renderer);
+        vtkRenderer *renderer = vtkRenderer::New();
+        renderer = (*iter).second;
+        m_widget->GetRenderWindow()->AddRenderer(renderer);
+        //m_renderWindow = widget->GetRenderWindow();
+        //m_renderWindow->AddRenderer(renderer);
     }
 
     ::fwData::Composite::sptr composite = this->getObject< ::fwData::Composite >() ;
@@ -319,18 +319,18 @@ void VtkRenderService::starting() throw(fwTools::Failed)
     SceneAdaptorsMapType::iterator adaptorIter ;
 
     for ( adaptorIter = m_sceneAdaptors.begin();
-          adaptorIter != m_sceneAdaptors.end();
-          ++adaptorIter)
+            adaptorIter != m_sceneAdaptors.end();
+            ++adaptorIter)
     {
         adaptorIter->second.getService()->start();
         assert(adaptorIter->second.getService()->isStarted());
     }
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 void VtkRenderService::stopping() throw(fwTools::Failed)
-{
+        {
     SLM_TRACE_FUNC();
 
     ::fwData::Composite::sptr composite = this->getObject< ::fwData::Composite >() ;
@@ -338,8 +338,8 @@ void VtkRenderService::stopping() throw(fwTools::Failed)
     SceneAdaptorsMapType::iterator adaptorIter ;
 
     for ( adaptorIter = m_sceneAdaptors.begin();
-          adaptorIter != m_sceneAdaptors.end();
-          ++adaptorIter)
+            adaptorIter != m_sceneAdaptors.end();
+            ++adaptorIter)
     {
         adaptorIter->second.getService()->stop();
     }
@@ -347,12 +347,12 @@ void VtkRenderService::stopping() throw(fwTools::Failed)
     this->stopContext();
     this->stopRender();
     m_sceneAdaptors.clear();
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 void VtkRenderService::updating( ::fwServices::ObjectMsg::csptr message ) throw(::fwTools::Failed)
-{
+        {
 
 
     SLM_TRACE_FUNC();
@@ -371,27 +371,27 @@ void VtkRenderService::updating( ::fwServices::ObjectMsg::csptr message ) throw(
             BOOST_FOREACH(
                     ConfigurationType cfg,
                     m_sceneConfiguration->find("adaptor","objectId",objectId))
-            {
+                    {
                 this->configureObject(cfg);
-            }
+                    }
         }
     }
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 void VtkRenderService::updating() throw(fwTools::Failed)
-{
+        {
     //m_interactor->Render();
     m_widget->GetRenderWindow()->GetInteractor()->Render();
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 void VtkRenderService::render()
 {
- //  m_interactor->Render();
-  m_widget->GetRenderWindow()->GetInteractor()->Render();
+    //  m_interactor->Render();
+    m_widget->GetRenderWindow()->GetInteractor()->Render();
 }
 
 
@@ -399,7 +399,7 @@ void VtkRenderService::render()
 
 bool VtkRenderService::isShownOnScreen()
 {
-   return true;//m_interactor->IsShownOnScreen();
+    return true;//m_interactor->IsShownOnScreen();
 }
 
 //-----------------------------------------------------------------------------
@@ -435,33 +435,33 @@ void VtkRenderService::stopContext()
     {
         vtkRenderer *renderer = iter->second;
         renderer->InteractiveOff();
-	m_widget->GetRenderWindow()->RemoveRenderer(renderer);
+        m_widget->GetRenderWindow()->RemoveRenderer(renderer);
 
-	if(renderer != 0)
-	{
-	 renderer->Delete();
-	}
+        if(renderer != 0)
+        {
+            renderer->Delete();
+        }
 
     }
     m_renderers.clear();
 
     if(m_render != 0)
     {
-      m_render->Delete();
-      m_render = 0;
+        m_render->Delete();
+        m_render = 0;
     }
 
     if(m_widget != 0)
     {
-      //delete m_widget;
-      m_widget->deleteLater();
-      m_widget=0;
+        //delete m_widget;
+        m_widget->deleteLater();
+        m_widget=0;
     }
 
     if(m_container != 0)
     {
-      m_container->deleteLater();
-      m_container=0;
+        m_container->deleteLater();
+        m_container=0;
     }
 
 

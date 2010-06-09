@@ -24,7 +24,7 @@ struct Plugin : public ::fwRuntime::Plugin
     /**
      * @brief   destructor
      */
-	~Plugin() throw();
+    ~Plugin() throw();
 
     // Overrides
     void start() throw(::fwRuntime::RuntimeException);

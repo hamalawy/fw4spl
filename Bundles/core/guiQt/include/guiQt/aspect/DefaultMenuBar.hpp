@@ -29,14 +29,14 @@ namespace aspect
  */
 class GUIQT_CLASS_API DefaultMenuBar : public IMenuBar
 {
- 
+
 public :
 
     /// Constructor. Do nothing.
-	GUIQT_API  DefaultMenuBar() throw();
+    GUIQT_API  DefaultMenuBar() throw();
 
     /// Destructor. Do nothing.
-	GUIQT_API virtual ~DefaultMenuBar() throw();
+    GUIQT_API virtual ~DefaultMenuBar() throw();
 
 protected :
 
@@ -45,22 +45,22 @@ protected :
      */
 
     /// Retrieve DefaultMenuBar::m_menuName in configuration element
-	GUIQT_API virtual void configuring() throw( ::fwTools::Failed ) ;
+    GUIQT_API virtual void configuring() throw( ::fwTools::Failed ) ;
 
-	GUIQT_API virtual void starting() throw( ::fwTools::Failed ) ;
+    GUIQT_API virtual void starting() throw( ::fwTools::Failed ) ;
 
     /**
-     * @brief Stop all actions and separator of this menu and remove menu to wxMenuBar
+     * @brief Stop all actions and separator of this menu and remove menu to MenuBar
      * @todo ACH : uncomment assert => all actions must be started
      * @todo Menu not empty on MAC with specials Actions like help, Quit...
      */
-	GUIQT_API virtual void stopping() throw( ::fwTools::Failed ) ;
+    GUIQT_API virtual void stopping() throw( ::fwTools::Failed ) ;
 
     /// Updating service, do nothing.
-	GUIQT_API virtual void updating() throw(::fwTools::Failed);
+    GUIQT_API virtual void updating() throw(::fwTools::Failed);
 
     /// Updating service on notification, do nothing.
-	GUIQT_API virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
+    GUIQT_API virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed);
     ///@}
 
 private:

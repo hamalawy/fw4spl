@@ -80,9 +80,9 @@ void TriangularMeshReaderService::configuring( ) throw(::fwTools::Failed)
 void TriangularMeshReaderService::configureWithIHM()
 {
     QString file = QFileDialog::getOpenFileName(0,QObject::tr("Open File"), QDir::currentPath(), QObject::tr("TrianMesh (*.trian)"));
-    std::cout<<"PATH_FILE : "<<file.toStdString()<<"\n";
-    
-    
+    OSLM_TRACE("PATH_FILE : "<<file.toStdString()<<"\n");
+
+
     // If the user choose an vtk file, the image path is initialized and we tag the service as configured.
     if( file.isEmpty() == false )
     {
@@ -96,9 +96,9 @@ void TriangularMeshReaderService::configureWithIHM()
 void TriangularMeshReaderService::updating() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
-    
+
     configureWithIHM();
-    
+
     if(m_bServiceIsConfigured)
     {
         // Retrieve object

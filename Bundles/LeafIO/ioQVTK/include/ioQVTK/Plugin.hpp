@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _ioQVTK_PLUGIN_HPP_
-#define _ioQVTK_PLUGIN_HPP_
+#ifndef _IOQVTK_PLUGIN_HPP_
+#define _IOQVTK_PLUGIN_HPP_
 
 #include <fwRuntime/Plugin.hpp>
 #include "ioQVTK/config.hpp"
@@ -24,7 +24,7 @@ class IOQVTK_CLASS_API Plugin : public ::fwRuntime::Plugin
 {
 public:
     //! @brief Destructor.
-	IOQVTK_API ~Plugin() throw();
+    IOQVTK_API ~Plugin() throw();
 
     /**
     * @brief Start method.
@@ -32,17 +32,17 @@ public:
     * @exception ::fwRuntime::RuntimeException.
     * This method is used by runtime in order to initialize the bundle.
     */
-	IOQVTK_API void start() throw(::fwRuntime::RuntimeException);
+    IOQVTK_API void start() throw(::fwRuntime::RuntimeException);
 
     /**
     * @brief Stop method.
     *
     * This method is used by runtime in order to close the bundle.
     */
-	IOQVTK_API void stop() throw();
-    
+    IOQVTK_API void stop() throw();
+
 };
 
 } // namespace ioVTK
 
-#endif //_ioVTK_PLUGIN_HPP_
+#endif //_IOQVTK_PLUGIN_HPP_

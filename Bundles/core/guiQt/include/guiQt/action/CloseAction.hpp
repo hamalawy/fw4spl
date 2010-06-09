@@ -28,7 +28,7 @@ public :
     /**
     * @brief Constructor. Do nothing.
     */
-	GUIQT_API CloseAction() throw() ;
+    GUIQT_API CloseAction() throw() ;
 
     /**
     * @brief Destructor. Do nothing.

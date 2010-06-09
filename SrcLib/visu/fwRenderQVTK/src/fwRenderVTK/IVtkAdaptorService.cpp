@@ -25,19 +25,19 @@ namespace fwRenderVTK
 {
 
 IVtkAdaptorService::IVtkAdaptorService() throw()
-    : m_comChannelPriority(0.5),
-      m_vtkPipelineModified(true),
-      m_rendererId ("default") ,
-      m_pickerId   (""), // by default no Picker
-      m_transformId   (""), // by default no Transform
-      m_propCollection ( vtkPropCollection::New() )
+            : m_comChannelPriority(0.5),
+              m_vtkPipelineModified(true),
+              m_rendererId ("default") ,
+              m_pickerId   (""), // by default no Picker
+              m_transformId   (""), // by default no Transform
+              m_propCollection ( vtkPropCollection::New() )
 {
 }
 
 IVtkAdaptorService::~IVtkAdaptorService() throw()
-{
+        {
     m_propCollection->Delete();
-}
+        }
 
 void IVtkAdaptorService::info(std::ostream &_sstream )
 {
@@ -46,7 +46,7 @@ void IVtkAdaptorService::info(std::ostream &_sstream )
 }
 
 void IVtkAdaptorService::starting() throw(fwTools::Failed)
-{
+        {
     /// Install observation
     if(m_communicationChannelService.expired())
     {
@@ -65,12 +65,12 @@ void IVtkAdaptorService::starting() throw(fwTools::Failed)
 
     doStart();
     //requestRender();
-}
+        }
 
 //------------------------------------------------------------------------------
 
 void IVtkAdaptorService::stopping() throw(fwTools::Failed)
-{
+        {
     /// Stop observation
     if(!m_communicationChannelService.expired())
     {
@@ -78,30 +78,30 @@ void IVtkAdaptorService::stopping() throw(fwTools::Failed)
     }
     doStop();
     //requestRender();
-}
+        }
 //------------------------------------------------------------------------------
 
 void IVtkAdaptorService::swapping() throw(fwTools::Failed)
-{
+        {
     doSwap();
     //requestRender();
-}
+        }
 
 //------------------------------------------------------------------------------
 
 void IVtkAdaptorService::updating() throw(fwTools::Failed)
-{
+        {
     doUpdate();
     requestRender();
-}
+        }
 
 //------------------------------------------------------------------------------
 
 void IVtkAdaptorService::updating(::fwServices::ObjectMsg::csptr msg) throw(fwTools::Failed)
-{
+        {
     doUpdate(msg);
     requestRender();
-}
+        }
 
 //------------------------------------------------------------------------------
 
@@ -147,7 +147,7 @@ void IVtkAdaptorService::requestRender()
             ::fwServices::IEditionService::notify( this->getSptr(), this->getRenderService()->getObject(),
                     m_message,
                     ::fwServices::ComChannelService::IGNORE_BUSY_SERVICES
-                    );
+            );
         }
         m_vtkPipelineModified = false;
     }
@@ -171,10 +171,10 @@ VtkRenderService::sptr  IVtkAdaptorService:: getRenderService()
 
 vtkRenderer* IVtkAdaptorService::getRenderer()
 {
-  SLM_TRACE_FUNC();
+    SLM_TRACE_FUNC();
 
-  if(m_renderService.expired())
-    SLM_TRACE(" vtkRenderer EXPIRED ");
+    if(m_renderService.expired())
+        SLM_TRACE(" vtkRenderer EXPIRED ");
 
     return m_renderService.lock()->getRenderer(m_rendererId);
 }
@@ -277,7 +277,7 @@ vtkRenderWindowInteractor* IVtkAdaptorService::getInteractor()
 
 void IVtkAdaptorService::registerService( ::fwRenderVTK::IVtkAdaptorService::sptr service)
 {
-        m_subServices.push_back(service);
+    m_subServices.push_back(service);
 }
 
 //------------------------------------------------------------------------------
@@ -287,11 +287,11 @@ void IVtkAdaptorService::unregisterServices()
     BOOST_FOREACH(
             ServiceVector::value_type service,
             m_subServices
-            )
+    )
     {
         if(!service.expired())
         {
-	    SLM_TRACE("  IVtkAdaptorService::unregisterServices() ");
+            SLM_TRACE("  IVtkAdaptorService::unregisterServices() ");
             ::fwServices::OSR::unregisterService(service.lock());
         }
     }

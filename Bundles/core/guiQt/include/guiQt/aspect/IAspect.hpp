@@ -20,7 +20,7 @@ namespace guiQt
 
 namespace aspect
 {
-  
+
 class  GUIQT_CLASS_API IAspect : public ::fwServices::IService
 {
 
@@ -36,9 +36,9 @@ public :
     /**
      * @brief This method returns the application minimum height and width size, IAspect::m_minSizeHeight and IAspect::m_minSizeWidth.
      *
-     * @return wxSize Application minimum size.
+     * @return Size Application minimum size.
      */
-   // GUI_API wxSize getMinSize() ;
+   // GUI_API Size getMinSize() ;
 
 protected :
 
@@ -91,11 +91,11 @@ protected :
 
     /// Application minimum width.
     int                                             m_minSizeWidth;
-    
+
     // Menu
     //::guiQt::aspect::IQtMenu m_menu;
 
-  
+
 };
 
 

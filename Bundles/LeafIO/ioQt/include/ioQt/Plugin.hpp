@@ -25,7 +25,7 @@ class IOQT_CLASS_API Plugin : public ::fwRuntime::Plugin
 {
 public:
     //! @brief Destructor.
-	IOQT_API ~Plugin() throw();
+    IOQT_API ~Plugin() throw();
 
     /**
     * @brief Start method.
@@ -33,15 +33,15 @@ public:
     * @exception ::fwRuntime::RuntimeException.
     * This method is used by runtime in order to initialize the bundle.
     */
-	IOQT_API void start() throw(::fwRuntime::RuntimeException);
+    IOQT_API void start() throw(::fwRuntime::RuntimeException);
 
     /**
     * @brief Stop method.
     *
     * This method is used by runtime in order to close the bundle.
     */
-	IOQT_API  void stop() throw();
-    
+    IOQT_API  void stop() throw();
+
 };
 
 } // namespace ioVTK

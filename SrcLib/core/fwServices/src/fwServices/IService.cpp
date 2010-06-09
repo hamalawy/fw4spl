@@ -20,11 +20,11 @@ namespace fwServices
 //-----------------------------------------------------------------------------
 
 IService::IService() :
-    m_globalState ( STOPPED ),
-    m_updatingState ( NOTUPDATING ),
-    m_notificationState ( IDLE ),
-    m_configurationState ( UNCONFIGURED ),
-    m_isHandlingAllEvents ( true )
+            m_globalState ( STOPPED ),
+            m_updatingState ( NOTUPDATING ),
+            m_notificationState ( IDLE ),
+            m_configurationState ( UNCONFIGURED ),
+            m_isHandlingAllEvents ( true )
 {
     // by default a weak_ptr have a use_count == 0
     m_msgDeque.clear();
@@ -98,14 +98,14 @@ void IService::configure()
 //-----------------------------------------------------------------------------
 
 void IService::reconfiguring() throw ( ::fwTools::Failed )
-{
+        {
     SLM_FATAL("If this method is used, it must be write for the service" );
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 void IService::start() throw(fwTools::Failed)
-{
+        {
     if( m_globalState == STOPPED )
     {
         m_globalState = STARTING ;
@@ -116,17 +116,17 @@ void IService::start() throw(fwTools::Failed)
     {
         OSLM_WARN( "INVOKING START WHILE ALREADY STARTED (on this = " << this->className() << ")");
     }
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 void IService::stop() throw(fwTools::Failed)
-{
+        {
     if( m_globalState == STARTED )
     {
         m_globalState = STOPPING ;
         fwServices::stopComChannels( this->getSptr() ) ;
-	OSLM_TRACE(" Serviceto STOP : "<<  this->getSptr()->getUUID());
+        OSLM_TRACE(" Serviceto STOP : "<<  this->getSptr()->getUUID());
         this->stopping() ;
         m_globalState = STOPPED ;
     }
@@ -134,7 +134,7 @@ void IService::stop() throw(fwTools::Failed)
     {
         OSLM_WARN( "INVOKING STOP WHILE ALREADY STOPPED (on this = " << this->className() << ")");
     }
-}
+        }
 
 //-----------------------------------------------------------------------------
 
@@ -196,7 +196,7 @@ bool IService::isHandlingAllEvents()
 //-----------------------------------------------------------------------------
 
 void IService::update() throw(fwTools::Failed)
-{
+        {
     OSLM_ASSERT("INVOKING update WHILE ALREADY STOPPED ("<<m_globalState<<") on this = " << this->className(), m_globalState == STARTED );
     OSLM_ASSERT("INVOKING update WHILE NOT IDLED ("<<m_updatingState<<") on this = " << this->className(), m_updatingState == NOTUPDATING );
     OSLM_ASSERT("INVOKING update WHILE NOT IDLED ("<<m_notificationState<<") on this = " << this->className(), !this->isSending() );
@@ -206,12 +206,12 @@ void IService::update() throw(fwTools::Failed)
     this->updating( ) ;
     m_updatingState = NOTUPDATING ;
 
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 void IService::swap( ::fwTools::Object::sptr _obj ) throw(::fwTools::Failed)
-{
+        {
     SLM_ASSERT("Swapping on "<< this->getUUID() << " with same Object " << _obj->getUUID(), m_associatedObject.lock() != _obj );
 
     if( m_globalState == STARTED ) // FIXME ???
@@ -244,56 +244,56 @@ void IService::swap( ::fwTools::Object::sptr _obj ) throw(::fwTools::Failed)
     {
         OSLM_WARN( "Service "<< this->getUUID() << " is not STARTED, no swapping with Object " << _obj->getUUID());
     }
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 IService::GlobalStatus IService::getStatus() const throw()
-{
+        {
     return m_globalState ;
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 bool IService::isStarted() const throw()
-{
+        {
     return (m_globalState == STARTED) ;
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 bool IService::isStopped() const throw()
-{
+        {
     return (m_globalState == STOPPED) ;
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 bool IService::isSending() const throw()
-{
+        {
     return (m_notificationState == SENDING_MSG) || (m_notificationState == RECEIVING_WITH_SENDING_MSG) ;
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 IService::ConfigurationStatus IService::getConfigurationStatus() const throw()
-{
+        {
     return m_configurationState ;
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 IService::UpdatingStatus IService::getUpdatingStatus() const throw()
-{
+        {
     return m_updatingState ;
-}
+        }
 
 //-----------------------------------------------------------------------------
 
 IService::NotificationStatus IService::getNotificationStatus() const throw()
-{
+        {
     return m_notificationState ;
-}
+        }
 
 //-----------------------------------------------------------------------------
 
@@ -332,23 +332,23 @@ void IService::sendingModeOff()
 
 //-----------------------------------------------------------------------------
 
- void IService::processingPendingMessages()
- {
-        OSLM_TRACE(" Processing " << m_msgDeque.size() << " pending message(s).");
-        // Processing of pending messages.
-        if(m_msgDeque.size() > 50)
-        {
-            OSLM_FATAL("The size of the queue is very hight " << m_msgDeque.size());
-        }
-        while (m_msgDeque.size() != 0)
-        {
-            ::fwServices::ObjectMsg::csptr msg = m_msgDeque.front();
-            m_msgDeque.pop_front();
-            update(msg);
-        }
- }
+void IService::processingPendingMessages()
+{
+    OSLM_TRACE(" Processing " << m_msgDeque.size() << " pending message(s).");
+    // Processing of pending messages.
+    if(m_msgDeque.size() > 50)
+    {
+        OSLM_FATAL("The size of the queue is very hight " << m_msgDeque.size());
+    }
+    while (m_msgDeque.size() != 0)
+    {
+        ::fwServices::ObjectMsg::csptr msg = m_msgDeque.front();
+        m_msgDeque.pop_front();
+        update(msg);
+    }
+}
 
- //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
 /**
  * @brief Streaming a service

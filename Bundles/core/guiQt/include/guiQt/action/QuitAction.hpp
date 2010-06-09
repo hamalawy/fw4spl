@@ -25,28 +25,28 @@ class GUIQT_CLASS_API QuitAction : public ::guiQt::action::IAction
 {
 
 public :
-    
+
     /**
     * @brief Constructor. Do nothing.
     */
-	GUIQT_API QuitAction() throw() ;
+    GUIQT_API QuitAction() throw() ;
 
     /**
     * @brief Destructor. Do nothing.
     */
-	GUIQT_API virtual ~QuitAction() throw() ;
+    GUIQT_API virtual ~QuitAction() throw() ;
 
 protected:
 
     /**
      * @brief This method tries to close the window and reset root object.
      */
-	GUIQT_API virtual void updating() throw(::fwTools::Failed);
+    GUIQT_API virtual void updating() throw(::fwTools::Failed);
 
     /*
      * @brief This method gives information about the class.
      */
-	GUIQT_API virtual void info(std::ostream &_sstream ) ;
+    GUIQT_API virtual void info(std::ostream &_sstream ) ;
 
 };
 

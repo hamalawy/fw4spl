@@ -16,11 +16,10 @@
         <param id="configFile" value="./Bundles/TutoQt03DataService_0-1/configurations/config.xml" />
     </activate>
     
-
- <activate id="ioVTK" version="0-1" />
+    <activate id="ioVTK" version="0-1" />
     <activate id="ioData" version="0-1" />
     <activate id="uiIO" version="0-1" />
-     <activate id="qvtkSimpleNegato" version="0-1" />
+    <activate id="qvtkSimpleNegato" version="0-1" />
 
     <start id="dataReg" />
     <start id="guiQt" />

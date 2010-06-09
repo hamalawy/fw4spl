@@ -1,14 +1,14 @@
 <plugin id="FilterConfiguration">
-    <extension id="FilterConfig" implements="::fwData::Composite">
+<extension id="FilterConfig" implements="::fwData::Composite">
     <!-- Root object -->
     <object id="FilterConfig" type="::fwData::Composite">
         <!-- Windows & Main Menu -->
-       <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+        <service type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
         <name>Mesher</name>
              <view uid="myDefaultView" autoStart="yes" />  
         </service>
         
-       <service uid="myMenuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
+        <service uid="myMenuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
             <menus>
                 <menu uid="menuFile"/>
                 <menu uid="menuFilter"/>
@@ -51,18 +51,18 @@
         <object id="myImage2" uid="myImage2" type="::fwData::Image">
             <service implementation="::qvtkSimpleNegato::RendererService" type="::fwQtRender::IRender" uid="RenderingImage2" autoComChannel="yes" />
         </object> 
-    
-    <!-- Starting order of services -->
-      <start type="::guiQt::aspect::IAspect" />
-      <start type="::guiQt::aspect::IMenuBar" />
-      <start type="::guiQt::aspect::IMenu" />
-   
-      <update uid="RenderingImage1"/>
-      <update uid="RenderingImage2"/>
-      
-      <stop type="::guiQt::aspect::IMenu" />
-      <stop type="::guiQt::aspect::IMenuBar" />
-      <stop type="::guiQt::aspect::IAspect" />
-  </object>
-  </extension>
+        
+        <!-- Starting order of services -->
+        <start type="::guiQt::aspect::IAspect" />
+        <start type="::guiQt::aspect::IMenuBar" />
+        <start type="::guiQt::aspect::IMenu" />
+        
+        <update uid="RenderingImage1"/>
+        <update uid="RenderingImage2"/>
+        
+        <stop type="::guiQt::aspect::IMenu" />
+        <stop type="::guiQt::aspect::IMenuBar" />
+        <stop type="::guiQt::aspect::IAspect" />
+    </object>
+</extension>
 </plugin>    

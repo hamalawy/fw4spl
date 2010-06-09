@@ -40,7 +40,7 @@ RendererService::RendererService() throw()
     : m_render( 0 ), m_bPipelineIsInit(false)
 {
     SLM_TRACE_FUNC();
-    
+
     addNewHandledEvent( ::fwComEd::ImageMsg::NEW_IMAGE );
     addNewHandledEvent( ::fwComEd::ImageMsg::BUFFER );
     addNewHandledEvent( ::fwComEd::ImageMsg::REGION  );
@@ -73,12 +73,12 @@ void RendererService::starting() throw(fwTools::Failed)
 
     QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
     m_widget = new QVTKWidget(mainWidget);
-    
+
     QVBoxLayout *layout = new QVBoxLayout();
 
   //  widget->resize(mainWidget->width(), mainWidget->height());
     m_widget->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
-    
+
     layout->addWidget(m_widget);
 
     mainWidget->setLayout(layout);
@@ -90,7 +90,7 @@ void RendererService::starting() throw(fwTools::Failed)
 
  //   widget->SetRenderWindow(renderWindow);
 
- 
+
 }
 
 //-----------------------------------------------------------------------------
@@ -113,7 +113,7 @@ void RendererService::stopping() throw(fwTools::Failed)
       m_container->deleteLater();
       m_container=0;
     }
-   
+
 
     assert( m_render );
     m_render->Delete();
@@ -161,8 +161,8 @@ void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTo
             m_negatoAxial->SetSliceIndex( axialIndex );
             m_negatoFrontal->SetSliceIndex( frontalIndex );
             m_negatoSagittal->SetSliceIndex( sagittalIndex );
-	    
-	    m_renderWindow->Render();
+
+        m_renderWindow->Render();
            // m_interactor->Render();
         }
     }
@@ -173,9 +173,9 @@ void RendererService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw(fwTo
 void RendererService::initVTKPipeline()
 {
     SLM_TRACE_FUNC();
-    
+
     vtkImageData* vtk_img = ::vtkIO::toVTKImage( this->getObject< ::fwData::Image >());
-    
+
     m_outline = vtkOutlineFilter::New();
     m_outline->SetInput(vtk_img);
 
@@ -189,7 +189,7 @@ void RendererService::initVTKPipeline()
     picker->SetTolerance(0.005);
 
     //assign default props to the ipw's texture plane actor
-    
+
 
     m_negatoSagittal = vtkImagePlaneWidget::New();
 //    m_negatoSagittal->SetInteractor( m_interactor);

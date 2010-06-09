@@ -47,7 +47,7 @@ void QuitAction::info(std::ostream &_sstream )
 void QuitAction::updating() throw( ::fwTools::Failed )
 {
     SLM_TRACE_FUNC();
-  // Lancement de l action   ---> correspond au  getDefault()->m_serviceCallBacks[id].lock()->update() ;
+    // Lancement de l action   ---> correspond au  getDefault()->m_serviceCallBacks[id].lock()->update() ;
     SLM_INFO("QuitAction::updating");
 
     ::fwServices::OSR::uninitializeRootObject();

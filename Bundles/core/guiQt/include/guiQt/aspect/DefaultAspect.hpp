@@ -35,12 +35,12 @@ class  GUIQT_CLASS_API DefaultAspect : public ::guiQt::aspect::IAspect
 {
 
 public :
-    
+
     /// Constructor. Do nothing.
-	GUIQT_API DefaultAspect() throw() ;
+    GUIQT_API DefaultAspect() throw() ;
 
     /// Destructor. Do nothing.
-	GUIQT_API virtual ~DefaultAspect() throw() ;
+    GUIQT_API virtual ~DefaultAspect() throw() ;
 
 protected:
 
@@ -48,24 +48,24 @@ protected:
      * @brief   This method initializes class member parameters from configuration elements.
      *
      */
-	GUIQT_API virtual void configuring() throw( ::fwTools::Failed ) ;
+    GUIQT_API virtual void configuring() throw( ::fwTools::Failed ) ;
 
     /**
      * @brief This method first registers the aspect gui manager.
      * It secondly starts the menus contained in the IAspect::m_menus
      * and finally all IView services contained in the IAspect::m_views
      */
-	GUIQT_API virtual void starting() throw(::fwTools::Failed);
+    GUIQT_API virtual void starting() throw(::fwTools::Failed);
 
     /**
      * @brief This method first unregisters the aspect gui manager.
      * It secondly stops the menus contained in the IAspect::m_menus
      * and finally all IView services contained in the IAspect::m_views
      */
-	GUIQT_API virtual void stopping() throw(::fwTools::Failed);
+    GUIQT_API virtual void stopping() throw(::fwTools::Failed);
 
     /// This method gives information about the class. Do nothing.
-	GUIQT_API virtual void info(std::ostream &_sstream ) ;
+    GUIQT_API virtual void info(std::ostream &_sstream ) ;
 
     /**
      * @brief   Normally, perform some computations according to object (this service is attached to) attribute values and its internal state.
@@ -78,7 +78,7 @@ protected:
      *          Do nothing here.
      */
      GUIQT_API virtual void updating() throw( ::fwTools::Failed );
-     
+
 private:
 
     std::string  m_uid;

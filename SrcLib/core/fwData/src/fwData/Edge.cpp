@@ -61,7 +61,7 @@ std::string Edge::getToPortID() const
 
 std::string Edge::getPortID(bool upStream) const
 {
-	return upStream?m_fromPortIdentifier:m_toPortIdentifier;
+    return upStream?m_fromPortIdentifier:m_toPortIdentifier;
 }
 
 //------------------------------------------------------------------------------

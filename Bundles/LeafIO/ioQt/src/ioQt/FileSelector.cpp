@@ -26,8 +26,8 @@
 #include <QApplication>
 #include <QWidget>
 #include <QFrame>
-  
-#include <fwData/location/SingleFile.hpp>  
+
+#include <fwData/location/SingleFile.hpp>
 #include <iostream>
 
 namespace ioQt
@@ -58,7 +58,7 @@ FileSelector::~FileSelector() throw()
 
 void FileSelector::configuring() throw ( ::fwTools::Failed )
 {
-     std::cout<<" configuring() \n";
+    SLM_TRACE_FUNC();
 }
 
 
@@ -90,17 +90,17 @@ void FileSelector::info( std::ostream &_sstream )
 void FileSelector::updating() throw ( ::fwTools::Failed )
 {
     SLM_TRACE_FUNC();
-    
+
   ::fwData::location::SingleFile::sptr file = this->getObject < ::fwData::location::SingleFile >();
 
-  
+
  // QWidget *mainWidget = qApp->activeWindow();
-    
+
   QString fileName = QFileDialog::getOpenFileName(0,QObject::tr("Open File"), QDir::currentPath());
-  std::cout<<"PATH_FILE : "<<fileName.toStdString()<<"\n";
-  
+  OSLM_TRACE("PATH_FILE : "<<fileName.toStdString()<<"\n");
+
   file->setPath(fileName.toStdString());
-  
+
   // Creation du message
   ::fwComEd::LocationMsg::NewSptr msg;
   msg->addEvent( ::fwComEd::LocationMsg::LOCATION_IS_MODIFIED );
@@ -111,7 +111,7 @@ void FileSelector::updating() throw ( ::fwTools::Failed )
 
 void FileSelector::notificationOfDBUpdate()
 {
-   
+
 }
 
 //------------------------------------------------------------------------------

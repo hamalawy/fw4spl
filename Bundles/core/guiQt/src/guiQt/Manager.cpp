@@ -1,7 +1,7 @@
 /* ***** BEGIN LICENSE BLOCK *****
  * FW4SPL - Copyright (C) IRCAD, 2009.
- * Distributed under the terms of the GNU Lesser General Public License (LGPL) as 
- * published by the Free Software Foundation.  
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
 #include <cassert>
@@ -28,7 +28,7 @@
 #include <QDialog>
 #include <QWidget>
 #include <QHBoxLayout>
-#include <QVBoxLayout>	
+#include <QVBoxLayout>
 #include <QDesktopWidget>
 
 namespace guiQt
@@ -48,14 +48,14 @@ namespace guiQt
 //-----------------------------------------------------------------------------
 Manager::Manager() throw()
 {
-	
+
 }
 
 //-----------------------------------------------------------------------------
 
 Manager::~Manager() throw()
 {
-	SLM_TRACE_FUNC();
+    SLM_TRACE_FUNC();
 }
 
 void Manager::initialize()
@@ -64,9 +64,9 @@ void Manager::initialize()
   //char* argv[1] = {"fw4splQt"};
   char** argv = NULL;
   int w,h;
-  
+
 //  QApplication app( argc,  argv);
-  
+
 //  QObject::connect(&app, SIGNAL(aboutToQuit()), qApp, SLOT(exit()));
  // QObject::connect(&app, SIGNAL(lastWindowClosed()), this, SLOT(windowClosed()));
 
@@ -78,9 +78,9 @@ void Manager::initialize()
   widget->resize(screen.width(), screen.height());
   widget->show();
   app.setActiveWindow(widget);*/
-  
+
   QWidget* mainWindow = new QMainWindow();
-  
+
 
   QDesktopWidget *desk = QApplication::desktop();
   QRect screen = desk->screenGeometry(mainWindow);
@@ -100,7 +100,7 @@ void Manager::initialize()
 
 }
 
-  
+
 const ::guiQt::Manager::sptr Manager::getDefault() throw()
 {
     if(m_instance.get() == 0)

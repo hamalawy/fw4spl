@@ -1,44 +1,40 @@
 <plugin id="TutoGenericSceneConfiguration">
+<extension id="Tuto08GenericScene" implements="::fwData::Composite">
 
-    <extension id="Tuto08GenericScene" implements="::fwData::Composite">
-
-        <object id="Tuto08GenericScene" type="::fwData::Composite">
+    <object id="Tuto08GenericScene" type="::fwData::Composite">
         
-         <service uid="MyIHM" type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
+        <service uid="MyIHM" type="::guiQt::aspect::IAspect" implementation="::guiQt::aspect::DefaultAspect" autoComChannel="no" >
         <name>SG</name>
-                <view uid="multiView_scene1" autoStart="yes" />
+            <view uid="multiView_scene1" autoStart="yes" />
         </service>
             
-            <service uid="myMenuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
-                <menus>
-                    <menu uid="menu_File"/>
-                </menus>
-            </service>
+        <service uid="myMenuBar" type="::guiQt::aspect::IMenuBar" implementation="::guiQt::aspect::DefaultMenuBar" autoComChannel="no" >
+            <menus>
+                <menu uid="menu_File"/>
+            </menus>
+        </service>
 
-            <service uid="multiView_scene1" type="::guiQt::view::IView" implementation="::guiQt::view::MultiView" autoComChannel="no">
-                <views>
-                    <view uid="genericScene" align="center" autoStart="yes" />
-                 <view uid="multiView_scene1_bottom" align="bottom"  autoStart="yes" />  
-                </views>
-            </service>
+        <service uid="multiView_scene1" type="::guiQt::view::IView" implementation="::guiQt::view::MultiView" autoComChannel="no">
+            <views>
+                <view uid="genericScene" align="center" autoStart="yes" />
+                <view uid="multiView_scene1_bottom" align="bottom"  autoStart="yes" />  
+            </views>
+        </service>
         
-        
-
-            <service uid="multiView_scene1_bottom" type="::guiQt::view::IView" implementation="::gui::view::MultiSizerView" autoComChannel="no">
-                <views orientation="horizontal">
-            <view uid="sliceListEditor" proportion="0" />
-                    <view uid="showScanEditor" proportion="0"  />   
-                    <view uid="sliderIndexEditor" proportion="1" />
-            <view uid="snapshotScene1Editor" proportion="0"  autoStart="yes" />
-                </views>
-            </service>
+        <service uid="multiView_scene1_bottom" type="::guiQt::view::IView" implementation="::gui::view::MultiSizerView" autoComChannel="no">
+            <views orientation="horizontal">
+                <view uid="sliceListEditor" proportion="0" />
+                <view uid="showScanEditor" proportion="0"  />   
+                <view uid="sliderIndexEditor" proportion="1" />
+                <view uid="snapshotScene1Editor" proportion="0"  autoStart="yes" />
+            </views>
+        </service>
 
         <service uid="snapshotScene1Editor" type="::guiQt::editor::IEditor" implementation="::uiVisu::SnapshotEditor" autoComChannel="no">
-                <snap>
-                    <scene uid="genericScene" />
-                </snap>
+            <snap>
+                <scene uid="genericScene" />
+            </snap>
             </service>
-        
 
             <service uid="menu_File" implementation="::guiQt::aspect::DefaultMenu" type="::guiQt::aspect::IMenu" name="File" autoComChannel="no">
                 <action uid="action_openFile" />
@@ -78,14 +74,12 @@
                     <config>
                         <object id="myImage" type="::fwData::Image">
                             <service uid="medicalImageConverter" implementation="::ctrlSelection::MedicalImageSrv" type="::fwServices::IController"  autoComChannel="no" />
-                
                             <service uid="sliceListEditor" type="::guiQt::editor::IEditor" implementation="::uiImage::SliceListEditor" autoComChannel="yes">
                                 <negatoAdaptor uid="MPRNegatoScene3D" slices="3" />
                             </service>
                             <service uid="showScanEditor" type="::guiQt::editor::IEditor" implementation="::uiImage::ShowScanEditor" autoComChannel="no">
                                 <negatoAdaptor uid="MPRNegatoScene3D" />
                             </service>
-                
                             <service uid="sliderIndexEditor" type="::guiQt::editor::IEditor" implementation="::uiImage::SliceIndexPositionEditor" autoComChannel="yes" sliceIndex="axial" />
                         </object>
                     </config>
@@ -93,25 +87,20 @@
 
                 <service uid="genericScene" implementation="::fwRenderVTK::VtkRenderService" type="::fwQtRender::IRender" autoComChannel="yes">
                     <scene>
-
                         <picker id="myPicker" vtkclass="fwVtkCellPicker" />
-
                         <renderer id="default" background="0.0" />
                         <adaptor id="myRenderAdaptor" class="::visuVTKAdaptor::Render" objectId="myCompositeVisu">
                             <config renderer="default" picker="" />
                         </adaptor>
-
                         <adaptor id="myAcquisitionAdaptor" class="::visuVTKAdaptor::Acquisition" objectId="myAcquisition">
                             <config renderer="default" picker="" />
                         </adaptor>
-
                         <adaptor uid="MPRNegatoScene3D" id="MPRNegato3D" class="::visuVTKAdaptor::NegatoMPR" objectId="myImage">
                             <config renderer="default" picker="myPicker" mode="3D" slices="3" sliceIndex="axial" />
                         </adaptor>
                     </scene>
                 </service>
-        
-              </object>
+            </object>
 
             <start uid="MyIHM" />       
             <start uid="myMenuBar" />
@@ -130,9 +119,6 @@
             <stop type="::guiQt::aspect::IMenu" />
             <stop uid="myMenuBar" />
             <stop uid="MyIHM" />
-
-        </object>
-
-    </extension>
-
+    </object>
+</extension>
 </plugin>

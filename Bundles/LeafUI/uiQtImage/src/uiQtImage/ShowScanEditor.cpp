@@ -61,7 +61,7 @@ void ShowScanEditor::starting() throw(::fwTools::Failed)
 
    // QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
     QWidget *widget = new QWidget(m_container);
-    
+
     QHBoxLayout *layout = new  QHBoxLayout();
 
     icon = QIcon();
@@ -77,14 +77,14 @@ void ShowScanEditor::starting() throw(::fwTools::Failed)
     icon.addPixmap(QPixmap::fromImage(m_imageShowScan), QIcon::Normal);
     m_showScanButton->setIcon(icon);
     m_showScanButton->setIconSize(QSize(m_showScanButton->width(), m_showScanButton->height()));
-    QObject::connect(m_showScanButton, SIGNAL(clicked()), this, SLOT(changeScanMode())); 
-    
+    QObject::connect(m_showScanButton, SIGNAL(clicked()), this, SLOT(changeScanMode()));
+
     m_showScanButton->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    
+
     // tres important
     widget->setFixedWidth(m_buttonWidth);
     widget->setFixedHeight(30);
-    
+
    layout->addWidget( widget);
    layout->setContentsMargins(0,0,0,0);
 
@@ -101,17 +101,17 @@ void ShowScanEditor::changeScanMode()
   {
       if(m_scanAreShown)
       {
-	m_scanAreShown=false;
-	icon.addPixmap(QPixmap::fromImage(m_imageHideScan), QIcon::Normal);
-	m_showScanButton->setIcon(icon);
+    m_scanAreShown=false;
+    icon.addPixmap(QPixmap::fromImage(m_imageHideScan), QIcon::Normal);
+    m_showScanButton->setIcon(icon);
       }
       else
       {
-	m_scanAreShown=true;
-	icon.addPixmap(QPixmap::fromImage(m_imageShowScan), QIcon::Normal);
-	m_showScanButton->setIcon(icon);
+    m_scanAreShown=true;
+    icon.addPixmap(QPixmap::fromImage(m_imageShowScan), QIcon::Normal);
+    m_showScanButton->setIcon(icon);
       }
-	::fwServices::IService::sptr service = ::fwServices::get(m_adaptorUID);
+    ::fwServices::IService::sptr service = ::fwServices::get(m_adaptorUID);
         ::fwData::Image::sptr image = service->getObject< ::fwData::Image >();
         SLM_ASSERT("ShowScanEditor adaptorUID " << m_adaptorUID <<" isn't an Adaptor on an Image?" , image);
 

@@ -64,12 +64,12 @@ void SliceIndexPositionEditor::starting() throw(::fwTools::Failed)
 
    // QWidget *mainWidget = m_globalUIDToQtContainer.find(this->getUUID())->second;
   //  QWidget *mainWidget =m_globalUIDToQtContainer[this->getUUID()];
-  
+
    QWidget *widget = new QWidget(m_container);
    QHBoxLayout *layout = new  QHBoxLayout();
 
    m_sliceSelectorPanel = new ::fwQt::SliceSelector( widget );
-    
+
    ::fwQt::SliceSelector::ChangeIndexCallback changeIndexCallback;
    changeIndexCallback = ::boost::bind( &::uiImage::SliceIndexPositionEditor::sliceIndexNotification, this, _1);
    m_sliceSelectorPanel->setChangeIndexCallback(changeIndexCallback);
@@ -77,19 +77,19 @@ void SliceIndexPositionEditor::starting() throw(::fwTools::Failed)
    ::fwQt::SliceSelector::ChangeIndexCallback changeTypeCallback;
    changeTypeCallback = ::boost::bind( &::uiImage::SliceIndexPositionEditor::sliceTypeNotification, this, _1);
    m_sliceSelectorPanel->setChangeTypeCallback(changeTypeCallback);
-   
+
    this->updateSliceType(m_orientation);
-    
+
    QObject::connect(m_sliceSelectorPanel->m_sliceIndex, SIGNAL(valueChanged(int)), this, SLOT(sliceIndexSlot()));
-    
+
    widget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    
+
    layout->addWidget( widget);
    layout->setContentsMargins(0,0,0,0);
 
    m_container->setLayout(layout);
    m_container->setMinimumSize(widget->size());
-    
+
     // tres important
    this->updating();
 }
@@ -98,11 +98,11 @@ void SliceIndexPositionEditor::starting() throw(::fwTools::Failed)
 
 void SliceIndexPositionEditor::stopping() throw(::fwTools::Failed)
 {
-  
+
     if(m_sliceSelectorPanel)
     {
         //delete m_sliceSelectorPanel;
-	m_sliceSelectorPanel->deleteLater();
+    m_sliceSelectorPanel->deleteLater();
         m_sliceSelectorPanel = 0;
     }
 
@@ -132,19 +132,19 @@ void SliceIndexPositionEditor::configuring() throw(fwTools::Failed)
              m_orientation = X_AXIS;
          }
     }
-    
+
 }
 
 //------------------------------------------------------------------------------
 
 void SliceIndexPositionEditor::updating() throw(::fwTools::Failed)
 {
-  
+
     ::fwData::Image::sptr image = this->getObject< ::fwData::Image >();
     bool imageIsValid = ::fwComEd::fieldHelper::MedicalImageHelpers::checkImageValidity( image );
     this->updateImageInfos(image);
     this->updateSliceIndex();
-    
+
 }
 
 //------------------------------------------------------------------------------
@@ -211,7 +211,7 @@ void SliceIndexPositionEditor::updateSliceIndex()
     int max = image->getSize()[m_orientation]-1;
     m_sliceSelectorPanel->setSliceRange( 0, max );
     m_sliceSelectorPanel->setSliceValue( index );
-    
+
 }
 
 //------------------------------------------------------------------------------
@@ -229,7 +229,7 @@ void SliceIndexPositionEditor::updateSliceType(Orientation type )
     m_sliceSelectorPanel->setSliceRange( 0, max );
     m_sliceSelectorPanel->setSliceValue( index );
     this->updateSliceIndex();
-    
+
 }
 
 //------------------------------------------------------------------------------
@@ -246,7 +246,7 @@ void SliceIndexPositionEditor::sliceIndexSlot()
     image->getFieldSingleElement< ::fwData::Integer >( fieldID )->value() = m_sliceSelectorPanel->m_sliceIndex->value();
 
     ::fwServices::IEditionService::notify(this->getSptr(),  image, msg);
-    
+
      unsigned int index = image->getFieldSingleElement< ::fwData::Integer >( fieldID )->value();
      m_sliceSelectorPanel->setSliceValue( index );
 
@@ -267,7 +267,7 @@ void SliceIndexPositionEditor::sliceIndexNotification( unsigned int index)
     image->getFieldSingleElement< ::fwData::Integer >( fieldID )->value() = index;
 
     ::fwServices::IEditionService::notify(this->getSptr(),  image, msg);
-    
+
 }
 
 //------------------------------------------------------------------------------
@@ -297,7 +297,7 @@ void SliceIndexPositionEditor::sliceTypeNotification( int _type )
     ::fwData::Image::sptr image = this->getObject< ::fwData::Image >();
     ::fwServices::IEditionService::notify(this->getSptr(),  image, msg);
     this->updateSliceIndex();
-    
+
 }
 
 }
