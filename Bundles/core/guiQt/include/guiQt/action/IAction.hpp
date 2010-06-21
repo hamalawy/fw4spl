@@ -26,7 +26,8 @@ namespace action
 
 class Action;
 
-class GUIQT_CLASS_API IAction : public QObject, public ::fwServices::IService
+//public QObject,
+class GUIQT_CLASS_API IAction : public ::fwServices::IService
 {
 
 public :
@@ -105,6 +106,13 @@ public :
      // void setCheck(bool _check);
 
       GUIQT_API void createActions();
+
+      /**
+       * @brief   Set the object name of the QObject.
+       *
+       * @param[in]: name .
+       */
+      void setActionObjectName(const std::string& name);
 
 //      QMenu *currentMenu;s
 

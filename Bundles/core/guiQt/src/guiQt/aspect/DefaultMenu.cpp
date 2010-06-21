@@ -123,7 +123,8 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
         //    std::cout<<"    iterAction-getMenuName() : "<<(*iterAction)->getMenuName()<<"\n";
 
         //    std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<"\n";
-            (*iterAction)->setObjectName((*iterAction)->getNameInMenu().c_str());
+//            (*iterAction)->setObjectName((*iterAction)->getNameInMenu().c_str());
+            (*iterAction)->setActionObjectName((*iterAction)->getNameInMenu().c_str());
         //     std::cout<<"*ObjectName :  "<<(*iterAction)->objectName().toStdString()<<"\n";
 
                     (*iterAction)->start() ;

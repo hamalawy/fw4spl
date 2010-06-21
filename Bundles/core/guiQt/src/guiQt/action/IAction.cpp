@@ -127,5 +127,13 @@ QAction* IAction::getMenuItem()
     return m_action->getMenuItem();
 }
 
+//-----------------------------------------------------------------------------
+void IAction::setActionObjectName(const std::string& name)
+{
+    SLM_TRACE_FUNC();
+    m_action->setObjectName(name.c_str());
+}
+
+
 }
 }
