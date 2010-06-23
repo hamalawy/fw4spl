@@ -74,7 +74,7 @@ private:
     QPushButton * m_colourButton ;
     QSlider * m_opacitySlider ;
     QLabel *m_label;
-    QVBoxLayout *layout;
+    QVBoxLayout *m_layout;
 
 };
 

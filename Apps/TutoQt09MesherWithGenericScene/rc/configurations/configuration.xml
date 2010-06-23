@@ -19,10 +19,10 @@
         <service uid="multiView_scene1" type="::guiQt::view::IView" implementation="::guiQt::view::MultiView" autoComChannel="no">
             <views>
                 <view uid="genericScene" align="center" autoStart="yes" />
-                <view uid="listOrganEditor" align="right" />
-            <view uid="organMaterialEditor" align="right" />
+                <view uid="listOrganEditor" align="right" title="Organs"/>
+                <view uid="organMaterialEditor" align="right" movable="0" />
                 <view uid="representationEditor" align="right" />         
-                <view uid="multiView_scene1_bottom" align="bottom" minHeight="30" resizable="no" autoStart="yes" />
+                <view uid="multiView_scene1_bottom" align="bottom" movable="0" minHeight="30" resizable="no" autoStart="yes" />
             </views>
         </service>
         

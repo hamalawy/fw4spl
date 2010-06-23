@@ -171,6 +171,8 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
         }
         else
             pi->m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+	
+	
 
         layout->addWidget( pi->m_panel);
 

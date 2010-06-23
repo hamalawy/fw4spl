@@ -65,6 +65,10 @@ void MultiView::configuring() throw( ::fwTools::Failed )
         {
             vi.m_align = (*iter)->getExistingAttributeValue("align");
         }
+	 if( (*iter)->hasAttribute("title") )
+        {
+            vi.m_title = (*iter)->getExistingAttributeValue("title");
+        }
 
         if( (*iter)->hasAttribute("minWidth") )
         {
@@ -90,6 +94,11 @@ void MultiView::configuring() throw( ::fwTools::Failed )
         {
             std::string position = (*iter)->getExistingAttributeValue("position") ;
             vi.m_position = ::boost::lexical_cast< int >(position);
+        }
+	 if( (*iter)->hasAttribute("movable") )
+        {
+            std::string movable = (*iter)->getExistingAttributeValue("movable") ;
+            vi.m_movable = ::boost::lexical_cast< int >(movable);
         }
 
         if( (*iter)->hasAttribute("layer") )
@@ -159,10 +168,18 @@ void MultiView::starting() throw(::fwTools::Failed)
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
     {
-        QDockWidget *widget = new QDockWidget((pi->first).c_str(), m_manager);
-	widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
-	//pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(),m_manager);
-	// TODO : add name of view
+      QDockWidget *widget;
+      if(pi->second.m_title=="")        
+      {  
+	widget = new QDockWidget((pi->first).c_str(), m_manager);
+      }
+      else 
+      { 
+	widget = new QDockWidget((pi->second.m_title).c_str(), m_manager);
+
+      }
+ 	widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+
 	pi->second.m_panel = new QWidget();
 	pi->second.m_panel->setWindowTitle((this->getUUID()).c_str());
 	pi->second.m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -195,6 +212,12 @@ void MultiView::starting() throw(::fwTools::Failed)
 	  // on verra
 	  SLM_TRACE(" NO DOCKWIGET POSITION SPECIFIED ");
 	}
+	
+	if(pi->second.m_movable==0)        
+	{  
+	  widget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	}
+	
 
         this->registerQtContainer(pi->first,  pi->second.m_panel);
 

@@ -50,12 +50,15 @@ void OrganMaterialEditor::starting() throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
     ::guiQt::editor::IEditor::starting();
     
-   // QVBoxLayout *layout = new QVBoxLayout();
-    layout = new QVBoxLayout();
-    
-    m_label = new QLabel(QObject::tr("Transparency :"),m_container);
+   // QWidget *widget = new QWidget(m_container);
 
-    m_colourButton = new QPushButton(m_container);
+    m_layout = new QVBoxLayout();
+    
+//    m_label = new QLabel(QObject::tr("Transparency :"));
+    m_label = new QLabel();
+    
+
+    m_colourButton = new QPushButton();
     QObject::connect(m_colourButton, SIGNAL(clicked()), this, SLOT(colorButton())); 
     
     m_opacitySlider = new QSlider(Qt::Horizontal);
@@ -64,12 +67,16 @@ void OrganMaterialEditor::starting() throw(::fwTools::Failed)
 
     
 
-    layout->addWidget(m_colourButton);
-    layout->addWidget(m_label);
-    layout->addWidget(m_opacitySlider);
+    m_layout->addWidget(m_colourButton);
+    m_layout->addWidget(m_label);
+    m_layout->addWidget(m_opacitySlider);
     
+     m_container->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+     m_container->setMinimumSize(300, 80);
     
-     m_container->setLayout(layout);
+     m_container->setLayout(m_layout);
+     
+
     
    // m_container->setEnabled(false);
     
@@ -85,7 +92,7 @@ void OrganMaterialEditor::stopping() throw(::fwTools::Failed)
     m_label->deleteLater();
     m_colourButton->deleteLater();
     m_opacitySlider->deleteLater();
-    layout->deleteLater();
+    m_layout->deleteLater();
     
     ::guiQt::editor::IEditor::stopping();
 }
