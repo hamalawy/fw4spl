@@ -35,11 +35,13 @@ class GUIQT_CLASS_API MultiView : public ::guiQt::view::IView
 
         ViewInfo() :
             m_align ("center"),
+	    m_title (""),
             m_minSize (std::make_pair(-1,-1)),
             m_isResizable(true),
             m_visible (true),
             m_panel (0),
             m_position(0),
+	    m_movable(1),
             m_layer(0),
             m_row(0),
             m_autostart(false),
@@ -47,15 +49,17 @@ class GUIQT_CLASS_API MultiView : public ::guiQt::view::IView
         {}
 
         std::string                      m_align;
+	std::string                      m_title;
         std::pair< int, int >            m_minSize;
         bool                             m_visible;
-        QWidget*                     m_panel;
+        QWidget*                         m_panel;
         bool                             m_isResizable;
         int                              m_position;
         int                              m_layer;
         int                              m_row;
         bool                             m_autostart;
         std::pair< bool, std::string >   m_caption;
+	int				 m_movable;
     };
 
 public :

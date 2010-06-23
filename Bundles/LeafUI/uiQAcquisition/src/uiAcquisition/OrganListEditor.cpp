@@ -56,7 +56,8 @@ void OrganListEditor::starting() throw(::fwTools::Failed)
 
     m_listLayout = new QVBoxLayout();
 
-    m_organs = new QGroupBox(QObject::tr("Organs"), m_container);
+/*    m_organs = new QGroupBox(QObject::tr("Organs"), m_container);*/
+    m_organs = new QGroupBox(m_container);
     m_organs->setEnabled(false);
 
     m_showCheckBox = new QCheckBox(QObject::tr("Hide organs"), m_organs);
