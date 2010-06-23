@@ -159,7 +159,7 @@ void MultiView::starting() throw(::fwTools::Failed)
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
     {
-        QDockWidget *widget = new QDockWidget(m_manager);
+        QDockWidget *widget = new QDockWidget((pi->first).c_str(), m_manager);
 	widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
 	//pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(),m_manager);
 	// TODO : add name of view
