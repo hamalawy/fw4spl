@@ -40,7 +40,7 @@
                 <action uid="action_openFile" />
             </service>
 
-            <service uid="action_openFile" implementation="::guiQt::action::StarterActionService" name="OpenFile" type="::guiQt::action::IAction" autoComChannel="no">
+            <service uid="action_openFile" implementation="::guiQt::action::StarterActionService" name="OpenFile" type="::guiQt::action::IAction" shortcut="Ctrl+O" autoComChannel="no">
                 <start uid="myReaderPathFile" />
             </service>
 
