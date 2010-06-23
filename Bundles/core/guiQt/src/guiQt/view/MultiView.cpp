@@ -40,7 +40,7 @@ MultiView::~MultiView() throw()
 
 void MultiView::configuring() throw( ::fwTools::Failed )
 {
-
+    
     assert( m_configuration->getName() == "service" );
     SLM_FATAL_IF( "Depreciated tag \"win\" in configuration", m_configuration->findConfigurationElement("win") );
 
@@ -82,7 +82,7 @@ void MultiView::configuring() throw( ::fwTools::Failed )
         {
             std::string resizable = (*iter)->getExistingAttributeValue("resizable") ;
             OSLM_ASSERT("Incorrect value for \"resizable\" attribute "<<resizable,
-                    (resizable == "yes") || (resizable == "no"));
+                               (resizable == "yes") || (resizable == "no"));
             vi.m_isResizable = (resizable=="yes") ;
         }
 
@@ -148,53 +148,53 @@ void MultiView::info(std::ostream &_sstream )
 
 void MultiView::starting() throw(::fwTools::Failed)
 {
-
+  
     SLM_TRACE_FUNC();
     this->initGuiParentContainer();
 
-    QWidget *mainWidget = this->getQtContainer();
-    m_manager =  qobject_cast<QMainWindow *>(mainWidget);
-
-
-
+    //QWidget *mainWidget = this->getQtContainer();
+    m_manager =  qobject_cast<QMainWindow *>(m_container);
+    QMainWindow* centerView = new QMainWindow();
+   
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
     {
         QDockWidget *widget = new QDockWidget(m_manager);
-        widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
-        //pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(),m_manager);
-        // TODO : add name of view
-        pi->second.m_panel = new QWidget();
-        pi->second.m_panel->setWindowTitle((this->getUUID()).c_str());
-        pi->second.m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+	widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	//pi->second.m_panel = new QDockWidget((this->getUUID()).c_str(),m_manager);
+	// TODO : add name of view
+	pi->second.m_panel = new QWidget();
+	pi->second.m_panel->setWindowTitle((this->getUUID()).c_str());
+	pi->second.m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
         widget->setWidget(pi->second.m_panel);
 
 
-        if(pi->second.m_align=="center")
-        {
-            m_manager->setCentralWidget(pi->second.m_panel);
-        }
+        if(pi->second.m_align=="center")        
+	{  
+	 centerView->setCentralWidget(pi->second.m_panel);	
+	}
         else if(pi->second.m_align=="right")
-        {
-            m_manager->addDockWidget(Qt::RightDockWidgetArea,  widget);
+	{ 
+	  centerView->addDockWidget(Qt::RightDockWidgetArea,  widget);	 
 
-        }
-        else if(pi->second.m_align=="left")
-        {
-            m_manager->addDockWidget(Qt::LeftDockWidgetArea,  widget);
-        }
+	}
+        else if(pi->second.m_align=="left") 
+	{ 
+	  centerView->addDockWidget(Qt::LeftDockWidgetArea,  widget);	 
+	}
         else if(pi->second.m_align=="top")
-        {
-            m_manager->addDockWidget(Qt::TopDockWidgetArea, widget);
-        }
+	{ 
+	  centerView->addDockWidget(Qt::TopDockWidgetArea, widget);	
+	}
         else if(pi->second.m_align=="bottom")
-        {
-            m_manager->addDockWidget(Qt::BottomDockWidgetArea, widget);
-        }
-        else
-        {
-            // on verra
-        }
+	{ 
+	  centerView->addDockWidget(Qt::BottomDockWidgetArea, widget);	 
+	}
+	else
+	{
+	  // on verra
+	  SLM_TRACE(" NO DOCKWIGET POSITION SPECIFIED ");
+	}
 
         this->registerQtContainer(pi->first,  pi->second.m_panel);
 
@@ -206,7 +206,27 @@ void MultiView::starting() throw(::fwTools::Failed)
 
         }
     }
-    m_manager->show();
+    //m_manager->show();
+    
+     if(m_manager) // Si le cast a reussi donc si c'est une vu imbriquée dans une autre
+    {
+      centerView->setParent(m_manager);
+      m_manager->setCentralWidget(centerView);
+     }
+     else
+      {
+	  // A voir : test V ou H
+	  QHBoxLayout *subLayout = new  QHBoxLayout();
+	  centerView->setParent(m_container);
+
+	  centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding); // TRES IMPORTANT
+	    
+	  subLayout->addWidget( centerView);
+	  m_container->setLayout(subLayout);
+	  
+	}
+    
+    
 }
 //-----------------------------------------------------------------------------
 
@@ -249,4 +269,3 @@ void MultiView::swappping() throw( ::fwTools::Failed )
 }
 
 }
-

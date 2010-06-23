@@ -107,8 +107,8 @@ void DefaultView::starting() throw(::fwTools::Failed)
     this->initGuiParentContainer();
     //::guiQt::editor::IEditor::starting();
 
-    QWidget *mainWidget = this->getQtContainer();
-    m_manager =  qobject_cast<QMainWindow *>(mainWidget);
+    m_manager =  qobject_cast<QMainWindow *>(m_container);
+    QMainWindow* centerView = new QMainWindow();
     // Pour MacOs
     m_manager->setUnifiedTitleAndToolBarOnMac(true);
 
@@ -124,11 +124,11 @@ void DefaultView::starting() throw(::fwTools::Failed)
 
         if(pi == m_panels.begin())
         {
-            m_manager->setCentralWidget(pi->second.m_panel);
+	   centerView->setCentralWidget(pi->second.m_panel);	
         }
         else
         {
-            m_manager->addDockWidget(Qt::RightDockWidgetArea,  widget);
+	   centerView->addDockWidget(Qt::RightDockWidgetArea,  widget);	 
         }
 
         this->registerQtContainer(pi->first,  pi->second.m_panel);
@@ -140,7 +140,23 @@ void DefaultView::starting() throw(::fwTools::Failed)
             service->start();
         }
     }
-    m_manager->show();
+      if(m_manager) // Si le cast a reussi donc si c'est une vu imbriquée dans une autre
+    {
+      centerView->setParent(m_manager);
+      m_manager->setCentralWidget(centerView);
+     }
+     else
+      {
+	  // A voir : test V ou H
+	  QHBoxLayout *subLayout = new  QHBoxLayout();
+	  centerView->setParent(m_container);
+
+	  centerView->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding); // TRES IMPORTANT
+	    
+	  subLayout->addWidget( centerView);
+	  m_container->setLayout(subLayout);
+	  
+	}
 
 }
 //-----------------------------------------------------------------------------
@@ -184,4 +200,3 @@ void DefaultView::swappping() throw( ::fwTools::Failed )
 }
 
 }
-
