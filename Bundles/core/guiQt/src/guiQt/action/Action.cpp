@@ -78,12 +78,12 @@ void Action::configuring(::fwRuntime::ConfigurationElement::sptr configuration) 
         m_actionNameInMenu = m_configuration->getExistingAttributeValue("name") ;
         OSLM_TRACE("Action name : " << m_actionNameInMenu ) ;
     }
-/*
+
     if( m_configuration->hasAttribute("shortcut") )
     {
         m_shortcutDef = m_configuration->getExistingAttributeValue("shortcut") ;
         OSLM_TRACE("shortcut : " << m_shortcutDef ) ;
-    }*/
+    }
 /*
     if( m_configuration->hasAttribute("style") )
     {
@@ -120,8 +120,8 @@ void Action::info(std::ostream &_sstream )
 void Action::starting() throw(::fwTools::Failed)
 {
 
-    OSLM_TRACE("starting action " << this->getId() ); //: info = " << *this) ;
-    SLM_ASSERT("Action must be associated with a menu", !m_menuName.empty());
+   OSLM_TRACE("starting action " << this->getId() ); //: info = " << *this) ;
+   SLM_ASSERT("Action must be associated with a menu", !m_menuName.empty());
 
    // Get the main widget
    QWidget *mainWidget = qApp->activeWindow();
@@ -129,6 +129,7 @@ void Action::starting() throw(::fwTools::Failed)
    QString *s = new QString(m_menuName.c_str());
    currentMenu = mainWidget->findChild<QMenu *>(m_menuName.c_str());
 
+ 
    createActions();
 
    // setEnable(m_enable);
@@ -153,6 +154,11 @@ void Action::run()
 void Action::createActions()
 {
   m_action = new QAction(m_actionNameInMenu.c_str(), currentMenu);
+    if( !m_shortcutDef.empty() )
+   {
+      m_action->setShortcut(QObject::tr(m_shortcutDef.c_str()));
+   }
+   
   currentMenu->addAction(m_action);
   QObject::connect(m_action, SIGNAL(triggered()),this, SLOT(run()));
 

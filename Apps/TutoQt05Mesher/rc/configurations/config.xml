@@ -35,7 +35,7 @@
             <action uid="actionCreateVTKMesh"/>  
         </service>
 
-        <service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" autoComChannel="no" />
+        <service uid="action_quit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" shortcut="Ctrl+Q" autoComChannel="no" />
 
         <!-- Service associated to the Composite data :
         menu services creation.

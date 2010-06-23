@@ -31,7 +31,7 @@
             <action uid="actionImageFilter"/>
         </service>
         <!-- Actions on Menus -->         
-        <service uid="actionQuit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction"  autoComChannel="no" />
+        <service uid="actionQuit" specialAction="QUIT"  name="Quit" type="::guiQt::action::IAction" implementation="::guiQt::action::QuitAction" shortcut="Ctrl+Q" autoComChannel="no" />
         <service uid="actionOpenImageFile" type="::guiQt::action::IAction" implementation="::guiQt::action::StarterActionService" name="Open image file" autoComChannel="no" >
             <start uid="readerPathImageFile"/>
         </service>
