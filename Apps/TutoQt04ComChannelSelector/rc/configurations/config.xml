@@ -16,8 +16,8 @@
         <service uid="myDefaultView" type="::guiQt::view::IView" implementation="::guiQt::view::DefaultView" autoComChannel="no" >
             <views>
                 <view uid="myRenderingTuto1" autoStart="yes" />
-                <view uid="myRenderingTuto2" autoStart="yes" />
-                <view uid="myRenderingTuto3" autoStart="yes" />
+                <view uid="myRenderingTuto2" autoStart="yes" minWidth="200" minHeight="500" />
+                <view uid="myRenderingTuto3" autoStart="yes" minWidth="400" minHeight="300"/>
             </views>
         </service>
            
