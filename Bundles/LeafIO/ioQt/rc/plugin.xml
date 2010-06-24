@@ -8,10 +8,10 @@
     <requirement id="guiQt"/>
    
     
-    <point id="::ioQt::ImageReaderService">
+   <!-- <point id="::ioQt::ImageReaderService">
         <implements>::io::IReader</implements>
         <implements>::fwData::Image</implements>
-    </point>
+    </point>-->
     
    <point id="::ioQt::FileSelector">
         <implements>::guiQt::editor::IEditor</implements>
@@ -32,8 +32,8 @@
         <info text="TriangularMesh Reader"/>
     </extension>
     
-    <extension implements="::ioQt::ImageReaderService" >
+  <!--  <extension implements="::ioQt::ImageReaderService" >
 	<info text="PNG file Reader"/>
-    </extension>
+    </extension>-->
   
 </plugin>
