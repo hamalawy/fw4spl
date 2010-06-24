@@ -36,13 +36,18 @@ class  GUIQT_CLASS_API DefaultView : public ::guiQt::view::IView
     public :
 
         ViewInfo() :
-            m_minSize (std::make_pair(-1,-1)),
+	    // Negative sizes are not possible
+            m_minSize (std::make_pair(0,0)),
+	    m_movable(1),
+	    m_title (""),
             m_panel (0),
             m_autostart(false)
             {}
         std::pair< int, int >   m_minSize;
-        QWidget*        m_panel;
-        bool                    m_autostart;
+        QWidget*      	        m_panel;
+        bool            	m_autostart;
+	int			m_movable;
+	std::string             m_title;
     };
 
 

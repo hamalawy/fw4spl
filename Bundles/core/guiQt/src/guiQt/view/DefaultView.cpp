@@ -61,7 +61,16 @@ void DefaultView::configuring() throw( ::fwTools::Failed )
 
         SLM_FATAL_IF("<view> node must contain uid attribute", !(*iter)->hasAttribute("uid") );
         uid = (*iter)->getExistingAttributeValue("uid");
-
+	
+	 if( (*iter)->hasAttribute("title") )
+        {
+            vi.m_title = (*iter)->getExistingAttributeValue("title");
+        }
+	if( (*iter)->hasAttribute("movable") )
+        {
+            std::string movable = (*iter)->getExistingAttributeValue("movable") ;
+            vi.m_movable = ::boost::lexical_cast< int >(movable);
+        }
         if( (*iter)->hasAttribute("minWidth") )
         {
             std::string width = (*iter)->getExistingAttributeValue("minWidth") ;
@@ -114,12 +123,23 @@ void DefaultView::starting() throw(::fwTools::Failed)
 
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
-    {
-        QDockWidget *widget = new QDockWidget((pi->first).c_str(),m_manager);
+    {	
+      QDockWidget *widget;
+      if(pi->second.m_title=="")        
+      {  
+	widget = new QDockWidget((pi->first).c_str(), m_manager);
+      }
+      else 
+      { 
+	widget = new QDockWidget((pi->second.m_title).c_str(), m_manager);
+      }
+	
         widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
 
         pi->second.m_panel = new QWidget();
         pi->second.m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+	pi->second.m_panel->setMinimumSize(pi->second.m_minSize.first, pi->second.m_minSize.second);
+
         widget->setWidget(pi->second.m_panel);  // IMPORTANT : must use the widget provided by dockWidget though setWidget()
 
         if(pi == m_panels.begin())
@@ -130,7 +150,12 @@ void DefaultView::starting() throw(::fwTools::Failed)
         {
 	   centerView->addDockWidget(Qt::RightDockWidgetArea,  widget);	 
         }
-
+	
+	if(pi->second.m_movable==0)        
+	{  
+	  widget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+	}
+	
         this->registerQtContainer(pi->first,  pi->second.m_panel);
 
         if(pi->second.m_autostart)

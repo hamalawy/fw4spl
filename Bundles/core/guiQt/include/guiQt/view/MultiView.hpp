@@ -35,8 +35,9 @@ class GUIQT_CLASS_API MultiView : public ::guiQt::view::IView
 
         ViewInfo() :
             m_align ("center"),
-	    m_title (""),
-            m_minSize (std::make_pair(-1,-1)),
+	    m_title (""),	    
+	    // Negative sizes are not possible
+            m_minSize (std::make_pair(0,0)),
             m_isResizable(true),
             m_visible (true),
             m_panel (0),
