@@ -4,7 +4,8 @@ VERSION = '0-1'
 BUNDLES = [ 
     'io_0-1'             	,
     'ioQt_0-1'                  ,	
-    'uiQt_0-1'                  ,	
+    'uiQt_0-1'                  ,
+    'uiIOQt_0-1'                  ,
     'guiQt_0-1'			,
     'dataReg_0-1'        	,
     'servicesReg_0-1'    	

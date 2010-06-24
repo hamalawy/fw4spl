@@ -58,8 +58,12 @@
 		<service uid="ToolBar" type="::guiQt::aspect::IToolBar" implementation="::guiQt::aspect::DefaultToolBar" autoComChannel="no" >
   	</service>
 
-    <service uid="myReaderPathFile" type="::guiQt::editor::IEditor" implementation="::ioQt::FileSelector"  autoComChannel="no" />
-    <service uid="fileSelector" type="::guiQt::editor::IEditor" implementation="::ioQt::FileSelector"  autoComChannel="no" />
+	<!--<service uid="myReaderPathFile" implementation="::uiIOQt::editor::IOSelectorService" type="::guiQt::editor::IEditor" autoComChannel="no" >
+            <type mode="reader"/>
+        </service>-->
+	
+	<service uid="myReaderPathFile" type="::guiQt::editor::IEditor" implementation="::ioQt::FileSelector"  autoComChannel="no" />
+	<service uid="fileSelector" type="::guiQt::editor::IEditor" implementation="::ioQt::FileSelector"  autoComChannel="no" />
 
 		<service uid="myRenderingTuto1"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />
 		<service uid="myRenderingTuto2"  type="::guiQt::editor::IEditor" implementation="::uiQt::ImageEditor"  autoComChannel="yes" />
