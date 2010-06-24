@@ -21,6 +21,7 @@
            
         <service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
             <action uid="action_openFile"/>   
+	    <separator/>
             <action uid="action_quit"/>
         </service>
     

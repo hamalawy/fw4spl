@@ -26,8 +26,10 @@
         <service name="File" uid="menu_File" type="::guiQt::aspect::IMenu" implementation="::guiQt::aspect::DefaultMenu" autoComChannel="no" >
             <action uid="action_openImageFile"/>   
             <action uid="action_saveImageFile"/> 
+	    <separator/>
             <action uid="action_openMeshFile"/>
             <action uid="action_saveMeshFile"/>
+	    <separator/>
             <action uid="action_quit"/>
         </service>
     
