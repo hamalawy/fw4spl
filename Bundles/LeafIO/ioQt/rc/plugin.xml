@@ -28,5 +28,12 @@
         <implements>::fwData::TriangularMesh</implements>
     </point>
     
+    <extension implements="::ioQt::TriangularMeshReaderService" >
+        <info text="TriangularMesh Reader"/>
+    </extension>
+    
+    <extension implements="::ioQt::ImageReaderService" >
+	<info text="PNG file Reader"/>
+    </extension>
   
 </plugin>

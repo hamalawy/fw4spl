@@ -231,14 +231,14 @@ void IOSelectorService::updating() throw( ::fwTools::Failed )
                 availableExtensionsMap.push_back( std::pair < std::string, std::string > (serviceId, infoUser) );
                 availableExtensionsSelector.push_back( infoUser );
 
-        selection << infoUser.c_str();
+		selection << infoUser.c_str();
             }
             else
             {
                 availableExtensionsMap.push_back( std::pair < std::string, std::string > (serviceId, serviceId) );
                 availableExtensionsSelector.push_back( serviceId );
 
-        selection << serviceId.c_str();
+		selection << serviceId.c_str();
             }
 
         }

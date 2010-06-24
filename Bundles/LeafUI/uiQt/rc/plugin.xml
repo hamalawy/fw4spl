@@ -15,7 +15,6 @@
     <implements>::guiQt::editor::IEditor</implements>
     <implements>::fwData::location::SingleFile</implements>
 </point>
-
     
 </plugin>
 
