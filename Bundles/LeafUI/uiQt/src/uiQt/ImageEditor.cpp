@@ -31,6 +31,7 @@
 #include <vtkActor.h>
 
 
+
 REGISTER_SERVICE( ::guiQt::editor::IEditor , ::uiQt::ImageEditor , ::fwData::location::SingleFile) ;
 
 

@@ -30,5 +30,25 @@
         <implements>::fwData::PatientDB</implements>
     </point>    
     
+    <extension implements="::ioVTK::ImageWriterService" >
+        <info text="VTK Image Writer (VTK)"/>
+    </extension>
+    
+    <extension implements="::ioVTK::MeshWriterService" >
+        <info text="VTK Mesh Writer (VTK)"/>
+    </extension>
+    
+    <extension implements="::ioQVTK::ImageReaderService" >
+        <info text="VTK Image Reader (VTK)"/>
+    </extension>
+    
+    <extension implements="::ioQVTK::MeshReaderService" >
+        <info text="VTK Mesh Reader (VTK)"/>
+    </extension>
+    
+    <extension implements="::ioVTK::VtkPatientDBReaderService" >
+        <info text="VTK Image Reader (VTK)"/>
+    </extension>
+    
     
 </plugin>
