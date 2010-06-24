@@ -66,32 +66,36 @@ void ImageEditor::starting() throw(fwTools::Failed)
    QWidget* view;
 
    QLayout *layout = new QVBoxLayout();
-
+   QLayout *PicLayout = new QVBoxLayout();
+   
    ::guiQt::editor::IEditor::starting();
    OSLM_TRACE("Servie UUID : "<<this->getUUID()<<"\n");
 
    //container = m_globalUIDToQtContainer[this->getUUID()];
    container = m_globalUIDToQtContainer.find(this->getUUID())->second;
-   view = new QWidget(container);
+   view = new QWidget(m_container);
+  // view->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
-    view->setMinimumHeight(container->height());
-    view->setMinimumWidth(container->width());
-
-  view->resize(container->width(), container->height());
+//     view->setMinimumHeight(container->height());
+//     view->setMinimumWidth(container->width());
+//       view->resize(container->width(), container->height());
 
    //layout->setAlignment(Qt::AlignCenter);
-
+   
+   imageLabel = new QLabel();
+   PicLayout->addWidget(imageLabel);
+   view->setLayout(PicLayout);
+ 
    layout->addWidget(view);
-
-   container->setLayout(layout);
+   m_container->setLayout(layout);
 
    // important le setParent
-   imageLabel = new QLabel();
-   imageLabel->setParent(view);//container
+ //   imageLabel->setParent(view)
 
 
- imageLabel->setMinimumHeight(view->height());
-   imageLabel->setMinimumWidth(view->width());
+
+//  imageLabel->setMinimumHeight(view->height());
+//    imageLabel->setMinimumWidth(view->width());
   // imageLabel->setMargin(20);
 
 

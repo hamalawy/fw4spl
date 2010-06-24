@@ -44,7 +44,7 @@ public :
 
      QLabel *imageLabel;
      QImage *image;
-    QFrame *m_frame;
+     QFrame *m_frame;
 
 protected :
 
