@@ -40,7 +40,8 @@ class GUIQT_CLASS_API MultiSizerView : public ::guiQt::view::IView
             m_border(0),
             m_panel (0),
             m_uid(""),
-            m_minSize (std::make_pair(-1,-1)),
+	    // Negative sizes are not possible
+            m_minSize (std::make_pair(0,0)),
             m_autostart(false),
             m_caption (std::make_pair(false,""))
         {}

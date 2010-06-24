@@ -164,6 +164,7 @@ void MultiSizerView::starting() throw(::fwTools::Failed)
     {
 
         pi->m_panel = new QWidget(centerView);
+	pi->m_panel->setMinimumSize(pi->m_minSize.first, pi->m_minSize.second);
 
         if( pi->m_proportion==0)
         {

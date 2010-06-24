@@ -183,6 +183,7 @@ void MultiView::starting() throw(::fwTools::Failed)
 	pi->second.m_panel = new QWidget();
 	pi->second.m_panel->setWindowTitle((this->getUUID()).c_str());
 	pi->second.m_panel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+	pi->second.m_panel->setMinimumSize(pi->second.m_minSize.first, pi->second.m_minSize.second);
         widget->setWidget(pi->second.m_panel);
 
 
