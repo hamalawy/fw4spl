@@ -91,14 +91,11 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
      SLM_FATAL(" List MenuBar empty ");
    }
 
-
+  QMenu *menu = new QMenu(m_menuName.c_str(), mainWidget);
+  menu->setObjectName(m_menuName.c_str());
   if(menuBar != 0)
   {
-
-    QMenu *menu = new QMenu(m_menuName.c_str(), mainWidget);
-    menu->setObjectName(m_menuName.c_str());
     menuBar->addMenu(menu);
-
   }
   else
   {
@@ -109,30 +106,28 @@ void DefaultMenu::starting() throw( ::fwTools::Failed )
      std::vector< ::guiQt::action::IAction::sptr > allActions = ::fwServices::OSR::getServices< ::guiQt::action::IAction >() ;
     for(std::vector< std::string >::iterator iterUUID = m_actionsUID.begin() ; iterUUID != m_actionsUID.end() ; ++iterUUID )
     {
-
+	if((*iterUUID) == ::guiQt::aspect::DefaultMenu::SEPARATOR_UID)
+	{
+	  menu->addSeparator();
+	}
+	else
+	{
             bool actionIsFound = false;
             for(    std::vector< ::guiQt::action::IAction::sptr >::iterator iterAction = allActions.begin();
                     iterAction != allActions.end() && ! actionIsFound ;
                     ++iterAction )
             {
-          //  std::cout<<" getUUID : "<<(*iterAction)->getUUID()<<"  UUID : "<<*iterUUID<<"\n";
                 if( (*iterAction)->getUUID() == *iterUUID )
                 {
-        //   std::cout<<" FOR m_menuName : "<<m_menuName<<" \n\n";
-                    (*iterAction)->setMenuName( m_menuName ) ;
-        //    std::cout<<"    iterAction-getMenuName() : "<<(*iterAction)->getMenuName()<<"\n";
-
-        //    std::cout<<"ActionName :  "<<(*iterAction)->getNameInMenu()<<"\n";
-//            (*iterAction)->setObjectName((*iterAction)->getNameInMenu().c_str());
-            (*iterAction)->setActionObjectName((*iterAction)->getNameInMenu().c_str());
-        //     std::cout<<"*ObjectName :  "<<(*iterAction)->objectName().toStdString()<<"\n";
-
-                    (*iterAction)->start() ;
-                    actionIsFound = true;
+                  (*iterAction)->setMenuName( m_menuName ) ;
+		  (*iterAction)->setActionObjectName((*iterAction)->getNameInMenu().c_str());
+                  (*iterAction)->start() ;
+                  actionIsFound = true;
                 }
 
             }
             OSLM_ASSERT("Action "<<  *iterUUID << " Not Found", actionIsFound);
+	}
     }
 
 }
