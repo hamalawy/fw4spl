@@ -109,6 +109,21 @@ void DefaultView::info(std::ostream &_sstream )
 }
 
 //-----------------------------------------------------------------------------
+// void DefaultView::createDockWidget(QString title, QWidget *parent)
+// {
+//       if(pi->second.m_title=="")        
+//       {  
+// 	widget = new QDockWidget((pi->first).c_str(), m_manager);
+//       }
+//       else 
+//       { 
+// 	widget = new QDockWidget((pi->second.m_title).c_str(), m_manager);
+//       }
+// 	
+//         widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+// }
+
+//-----------------------------------------------------------------------------
 
 void DefaultView::starting() throw(::fwTools::Failed)
 {
@@ -124,31 +139,32 @@ void DefaultView::starting() throw(::fwTools::Failed)
     PanelContainer::iterator pi = m_panels.begin();
     for ( pi; pi!= m_panels.end() ; ++pi )
     {	
-      QDockWidget *widget;
-      if(pi->second.m_title=="")        
-      {  
-	widget = new QDockWidget((pi->first).c_str(), m_manager);
-      }
-      else 
-      { 
-	widget = new QDockWidget((pi->second.m_title).c_str(), m_manager);
-      }
-	
-        widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	QDockWidget *widget;
 
         pi->second.m_panel = new QWidget();
         pi->second.m_panel->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 	pi->second.m_panel->setMinimumSize(pi->second.m_minSize.first, pi->second.m_minSize.second);
 
-        widget->setWidget(pi->second.m_panel);  // IMPORTANT : must use the widget provided by dockWidget though setWidget()
-
+        
         if(pi == m_panels.begin())
         {
 	   centerView->setCentralWidget(pi->second.m_panel);	
+	  // widget->deleteLater();
         }
         else
         {
-	   centerView->addDockWidget(Qt::RightDockWidgetArea,  widget);	 
+	   if(pi->second.m_title=="")        
+	  {  
+	    widget = new QDockWidget((pi->first).c_str(), m_manager);
+	  }
+	  else 
+	  { 
+	    widget = new QDockWidget((pi->second.m_title).c_str(), m_manager);
+	  }
+	    widget->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	    widget->setWidget(pi->second.m_panel);  // IMPORTANT : must use the widget provided by dockWidget though setWidget()
+
+	    centerView->addDockWidget(Qt::RightDockWidgetArea,  widget);	 
         }
 	
 	if(pi->second.m_movable==0)        
