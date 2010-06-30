@@ -82,11 +82,14 @@ public :
 
     /// Prints service name
    GUIQT_API void info(std::ostream &_sstream );
+   
+//    GUIQT_API void createDockWidget(QString title, QWidget *parent);
 
 protected :
 
     /// Layout manager of this view
     QMainWindow* m_manager;
+//     QDockWidget *m_widget;
 
     /// New Container definition
     typedef std::map< std::string , ViewInfo > PanelContainer;
