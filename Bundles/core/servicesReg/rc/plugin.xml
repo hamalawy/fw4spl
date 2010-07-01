@@ -63,5 +63,14 @@
         <implements>::fwServices::IEditionService</implements>
         <implements>::fwData::Composite</implements>
     </point>
+    <point id="::fwComEd::GenericFieldParser">
+        <implements>::fwServices::IXMLParser</implements>
+        <implements>::fwData::Float</implements>
+    </point>
+    <point id="::fwComEd::GenericFieldParser">
+        <implements>::fwServices::IXMLParser</implements>
+        <implements>::fwData::Integer</implements>
+    </point>
+  
 
 </plugin>
