@@ -1,0 +1,27 @@
+<plugin id="ctrlField" class="::ctrlField::Plugin" >
+	<library name="ctrlField" />
+
+	<requirement id="dataReg"/>
+	<requirement id="servicesReg" />
+
+
+	<!-- 	DECLARE NEW SERVICE TYPE -->
+	<point id="::ctrlField::IFieldSynchronizer">
+		<implements>::fwServices::IService</implements>
+	</point>
+
+	<!-- REGISTER_SERVICE( ::ctrlField::IFieldSynchronizer , ::ctrlField::ImageSynchronizer , ::fwData::Composite ) ; -->
+    <point id="::ctrlField::ImageSynchronizer" >
+        <implements>::ctrlField::IFieldSynchronizer</implements>
+        <implements>::fwData::Composite</implements>
+    </point>
+	<!-- REGISTER_SERVICE( ::ctrlField::IFieldSynchronizer , ::ctrlField::ImageSynchronizer , ::fwTools::Object ) ; -->
+    <point id="::ctrlField::ImageSynchronizer" >
+        <implements>::ctrlField::IFieldSynchronizer</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+	
+</plugin>
+
+
+
