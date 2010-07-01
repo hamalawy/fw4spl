@@ -3,6 +3,10 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Contributors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
 
 #include <fwTools/helpers.hpp>
 
@@ -16,6 +20,7 @@
 #include <fwData/TransfertFunction.hpp>
 #include <fwData/Color.hpp>
 #include <fwData/String.hpp>
+#include <fwData/Float.hpp>
 
 #include <vtkIO/vtk.hpp>
 
@@ -220,13 +225,37 @@ void NegatoOneSlice::doUpdate(::fwServices::ObjectMsg::csptr msg) throw(::fwTool
 void NegatoOneSlice::configuring() throw(fwTools::Failed)
 {
     SLM_TRACE_FUNC();
-
-    assert(m_configuration->getName() == "config");
-    this->setRenderId( m_configuration->getAttributeValue("renderer") );
-    this->setPickerId( m_configuration->getAttributeValue("picker") );
-    if(m_configuration->hasAttribute("sliceIndex"))
+    ::fwRuntime::ConfigurationElement::sptr cfg;
+    //To be managed by ::fwRenderVTK::VtkRenderService
+    if(m_configuration->getName() == "config")
     {
-         std::string  orientation = m_configuration->getAttributeValue("sliceIndex");
+        cfg = m_configuration;
+    }
+    //When directly declared as an image service
+    else if( m_configuration->findConfigurationElement("config") )
+    {
+        cfg = m_configuration->findConfigurationElement("config") ;
+    }
+    else
+    {
+        assert(false);
+    }
+
+    if( cfg->hasAttribute("scene") )
+    {
+        OSLM_TRACE("m_configuration->hasAttributeValue scene: true");
+        this->setSceneId(cfg->getAttributeValue("scene"));
+    }
+    else
+    {
+        OSLM_TRACE("m_configuration->hasAttributeValue scene: false");
+    }
+
+    this->setRenderId( cfg->getAttributeValue("renderer") );
+    this->setPickerId( cfg->getAttributeValue("picker") );
+    if(cfg->hasAttribute("sliceIndex"))
+    {
+         std::string  orientation = cfg->getAttributeValue("sliceIndex");
          if(orientation == "axial" )
          {
              m_orientation = Z_AXIS;
@@ -240,21 +269,22 @@ void NegatoOneSlice::configuring() throw(fwTools::Failed)
              m_orientation = X_AXIS;
          }
     }
-    if(m_configuration->hasAttribute("transform") )
+
+    if( cfg->hasAttribute("transform") )
     {
-        this->setTransformId( m_configuration->getAttributeValue("transform") );
+        this->setTransformId( cfg->getAttributeValue("transform") );
     }
-    if(m_configuration->hasAttribute("tfalpha") )
+    if(cfg->hasAttribute("tfalpha") )
     {
-        this->setAllowAlphaInTF(m_configuration->getAttributeValue("tfalpha") == "yes");
+        this->setAllowAlphaInTF(cfg->getAttributeValue("tfalpha") == "yes");
     }
-    if (m_configuration->hasAttribute("interpolation"))
+    if (cfg->hasAttribute("interpolation"))
     {
-        this->setInterpolation(!(m_configuration->getAttributeValue("interpolation") == "off"));
+        this->setInterpolation(!(cfg->getAttributeValue("interpolation") == "off"));
     }
-    if (m_configuration->hasAttribute("vtkimagesource"))
+    if (cfg->hasAttribute("vtkimagesource"))
     {
-        this->setVtkImageSourceId( m_configuration->getAttributeValue("vtkimagesource") );
+        this->setVtkImageSourceId( cfg->getAttributeValue("vtkimagesource") );
     }
 }
 

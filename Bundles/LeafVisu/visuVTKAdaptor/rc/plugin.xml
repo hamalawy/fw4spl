@@ -7,8 +7,6 @@
     <requirement id="visu" />
     <requirement id="visuVTK" />
 
-    
-
     <!-- REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::Render,::fwTools::Object ); -->
     <point id="::visuVTKAdaptor::Render" >
         <implements>::fwRenderVTK::IVtkAdaptorService</implements>
@@ -249,7 +247,17 @@
         <implements>::fwData::Composite</implements>
     </point>
 
+    <!-- REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::NegatoPointPicker, ::visuVTKAdaptor::NegatoOneSlice ) ; -->
+    <point id="::visuVTKAdaptor::NegatoPointPicker" >
+        <implements>::fwRenderVTK::IVtkAdaptorService</implements>
+        <implements>::visuVTKAdaptor::NegatoOneSlice</implements>
+    </point>
 
+    <!-- REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::NegatoWindower, ::visuVTKAdaptor::NegatoOneSlice ) ; -->
+    <point id="::visuVTKAdaptor::NegatoWindower" >
+        <implements>::fwRenderVTK::IVtkAdaptorService</implements>
+        <implements>::visuVTKAdaptor::NegatoOneSlice</implements>
+    </point>
 
 </plugin>
 

@@ -3,7 +3,6 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
-
 #include <boost/foreach.hpp>
 
 #include <fwTools/helpers.hpp>
@@ -144,40 +143,40 @@ void MedicalImageAdaptor::getPlane( double points[4][3] , int sliceNumber)
 
 //------------------------------------------------------------------------------
 
-void MedicalImageAdaptor::worldToSliceIndex(const double world[3], int index[3] )
-{
-    double spacing[3];
-    this->getImageSpacing(spacing);
-    for ( int i=0 ; i<3 ; ++i )
-    {
-        // nearest integer
-        index[i] = static_cast<int>( (world[i]/spacing[i]) + ( (world[i]/spacing[i]) >= 0 ? 0.5 : -0.5 ) );
-    }
-}
-
-//------------------------------------------------------------------------------
-
-void MedicalImageAdaptor::worldToImageSliceIndex(const double world[3], int index[3] )
-{
-    int imageSize[3];
-    this->getImageDataSize(imageSize);
-    this->worldToSliceIndex(world, index);
-
-    int idval;
-    for (int i = 0; i < 3; i++)
-    {
-        int max = imageSize[i]-1;
-        idval = index[i];
-        if (idval < 0)
-        {
-            index[i] = 0;
-        }
-        else if (idval > max)
-        {
-            index[i] = max;
-        }
-    }
-}
+//void MedicalImageAdaptor::worldToSliceIndex(const double world[3], int index[3] )
+//{
+//    double spacing[3];
+//    this->getImageSpacing(spacing);
+//    for ( int i=0 ; i<3 ; ++i )
+//    {
+//        // nearest integer
+//        index[i] = static_cast<int>( (world[i]/spacing[i]) + ( (world[i]/spacing[i]) >= 0 ? 0.5 : -0.5 ) );
+//    }
+//}
+//
+////------------------------------------------------------------------------------
+//
+//void MedicalImageAdaptor::worldToImageSliceIndex(const double world[3], int index[3] )
+//{
+//    int imageSize[3];
+//    this->getImageDataSize(imageSize);
+//    this->worldToSliceIndex(world, index);
+//
+//    int idval;
+//    for (int i = 0; i < 3; i++)
+//    {
+//        int max = imageSize[i]-1;
+//        idval = index[i];
+//        if (idval < 0)
+//        {
+//            index[i] = 0;
+//        }
+//        else if (idval > max)
+//        {
+//            index[i] = max;
+//        }
+//    }
+//}
 
 //------------------------------------------------------------------------------
 
@@ -258,6 +257,15 @@ void MedicalImageAdaptor::updateImageInfos( ::fwData::Image::sptr image  )
 }
 
 //------------------------------------------------------------------------------
+
+::fwData::Integer::sptr MedicalImageAdaptor::getWindowMin()
+{
+	return m_windowMin;
+}
+::fwData::Integer::sptr MedicalImageAdaptor::getWindowMax()
+{
+	return m_windowMax;
+}
 
 } //namespace helper
 

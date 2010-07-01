@@ -43,7 +43,20 @@ public:
 
     FWCOMED_API void setOrientation( Orientation orientation );
     FWCOMED_API Orientation getOrientation(){ return m_orientation; }
+    
+//    FWCOMED_API void worldToSliceIndex(const double world[3],int index[3] );
+//    FWCOMED_API void worldToImageSliceIndex(const double world[3], int index[3] );
+    
+    template< typename WORLD, typename INDEX >
+    void worldToSliceIndex(const WORLD world, INDEX index );
+    template< typename WORLD, typename INDEX >
+    void worldToImageSliceIndex(const WORLD world, INDEX index );
+    FWCOMED_API ::fwData::TransfertFunction::sptr getCurrentTransfertFunction();
 
+
+    FWCOMED_API ::fwData::Integer::sptr getWindowMin() ;
+    FWCOMED_API ::fwData::Integer::sptr getWindowMax() ;
+    FWCOMED_API void updateImageInfos( ::fwData::Image::sptr image  );
 protected:
 
     FWCOMED_API MedicalImageAdaptor(); // this class VISUVTKADAPTOR_CLASS_API must be specialized
@@ -58,17 +71,14 @@ protected:
     /// retreive the grey level from an image from physicial world
     //float getPixelvalue( double worldPosition[3]);
 
-    FWCOMED_API void worldToSliceIndex(const double world[3],int index[3] );
-    FWCOMED_API void worldToImageSliceIndex(const double world[3], int index[3] );
+
+//    FWCOMED_API void worldToSliceIndex(const double world[3],int index[3] );
+//    FWCOMED_API void worldToImageSliceIndex(const double world[3], int index[3] );
 
     template< typename FLOAT_ARRAY_3 >
     void getImageSpacing(FLOAT_ARRAY_3 spacing);
     template< typename INDEX >
     void getImageDataSize(INDEX size);
-    template< typename WORLD, typename INDEX >
-    void worldToSliceIndex(const WORLD world, INDEX index );
-    template< typename WORLD, typename INDEX >
-    void worldToImageSliceIndex(const WORLD world, INDEX index );
 
 
 
@@ -85,9 +95,9 @@ protected:
     FWCOMED_API ::fwData::Integer::sptr getCurrentSliceIndex();
     FWCOMED_API void setCurrentSliceIndex(::fwData::Integer::sptr);
 
-    FWCOMED_API ::fwData::TransfertFunction::sptr getCurrentTransfertFunction();
+//    FWCOMED_API ::fwData::TransfertFunction::sptr getCurrentTransfertFunction();
 
-    FWCOMED_API void updateImageInfos( ::fwData::Image::sptr image  );
+
 
     ::fwData::Image::sptr getImage();
 
