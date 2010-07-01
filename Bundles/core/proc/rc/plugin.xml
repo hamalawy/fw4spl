@@ -1,0 +1,52 @@
+<!--
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Initial authors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
+-->
+
+<plugin id="proc" class="::proc::Plugin" >
+	<library name="proc" />
+
+	<requirement id="dataReg"/>
+	<requirement id="servicesReg" />
+	<requirement id="gui" />
+
+	<!-- 	DECLARE NEW SERVICE TYPE -->
+	<point id="::proc::IProc">
+		<implements>::fwServices::IService</implements>
+	</point>
+
+	<!-- REGISTER_SERVICE(  ::proc::IProc , ::proc::Threshold , ::fwTools::Object) ; -->
+    <point id="::proc::Threshold" >
+        <implements>::proc::IProc</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+	
+	<!-- REGISTER_SERVICE(  ::proc::IProc , ::proc::Threshold , ::fwData::Composite) ; -->
+    <point id="::proc::Threshold" >
+        <implements>::proc::IProc</implements>
+        <implements>::fwData::Composite</implements>
+    </point>
+        
+	<!-- REGISTER_SERVICE(  ::proc::IProc , ::proc::Threshold , ::fwData::ProcessObject) ; -->
+    <point id="::proc::Threshold" >
+        <implements>::proc::IProc</implements>
+        <implements>::fwData::ProcessObject</implements>
+    </point>
+
+    <!-- REGISTER_SERVICE( ::gui::editor::IEditor , ::proc::ThresholdEditor , ::proc::Threshold ) ; -->
+	<point id="::proc::ThresholdEditor" >
+        <implements>::gui::editor::IEditor</implements>
+        <implements>::proc::Threshold</implements>
+    </point>
+
+
+</plugin>
+
+
