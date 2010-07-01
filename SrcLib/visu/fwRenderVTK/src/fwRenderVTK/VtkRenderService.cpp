@@ -3,6 +3,10 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Contributors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
 
 #include <wx/wxprec.h>
 #ifdef __BORLANDC__
@@ -58,6 +62,7 @@
 #include "fwRenderVTK/IVtkAdaptorService.hpp"
 #include "fwRenderVTK/VtkRenderService.hpp"
 
+#include "fwRenderVTK/vtk/InteractorStyle2DForNegato.hpp"
 
 REGISTER_SERVICE( ::fwRender::IRender , ::fwRenderVTK::VtkRenderService , ::fwData::Composite ) ;
 
@@ -70,6 +75,7 @@ namespace fwRenderVTK
 //-----------------------------------------------------------------------------
 
 VtkRenderService::VtkRenderService() throw() :
+     m_interactorStyle(std::string()),
      m_wxmanager( 0 ) ,
      m_interactor( 0 ),
      m_pendingRenderRequest(false)
@@ -129,6 +135,28 @@ void VtkRenderService::configureRenderer( ConfigurationType conf )
             m_renderers[id]->SetBackground(color, color, color);
         }
     }
+}
+
+//-----------------------------------------------------------------------------
+
+void VtkRenderService::configureStyle ( ConfigurationType conf )
+{
+    assert(conf->getName() == "style");
+
+    m_interactorStyle = conf->getValue();
+    // Affect the interactor style according the configuration (m_interactorStyle)
+    if( m_interactorStyle.empty() )
+    {
+        m_interactor->SetInteractorStyle( NULL );
+    }
+    else
+    {
+        vtkObject *styleObject = vtkInstantiator::CreateInstance(m_interactorStyle.c_str());
+        vtkInteractorStyle *style = vtkInteractorStyle::SafeDownCast( styleObject );
+        OSLM_ASSERT("Style unknown: " << m_interactorStyle , styleObject && style);
+        m_interactor->SetInteractorStyle( style );
+    }
+
 }
 
 //-----------------------------------------------------------------------------
@@ -312,7 +340,12 @@ void VtkRenderService::starting() throw(fwTools::Failed)
     ::fwRuntime::ConfigurationElementContainer::Iterator iter;
     for (iter = m_sceneConfiguration->begin() ; iter != m_sceneConfiguration->end() ; ++iter)
     {
-        if ((*iter)->getName() == "renderer")
+        if( (*iter)->getName() == "style" )
+        {
+        	this->configureStyle(*iter);
+//            m_interactorStyle = (*iter)->getValue();
+        }
+        else if ((*iter)->getName() == "renderer")
         {
             this->configureRenderer(*iter);
         }
@@ -448,7 +481,6 @@ void VtkRenderService::startContext()
 //    m_interactor->GetRenderWindow()->LineSmoothingOn();
 //    m_interactor->GetRenderWindow()->PolygonSmoothingOn();
 //    m_interactor->Register(NULL);
-//    m_interactor->SetInteractorStyle( vtkInteractorStyleTrackballCamera::New() );
 
     m_interactor->SetRenderModeToDirect();
     //m_interactor->SetRenderModeToFrameRated();

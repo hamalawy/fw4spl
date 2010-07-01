@@ -3,6 +3,10 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Contributors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
 
 #ifndef _VISUVTKADAPTOR_IMAGESLICE_HPP_
 #define _VISUVTKADAPTOR_IMAGESLICE_HPP_
@@ -42,6 +46,8 @@ public:
     void setVtkImageSourceId(std::string id) {m_imageSourceId = id;};
     void setVtkImageSource(vtkObject *obj)   {m_imageSource = obj;};
     void setInterpolation(bool interpolation){m_interpolation = interpolation;};
+    /// Used to manage picking on negatoscope
+    VISUVTKADAPTOR_API vtkImageActor * getImageActor() throw() ;
 
 protected :
 
@@ -63,7 +69,8 @@ protected :
     void updateOutline();
     void updateImage( ::fwData::Image::sptr ImageSlice  );
     void updateSliceIndex( ::fwData::Image::sptr ImageSlice );
-
+    /// React on opacity changes
+    void updateOpacity( ::fwData::Image::sptr image );
 
     std::string m_ctrlImageId;
     ::fwData::Image::wptr m_ctrlImage;

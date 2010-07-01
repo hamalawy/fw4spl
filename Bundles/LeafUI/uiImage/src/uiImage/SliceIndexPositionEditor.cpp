@@ -51,6 +51,7 @@ SliceIndexPositionEditor::SliceIndexPositionEditor() throw()
     addNewHandledEvent( ::fwComEd::ImageMsg::CHANGE_SLICE_TYPE );
     addNewHandledEvent( ::fwComEd::ImageMsg::SLICE_INDEX );
     addNewHandledEvent( ::fwComEd::ImageMsg::BUFFER );
+    addNewHandledEvent( ::fwComEd::ImageMsg::NEW_IMAGE );
 }
 
 //------------------------------------------------------------------------------
@@ -191,6 +192,7 @@ void SliceIndexPositionEditor::info( std::ostream &_sstream )
 void SliceIndexPositionEditor::updateSliceIndex()
 {
     ::fwData::Image::sptr image = this->getObject< ::fwData::Image >();
+    bool fieldsAreModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkImageSliceIndex( image );
     // Get Index
     std::string fieldID = *SLICE_INDEX_FIELDID[m_orientation];
     unsigned int index = image->getFieldSingleElement< ::fwData::Integer >( fieldID )->value();
@@ -210,7 +212,9 @@ void SliceIndexPositionEditor::updateSliceType(Orientation type )
 
     ::fwData::Image::sptr image = this->getObject< ::fwData::Image >();
     // Get Index
-     std::string fieldID = *SLICE_INDEX_FIELDID[m_orientation];
+    bool fieldsAreModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkImageSliceIndex( image );
+
+    std::string fieldID = *SLICE_INDEX_FIELDID[m_orientation];
     unsigned int index = image->getFieldSingleElement< ::fwData::Integer >( fieldID )->value();
     int max = image->getSize()[m_orientation]-1;
     m_sliceSelectorPanel->setSliceRange( 0, max );

@@ -3,6 +3,11 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Contributors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
+
 
 #include <fwTools/helpers.hpp>
 
@@ -18,6 +23,7 @@
 #include <fwData/TransfertFunction.hpp>
 #include <fwData/Color.hpp>
 #include <fwData/String.hpp>
+#include <fwData/Float.hpp>
 
 #include <vtkIO/vtk.hpp>
 
@@ -62,6 +68,7 @@ ImageSlice::ImageSlice() throw()
     this->addNewHandledEvent( ::fwComEd::ImageMsg::SLICE_INDEX         );
     this->addNewHandledEvent( ::fwComEd::ImageMsg::CHANGE_SLICE_TYPE   );
     this->addNewHandledEvent( ::fwComEd::CompositeMsg::MODIFIED_FIELDS );
+    this->addNewHandledEvent( ::fwComEd::ImageMsg::OPACITY );
 }
 
 //------------------------------------------------------------------------------
@@ -153,6 +160,7 @@ void ImageSlice::doUpdate() throw(::fwTools::Failed)
         this->updateImage(image);
         this->updateSliceIndex(image);
         this->updateOutline();
+        this->updateOpacity(image);
     }
 }
 
@@ -205,6 +213,11 @@ void ImageSlice::doUpdate(::fwServices::ObjectMsg::csptr msg) throw(::fwTools::F
                 this->doUpdate();
             }
         }
+        if ( msg->hasEvent( ::fwComEd::ImageMsg::OPACITY ) )
+        {
+            updateOpacity(image);
+        }
+
     }
 }
 
@@ -422,6 +435,18 @@ void ImageSlice::updateOutline()
 
     m_planeOutlineActor->GetProperty()->SetColor( colors[m_orientation]);
     this->setVtkPipelineModified();
+}
+void ImageSlice::updateOpacity( ::fwData::Image::sptr image )
+{
+    bool fieldIsModified = ::fwComEd::fieldHelper::MedicalImageHelpers::checkOpacity( image );
+    float opacity = image->getFieldSingleElement< ::fwData::Float >( ::fwComEd::Dictionary::m_opacityId )->value();
+    m_imageActor->SetOpacity ((double)opacity );
+    setVtkPipelineModified();
+}
+
+vtkImageActor * ImageSlice::getImageActor() throw()
+{
+    return m_imageActor ;
 }
 
 

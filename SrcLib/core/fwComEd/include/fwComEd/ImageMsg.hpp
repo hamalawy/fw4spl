@@ -3,6 +3,10 @@
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Contributors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
 
 #ifndef _FWCOMED_IMAGEMSG_HPP_
 #define _FWCOMED_IMAGEMSG_HPP_
@@ -52,8 +56,11 @@ public:
     FWCOMED_API static std::string ACTIVATE_SYNC_CROSS;
     FWCOMED_API static std::string INACTIVATE_SYNC_CROSS;
     FWCOMED_API static std::string CHANGE_SLICE_TYPE;
+    FWCOMED_API static std::string OPACITY; ///< Notion of opacity. Used for negatoscope management at first time
     /// Event identifier used to inform that the value is modified.
     FWCOMED_API static std::string VALUE_IS_MODIFIED;
+    /// To manage picking on image negatoscope
+    FWCOMED_API static std::string PICKEDPOINTS;
     /// @}
 
     /**
