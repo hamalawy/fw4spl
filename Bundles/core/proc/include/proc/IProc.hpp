@@ -53,6 +53,27 @@ namespace proc
  *
  * The getAttribute method enable to access the attribute, hiding the fact that it is exported or not
  *
+ * For each algorithm, one should provide:
+ * \li The algorithm service (e.g. Treshold) implementing IProc
+ * \li The algorithm core (e.g. TresholdAlgorithm) consisting in a template class invoked by the algorithm service
+ * \li The algorithm editor (e.g. TresholdEditor) as an editor service dedicated to the algorithm service
+ * All these elements can be combined together using a configuration looking like
+ * \code
+ * <object ....>
+ *      <object id="input" type="::fwData::Image" >
+ *                  <service uid="negatoIn" .... type="NegatoOneSlice" ... />
+ *      </object>
+ *      <object id="output" type="::fwData::Image" >
+ *      <service uid="algo" implementation="::procCommon::XXXX" type="::proc::IProc" autoComChannel="..." >
+ *           		<object id="Param1" 	type="::fwData::Image" export="input" 	/>
+ *           		<object id="Param2" 	type="::fwData::Image" export="output" 	/>
+ *           		<object id="Param3" 	type="::fwData::Integer" value="255" 	/>
+ *           		...
+ *           		<service uid="editor" implementation="::procCommon::XXXXEditor" type="::gui::editor::IEditor" autoComChannel="yes" />
+ *      </service>
+ * </object>
+ * \endcode
+ *
  * @note An implementation service can be attached either to ::fwTools::Object or ::fwData::ProcessObject (warning: not completely implemented) or ::fwData::Composite.
  * For generic purposes, it should be limited to ::fwTools::Object. Indeed, otherwise a service can not be attached to data of type ::fwData::Image for instance, which
  * remains possible with ::fwTools::Object
