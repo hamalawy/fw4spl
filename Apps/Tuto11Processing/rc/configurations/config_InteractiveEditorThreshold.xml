@@ -1,0 +1,107 @@
+<!--
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Initial authors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
+-->
+<plugin id="config">
+
+<extension id="config" implements="::fwData::Composite">
+        <object id="config" type="::fwData::Composite">
+<!-- BEGIN IHM LAYOUT -->
+            <service uid="MyIHM" implementation="::gui::frame::MainFrame" type="::gui::frame::IFrame" autoComChannel="no">
+                <name>Tuto11ProcessingThresholdCalquesInteraction1</name>
+                <view uid="layout" autoStart="yes" />
+            </service>
+            <service uid="layout" type="::gui::view::IView" implementation="::gui::view::MultiView" autoComChannel="no">
+                <views>
+                    <view uid="3Dscene" align="center" autoStart="yes" />
+                    <view uid="BottomControls" align="bottom" minHeight="30" resizable="no" autoStart="yes" />
+                    <view uid="editor" align="right" minWidth="200" resizable="yes" autoStart="no" />
+                </views>
+            </service>
+            <service uid="BottomControls" type="::gui::view::IView" implementation="::gui::view::MultiSizerView" autoComChannel="no">
+                <views orientation="horizontal">
+                    <view uid="negatoEditor" proportion="1" autoStart="yes"/>
+                    <view uid="opacityEditor" proportion="1" autoStart="yes"/>                    
+                </views>
+            </service>
+<!-- END IHM LAYOUT -->
+<!-- BEGIN SCENE 3D -->
+            <service uid="3Dscene" implementation="::fwRenderVTK::VtkRenderService" type="::fwRender::IRender" autoComChannel="yes">
+                 <scene>
+                    <picker id="myPicker" vtkclass="fwVtkCellPicker" />
+                    <renderer id="default" background="0.0" />
+					<style>InteractorStyle2DForNegato</style>
+					<adaptor id="myRenderAdaptor" class="::visuVTKAdaptor::Render" objectId="config">
+                            <config renderer="default" picker="" />
+                    </adaptor>
+                 </scene>
+            </service>
+<!-- END SCENE 3D -->
+<!-- BEGIN IHM TOOLBAR -->
+            <service uid="myMenuBar" type="::gui::aspect::IMenuBar" implementation="::gui::aspect::DefaultMenuBar" autoComChannel="no" >
+                <menus>
+                    <menu uid="menu_File"/>
+                </menus>
+            </service>
+            <service uid="menu_File" implementation="::gui::aspect::DefaultMenu" type="::gui::aspect::IMenu" name="File" autoComChannel="no">
+                <action uid="action_openFile" />
+            </service>
+            <service uid="action_openFile" implementation="::gui::action::StarterActionService" name="OpenFile" type="::gui::action::IAction" shortcut="Ctrl+O" autoComChannel="no">
+                <start uid="myInputReader" />
+            </service>
+<!-- END IHM TOOLBAR -->        
+<!-- INPUT IMAGE -->
+			<object id="input" type="::fwData::Image">
+			 	<service uid="myInputReader" implementation="::uiIO::editor::IOSelectorService" type="::gui::editor::IEditor" autoComChannel="no" />
+				<service uid="negatoIn" implementation="::visuVTKAdaptor::NegatoOneSlice" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no" id="MPRNegato3D">
+                    <config scene="3Dscene" renderer="default" picker="myPicker" sliceIndex="axial" />
+						<service implementation="::visuVTKAdaptor::NegatoPointPicker" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no" mode="multi" text="on"/>
+				</service>
+				<service uid="cameraIn" type="::fwRenderVTK::IVtkAdaptorService" implementation="::visuVTKAdaptor::SliceFollowerCamera" autoComChannel="no" >            
+                    <config scene="3Dscene" renderer="default" sliceIndex="axial" />
+                </service>
+				<service uid="negatoEditor" type="::gui::editor::IEditor" implementation="::uiImage::SliceIndexPositionEditor" autoComChannel="yes" sliceIndex="axial" />            
+				<service uid="opacityEditor" type="::gui::editor::IEditor" implementation="::uiImage::OpacityEditor" autoComChannel="yes" />            
+             </object>
+<!-- OUTPUT IMAGE -->
+			<object uid="output" id="output" type="::fwData::Image">
+        		<service uid="negatoOut" implementation="::visuVTKAdaptor::NegatoOneSlice" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no" id="MPRNegato3D">
+                    <config scene="3Dscene" renderer="default" picker="myPicker" sliceIndex="axial" />
+                </service>
+             </object>
+<!-- FIELD SYNCHRONIZATION -->
+			<service implementation="::ctrlField::ImageSynchronizer" type="::ctrlField::IFieldSynchronizer" autoComChannel="no" >
+					<object id="input" />
+					<object id="output" />
+			</service>
+<!-- PROCESSING -->
+            <service uid="algo" implementation="::proc::Threshold" type="::proc::IProc" autoComChannel="yes" autoRun="no">
+            		<object id="InImage" 	type="::fwData::Image" export="input" 	/>
+            		<object id="OutImage" 	type="::fwData::Image" export="output" 	/>
+            		<service uid="editor" implementation="::proc::ThresholdEditor" type="::gui::editor::IEditor" autoComChannel="yes" />
+            </service>
+<!-- PROCESSING -->
+			
+			<start type="::ctrlField::IFieldSynchronizer" />
+            <start uid="MyIHM" />
+            <start uid="myMenuBar" />
+			<start type="::fwRenderVTK::IVtkAdaptorService" />
+			<start type="::proc::IProc" />
+
+			<update uid="action_openFile" />
+
+            <stop type="::proc::IProc" />            
+			<stop type="::fwRenderVTK::IVtkAdaptorService" />	
+            <stop uid="myMenuBar" />
+            <stop uid="MyIHM" />
+
+        </object>
+    </extension>
+</plugin>

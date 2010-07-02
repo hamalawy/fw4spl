@@ -1,0 +1,84 @@
+<!--
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Initial authors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
+-->
+<plugin id="config">
+
+<extension id="config" implements="::fwData::Composite">
+        <object id="config" type="::fwData::Composite">
+<!-- INPUT IMAGE -->
+			<object id="input" type="::fwData::Image">
+			 	<service uid="myInputReader" implementation="::uiIO::editor::IOSelectorService" type="::gui::editor::IEditor" autoComChannel="no" />
+			 	<service uid="negatoIn" implementation="::visuVTKAdaptor::NegatoOneSlice" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no" id="MPRNegato3D">
+                    <config scene="sceneIn" renderer="default" picker="myPicker" sliceIndex="axial" />
+                </service>
+				<service uid="sliceIn" type="::gui::editor::IEditor" implementation="::uiImage::SliceIndexPositionEditor" autoComChannel="yes" sliceIndex="axial" />            
+				<service uid="cameraIn" type="::fwRenderVTK::IVtkAdaptorService" implementation="::visuVTKAdaptor::SliceFollowerCamera" autoComChannel="no" >            
+                    <config scene="sceneIn" renderer="default" sliceIndex="axial" />
+                </service>
+             </object>
+<!-- INPUT IMAGE -->
+<!-- OUTPUT IMAGE -->
+			<object id="output" type="::fwData::Image">
+        		<service uid="negatoOut" implementation="::visuVTKAdaptor::NegatoOneSlice" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no" id="MPRNegato3D">
+                    <config scene="sceneOut" renderer="default" picker="myPicker" sliceIndex="axial" />
+                </service>
+				<service uid="sliceOut" type="::gui::editor::IEditor" implementation="::uiImage::SliceIndexPositionEditor" autoComChannel="yes" sliceIndex="axial" />            
+				<service uid="cameraOut" type="::fwRenderVTK::IVtkAdaptorService" implementation="::visuVTKAdaptor::SliceFollowerCamera" autoComChannel="no" >            
+                    <config scene="sceneOut" renderer="default" sliceIndex="axial" />
+                </service>
+             </object>
+<!-- OUTPUT IMAGE -->
+<!-- PROCESSING -->
+            <service uid="algo" implementation="::proc::Threshold" type="::proc::IProc" autoComChannel="yes" autoRun="no">
+            		<!-- exported to be synchronized with the input id of this->getObject() -->
+            		<object id="InImage" 	type="::fwData::Image" export="input" 					/>
+            		<object id="OutImage" 	type="::fwData::Image" export="output" 					/>
+            </service>
+<!-- PROCESSING -->
+<!-- BEGIN SCENE 3D -->
+            <service uid="sceneIn" implementation="::fwRenderVTK::VtkRenderService" type="::fwRender::IRender" autoComChannel="yes">
+                 <scene>
+                    <picker id="myPicker" vtkclass="fwVtkCellPicker" />
+                    <renderer id="default" background="0.0" />
+					<style>InteractorStyle2DForNegato</style>
+					<adaptor id="myRenderAdaptor" class="::visuVTKAdaptor::Render" objectId="config">
+                            <config renderer="default" picker="" />
+                    </adaptor>
+                 </scene>
+            </service>
+            <service uid="sceneOut" implementation="::fwRenderVTK::VtkRenderService" type="::fwRender::IRender" autoComChannel="yes">
+                 <scene>
+                    <picker id="myPicker" vtkclass="fwVtkCellPicker" />
+                    <renderer id="default" background="0.0" />
+					<style>InteractorStyle2DForNegato</style>
+					<adaptor id="myRenderAdaptor" class="::visuVTKAdaptor::Render" objectId="config">
+                            <config renderer="default" picker="" />
+                    </adaptor>
+                 </scene>
+            </service>
+<!-- END SCENE 3D -->
+
+			<start type="::fwRender::IRender" />
+			<start type="::fwRenderVTK::IVtkAdaptorService" />
+			<start type="::gui::editor::IEditor" />
+			<start type="::proc::IProc" />
+			
+			<update uid="myInputReader" />
+			<update type="::proc::IProc" />			
+
+			<stop type="::proc::IProc" />
+			<stop type="::gui::editor::IEditor" />
+			<stop type="::fwRenderVTK::IVtkAdaptorService" />
+			<stop type="::fwRender::IRender" />
+
+        </object>
+    </extension>
+</plugin>
