@@ -1,0 +1,88 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+AutoThresholdNoCalques
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-Les éléments IHM sont dégroupés (éléments flottants): en particulier, l'image initiale et l'image seuillée sont dans deux fenêtres de rendu (pas de calques permettant le rendu superposé de l'image initiale avec l'image traitée).
+-Après lecture, l'algorithme est automatiquement exécuté
+
+<object ..>
+  <object id="input" type="::fwData::Image"  … />
+  <object id="output" type="::fwData::Image"  … />
+  <service uid="algo" implementation="::proc::Threshold" type="::proc::IProc" autoComChannel="yes" autoRun="no">
+	<!-- exported to be synchronized with the input id of this->getObject() -->
+          <object id="InImage" 	type="::fwData::Image" export="input" 	/>
+          <object id="OutImage" 	type="::fwData::Image" export="output" 	/>
+  </service>
+</object>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+EditorThreshold
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-Les éléments IHM sont groupés: notion de calques. Un service de synchronisation permet d'assurer un affichage contrôlé des 2 calques (coupe courante, opacité relative, orientation (axiale, frontale, sagittale …)).
+-Une IHM permet de contrôler les paramètres de l'algorithme
+
+<object ..>
+  <object id="input" type="::fwData::Image"  … />
+  <object id="output" type="::fwData::Image"  … />
+  <service uid="algo" implementation="::procCommon::Threshold" type="::proc::IProc" autoComChannel="yes" autoRun="no">
+           <object id="InImage" 	type="::fwData::Image" export="input" 	/>
+           <object id="OutImage" 	type="::fwData::Image" export="output" 	/>
+           <!-- only thresholds default values are given here, could be extended to inside/outside values --> 
+           <object id="LowTh" 		type="::fwData::Integer" value="80"		/>
+           <!-- parameter editor --> 
+           <service uid="editor" implementation="::procCommon::ThresholdEditor" type="::gui::editor::IEditor" autoComChannel="yes" />        
+  </service>
+  <service implementation="::ctrlField::ImageSynchronizer" type="::ctrlField::IFieldSynchronizer" autoComChannel="no" >
+	<object id="input" />
+	<object id="output" />
+  </service>
+</object>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+InteractiveThreshold
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-Un interacteur (NegatoPointPicker) permet le picking de groupes de points (multi)
+-L'algorithme utilise ces points pour définir les paramètres de seuillage et s'exécute ensuite automatiquement (autoRun= « yes »).
+
+<object ..>
+  <object id="input" type="::fwData::Image" >
+   <service uid="negatoIn" implementation="::visuVTKAdaptor::NegatoOneSlice" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no" id="MPRNegato3D">
+     <config scene="3Dscene" renderer="default" picker="myPicker" sliceIndex="axial" />
+     <service implementation="::visuVTKAdaptor::NegatoPointPicker" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no"	mode="multi" text="off"/> 
+   </service>
+  </object>
+  <object id="output" type="::fwData::Image"  … />
+  <service uid="algo" implementation="::procCommon::Threshold" type="::proc::IProc" autoComChannel="yes" autoRun="yes">
+     <object id="InImage" 	type="::fwData::Image" export="input" 	/>
+     <object id="OutImage" 	type="::fwData::Image" export="output" 	/>
+  </service>
+  <service implementation="::ctrlField::ImageSynchronizer" type="::ctrlField::IFieldSynchronizer" autoComChannel="no" >
+	<object id="input" />
+	<object id="output" />
+  </service>
+  ...
+</object>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+InteractiveEditorThreshold
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-Un interacteur (NegatoPointPicker) permet le picking de groupes de points (multi)
+-L'algorithme utilise ces points pour définir les paramètres de seuillage : l'IHM de contrôle des paramètres se met à jour en fonction.
+-L'utilisateur peut déclencher l'exécution (non automatique: autoRun= « no »).
+
+<object ..>
+  <object id="input" type="::fwData::Image" >
+   <service uid="negatoIn" implementation="::visuVTKAdaptor::NegatoOneSlice" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no" id="MPRNegato3D">
+     <config scene="3Dscene" renderer="default" picker="myPicker" sliceIndex="axial" />
+     <service implementation="::visuVTKAdaptor::NegatoPointPicker" type="::fwRenderVTK::IVtkAdaptorService" autoComChannel="no" mode="multi" text="off"/> 
+   </service>
+  </object>
+  <object id="output" type="::fwData::Image"  … />
+  <service uid="algo" implementation="::procCommon::Threshold" type="::proc::IProc" autoComChannel="yes" autoRun="no">
+     <object id="InImage" 	type="::fwData::Image" export="input" 	/>
+     <object id="OutImage" 	type="::fwData::Image" export="output" 	/>
+     <service uid="editor" implementation="::procCommon::ThresholdEditor" type="::gui::editor::IEditor" autoComChannel="yes" />
+  </service>
+  <service implementation="::ctrlField::ImageSynchronizer" type="::ctrlField::IFieldSynchronizer" autoComChannel="no" >
+	<object id="input" />
+	<object id="output" />
+  </service>
+  ...
+</object>

@@ -1,0 +1,42 @@
+<!--
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+/* ***** BEGIN CONTRIBUTORS BLOCK *****
+ * Initial authors:
+ *  - Jean-Baptiste.Fasquel (LISA Laboratory, Angers University, France)
+ * ****** END CONTRIBUTORS BLOCK ****** */
+-->
+<profile name="Tuto11Processing" version="0.1" check-single-instance="true"> 
+
+    <activate id="dataReg" version="0-1" />
+    <activate id="servicesReg" version="0-1" /> 
+
+    <activate id="io" version="0-1" />
+    <activate id="ioVTK" version="0-1" />
+    <activate id="uiIO" version="0-1" />
+
+    <activate id="visu" version="0-1" />
+    <activate id="visuVTK" version="0-1" />
+    <activate id="visuVTKAdaptor" version="0-1" />
+
+    <activate id="gui" version="0-1" >
+        <param id="startingMode" value="windows" />
+        <param id="rootObject" value="::fwData::Composite" />
+		<param id="config" value="config" />
+        <param id="configFile" value="./Bundles/Tuto11Processing_0-1/configurations/config_InteractiveEditorThreshold.xml" />
+    </activate>
+    <activate id="uiImage" version="0-1" />
+
+    <activate id="proc" version="0-1" />
+    <activate id="ctrlField" version="0-1" />
+    <activate id="Tuto11Processing" version="0-1" />
+
+    <start id="visuVTK" />
+    <start id="visuVTKAdaptor" />
+    <start id="proc" /> <!-- ???? --> 
+    <start id="gui" />
+
+</profile>
