@@ -71,6 +71,11 @@ struct FWCOMED_CLASS_API Dictionary
     FWCOMED_API static const std::string m_roi;
     /// @}
 
+    /// acquisition oriented IDs
+    /// @{
+    FWCOMED_API static const std::string m_intersliceDistanceId;
+    /// @}
+
 };
 
 }
