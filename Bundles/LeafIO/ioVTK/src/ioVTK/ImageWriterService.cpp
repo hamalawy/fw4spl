@@ -51,8 +51,9 @@ void ImageWriterService::configuring() throw(::fwTools::Failed)
     {
         std::string filename = m_configuration->findConfigurationElement("filename")->getExistingAttributeValue("id") ;
         m_fsImgPath = ::boost::filesystem::path( filename ) ;
-        m_bServiceIsConfigured = ::boost::filesystem::exists(m_fsImgPath);
-        OSLM_TRACE("Filename found" << filename ) ;
+        //m_bServiceIsConfigured = ::boost::filesystem::exists(m_fsImgPath);
+        m_bServiceIsConfigured = true;
+        //OSLM_TRACE("Filename found" << filename ) ;
     }
 }
 
