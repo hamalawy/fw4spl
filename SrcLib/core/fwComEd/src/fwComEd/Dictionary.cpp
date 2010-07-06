@@ -48,6 +48,6 @@ const std::string Dictionary::m_resectionSelectedId ("selected resection identif
 
 const std::string Dictionary::m_roi( "ROI" );
 
-
+const std::string Dictionary::m_intersliceDistanceId("IntersliceDistance");
 
 }
