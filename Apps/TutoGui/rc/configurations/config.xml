@@ -1,0 +1,114 @@
+<plugin id="tutoGuiConfig">
+
+    <extension id="tutoGuiConfig" implements="::fwTools::Object">
+        <object id="tutoGuiConfig" type="::fwTools::Object">
+
+            <service type="::fwGui::IFrameSrv" implementation="::gui::frame::DefaultFrame" autoComChannel="no" >
+                <gui>
+                    <frame>
+                        <name>tutoGui</name>
+                        <icon>Bundles/TutoGui_0-1/tuto.ico</icon>
+                        <minSize width="800" height="600"/>
+                    </frame>
+                    <menuBar />
+                </gui>
+                <registry>
+                    <menuBar sid="menuBar" start="yes" />
+                    <view sid="view" start="yes" />
+                </registry>
+            </service>
+            
+            <service uid="menuBar" type="::fwGui::IMenuBarSrv" implementation="::gui::aspect::DefaultMenuBarSrv" autoComChannel="no" >
+                <gui>
+                    <layout>
+                        <menu name="My Menu"/>
+                        <menu name="My Menu 2"/>
+                        <menu name="My Menu 3"/>
+                    </layout>
+                </gui>
+                <registry>
+                    <menu sid="myMenu" start="yes" />
+                </registry>
+            </service>
+            
+            <service uid="myMenu" type="::fwGui::IMenuSrv" implementation="::gui::aspect::DefaultMenuSrv" autoComChannel="no" >
+                <gui>
+                    <layout>
+                        <menuItem name="My item 1"/>
+                        <separator />
+                        <menuItem name="My item 2"/>
+                    </layout>
+                </gui>
+                <registry>
+                    <menuItem sid="item1" start="yes" />
+                    <menuItem sid="item2" start="yes" />
+                </registry>
+            </service>
+            
+            <service uid="item1" type="::fwGui::IActionSrv" implementation="::gui::action::NothingActionSrv" autoComChannel="no" />
+            <service uid="item2" type="::fwGui::IActionSrv" implementation="::gui::action::NothingActionSrv" autoComChannel="no" />
+            
+            
+            <service uid="view" type="::gui::view::IView" implementation="::gui::view::DefaultView" autoComChannel="no" >
+                <gui>
+                    <layout type="::fwGui::LineLayoutManager" >
+                        <orientation value="vertical" />
+                        <view caption="view1" />
+                        <view caption="view2" />
+                    </layout>
+                </gui>
+                <registry>
+                    <view wid="myView" />
+                    <view sid="subView2" start="yes" />
+                </registry>
+            </service>
+            
+            <service uid="subView1" type="::gui::view::IView" implementation="::gui::view::DefaultView" autoComChannel="no" >
+                <gui>
+                    <layout type="::fwGui::LineLayoutManager" >
+                        <orientation value="horizontal" />
+                        <view caption="view3" />
+                        <view caption="view4" />
+                        <view caption="view5" />
+                    </layout>
+                </gui>
+                <registry>
+                    <parent wid="myView" />
+                    <view sid="subView3" start="yes"/>
+                </registry>
+            </service>
+            
+            
+            <service uid="subView2" type="::gui::view::IView" implementation="::gui::view::DefaultView" autoComChannel="no" >
+                <gui>
+                    <layout type="::fwGui::CardinalLayoutManager" >
+                        <view caption="CardinalView1" align="center" />
+                        <view caption="CardinalView2" align="right" minWidth="400" />
+                        <view caption="CardinalView3" align="right" minWidth="400" />
+                    </layout>
+                </gui>
+                <registry/>
+            </service>
+            
+            <service uid="subView3" type="::gui::view::IView" implementation="::gui::view::DefaultView" autoComChannel="no" >
+                <gui>
+                    <layout type="::fwGui::TabLayoutManager" >
+                        <view caption="TabView1" align="center" />
+                        <view caption="TabView2" minWidth="100" selected="yes" />
+                        <view caption="TabView3" minWidth="100" />
+                    </layout>
+                </gui>
+                <registry/>
+            </service>
+            
+            <start type="::fwGui::IFrameSrv" />
+            
+            <start uid="subView1" />
+            <stop uid="subView1" />
+
+            <stop type="::fwGui::IFrameSrv" />
+
+        </object>
+    </extension>
+
+</plugin>

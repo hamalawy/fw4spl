@@ -4,8 +4,7 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#include <wx/app.h>
-#include <wx/msgdlg.h>
+#include <boost/foreach.hpp>
 
 #include <fwCore/base.hpp>
 
@@ -17,27 +16,42 @@
 
 #include <fwServices/macros.hpp>
 #include <fwServices/helper.hpp>
-#include <fwWX/convert.hpp>
+
+#include <fwGui/MessageDialog.hpp>
 
 #include "gui/action/StarterActionService.hpp"
-
 
 namespace gui
 {
 namespace action
 {
 
-REGISTER_SERVICE( ::gui::action::IAction , ::gui::action::StarterActionService , ::fwTools::Object ) ;
+REGISTER_SERVICE( ::fwGui::IActionSrv , ::gui::action::StarterActionService , ::fwTools::Object ) ;
 
+//-----------------------------------------------------------------------------
 
 StarterActionService::StarterActionService() throw()
-{
-}
+{}
 
 //-----------------------------------------------------------------------------
 
 StarterActionService::~StarterActionService() throw()
+{}
+
+//-----------------------------------------------------------------------------
+
+void StarterActionService::starting() throw( ::fwTools::Failed )
 {
+    SLM_TRACE_FUNC();
+    this->actionServiceStarting();
+}
+
+//-----------------------------------------------------------------------------
+
+void StarterActionService::stopping() throw( ::fwTools::Failed )
+{
+    SLM_TRACE_FUNC();
+    this->actionServiceStopping();
 }
 
 //-----------------------------------------------------------------------------
@@ -51,8 +65,7 @@ void StarterActionService::info(std::ostream &_sstream )
 
 void StarterActionService::updating() throw( ::fwTools::Failed )
 {
-    SLM_TRACE("updating StarterActionService") ;
-    this->::gui::action::IAction::updating();
+    SLM_TRACE_FUNC() ;
 
     for(size_t i = 0; i < m_uuidServices.size(); i++)
     {
@@ -131,10 +144,14 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
         else
         {
             std::string msgInfo = "Sorry, the service is unavailable.";
-            wxMessageBox( ::fwWX::std2wx(msgInfo),
-                    _("Service unavailable"),
-                    wxOK | wxICON_WARNING,
-                    wxTheApp->GetTopWindow() );
+            ::fwGui::IMessageDialog::Icons icon = ::fwGui::IMessageDialog::WARNING;
+            ::fwGui::MessageDialog messageBox;
+            messageBox.setTitle("Service unavailable");
+            messageBox.setMessage( msgInfo );
+            messageBox.setIcon(::fwGui::IMessageDialog::WARNING);
+            messageBox.addButton(::fwGui::IMessageDialog::OK);
+            messageBox.show();
+
             OSLM_INFO("Do nothing for Service " << m_uuidServices.at(i).first);
         }
     }
@@ -142,17 +159,23 @@ void StarterActionService::updating() throw( ::fwTools::Failed )
 
 //-----------------------------------------------------------------------------
 
+void StarterActionService::updating( ::fwServices::ObjectMsg::csptr _msg ) throw( ::fwTools::Failed )
+{
+    SLM_TRACE_FUNC();
+}
+
+//-----------------------------------------------------------------------------
+
 void StarterActionService::configuring() throw( ::fwTools::Failed )
 {
-    SLM_TRACE("configuring StarterActionService") ;
-    this->::gui::action::IAction::configuring() ;
+    SLM_TRACE_FUNC() ;
+    this->initialize();
 
-    ::fwRuntime::ConfigurationElementContainer::Iterator iter = this->m_configuration->begin() ;
-    for( ; iter != this->m_configuration->end() ; ++iter )
+    BOOST_FOREACH(ConfigurationType actionCfg, m_configuration->getElements() )
     {
-        OSLM_INFO( "StarterActionService "  << (*iter)->getName());
+        OSLM_INFO( "StarterActionService "  << actionCfg->getName());
 
-        std::string actionType =  (*iter)->getName();
+        std::string actionType =  actionCfg->getName();
         ActionType action;
         if ( actionType == "start" )                { action = START; }
         else if ( actionType == "stop" )            { action = STOP; }
@@ -163,12 +186,14 @@ void StarterActionService::configuring() throw( ::fwTools::Failed )
         {
             OSLM_FATAL("Sorry this type of \"actionType\":" << actionType <<" is not managed by StarterActionService");
         }
-        SLM_ASSERT("Attribute uid missing", (*iter)->hasAttribute("uid")) ;
-        std::string uuid = (*iter)->getExistingAttributeValue("uid") ;
+        SLM_ASSERT("Attribute uid missing", actionCfg->hasAttribute("uid")) ;
+        std::string uuid = actionCfg->getExistingAttributeValue("uid") ;
 
         m_uuidServices.push_back( std::make_pair(uuid, action) );
     }
 }
 
-}
-}
+//-----------------------------------------------------------------------------
+
+} // namespace action
+} // namespace gui
