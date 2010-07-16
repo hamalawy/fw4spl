@@ -186,6 +186,16 @@ void NegatoOneSlice::doStart() throw(fwTools::Failed)
 void NegatoOneSlice::doStop() throw(fwTools::Failed)
 {
     SLM_TRACE_FUNC();
+
+    ///Bug fixed: if one stop and remove the image slice adaptor, it appears
+    ///relevant to save the orientation value (in this->m_orientation) so that reinstallation of the image slice adaptor (after image buffer modification)
+    ///correctly reinitialize the orientation: useful when having calques for instance, as in
+    ///the case of Tuto11Processing
+    if( !m_imageAdaptor.expired() )
+    {
+    	this->setOrientation((Orientation) ::visuVTKAdaptor::ImageSlice::dynamicCast( this->getImageSliceAdaptor() )->getOrientation() );
+    }
+
     this->getImageAdaptor()->stop();
     this->getImageSliceAdaptor()->stop();
     this->unregisterServices();
