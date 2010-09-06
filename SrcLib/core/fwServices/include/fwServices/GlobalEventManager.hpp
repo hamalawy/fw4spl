@@ -54,6 +54,9 @@ public:
     FWSERVICES_API void setDeliveryType(DeliveryType t){m_deliveryType = t;}
 
     virtual ~GlobalEventManager();
+
+    FWSERVICES_API void clearMessages();
+
 protected :
 
     GlobalEventManager();
