@@ -27,6 +27,8 @@
 #include "fwServices/op/New.hpp"
 #include "fwServices/op/Run.hpp"
 #include "fwServices/op/Com.hpp"
+#include "fwServices/GlobalEventManager.hpp"
+
 
 namespace fwServices
 {
@@ -159,6 +161,9 @@ void ObjectServiceRegistry::uninitializeRootObject()
 
         // Unregister root object services
         ::fwServices::OSR::unregisterServices(getDefault()->m_rootObject);
+
+
+        ::fwServices::GlobalEventManager::getDefault()->clearMessages();
 
         SLM_TRACE("uninitializeRootObject : Reset the last shared_ptr on root object.");
         // Reset the root object: involve complete m_container clearing
