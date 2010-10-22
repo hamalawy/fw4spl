@@ -23,6 +23,8 @@
 #include <fwServices/helper.hpp>
 #include <fwServices/macros.hpp>
 
+#include <fwWX/convert.hpp>
+
 #include "proc/Threshold.hpp"
 #include "proc/ThresholdEditor.hpp"
 
@@ -77,7 +79,7 @@ struct ThTextCtrlHandler: public wxEvtHandler
 		assert( m_textCtrl == wxDynamicCast( event.GetEventObject(), wxTextCtrl ) );
 		wxString textEntered = m_textCtrl->GetValue();
 		std::stringstream ss;
-		ss << textEntered;
+		ss << ::fwWX::wx2std(textEntered);
 		std::string textInString = ss.str();
 		OSLM_TRACE("Entered: " << textInString );
 		int param = ::boost::lexical_cast< int >(textInString);
