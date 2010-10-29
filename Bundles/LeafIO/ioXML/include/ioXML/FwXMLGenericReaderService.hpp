@@ -8,7 +8,6 @@
 #ifndef _IOXML_FWXMLGENERICREADERSERVICE_HPP_
 #define _IOXML_FWXMLGENERICREADERSERVICE_HPP_
 
-#include <wx/string.h>
 #include <string>
 #include <boost/filesystem/path.hpp>
 
@@ -19,14 +18,12 @@
 #include "ioXML/config.hpp"
 
 
-
-
-
 namespace ioXML
 {
 
 /**
- * @class a generic reader which can load any kind of object in a fxz archive
+ * @class FwXMLGenericReaderService
+ * @brief A generic reader which can load any kind of object in a fxz archive
  * after loading data are shallow copied then some notifications are send. configuration
  * of service allow to define what event are send
  * @example :
@@ -51,10 +48,6 @@ public :
      * @brief   destructor
      */
     IOXML_API virtual ~FwXMLGenericReaderService() throw();
-
-    /// Simple API to convert wxString to boost path and valid the
-    //configuration
-    void fixFilename(wxString _filename);
 
 protected:
 
@@ -87,7 +80,7 @@ private :
 
     void notificationOfUpdate();
 
-    ::boost::shared_ptr< ::fwTools::Object > loadData( const ::boost::filesystem::path inrFileDir );
+    ::fwTools::Object::sptr loadData( const ::boost::filesystem::path inrFileDir );
 
     bool isAnFwxmlArchive( const ::boost::filesystem::path filePath );
 
@@ -96,9 +89,7 @@ private :
 
     ::boost::filesystem::path m_fsObjectPath;
 
-    //void createObject( const ::boost::filesystem::path path, ::fwTools::Object::sptr _obj );
-
-    ::boost::shared_ptr< ::fwTools::Object > manageZipAndLoadData( const ::boost::filesystem::path path );
+    ::fwTools::Object::sptr manageZipAndLoadData( const ::boost::filesystem::path path );
     ::boost::filesystem::path correctFileFormat( const ::boost::filesystem::path _filePath ) const;
 
     ::fwXML::reader::FwXMLObjectReader m_reader;
