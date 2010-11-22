@@ -1,0 +1,20 @@
+<plugin id="uiVisuWx" class="::uiVisu::Plugin">
+    <library name="uiVisuWx"/>
+    
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="gui"/>
+    
+    <!--    REGISTER_SERVICE( ::gui::editor::IEditor, ::uiVisu::SnapshotEditor, ::fwTools::Object ) ;-->
+    <point id="::uiVisu::SnapshotEditor" >
+        <implements>::gui::editor::IEditor</implements>
+        <implements>::fwTools::Object</implements>
+    </point>
+    
+    <!--    REGISTER_SERVICE( ::gui::editor::IEditor, ::uiVisu::TransformationMatrixEditor, ::fwTools::Object ) ;-->
+    <point id="::uiVisu::TransformationMatrixEditor" >
+        <implements>::gui::editor::IEditor</implements>
+        <implements>::fwData::TransformationMatrix3D</implements>
+    </point>
+
+</plugin>
