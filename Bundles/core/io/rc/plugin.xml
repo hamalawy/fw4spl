@@ -1,0 +1,5 @@
+<plugin id="io" class="io::Plugin">
+
+    <library name="io"/>
+    
+</plugin>
