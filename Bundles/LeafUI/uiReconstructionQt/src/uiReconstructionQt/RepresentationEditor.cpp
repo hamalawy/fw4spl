@@ -22,12 +22,12 @@
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwRuntime/operations.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IService.hpp>
 #include <fwServices/op/Get.hpp>
-
+#include <fwServices/IEditionService.hpp>
 
 #include <fwGuiQt/container/QtContainer.hpp>
 
@@ -57,7 +57,7 @@ void RepresentationEditor::starting() throw(::fwTools::Failed)
     this->create();
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget* const container = qtContainer->getQtContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     QVBoxLayout * layout = new QVBoxLayout(container);
 
@@ -151,7 +151,7 @@ void RepresentationEditor::updating() throw(::fwTools::Failed)
     SLM_ASSERT("No Reconstruction!", reconstruction);
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget* const container = qtContainer->getQtContainer();
-    assert( container );
+    SLM_ASSERT("container not instanced", container);
 
     m_material = reconstruction->getMaterial() ;
     container->setEnabled(!reconstruction->getOrganName().empty());

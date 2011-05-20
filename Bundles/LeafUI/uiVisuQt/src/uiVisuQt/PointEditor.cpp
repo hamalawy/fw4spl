@@ -22,9 +22,9 @@
 #include "fwData/Composite.hpp"
 #include "fwData/String.hpp"
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IService.hpp>
 
 #include <fwComEd/InteractionMsg.hpp>
@@ -59,7 +59,7 @@ namespace uiVisu
 
         ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
         QWidget* const container = qtContainer->getQtContainer();
-        assert( container ) ;
+        SLM_ASSERT("container not instanced", container);
 
         QHBoxLayout* hLayout = new QHBoxLayout();
 

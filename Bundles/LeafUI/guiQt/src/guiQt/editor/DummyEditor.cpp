@@ -13,9 +13,9 @@
 
 #include <fwCore/base.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwTools/fwID.hpp>
 
 #include <fwGuiQt/container/QtContainer.hpp>
@@ -48,7 +48,7 @@ void DummyEditor::starting() throw(::fwTools::Failed)
 
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget* const container = qtContainer->getQtContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     QVBoxLayout* layout = new QVBoxLayout();
     std::string text = m_text.empty() ? this->getID() : m_text;
@@ -69,7 +69,7 @@ void DummyEditor::stopping() throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget* const container = qtContainer->getQtContainer();
-    assert( container );
+    SLM_ASSERT("container not instanced", container);
 
     m_staticText->deleteLater();
     qtContainer->clean();

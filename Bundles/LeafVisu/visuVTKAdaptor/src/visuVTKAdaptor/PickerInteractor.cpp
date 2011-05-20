@@ -24,10 +24,11 @@
 #include <fwRenderVTK/vtk/Helpers.hpp>
 
 #include <fwServices/Factory.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/macros.hpp>
 
 #include "visuVTKAdaptor/PickerInteractor.hpp"
+#include <fwServices/IEditionService.hpp>
 
 
 #define START_INTERACTION_EVENT vtkCommand::LeftButtonPressEvent
@@ -57,8 +58,8 @@ public:
     virtual void Execute( vtkObject *caller, unsigned long eventId, void *)
     {
         assert(m_priority>=0);
-        assert(m_adaptor);
-        assert(m_picker);
+        SLM_ASSERT("m_adaptor not instanced", m_adaptor);
+        SLM_ASSERT("m_picker not instanced", m_picker);
 
         this->process(vtkRenderWindowInteractor::SafeDownCast(caller), eventId);
     }

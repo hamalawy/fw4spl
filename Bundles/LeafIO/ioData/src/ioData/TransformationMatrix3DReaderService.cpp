@@ -11,11 +11,11 @@
 #include <fwDataIO/reader/TransformationMatrix3DReader.hpp>
 #include <io/IReader.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
 #include <fwServices/ObjectMsg.hpp>
-#include <fwServices/bundle/runtime.hpp>
 #include <fwServices/macros.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <fwData/TransformationMatrix3D.hpp>
 #include <fwData/location/Folder.hpp>
@@ -127,7 +127,7 @@ void TransformationMatrix3DReaderService::updating() throw(::fwTools::Failed)
     {
         // Retrieve object
         ::fwData::TransformationMatrix3D::sptr matrix = this->getObject< ::fwData::TransformationMatrix3D >( );
-        assert( matrix ) ;
+        SLM_ASSERT("matrix not instanced", matrix);
 
         ::fwDataIO::reader::TransformationMatrix3DReader reader;
         reader.setObject( matrix );

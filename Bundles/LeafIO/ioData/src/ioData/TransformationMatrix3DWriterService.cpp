@@ -17,10 +17,10 @@
 
 #include <fwGui/dialog/LocationDialog.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
 #include <fwServices/ObjectMsg.hpp>
-#include <fwServices/bundle/runtime.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <fwComEd/TransformationMatrix3DMsg.hpp>
 
@@ -125,7 +125,7 @@ void TransformationMatrix3DWriterService::updating() throw(::fwTools::Failed)
     {
         // Retrieve object
         ::fwData::TransformationMatrix3D::sptr matrix = this->getObject< ::fwData::TransformationMatrix3D >( );
-        assert( matrix ) ;
+        SLM_ASSERT("matrix not instanced", matrix);
 
         ::fwDataIO::writer::TransformationMatrix3DWriter writer;
         writer.setObject( matrix );

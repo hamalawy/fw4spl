@@ -26,10 +26,11 @@
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwRuntime/operations.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IService.hpp>
+#include <fwServices/IEditionService.hpp>
 #include <fwServices/op/Get.hpp>
 
 #include <fwGuiQt/container/QtContainer.hpp>
@@ -61,7 +62,7 @@ void ShowScanEditor::starting() throw(::fwTools::Failed)
 
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget* const container = qtContainer->getQtContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     ::boost::filesystem::path pathImageScan ("Bundles/uiImageQt_" + std::string(UIIMAGEQT_VER) + "/sliceShow.png");
     OSLM_ASSERT("Image "<< pathImageScan << "is missing", ::boost::filesystem::exists(pathImageScan));

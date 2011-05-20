@@ -18,14 +18,6 @@ std::list< ::boost::shared_ptr< ::fwTools::Factory::Initializer > > Factory::m_i
 
 //------------------------------------------------------------------------------
 
-void Factory::Initializer::init_from_sp( ::boost::shared_ptr< ::fwTools::Object > _obj )
-{
-    ::boost::weak_ptr< ::fwTools::Object > wp( _obj );
-    this->init( wp );
-};
-
-//------------------------------------------------------------------------------
-
 Factory::Factory()
 {}
 
@@ -36,7 +28,7 @@ Factory::~Factory()
 
 //------------------------------------------------------------------------------
 
-void Factory::addInitializer( ::boost::shared_ptr< ::fwTools::Factory::Initializer > _init )
+void Factory::addInitializer( ::fwTools::Factory::Initializer::sptr _init )
 {
     m_initializers.push_back( _init ) ;
 }
@@ -49,7 +41,6 @@ void Factory::addInitializer( ::boost::shared_ptr< ::fwTools::Factory::Initializ
     if ( newObject == 0 )
     {
         OSLM_FATAL( "Factory::buildData unable to build class : " <<  className; )
-        assert(false);
         std::string mes = "Factory::buildData unable to build class : " + className;
         throw ::fwTools::Failed(mes);
     }
@@ -60,6 +51,16 @@ void Factory::addInitializer( ::boost::shared_ptr< ::fwTools::Factory::Initializ
     }
 
     return newObject;
+}
+
+//------------------------------------------------------------------------------
+
+void Factory::uninitData(::fwCore::LogicStamp::csptr key )
+{
+    BOOST_FOREACH( ::fwTools::Factory::Initializer::sptr initializer , m_initializers )
+    {
+        initializer->uninit( key );
+    }
 }
 
 //------------------------------------------------------------------------------

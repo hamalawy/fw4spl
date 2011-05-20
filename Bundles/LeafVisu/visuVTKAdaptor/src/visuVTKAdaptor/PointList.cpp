@@ -20,7 +20,7 @@
 #include <fwServices/macros.hpp>
 #include <fwServices/Factory.hpp>
 
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 
 #include <vtkCubeSource.h>
 #include <vtkActor.h>
@@ -130,7 +130,7 @@ void PointList::createServices(WeakPointListType &wPtList)
         ::fwRenderVTK::IVtkAdaptorService::sptr service =
             ::fwServices::add< ::fwRenderVTK::IVtkAdaptorService >
                 ( pt, "::visuVTKAdaptor::Point" );
-        assert(service);
+        SLM_ASSERT("service not instanced", service);
 
         service->setRenderService(this->getRenderService());
         service->setRenderId( this->getRenderId() );

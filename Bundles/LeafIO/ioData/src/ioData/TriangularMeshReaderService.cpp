@@ -10,7 +10,7 @@
 #include <boost/filesystem/operations.hpp>
 
 #include <io/IReader.hpp>
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/ObjectMsg.hpp>
 #include <fwServices/IEditionService.hpp>
 #include <fwData/TriangularMesh.hpp>
@@ -108,7 +108,7 @@ void TriangularMeshReaderService::updating() throw(::fwTools::Failed)
     {
         // Retrieve object
         ::fwData::TriangularMesh::sptr mesh = this->getObject< ::fwData::TriangularMesh >( );
-        assert( mesh ) ;
+        SLM_ASSERT("mesh not instanced", mesh);
 
         ::fwDataIO::reader::TriangularMeshReader reader;
         reader.setObject( mesh );

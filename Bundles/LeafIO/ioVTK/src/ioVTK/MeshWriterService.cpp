@@ -5,8 +5,8 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwServices/macros.hpp>
-#include <fwServices/helper.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/Base.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IEditionService.hpp>
 
 #include <fwComEd/fieldHelper/BackupHelper.hpp>
@@ -54,7 +54,7 @@ void MeshWriterService::configuring() throw(::fwTools::Failed)
     {
         std::string filename = m_configuration->findConfigurationElement("filename")->getExistingAttributeValue("id") ;
         m_fsMeshPath = ::boost::filesystem::path( filename ) ;
-        m_bServiceIsConfigured = ::boost::filesystem::exists(m_fsMeshPath);
+        m_bServiceIsConfigured = true;
         OSLM_TRACE("Filename found" << filename ) ;
     }
 }
@@ -86,14 +86,14 @@ void MeshWriterService::configureWithIHM()
 
 void MeshWriterService::starting() throw(::fwTools::Failed)
 {
-    SLM_TRACE("MeshWriterService::starting()");
+    SLM_TRACE_FUNC();
 }
 
 //------------------------------------------------------------------------------
 
 void MeshWriterService::stopping() throw(::fwTools::Failed)
 {
-    SLM_TRACE("MeshWriterService::stopping()");
+    SLM_TRACE_FUNC();
 }
 
 //------------------------------------------------------------------------------
@@ -107,17 +107,17 @@ void MeshWriterService::info(std::ostream &_sstream )
 
 void MeshWriterService::saveMesh( const ::boost::filesystem::path vtkFile, ::boost::shared_ptr< ::fwData::TriangularMesh > _pMesh )
 {
-    SLM_TRACE("MeshWriterService::saveMesh");
-    ::vtkIO::MeshWriter myWriter;
+    SLM_TRACE_FUNC();
+    ::vtkIO::MeshWriter::NewSptr myWriter;
 
-    myWriter.setObject(_pMesh);
-    myWriter.setFile(vtkFile);
+    myWriter->setObject(_pMesh);
+    myWriter->setFile(vtkFile);
 
     try
     {
         ::fwGui::dialog::ProgressDialog progressMeterGUI("Saving Meshs ");
-        myWriter.addHandler( progressMeterGUI );
-        myWriter.write();
+        myWriter->addHandler( progressMeterGUI );
+        myWriter->write();
 
     }
     catch (const std::exception & e)
@@ -151,13 +151,13 @@ void MeshWriterService::saveMesh( const ::boost::filesystem::path vtkFile, ::boo
 
 void MeshWriterService::updating() throw(::fwTools::Failed)
 {
-    SLM_TRACE("MeshWriterService::updating()");
+    SLM_TRACE_FUNC();
 
     if( m_bServiceIsConfigured )
     {
         // Retrieve dataStruct associated with this service
         ::fwData::TriangularMesh::sptr pTriangularMesh = this->getObject< ::fwData::TriangularMesh >() ;
-        assert(pTriangularMesh);
+        SLM_ASSERT("pTriangularMesh not instanced", pTriangularMesh);
 
         ::fwGui::Cursor cursor;
         cursor.setCursor(::fwGui::ICursor::BUSY);

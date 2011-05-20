@@ -18,7 +18,7 @@
 #include <fwServices/macros.hpp>
 #include <fwServices/Factory.hpp>
 
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 
 #include <vtkRenderWindowInteractor.h>
 #include <vtkCellPicker.h>
@@ -33,6 +33,7 @@
 #include "fwRenderVTK/vtk/Helpers.hpp"
 #include "fwRenderVTK/vtk/fwVtkCellPicker.hpp"
 #include "visuVTKAdaptor/NegatoSlicingInteractor.hpp"
+#include <fwServices/IEditionService.hpp>
 
 
 REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::NegatoSlicingInteractor, ::fwData::Image ) ;
@@ -90,8 +91,8 @@ public:
             if ( eventId == START_SLICING_EVENT)
             {
                 SLM_TRACE("vtkEvent: MiddleButtonPressEvent");
-                assert(m_adaptor);
-                assert(m_picker);
+                SLM_ASSERT("m_adaptor not instanced", m_adaptor);
+                SLM_ASSERT("m_picker not instanced", m_picker);
 
                 double pickPoint[3];
                 double pickedPoint[3];
@@ -129,8 +130,8 @@ public:
             else if ( eventId == STOP_SLICING_EVENT)
             {
                 SLM_TRACE("vtkEvent: MiddleButtonReleaseEvent");
-                assert(m_adaptor);
-                assert(m_picker);
+                SLM_ASSERT("m_adaptor not instanced", m_adaptor);
+                SLM_ASSERT("m_picker not instanced", m_picker);
 
                 if(m_mouseMoveObserved)
                 {
@@ -146,7 +147,7 @@ public:
             else if (eventId == vtkCommand::MouseMoveEvent)
             {
                 SLM_TRACE("vtkEvent: MouseMoveEvent");
-                assert(m_mouseMoveObserved);
+                SLM_ASSERT("m_mouseMoveObserved not instanced", m_mouseMoveObserved);
 
                 int x,y;
                 double pickPoint[3];

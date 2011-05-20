@@ -17,9 +17,9 @@
 
 #include <fwCore/base.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwWX/convert.hpp>
 #include <fwTools/fwID.hpp>
 
@@ -53,7 +53,7 @@ void DummyEditor::starting() throw(::fwTools::Failed)
 
     ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
     wxWindow* const container = wxContainer->getWxContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     wxBoxSizer* bSizer;
     bSizer = new wxBoxSizer( wxVERTICAL );

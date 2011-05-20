@@ -1,10 +1,13 @@
-#include <fwServices/helper.hpp>
-#include <fwServices/bundle/runtime.hpp>
+#include <fwServices/Base.hpp>
+#include <fwServices/registry/AppConfig.hpp>
+#include <fwServices/IEditionService.hpp>
+
 #include <fwTools/fwID.hpp>
 #include <fwData/Composite.hpp>
 #include <fwData/String.hpp>
 #include <fwData/Boolean.hpp>
 #include <fwComEd/CompositeMsg.hpp>
+
 
 #include "gui/action/ConfigActionSrvWithKeySendingConfigTemplate.hpp"
 
@@ -19,7 +22,9 @@ REGISTER_SERVICE( ::fwGui::IActionSrv, ::gui::action::ConfigActionSrvWithKeySend
 
 //------------------------------------------------------------------------------
 
-ConfigActionSrvWithKeySendingConfigTemplate::ConfigActionSrvWithKeySendingConfigTemplate() throw()
+ConfigActionSrvWithKeySendingConfigTemplate::ConfigActionSrvWithKeySendingConfigTemplate() throw() :
+        m_fieldAdaptors ( ::fwData::Composite::New() ),
+        m_viewConfigtitlePrefixKey ("")
 {
     m_closableConfig = true;
     addNewHandledEvent( ::fwComEd::CompositeMsg::ADDED_FIELDS );
@@ -29,7 +34,7 @@ ConfigActionSrvWithKeySendingConfigTemplate::ConfigActionSrvWithKeySendingConfig
 //------------------------------------------------------------------------------
 
 ConfigActionSrvWithKeySendingConfigTemplate::~ConfigActionSrvWithKeySendingConfigTemplate() throw()
-        {}
+{}
 
 //------------------------------------------------------------------------------
 
@@ -75,6 +80,11 @@ void ConfigActionSrvWithKeySendingConfigTemplate::configuring() throw(fwTools::F
     SLM_ASSERT( "Sorry, missing attribute title in <config> xml element.", configElement->hasAttribute("title") );
     m_viewConfigTitle = configElement->getExistingAttributeValue("title");
 
+    if( configElement->hasAttribute("titlePrefixKey") )
+    {
+        m_viewConfigtitlePrefixKey = configElement->getExistingAttributeValue("titlePrefixKey");
+    }
+
     m_closableConfig = configElement->getAttributeValue("closable") != "no";
 
     SLM_ASSERT( "Sorry, the attribute id in <config> xml element is empty.", ! m_viewConfigId.empty() );
@@ -89,7 +99,7 @@ void ConfigActionSrvWithKeySendingConfigTemplate::configuring() throw(fwTools::F
         adaptor = replaceItem->getAttributeValue("val");
         SLM_ASSERT("<replace> tag must have one attribut pattern.", replaceItem->hasAttribute("pattern"));
         pattern = replaceItem->getAttributeValue("pattern");
-        m_fieldAdaptors[pattern] = adaptor;
+        (*m_fieldAdaptors)[pattern] = ::fwData::String::New(adaptor);
     }
 
     std::vector < ConfigurationType > keyTagsConfig = m_configuration->find("key");
@@ -155,13 +165,13 @@ void ConfigActionSrvWithKeySendingConfigTemplate::sendConfig()
 {
     //AddGenericUidToFieldApadtor();
     // Generate generic UID
-    std::string genericUidAdaptor = ::fwServices::ConfigTemplateManager::getUniqueIdentifier( this->getID(), true);
+    std::string genericUidAdaptor = ::fwServices::registry::AppConfig::getUniqueIdentifier( this->getID(), true);
     // Init manager
-    m_fieldAdaptors["GENERIC_UID"] = genericUidAdaptor;
+    (*m_fieldAdaptors)["GENERIC_UID"] = ::fwData::String::New(genericUidAdaptor);
 
 
-    std::map< std::string, std::string > finalMap;
-    finalMap = m_fieldAdaptors;
+    ::fwData::Composite::NewSptr finalMap;
+    finalMap->deepCopy( m_fieldAdaptors );
     ::fwData::Composite::sptr composite = this->getObject< ::fwData::Composite >();
 
     std::map< std::string, std::string >::const_iterator itr;
@@ -171,32 +181,46 @@ void ConfigActionSrvWithKeySendingConfigTemplate::sendConfig()
         if ( key == "self" )
         {
             std::string fwID = composite->getID();
-            finalMap[itr->first] = fwID;
+            (*finalMap)[itr->first] = ::fwData::String::New(fwID);
         }
         else
         {
             std::string fwID = (*composite)[key]->getID() ;
-            finalMap[itr->first] = fwID;
+            (*finalMap)[itr->first] = ::fwData::String::New(fwID);
         }
     }
 
     // Init manager
-    ::fwServices::ConfigTemplateManager::sptr configTemplateManager;
-    configTemplateManager = ::fwServices::ConfigTemplateManager::New();
-    configTemplateManager->setConfig( m_viewConfigId, "::fwServices::ServiceObjectConfig" );
-    configTemplateManager->setFieldAdaptors( finalMap );
+    //::fwRuntime::ConfigurationElement::csptr config =
+    //        ::fwServices::registry::AppConfig::getDefault()->getAdaptedTemplateConfig( m_viewConfigId, finalMap );
+    //::fwServices::AppConfigManager::sptr configTemplateManager = ::fwServices::AppConfigManager::New();
+    //configTemplateManager->setConfig( config );
 
 
-    std::string fieldID = "::fwServices::ServiceObjectConfig";
+    std::string fieldID = "::fwServices::registry::AppConfig";
+    std::string viewConfigID = "viewConfigID";
     std::string closableFieldID = "closable";
 
     ::fwServices::ObjectMsg::sptr  msg  = ::fwServices::ObjectMsg::New();
 
+
+    std::stringstream ss;
+    if (    ! m_viewConfigtitlePrefixKey.empty() &&
+            composite->find( m_viewConfigtitlePrefixKey ) != composite->end() )
+    {
+        ::fwData::String::sptr prefix = ::fwData::String::dynamicCast( (*composite)[m_viewConfigtitlePrefixKey] );
+        ss << prefix->getValue() << " - " << m_viewConfigTitle;
+    }
+    else
+    {
+        ss << m_viewConfigTitle;
+    }
     ::fwData::String::NewSptr title;
-    title->value() = m_viewConfigTitle;
+    title->value() = ss.str();
 
     msg->addEvent( "NEW_CONFIGURATION_HELPER", title );
-    msg->setFieldSingleElement( fieldID ,configTemplateManager);
+    msg->setFieldSingleElement( fieldID , finalMap );
+    msg->setFieldSingleElement( viewConfigID , ::fwData::String::New(m_viewConfigId) );
     msg->setFieldSingleElement( closableFieldID , ::fwData::Boolean::New(m_closableConfig));
 
 

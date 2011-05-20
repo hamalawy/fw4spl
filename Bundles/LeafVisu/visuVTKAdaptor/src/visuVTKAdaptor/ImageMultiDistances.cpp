@@ -40,6 +40,7 @@
 
 #include "visuVTKAdaptor/ImageMultiDistances.hpp"
 #include "visuVTKAdaptor/Distance.hpp"
+#include <fwServices/IEditionService.hpp>
 
 
 REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::ImageMultiDistances, ::fwData::Image ) ;
@@ -253,7 +254,7 @@ void ImageMultiDistances::installSubServices( ::fwData::PointList::sptr pl )
         serviceDistance =
             ::fwServices::add< ::fwRenderVTK::IVtkAdaptorService >
         ( pl , "::visuVTKAdaptor::Distance");
-        assert( serviceDistance );
+        SLM_ASSERT("serviceDistance not instanced", serviceDistance);
 
         // install  Color Field if none
         if ( ! pl->getFieldSize( ::fwComEd::Dictionary::m_colorId ) )
@@ -273,7 +274,7 @@ void ImageMultiDistances::installSubServices( ::fwData::PointList::sptr pl )
         servicePointList =
             ::fwServices::add< ::fwRenderVTK::IVtkAdaptorService >
         ( pl , "::visuVTKAdaptor::PointList");
-        assert( servicePointList );
+        SLM_ASSERT("servicePointList not instanced", servicePointList);
 
         servicePointList->setPickerId( this->getPickerId() );
         servicePointList->setRenderId( this->getRenderId() );

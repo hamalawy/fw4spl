@@ -8,8 +8,8 @@
 #include <boost/filesystem/operations.hpp>
 
 #include <fwServices/macros.hpp>
-#include <fwServices/helper.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/Base.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IEditionService.hpp>
 #include <fwComEd/PatientDBMsg.hpp>
 
@@ -165,7 +165,7 @@ void FwXMLPatientDBWriterService::updating() throw(::fwTools::Failed)
     {
         // Retrieve dataStruct associated with this service
         ::fwData::PatientDB::sptr associatedPatientDB = this->getObject< ::fwData::PatientDB >();
-        assert( associatedPatientDB ) ;
+        SLM_ASSERT("associatedPatientDB not instanced", associatedPatientDB);
 
         ::fwGui::Cursor cursor;
         cursor.setCursor(::fwGui::ICursor::BUSY);

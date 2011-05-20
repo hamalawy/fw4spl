@@ -24,9 +24,8 @@
 #include <vtkCamera.h>
 
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwComEd/CompositeEditor.hpp>
 #include <fwComEd/CompositeMsg.hpp>
 #include <fwTools/fwID.hpp>
 #include <fwData/Color.hpp>
@@ -75,16 +74,9 @@ void VtkRenderService::configureRenderer( ConfigurationType conf )
     {
         m_renderers[id] = vtkRenderer::New();
 
-#ifdef USE_DEPTH_PEELING
         m_renderers[id]->SetUseDepthPeeling     ( 1  );
         m_renderers[id]->SetMaximumNumberOfPeels( 8  );
         m_renderers[id]->SetOcclusionRatio      ( 0. );
-#elif USE_COVERAGE_CULLER
-        vtkFrustumCoverageCuller *culler = vtkFrustumCoverageCuller::New();
-        culler->SetSortingStyleToBackToFront();
-        m_renderers[id]->AddCuller(culler);
-        culler->Delete();
-#endif
 
         if(conf->hasAttribute("layer") )
         {
@@ -223,7 +215,7 @@ void VtkRenderService::configureObject( ConfigurationType conf )
         else
         {
             adaptee.getService()->stop();
-            ::fwServices::erase(adaptee.getService());
+            ::fwServices::OSR::unregisterService(adaptee.getService());
             adaptee.m_service.reset();
             m_sceneAdaptors.erase(id);
         }
@@ -389,7 +381,7 @@ void VtkRenderService::stopping() throw(fwTools::Failed)
           ++adaptorIter)
     {
         adaptorIter->second.getService()->stop();
-        ::fwServices::erase(adaptorIter->second.getService());
+        ::fwServices::OSR::unregisterService(adaptorIter->second.getService());
         adaptorIter->second.getService().reset();
     }
 
@@ -457,11 +449,9 @@ void VtkRenderService::startContext()
 
     // For Depth peeling (translucent rendering)
 //    m_interactorManager->getInteractor()->SetRenderWhenDisabled(false);
-//
-//#ifdef USE_DEPTH_PEELING //Depth peeling is only fonctionnal in win32 right now
-//    m_interactorManager->getInteractor()->GetRenderWindow()->SetAlphaBitPlanes(1);
-//    m_interactorManager->getInteractor()->GetRenderWindow()->SetMultiSamples(0);
-//#endif
+
+    m_interactorManager->getInteractor()->GetRenderWindow()->SetAlphaBitPlanes(1);
+    m_interactorManager->getInteractor()->GetRenderWindow()->SetMultiSamples(0);
 
 //    m_interactor->GetRenderWindow()->PointSmoothingOn();
 //    m_interactor->GetRenderWindow()->LineSmoothingOn();

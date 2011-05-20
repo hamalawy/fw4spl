@@ -22,7 +22,7 @@
 
 #include <fwServices/macros.hpp>
 #include <fwServices/IEditionService.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 
 #include <fwComEd/AcquisitionMsg.hpp>
 #include <fwComEd/TransformationMatrix3DMsg.hpp>
@@ -77,7 +77,7 @@ void OrganTransformationEditor::starting() throw( ::fwTools::Failed )
     this->create();
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget* const container = qtContainer->getQtContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     QVBoxLayout* layout = new QVBoxLayout(container);
 
@@ -178,7 +178,7 @@ void OrganTransformationEditor::Refresh()
 
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget* const container = qtContainer->getQtContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
     container->setEnabled( pAcquisition->getReconstructions().first != pAcquisition->getReconstructions().second );
 
     if( pAcquisition->getReconstructions().first != pAcquisition->getReconstructions().second )
