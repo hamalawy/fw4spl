@@ -20,9 +20,9 @@
 #include "fwData/Composite.hpp"
 #include "fwData/String.hpp"
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IService.hpp>
 
 #include <fwComEd/InteractionMsg.hpp>
@@ -58,7 +58,7 @@ namespace uiVisu
 
         ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
         wxWindow* const container = wxContainer->getWxContainer();
-        assert( container ) ;
+        SLM_ASSERT("container not instanced", container);
 
         wxBoxSizer* hLayout = new wxBoxSizer( wxHORIZONTAL );
 

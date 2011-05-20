@@ -5,8 +5,8 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwServices/macros.hpp>
-#include <fwServices/helper.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/Base.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IEditionService.hpp>
 #include <fwComEd/PatientDBMsg.hpp>
 
@@ -100,17 +100,17 @@ void VtkPatientDBReaderService::info(std::ostream &_sstream )
 
 bool VtkPatientDBReaderService::createImage( const ::boost::filesystem::path vtkFileDir, ::fwData::Image::sptr img )
 {
-    SLM_TRACE("DicomImageReaderService::createImage");
+    SLM_TRACE_FUNC();
     bool res = false;
-    ::vtkIO::ImageReader myLoader;
-    myLoader.setObject(img);
-    myLoader.setFile(vtkFileDir);
+    ::vtkIO::ImageReader::NewSptr myLoader;
+    myLoader->setObject(img);
+    myLoader->setFile(vtkFileDir);
 
     try
     {
         ::fwGui::dialog::ProgressDialog progressMeterGUI("Loading Image ");
-        myLoader.addHandler( progressMeterGUI );
-        myLoader.read();
+        myLoader->addHandler( progressMeterGUI );
+        myLoader->read();
         res = true;
     }
     catch (const std::exception & e)
@@ -146,7 +146,7 @@ bool VtkPatientDBReaderService::createImage( const ::boost::filesystem::path vtk
 
 void VtkPatientDBReaderService::updating() throw(::fwTools::Failed)
 {
-    SLM_TRACE("VtkPatientDBReaderService::updating()");
+    SLM_TRACE_FUNC();
     if( m_bServiceIsConfigured )
     {
         ::fwData::Image::NewSptr image;
@@ -191,13 +191,8 @@ void VtkPatientDBReaderService::notificationOfDBUpdate()
 
     ::fwData::PatientDB::sptr pDPDB = this->getObject< ::fwData::PatientDB >();
 
-    //::boost::shared_ptr< ::fwComEd::PatientDBMsg > msg ( new ::fwComEd::PatientDBMsg( pDPDB ) ) ;
-    //msg->addMessageInformation( ::fwComEd::PatientDBMsg::NEW_PATIENT );
     ::fwComEd::PatientDBMsg::NewSptr msg;
     msg->addEvent( ::fwComEd::PatientDBMsg::NEW_PATIENT );
-
-//  ::boost::shared_ptr< ::fwServices::IEditionService > basicEditor = ::fwServices::get< ::fwServices::IEditionService >( pDPDB ) ;
-//  basicEditor->notify( msg );
     ::fwServices::IEditionService::notify(this->getSptr(), pDPDB, msg);
 }
 

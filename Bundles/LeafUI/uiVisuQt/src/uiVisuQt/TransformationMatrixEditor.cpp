@@ -19,6 +19,7 @@
 #include <fwComEd/TransformationMatrix3DMsg.hpp>
 
 #include <fwServices/Base.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <fwGuiQt/container/QtContainer.hpp>
 
@@ -50,7 +51,7 @@ void TransformationMatrixEditor::starting() throw(::fwTools::Failed)
 
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget* const container = qtContainer->getQtContainer();
-    assert( container );
+    SLM_ASSERT("container not instanced", container);
 
     QHBoxLayout* layout = new QHBoxLayout();
 

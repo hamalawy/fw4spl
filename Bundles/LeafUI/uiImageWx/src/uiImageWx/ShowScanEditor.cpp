@@ -29,11 +29,12 @@
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwRuntime/operations.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IService.hpp>
 #include <fwServices/op/Get.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <fwWX/convert.hpp>
 
@@ -66,7 +67,7 @@ void ShowScanEditor::starting() throw(::fwTools::Failed)
 
     ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
     wxWindow* const container = wxContainer->getWxContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     namespace fs = ::boost::filesystem;
     fs::path pathImageScan ("Bundles/uiImageWx_" + std::string(UIIMAGEWX_VER) + "/sliceShow.png");
@@ -96,7 +97,7 @@ void ShowScanEditor::stopping() throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
     ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
     wxWindow* const container = wxContainer->getWxContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     container->Unbind( wxEVT_COMMAND_BUTTON_CLICKED, &ShowScanEditor::onChangeScanMode, this, m_showScanButton->GetId());
 

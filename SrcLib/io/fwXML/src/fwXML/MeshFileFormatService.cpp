@@ -10,14 +10,14 @@
 #include <fwData/location/SingleFile.hpp>
 #include <fwCore/base.hpp>
 
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/macros.hpp>
 
 #include <fwDataIO/reader/TriangularMeshReader.hpp>
 #include <fwDataIO/writer/TriangularMeshWriter.hpp>
 
 
-REGISTER_SERVICE( ::fwXML::IFileFormatService , fwXML::MeshFileFormatService , ::fwData::TriangularMesh);
+REGISTER_SERVICE( ::fwXML::IFileFormatService , ::fwXML::MeshFileFormatService , ::fwData::TriangularMesh);
 
 namespace fwXML
 {
@@ -55,10 +55,10 @@ void MeshFileFormatService::load()
     assert( !m_filename.empty() );
     assert( !m_rootFolder.empty() );
 
-    assert( m_reader );
+    SLM_ASSERT("m_reader not instanced", m_reader);
 
     ::fwData::TriangularMesh::sptr mesh = this->getObject< ::fwData::TriangularMesh >() ;
-    assert( mesh ) ;
+    SLM_ASSERT("mesh not instanced", mesh);
 
     m_reader->setObject(mesh);
     ::fwData::location::SingleFile::sptr path( new ::fwData::location::SingleFile() );
@@ -76,10 +76,10 @@ void MeshFileFormatService::save()
     assert( !m_filename.empty() );
     assert( !m_rootFolder.empty() );
 
-    assert( m_writer );
+    SLM_ASSERT("m_writer not instanced", m_writer);
 
     ::fwData::TriangularMesh::sptr mesh = this->getObject< ::fwData::TriangularMesh >() ;
-    assert( mesh ) ;
+    SLM_ASSERT("mesh not instanced", mesh);
 
 //    assert(mesh->points().size()); mesh points can be empty
 

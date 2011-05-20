@@ -18,6 +18,7 @@
 #include <fwComEd/fieldHelper/MedicalImageHelpers.hpp>
 
 #include <fwServices/Base.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <vtkIO/vtk.hpp>
 
@@ -38,6 +39,8 @@ RendererService::RendererService() throw()
     : m_render( 0 ), m_bPipelineIsInit(false)
 {
     SLM_TRACE_FUNC();
+    this->addNewHandledEvent(::fwComEd::ImageMsg::NEW_IMAGE );
+    this->addNewHandledEvent(::fwComEd::ImageMsg::BUFFER );
 }
 
 //-----------------------------------------------------------------------------
@@ -86,7 +89,7 @@ void RendererService::stopping() throw(fwTools::Failed)
         m_outline->Delete();
     }
 
-    assert( m_render );
+    SLM_ASSERT("m_render not instanced", m_render);
     m_render->Delete();
     m_render = 0;
 

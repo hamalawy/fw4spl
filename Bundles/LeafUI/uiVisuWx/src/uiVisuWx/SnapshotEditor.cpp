@@ -27,11 +27,12 @@
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwRuntime/operations.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IService.hpp>
 #include <fwServices/op/Get.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <fwWX/convert.hpp>
 
@@ -67,7 +68,7 @@ void SnapshotEditor::starting() throw(::fwTools::Failed)
 
     ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
     wxWindow* container = wxContainer->getWxContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     namespace fs = ::boost::filesystem;
     fs::path pathImageSnap ("Bundles/uiVisuWx_" + std::string(UIVISUWX_VER) + "/camera-photo.png");
@@ -94,7 +95,7 @@ void SnapshotEditor::stopping() throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
     ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
     wxWindow* const container = wxContainer->getWxContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
     container->Unbind( wxEVT_COMMAND_BUTTON_CLICKED, &SnapshotEditor::onSnapButton, this, m_idSnapButton);
 
     wxContainer->clean();
@@ -155,7 +156,7 @@ void SnapshotEditor::onSnapButton( wxCommandEvent& event )
     SLM_TRACE_FUNC();
     ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
     wxWindow* const container = wxContainer->getWxContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
     if( container->IsShownOnScreen() )
     {
         for(unsigned int i=0; i < m_scenesUID.size(); i++)

@@ -12,8 +12,8 @@
 
 #include <fwServices/macros.hpp>
 #include <fwServices/Factory.hpp>
-#include <fwServices/helper.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/Base.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/ComChannelService.hpp>
 
 #include <fwComEd/Dictionary.hpp>
@@ -81,7 +81,7 @@ Distance::~Distance() throw()
 
 void Distance::setAxisColor( ::fwData::Color::sptr newColor) throw()
 {
-    assert(newColor);
+    SLM_ASSERT("newColor not instanced", newColor);
     m_distanceRepresentation->GetAxis()->GetProperty()->SetColor(
             newColor->red(),newColor->green(),newColor->blue() );
     m_distanceRepresentation->GetAxis()->GetProperty()->SetOpacity(newColor->alpha() );

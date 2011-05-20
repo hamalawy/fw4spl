@@ -16,9 +16,11 @@
 #include <fwTools/fwID.hpp>
 
 #include <fwServices/ComChannelService.hpp>
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include "fwRenderVTK/IVtkAdaptorService.hpp"
+
 
 
 namespace fwRenderVTK
@@ -75,7 +77,7 @@ void IVtkAdaptorService::stopping() throw(fwTools::Failed)
     if(!m_communicationChannelService.expired())
     {
         m_communicationChannelService.lock()->stop();
-        ::fwServices::erase( m_communicationChannelService.lock() );
+        ::fwServices::OSR::unregisterService( m_communicationChannelService.lock() );
     }
     doStop();
     //requestRender();
@@ -109,7 +111,7 @@ void IVtkAdaptorService::updating(::fwServices::ObjectMsg::csptr msg) throw(fwTo
 void IVtkAdaptorService::setRenderService( VtkRenderService::sptr service)
 {
     /// Preconditions
-    assert( service ) ;
+    SLM_ASSERT("service not instanced", service);
     assert( this->isStopped() ) ;
 
     m_renderService = service ;

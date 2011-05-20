@@ -18,6 +18,7 @@
 #include <fwComEd/TransformationMatrix3DMsg.hpp>
 
 #include <fwServices/Base.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <fwGuiWx/container/WxContainer.hpp>
 #include <fwWX/convert.hpp>
@@ -49,7 +50,7 @@ void TransformationMatrixEditor::starting() throw(::fwTools::Failed)
     this->create();
     ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
     wxWindow* container = wxContainer->getWxContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     wxSizer* sizer = new wxBoxSizer( wxVERTICAL );
 
@@ -69,7 +70,7 @@ void TransformationMatrixEditor::stopping() throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
     ::fwGuiWx::container::WxContainer::sptr wxContainer =  ::fwGuiWx::container::WxContainer::dynamicCast( this->getContainer() );
     wxWindow* const container = wxContainer->getWxContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
 
     container->Unbind(wxEVT_COMMAND_SLIDER_UPDATED, &TransformationMatrixEditor::onSliderChange, this,  m_angleSlider->GetId());
 

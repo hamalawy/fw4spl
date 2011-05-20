@@ -23,8 +23,9 @@
 #include <fwComEd/CameraMsg.hpp>
 #include <fwComEd/TriangularMeshMsg.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <vtkIO/vtk.hpp>
 
@@ -75,8 +76,8 @@ private:
 RendererService::RendererService() throw()
 : m_render( 0 ), m_bPipelineIsInit(false), m_isCamMaster(false)
 {
-    this->IService::addNewHandledEvent( ::fwComEd::TriangularMeshMsg::NEW_MESH );
-    this->IService::addNewHandledEvent( ::fwComEd::CameraMsg::CAMERA_MOVING );
+    this->addNewHandledEvent( ::fwComEd::TriangularMeshMsg::NEW_MESH );
+    this->addNewHandledEvent( ::fwComEd::CameraMsg::CAMERA_MOVING );
 }
 
 //-----------------------------------------------------------------------------
@@ -127,7 +128,7 @@ void RendererService::stopping() throw(fwTools::Failed)
     m_interactorManager->uninstallInteractor();
     m_interactorManager.reset();
 
-    assert( m_render );
+    SLM_ASSERT("m_render not instanced", m_render);
     m_render->Delete();
     m_render = 0;
 

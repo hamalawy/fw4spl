@@ -14,7 +14,7 @@
 
 #include <fwMath/MeshFunctions.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/IEditionService.hpp>
 
 #include "fwComEd/PatientDBMsg.hpp"
@@ -324,7 +324,7 @@ bool MedicalImageHelpers::checkImageSliceIndex( ::fwData::Image::sptr _pImg )
 
 ::fwData::Point::sptr   MedicalImageHelpers::getImageSliceIndices( ::fwData::Image::sptr _pImg )
 {
-    assert( _pImg );
+    SLM_ASSERT("_pImg not instanced", _pImg);
 
     ::fwData::Point::NewSptr point;
 

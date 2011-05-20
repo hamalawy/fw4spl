@@ -11,7 +11,7 @@
 
 #include <vtk3DSImporter.h>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/ObjectMsg.hpp>
 #include <fwServices/IEditionService.hpp>
 #include <fwServices/macros.hpp>
@@ -55,14 +55,14 @@ namespace ioVTK
 MaxMeshReaderService::MaxMeshReaderService() throw():
     m_bServiceIsConfigured(false)
 {
-    SLM_INFO( "[MaxMeshReaderService::MaxMeshReaderService]");
+    SLM_TRACE_FUNC();
 }
 
 //------------------------------------------------------------------------------
 
 void MaxMeshReaderService::info(std::ostream &_sstream )
 {
-    this->SuperClass::info( _sstream ) ;
+    this->BaseClass::info( _sstream ) ;
     _sstream << std::endl << " 3ds file reader" ;
 }
 
@@ -129,7 +129,7 @@ void MaxMeshReaderService::updating() throw(::fwTools::Failed)
     {
         /// Retrieve object
         ::fwData::Model::sptr model = this->getObject< ::fwData::Model >( );
-        assert( model ) ;
+        SLM_ASSERT("model not instanced", model);
         ::fwData::Model::NewSptr backupModel;
         backupModel->shallowCopy(model);
         model->getRefMap().clear();

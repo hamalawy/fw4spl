@@ -26,11 +26,12 @@
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwRuntime/operations.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/ObjectServiceRegistry.hpp>
+#include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IService.hpp>
 #include <fwServices/op/Get.hpp>
+#include <fwServices/IEditionService.hpp>
 
 #include <fwGui/dialog/MessageDialog.hpp>
 #include <fwGui/dialog/LocationDialog.hpp>
@@ -147,7 +148,7 @@ void SnapshotEditor::onSnapButton()
     SLM_TRACE_FUNC();
     ::fwGuiQt::container::QtContainer::sptr qtContainer =  ::fwGuiQt::container::QtContainer::dynamicCast( this->getContainer() );
     QWidget *container = qtContainer->getQtContainer();
-    assert( container ) ;
+    SLM_ASSERT("container not instanced", container);
     if( container->isVisible() )
     {
         for(unsigned int i=0; i < m_scenesUID.size(); i++)

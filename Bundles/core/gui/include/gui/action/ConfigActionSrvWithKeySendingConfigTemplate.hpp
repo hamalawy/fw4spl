@@ -6,7 +6,7 @@
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwRuntime/EConfigurationElement.hpp>
 
-//#include <fwServices/ConfigTemplateManager.hpp>
+//#include <fwServices/AppConfigManager.hpp>
 
 #include <gui/action/ConfigActionSrv.hpp>
 
@@ -88,6 +88,9 @@ private:
     /// Title of the future tab created by this action
     std::string m_viewConfigTitle;
 
+    /// Title prefix of the future tab created by this action
+    std::string m_viewConfigtitlePrefixKey;
+
     /// Specify if the config view may be closed
     bool m_closableConfig;
 
@@ -99,7 +102,7 @@ private:
     /**
      * @brief keep the association between the PATTERN and the associated key  as fieldAdaptors[PATTERN] = AssociatedKey.
      */
-    std::map< std::string, std::string > m_fieldAdaptors;
+    ::fwData::Composite::sptr m_fieldAdaptors;
 
 };
 

@@ -7,7 +7,7 @@
 
 #include <fwServices/macros.hpp>
 #include <fwServices/ObjectMsg.hpp>
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 
 #include <fwData/PatientDB.hpp>
 
@@ -15,6 +15,7 @@
 
 
 #include "ctrlSelection/wrapper/PatientDBWrapperSrv.hpp"
+#include <fwServices/IEditionService.hpp>
 
 
 REGISTER_SERVICE( ::ctrlSelection::IWrapperSrv, ::ctrlSelection::wrapper::PatientDBWrapperSrv, ::fwData::PatientDB ) ;
@@ -48,7 +49,7 @@ void PatientDBWrapperSrv::updating( ::fwServices::ObjectMsg::csptr message ) thr
     if ( message->hasEvent( ::fwServices:: ObjectMsg::UPDATED_OBJECT ) )
     {
         ::fwData::PatientDB::sptr pDPDB = this->getObject< ::fwData::PatientDB >();
-        assert( pDPDB );
+        SLM_ASSERT("pDPDB not instanced", pDPDB);
 
         assert( message->getDataInfo( ::fwServices:: ObjectMsg::UPDATED_OBJECT   ) == pDPDB );
 

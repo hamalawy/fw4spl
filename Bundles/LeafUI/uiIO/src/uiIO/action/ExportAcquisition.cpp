@@ -11,11 +11,11 @@
 
 #include <fwComEd/fieldHelper/BackupHelper.hpp>
 
-#include <fwServices/helper.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/IEditionService.hpp>
 #include <fwServices/ObjectMsg.hpp>
 #include <fwServices/macros.hpp>
-#include <fwServices/bundle/runtime.hpp>
+#include <fwServices/registry/ServiceConfig.hpp>
 
 #include <fwGui/dialog/MessageDialog.hpp>
 
@@ -86,7 +86,7 @@ void ExportAcquisition::updating( ) throw(::fwTools::Failed)
     SLM_TRACE_FUNC();
 
     ::fwData::PatientDB::sptr pPatientDB = this->getObject< ::fwData::PatientDB >();
-    assert( pPatientDB );
+    SLM_ASSERT("pPatientDB not instanced", pPatientDB);
 
     if ( pPatientDB->getPatientSize() > 0 )
     {
@@ -104,14 +104,14 @@ void ExportAcquisition::updating( ) throw(::fwTools::Failed)
         }
         else
         {
-            ::fwRuntime::ConfigurationElement::sptr ioCfg;
-            ioCfg = ::fwServices::bundle::findConfigurationForPoint( m_ioSelectorSrvConfig , "::uiIO::editor::IOSelectorServiceConfig" ) ;
-            SLM_ASSERT("Sorry, there is not service configuration of type ::uiIO::editor::IOSelectorServiceConfig found", ioCfg ) ;
+            ::fwRuntime::ConfigurationElement::csptr ioCfg;
+            ioCfg = ::fwServices::registry::ServiceConfig::getDefault()->getServiceConfig(m_ioSelectorSrvConfig, "::uiIO::editor::IOSelectorService" ) ;
+            OSLM_ASSERT("Sorry, there is not service configuration " << m_ioSelectorSrvConfig << " for ::uiIO::editor::IOSelectorService", ioCfg ) ;
 
             // Init and execute the service
             ::gui::editor::IDialogEditor::sptr pIOSelectorSrv =
                     ::fwServices::add< ::gui::editor::IDialogEditor >( pAcquisition, "::uiIO::editor::IOSelectorService" );
-            pIOSelectorSrv->setConfiguration( ioCfg ) ;
+            pIOSelectorSrv->setConfiguration( ::fwRuntime::ConfigurationElement::constCast(ioCfg) ) ;
             pIOSelectorSrv->configure() ;
             pIOSelectorSrv->start();
             pIOSelectorSrv->update();
