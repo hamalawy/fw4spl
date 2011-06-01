@@ -1,0 +1,72 @@
+<plugin id="ioVTK" class="::ioVTK::Plugin" >
+    <library name="ioVTK" />
+
+    <requirement id="io" />
+
+    <!--    REGISTER_SERVICE( ::io::IReader , ::ioVTK::MaxMeshReaderService , ::fwData::Model ) ;-->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::MaxMeshReaderService</service>
+        <object>::fwData::Model</object>
+        <desc>3ds Reader (VTK)</desc>
+    </extension>
+
+    <!--    REGISTER_SERVICE( ::io::IWriter , ::ioVTK::ReconstructionWriterService , ::fwData::Acquisition ) ;-->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioVTK::ReconstructionWriterService</service>
+        <object>::fwData::Acquisition</object>
+        <desc>Reconstructions Writer (VTK)</desc>
+    </extension>
+
+    <!--    REGISTER_SERVICE( ::io::IWriter , ::ioVTK::ImageWriterService , ::fwData::Image ) ;-->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioVTK::ImageWriterService</service>
+        <object>::fwData::Image</object>
+        <desc>VTK Image Writer (VTK)</desc>
+    </extension>
+
+    <!--    REGISTER_SERVICE( ::io::IReader , ::ioVTK::ImageReaderService , ::fwData::Image ) ;-->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::ImageReaderService</service>
+        <object>::fwData::Image</object>
+        <desc>VTK Image Reader (VTK)</desc>
+    </extension>
+
+
+    <!--    REGISTER_SERVICE( ::io::IReader , ::ioVTK::MeshReaderService , ::fwData::TriangularMesh) ;-->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::MeshReaderService</service>
+        <object>::fwData::TriangularMesh</object>
+        <desc>VTK Mesh Reader (VTK)</desc>
+    </extension>
+
+    <!--    REGISTER_SERVICE( ::io::IWriter , ::ioVTK::MeshWriterService , ::fwData::TriangularMesh ) ;-->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioVTK::MeshWriterService</service>
+        <object>::fwData::TriangularMesh</object>
+        <desc>VTK Mesh Writer (VTK)</desc>
+    </extension>
+
+
+    <!--    REGISTER_SERVICE( ::io::IReader , ::ioVTK::VtkPatientDBReaderService , ::fwData::PatientDB ) ;-->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::VtkPatientDBReaderService</service>
+        <object>::fwData::PatientDB</object>
+        <desc>VTK Image Reader (VTK)</desc>
+    </extension>
+
+    <!--    REGISTER_SERVICE( ::io::IReader , ::ioVTK::::ioVTK::VtkModelReaderService , ::fwData::PatientDB ) ;-->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::VtkModelReaderService</service>
+        <object>::fwData::Model</object>
+        <desc>Model Reader (VTK)</desc>
+    </extension>
+
+</plugin>
