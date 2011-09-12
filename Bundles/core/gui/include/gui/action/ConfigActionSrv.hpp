@@ -1,3 +1,9 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+
 #ifndef _GUI_ACTION_CONFIGACTIONSRV_HPP_
 #define _GUI_ACTION_CONFIGACTIONSRV_HPP_
 
@@ -22,6 +28,38 @@ namespace action
  * @brief   To manage configuration file defines in xml extension.
  * @author  IRCAD (Research and Development Team).
  * @date    2010.
+ *
+ * This action starts/stops a template configuration given by its identifier in this action configuration.
+ *  - You can specified pattern to replace in the template configuration by the tag 'replace'.
+ *  - The pattern GENERIC_UID is replaced by a generated unique identifier when the configuration is launch.
+ *  This assure that the created object and services in the configuration have a unique uid even if this
+ *  configuration is launch several times.
+ *
+ * Example of this service configuration
+ * @verbatim
+   <service implementation="::gui::action::ConfigActionSrv" type="::fwGui::IActionSrv">
+       <config id="IdOfTemplateConfig" />
+       <replace val="VALUE" pattern ="PATTERN_TO_REPLACE_BY_VALUE" />
+   </service>
+   @endverbatim
+ *
+ *
+ * Example of template configuration
+ * @verbatim
+   <extension implements="::fwServices::registry::AppConfig">
+       <id>Activity1Config</id>
+       <type>template</type>
+       <config>
+           <object uid="GENERIC_UID_myComposite" type="::fwData::Composite">
+               <service uid="GENERIC_UID_myService" type="..." implementation="..." autoComChannel="no" />
+               <item key="myImage">
+                   <object uid="PATTERN_TO_REPLACE_BY_VALUE" src="ref" type="::fwData::Image" />
+               </item>
+               <!-- ... -->
+           </object>
+       </config>
+   </extension>
+  @endverbatim
  */
 class GUI_CLASS_API ConfigActionSrv : public ::fwGui::IActionSrv
 {
@@ -35,6 +73,9 @@ public :
 
     /// Destructor. Do nothing.
     GUI_API virtual ~ConfigActionSrv() throw() ;
+
+    /// Set the action service is activated/inactivated.
+    GUI_API virtual void setIsActive(bool isActive);
 
 protected:
 
@@ -63,14 +104,13 @@ protected:
      *
      * Call the IAction::configuring()
      *
-     *Example of this service configuration
+     * Example of this service configuration
      * @verbatim
        <service implementation="::gui::action::ConfigActionSrv" type="::fwGui::IActionSrv">
-           <config id="IdOfExtension" />
+           <config id="IdOfTemplateConfig" />
            <replace val="VALUE" pattern ="PATTERN_TO_REPLACE_BY_VALUE" />
        </service>
         @endverbatim
-      * It MUST have at least one replace node.
       */
     virtual void configuring() throw(fwTools::Failed);
 

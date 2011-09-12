@@ -21,10 +21,12 @@
 #include <QPointer>
 #include <QProgressBar>
 #include <QProgressDialog>
+#include <QPushButton>
 #include <QStatusBar>
 #include <QString>
 
 #include <fwGui/dialog/ProgressDialog.hpp>
+#include "fwGuiQt/container/QtContainer.hpp"
 
 #ifdef QT_NO_KEYWORDS_FWDEF
 #undef QT_NO_KEYWORDS
@@ -50,8 +52,10 @@ namespace dialog
  * @note Do not inherit from fwProgressDialog but embed a fwProgressDialog because this lasted is not copiable.
  * @todo ProgressDialog is not commented.
  */
-class FWGUIQT_CLASS_API ProgressDialog : public ::fwGui::dialog::IProgressDialog
+class FWGUIQT_CLASS_API ProgressDialog : public QObject, public ::fwGui::dialog::IProgressDialog
 {
+    Q_OBJECT
+
 public:
 
     fwCoreClassDefinitionsWithFactoryMacro( (ProgressDialog)(::fwGui::dialog::IProgressDialog), (()), new ProgressDialog );
@@ -68,12 +72,18 @@ public:
     /// override
     FWGUIQT_API void setMessage(const std::string &message);
 
+    FWGUIQT_API void hideCancelButton();
+
+protected Q_SLOTS:
+    void cancelPressed();
+
 protected :
 
     QString m_title;
 
     QPointer< QProgressDialog >  m_pdialog;
     QPointer< QProgressBar >     m_pprogressbar;
+    QPointer< QPushButton >      m_pcancelButton;
     QPointer< QMainWindow >      m_pmainWindow;
 
 };

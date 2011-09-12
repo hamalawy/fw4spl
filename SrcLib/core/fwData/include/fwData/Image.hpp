@@ -36,16 +36,9 @@ public:
     fwCoreClassDefinitionsWithFactoryMacro( (Image)(::fwData::Object), (()), ::fwTools::Factory::New< Image > ) ;
     fwCoreAllowSharedFromThis();
 
-    /**
-     * @brief Constructor
-     */
-    FWDATA_API Image();
-
-    /**
-     * @brief Destructor
-     */
-    FWDATA_API virtual ~Image() throw();
-
+    typedef ::boost::uint64_t VoxelIndexType;
+    typedef ::boost::uint64_t BufferIndexType;
+    typedef ::boost::uint8_t  BufferType;
 
     fwDataObjectMacro();
 
@@ -107,8 +100,28 @@ public:
 
     fwGettersSettersDocMacro(BufferDelegate, bufferDelegate, ::fwData::IBufferDelegate::sptr, by default use StandardBuffer);
 
+    FWDATA_API void* getPixelBuffer( ::boost::int32_t x, ::boost::int32_t y, ::boost::int32_t z );
+    FWDATA_API void* getPixelBuffer( VoxelIndexType index );
+    FWDATA_API ::boost::shared_ptr< BufferType > getPixelBufferCopy( ::boost::int32_t x, ::boost::int32_t y, ::boost::int32_t z );
+    FWDATA_API ::boost::shared_ptr< BufferType > getPixelBufferCopy( VoxelIndexType index );
+
+    FWDATA_API void setPixelBuffer( VoxelIndexType index , Image::BufferType * pixBuf);
+
+    FWDATA_API static Image::BufferType* getPixelBuffer( Image::BufferType *buffer, ::boost::int32_t offset, const unsigned char imagePixelSize );
+    FWDATA_API static SPTR( Image::BufferType ) getPixelBufferCopy( Image::BufferType *buffer, ::boost::int32_t offset, const unsigned char imagePixelSize );
+    FWDATA_API static void  setPixelBuffer( Image::BufferType *destBuffer, const Image::BufferType * pixBuf, const ::boost::int32_t offset, const unsigned char imagePixelSize );
 
 protected :
+
+    /**
+     * @brief Constructor
+     */
+    FWDATA_API Image();
+
+    /**
+     * @brief Destructor
+     */
+    FWDATA_API virtual ~Image() throw();
 
     //! image dimension, ex : 3 for image 3D
     ::boost::uint8_t  m_ui8Dimension;
@@ -154,7 +167,6 @@ FWDATA_API boost::int32_t  imageSizeInBytes( const ::fwData::Image &image);
  * @return pixel value
  */
 FWDATA_API std::string  getPixelAsString( ::fwData::Image::csptr _image, unsigned int _x, unsigned int _y, unsigned int _z );
-
 
 };
 

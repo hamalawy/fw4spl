@@ -79,6 +79,7 @@ void FwXMLImageReaderService::configureWithIHM()
     {
         _sDefaultPath = result->getPath();
         m_fsImagePath = result->getPath();
+        m_bServiceIsConfigured = true;
     }
 }
 
@@ -86,14 +87,14 @@ void FwXMLImageReaderService::configureWithIHM()
 
 void FwXMLImageReaderService::starting() throw(::fwTools::Failed)
 {
-    SLM_TRACE("FwXMLImageReaderService::starting()");
+    SLM_TRACE_FUNC();
 }
 
 //------------------------------------------------------------------------------
 
 void FwXMLImageReaderService::stopping() throw(::fwTools::Failed)
 {
-    SLM_TRACE("FwXMLImageReaderService::stopping()");
+    SLM_TRACE_FUNC();
 }
 
 //------------------------------------------------------------------------------
@@ -107,44 +108,34 @@ void FwXMLImageReaderService::info(std::ostream &_sstream )
 
 ::fwData::Image::sptr FwXMLImageReaderService::createImage( const ::boost::filesystem::path inrFileDir )
 {
-    SLM_TRACE("FwXMLImageReaderService::createImage");
+    SLM_TRACE_FUNC();
     ::fwXML::reader::FwXMLObjectReader myLoader;
-
+    ::fwData::Image::sptr pImage;
     myLoader.setFile(inrFileDir);
-
     try
     {
         ::fwGui::dialog::ProgressDialog progressMeterGUI("Loading Image ");
         myLoader.addHandler( progressMeterGUI );
         myLoader.read();
+        pImage = ::fwData::Image::dynamicCast( myLoader.getObject() );
     }
     catch (const std::exception & e)
     {
         std::stringstream ss;
         ss << "Warning during loading : " << e.what();
-        ::fwGui::dialog::IMessageDialog::Icons icon = ::fwGui::dialog::IMessageDialog::WARNING;
-        ::fwGui::dialog::MessageDialog messageBox;
-        messageBox.setTitle("Warning");
-        messageBox.setMessage( ss.str() );
-        messageBox.setIcon(::fwGui::dialog::IMessageDialog::WARNING);
-        messageBox.addButton(::fwGui::dialog::IMessageDialog::OK);
-        messageBox.show();
+        ::fwGui::dialog::MessageDialog::showMessageDialog("Warning", ss.str(), ::fwGui::dialog::IMessageDialog::WARNING);
     }
     catch( ... )
     {
-        std::stringstream ss;
-        ss << "Warning during loading : ";
-        ::fwGui::dialog::IMessageDialog::Icons icon = ::fwGui::dialog::IMessageDialog::WARNING;
-        ::fwGui::dialog::MessageDialog messageBox;
-        messageBox.setTitle("Warning");
-        messageBox.setMessage( ss.str() );
-        messageBox.setIcon(::fwGui::dialog::IMessageDialog::WARNING);
-        messageBox.addButton(::fwGui::dialog::IMessageDialog::OK);
-        messageBox.show();
+        std::stringstream xmlFile;
+        xmlFile << "Sorry, the xml file \""
+                << m_fsImagePath.string()
+                << "\" does not content a Image. This xml file has not been loaded.";
+
+        ::fwGui::dialog::MessageDialog::showMessageDialog("FwXML Image Reader",
+                xmlFile.str(),
+                ::fwGui::dialog::IMessageDialog::WARNING);
     }
-
-    ::fwData::Image::sptr pImage = ::fwData::Image::dynamicCast( myLoader.getObject() );
-
     return pImage;
 }
 
@@ -152,20 +143,18 @@ void FwXMLImageReaderService::info(std::ostream &_sstream )
 
 void FwXMLImageReaderService::updating() throw(::fwTools::Failed)
 {
-    SLM_TRACE("FwXMLImageReaderService::updating()");
+    SLM_TRACE_FUNC();
 
     if( m_bServiceIsConfigured )
     {
         ::fwData::Image::sptr image = createImage( m_fsImagePath );
 
-        if ( image != NULL )
+        if ( image )
         {
-
             // Retrieve dataStruct associated with this service
             ::fwData::Image::sptr associatedImage = this->getObject< ::fwData::Image >();
             SLM_ASSERT("associatedImage not instanced", associatedImage);
 
-            //( *( associatedImage ) ) = ( *( image.get() ) ) ;
             associatedImage->shallowCopy( image );
 
             ::fwGui::Cursor cursor;
@@ -173,20 +162,6 @@ void FwXMLImageReaderService::updating() throw(::fwTools::Failed)
 
             notificationOfDBUpdate();
             cursor.setDefaultCursor();
-
-        }
-        else
-        {
-            std::stringstream xmlFile;
-            xmlFile << "Sorry, the xml file \""
-            << m_fsImagePath.string()
-            << "\" does not content a Image. This xml file has not been loaded.";
-            ::fwGui::dialog::MessageDialog messageBox;
-            messageBox.setTitle("FwXML Image Reader");
-            messageBox.setMessage( xmlFile.str() );
-            messageBox.setIcon(::fwGui::dialog::IMessageDialog::WARNING);
-            messageBox.addButton(::fwGui::dialog::IMessageDialog::OK);
-            messageBox.show();
         }
     }
 }
@@ -195,7 +170,7 @@ void FwXMLImageReaderService::updating() throw(::fwTools::Failed)
 
 void FwXMLImageReaderService::notificationOfDBUpdate()
 {
-    SLM_TRACE("FwXMLImageReaderService::notificationOfDBUpdate");
+    SLM_TRACE_FUNC();
     ::fwData::Image::sptr pImage = this->getObject< ::fwData::Image >();
     SLM_ASSERT("pImage not instanced", pImage);
 

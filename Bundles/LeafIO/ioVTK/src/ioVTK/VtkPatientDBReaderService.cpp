@@ -85,7 +85,7 @@ void VtkPatientDBReaderService::configureWithIHM()
     {
         m_fsImagePath = result->getPath();
         m_bServiceIsConfigured = true;
-        _sDefaultPath = m_fsImagePath.branch_path();
+        _sDefaultPath = m_fsImagePath.parent_path();
     }
 }
 
@@ -163,8 +163,11 @@ void VtkPatientDBReaderService::updating() throw(::fwTools::Failed)
             pNewAcquisition->setImage(image);
             pNewStudy->addAcquisition(pNewAcquisition);
             pNewPatient->addStudy(pNewStudy);
-
+#if BOOST_FILESYSTEM_VERSION > 2
+            pNewPatient->setCRefName(m_fsImagePath.filename().string());
+#else
             pNewPatient->setCRefName(m_fsImagePath.filename());
+#endif
             pNewPatientDB->addPatient(pNewPatient);
 
             // Retrieve dataStruct associated with this service

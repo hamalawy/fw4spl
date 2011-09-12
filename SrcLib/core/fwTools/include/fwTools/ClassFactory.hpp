@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef CLASSBINDER_HPP_
-#define CLASSBINDER_HPP_
+#ifndef _FWTOOLS_CLASSFACTORY_HPP_
+#define _FWTOOLS_CLASSFACTORY_HPP_
 
 #ifdef _WIN32
    #pragma warning( disable : 4800 )
@@ -19,8 +19,8 @@
 
 #include "fwTools/TBKClassFactory.hpp"
 
-namespace fwTools {
-
+namespace fwTools
+{
 
 /**
  * @brief   The ClassFactory class is a generic class factory
@@ -33,12 +33,8 @@ namespace fwTools {
  * \li BASECLASS is the mother of SubClasses (SUBCLASS) and define the common API.
  * \li KEY can be of any type int , std::string, std::type_info etc...
  *
- *  this factory produce an sharedPtr independantly of KEY value this responsability is managed by ClassFactoryRegistry
+ *  this factory produce an sharedPtr independently of KEY value this responsibility is managed by ClassFactoryRegistry
  */
-
-
-
-
 template<class BASECLASS, class SUBCLASS, class KEY>
 class ClassFactory : public TBKClassFactory<BASECLASS,KEY>
 {
@@ -104,7 +100,6 @@ public:
 
              return this->canHandle(otherKey);
          }
-
      }
 
      virtual bool operator<(const IClassFactory &other) const
@@ -143,9 +138,7 @@ public:
 
      }
 
-
-    protected :
-
+protected :
 
     /// Constructor purposely not implemented
     ClassFactory();
@@ -154,6 +147,6 @@ public:
 
 };
 
-} //end namespace fwTools {
+} //end namespace fwTools
 
-#endif /*CLASSBINDER_HPP_*/
+#endif // _FWTOOLS_CLASSFACTORY_HPP_

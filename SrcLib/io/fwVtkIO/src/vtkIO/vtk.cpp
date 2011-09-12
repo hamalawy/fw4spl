@@ -21,6 +21,7 @@
 #include <vtkPolyDataWriter.h>
 #include <vtkImageData.h>
 #include <vtkImageImport.h>
+#include <vtkImageExport.h>
 #include <vtkMatrix4x4.h>
 #include <vtkPolyDataNormals.h>
 #include <vtkLookupTable.h>
@@ -35,10 +36,8 @@
 #include <vtkDataArray.h>
 #include <vtkPointData.h>
 #include <vtkSmartPointer.h>
-//#include <>
-//vi->GetPointData()->GetScalars()->FillComponent(0, 1.0);
-#include <fwMath/MeshFunctions.hpp>
 
+#include <fwMath/MeshFunctions.hpp>
 
 #include "vtkIO/vtk.hpp"
 
@@ -64,7 +63,7 @@ typedef  ::boost::bimaps::bimap<
                    > TypeTranslator;
 
 TypeTranslator PixelTypeTranslation = boost::assign::list_of< TypeTranslator::relation >
-                                                                    ( fwTools::makeDynamicType<signed char>(),    VTK_SIGNED_CHAR )
+                                                                    ( fwTools::makeDynamicType<signed char>(),    VTK_CHAR )
                                                                     ( fwTools::makeDynamicType<unsigned char>(),  VTK_UNSIGNED_CHAR )
                                                                     ( fwTools::makeDynamicType<signed short>(),   VTK_SHORT )
                                                                     ( fwTools::makeDynamicType<unsigned short>(), VTK_UNSIGNED_SHORT )
@@ -75,22 +74,30 @@ TypeTranslator PixelTypeTranslation = boost::assign::list_of< TypeTranslator::re
                                                                     ( fwTools::makeDynamicType<float>(),          VTK_FLOAT )
                                                                     ( fwTools::makeDynamicType<double>(),         VTK_DOUBLE );
 
+//-----------------------------------------------------------------------------
+
+int getVtkScalarType(::fwData::Image::sptr image)
+{
+    OSLM_ASSERT("Unknown PixelType "<<image->getPixelType().string(),
+            PixelTypeTranslation.left.find( image->getPixelType() ) != PixelTypeTranslation.left.end() );
+    return PixelTypeTranslation.left.at( image->getPixelType() );
+}
+
+//-----------------------------------------------------------------------------
 
 const char *myScalarTypeCallback(void *imageData)
 {
     ::fwData::Image *trueImageData = static_cast< ::fwData::Image *>(imageData);
-
-    assert ( PixelTypeTranslation.left.find( trueImageData->getPixelType() )!= PixelTypeTranslation.left.end() );
-
+    OSLM_ASSERT("Unknown PixelType "<<trueImageData->getPixelType().string(),
+                PixelTypeTranslation.left.find( trueImageData->getPixelType() ) != PixelTypeTranslation.left.end() );
     return vtkImageScalarTypeNameMacro( PixelTypeTranslation.left.at( trueImageData->getPixelType() ) );
 }
 
 //-----------------------------------------------------------------------------
 
-vtkImageData* toVTKImage( ::fwData::Image::sptr data,  vtkImageData *dst)
+void toVTKImage( ::fwData::Image::sptr data,  vtkImageData *dst)
 {
-    vtkImageImport *importer = vtkImageImport::New();
-
+    vtkSmartPointer< vtkImageImport > importer = vtkSmartPointer< vtkImageImport >::New();
     importer->SetDataSpacing( data->getSpacing().at(0),
                               data->getSpacing().at(1),
                               data->getSpacing().at(2)
@@ -111,37 +118,17 @@ vtkImageData* toVTKImage( ::fwData::Image::sptr data,  vtkImageData *dst)
 
     // no copy, no buffer destruction/management
     importer->SetImportVoidPointer( data->getBuffer() );
-
-
-    // used to set correct pixeltype to VtkImage
-    // vtkImageImport::InvokeExecuteInformationCallbacks() will call
-    // myScalarTypeCallback and waiting for const char * defintion type like "unsigned short"
-    // to produce VTK_TYPE
     importer->SetCallbackUserData( data.get() );
-    importer->SetScalarTypeCallback( myScalarTypeCallback );
-
-
+    // used to set correct pixeltype to VtkImage
+    importer->SetDataScalarType( getVtkScalarType(data) );
     importer->Update();
 
-    vtkImageData *vtkImage = importer->GetOutput();
-
-    if (dst)
-    {
-        dst->ShallowCopy(vtkImage);
-        importer->Delete();
-    }
-
-    SLM_ERROR_IF("::vtkIO::toVTKImage will not longer return a vtkImageData."
-                  "You should update the usage of this function in your code, "
-                  "and pass a vtkImageData as second argument", dst == NULL);
-
-    return vtkImage;
-
+    dst->ShallowCopy(importer->GetOutput());
 }
 
 //-----------------------------------------------------------------------------
 
-bool fromVTKImage( vtkImageData* source, ::fwData::Image::sptr destination )
+void fromVTKImage( vtkImageData* source, ::fwData::Image::sptr destination )
 {
     assert(destination && source );
 
@@ -152,6 +139,12 @@ bool fromVTKImage( vtkImageData* source, ::fwData::Image::sptr destination )
     std::copy( source->GetSpacing(), source->GetSpacing()+dim, destination->getRefSpacing().begin() );
     std::copy( source->GetOrigin(), source->GetOrigin()+dim, destination->getRefOrigin().begin() );
 
+    if(dim == 2)
+    {
+        destination->getRefSize()[2] = destination->getRefSpacing()[2] = 1;
+    }
+    SLM_WARN_IF("2D Vtk image are not yet correctly managed", dim == 2);
+
     // ensure image size correct
     source->UpdateInformation();
     source->PropagateUpdateExtent();
@@ -160,142 +153,80 @@ bool fromVTKImage( vtkImageData* source, ::fwData::Image::sptr destination )
 
     void *input = source->GetScalarPointer();
     void *destBuffer;
-    bool res=false;
 
     if (imageMemSize != 0)
     {
-        int nbImg = (destination->getRefSize()[2] == 0) ? 1 : destination->getRefSize()[2] ;
-        int bytePerPixel = (((imageMemSize / destination->getRefSize()[0] ) / destination->getRefSize()[1] ) / nbImg ) / source->GetNumberOfScalarComponents();
+        int nbImg = destination->getRefSize()[2] ;
+        int bytePerPixel = source->GetScalarSize();
         int components = source->GetNumberOfScalarComponents();
-        int size = ( imageMemSize / components );// * bytePerPixel;
+        int size = ( imageMemSize / components );
         OSLM_TRACE("imageMemSize : " << imageMemSize << " - bytePerPixel : " << bytePerPixel << " - finalSize : " << size);
         try
         {
             destBuffer = new char[ size ];
-            res = true;
         }
         catch (std::exception &e)
         {
             OSLM_ERROR ("Need more memory : " << e.what() );
+            throw;
         }
 
-        if (res)
+        if (components == 3 && bytePerPixel == 2)
         {
-            if (components == 3 && bytePerPixel == 2)
+            SLM_TRACE ("RGB 16bits");
+            unsigned short* destBufferTyped = ( unsigned short*)destBuffer;
+            unsigned short* inputTyped= (unsigned short*)input;
+            unsigned short* finalPtr = ((unsigned short*)destBuffer) + size;
+            unsigned short valR, valG,valB;
+            while (destBufferTyped < finalPtr)
             {
-                SLM_TRACE ("RGB 16bits");
-                unsigned short* destBufferTyped = ( unsigned short*)destBuffer;
-                unsigned short* inputTyped= (unsigned short*)input;
-                unsigned short* finalPtr = ((unsigned short*)destBuffer) + size;
-                while (destBufferTyped < finalPtr)
-                {
-                    unsigned short valR = (unsigned short)(float((*(inputTyped++)) * 0.30));
-                    unsigned short valG = (unsigned short)(float((*(inputTyped++)) * 0.59));
-                    unsigned short valB = (unsigned short)(float((*(inputTyped++)) * 0.11));
-                    (*destBufferTyped)= valR + valG + valB;
-                    destBufferTyped++;
-                }
-                destination->setPixelType( fwTools::makeDynamicType<unsigned short>() );
+                valR = (unsigned short)(float((*(inputTyped++)) * 0.30));
+                valG = (unsigned short)(float((*(inputTyped++)) * 0.59));
+                valB = (unsigned short)(float((*(inputTyped++)) * 0.11));
+                (*destBufferTyped)= valR + valG + valB;
+                destBufferTyped++;
             }
-            else
-            {
-                if (components == 3 && bytePerPixel == 1)
-                {
-                    SLM_TRACE ("RGB 8bits");
-                    unsigned char* destBufferTyped = ( unsigned char*)destBuffer;
-                    unsigned char* inputTyped= ( unsigned char*)input;
-                    unsigned char* finalPtr = (( unsigned char*)destBuffer) + size;
-                    while (destBufferTyped < finalPtr)
-                    {
-                        unsigned char valR = (unsigned char)(float((*(inputTyped++)) * 0.30));
-                        unsigned char valG = (unsigned char)(float((*(inputTyped++)) * 0.59));
-                        unsigned char valB = (unsigned char)(float((*(inputTyped++)) * 0.11));
-                        (*destBufferTyped)= valR + valG + valB;
-                        destBufferTyped++;
-                    }
-                    destination->setPixelType( fwTools::makeDynamicType<unsigned char>() );
-                }
-                else
-                {
-
-                    if (components == 1)
-                    {
-                        SLM_TRACE ("Luminance image");
-                        memcpy( destBuffer, input , imageMemSize);
-                        destination->setPixelType( PixelTypeTranslation.right.at( source->GetScalarType() ) );
-                    }
-                    else
-                    {
-                        SLM_ERROR ("Dicom image type not supported (image dimension)");
-                    }
-                }
-            }
-            destination->setBuffer( destBuffer );
+            destination->setPixelType( fwTools::makeDynamicType<unsigned short>() );
         }
-    }
-    else
-    {
-        OSLM_INFO("imageMemSize : " << imageMemSize );
+        else if (components == 3 && bytePerPixel == 1)
+        {
+            SLM_TRACE ("RGB 8bits");
+            unsigned char* destBufferTyped = ( unsigned char*)destBuffer;
+            unsigned char* inputTyped= ( unsigned char*)input;
+            unsigned char* finalPtr = (( unsigned char*)destBuffer) + size;
+            unsigned char valR, valG,valB;
+            while (destBufferTyped < finalPtr)
+            {
+                valR = (unsigned char)(float((*(inputTyped++)) * 0.30));
+                valG = (unsigned char)(float((*(inputTyped++)) * 0.59));
+                valB = (unsigned char)(float((*(inputTyped++)) * 0.11));
+                (*destBufferTyped)= valR + valG + valB;
+                destBufferTyped++;
+            }
+            destination->setPixelType( fwTools::makeDynamicType<unsigned char>() );
+        }
+        else if (components == 1)
+        {
+            SLM_TRACE ("Luminance image");
+            memcpy( destBuffer, input , imageMemSize);
+            destination->setPixelType( PixelTypeTranslation.right.at( source->GetScalarType() ) );
+        }
+        else
+        {
+            SLM_ERROR ("Image type not supported (image dimension)");
+        }
+        destination->setBuffer( destBuffer );
     }
 
-    if (!res)
-    {
-        destination->getRefSize()[0] = 0;
-        destination->getRefSize()[1] = 0;
-        destination->getRefSize()[2] = 0;
-    }
+    OSLM_INFO_IF("imageMemSize : " << imageMemSize, !res );
 
-    for (boost::uint8_t  d=0; d<dim; ++d)
+    for( ::boost::uint8_t d=0; d<dim; ++d)
     {
         OSLM_TRACE("Size " << destination->getCRefSize()[d]);
         OSLM_TRACE("Origin " << destination->getCRefOrigin()[d]);
         OSLM_TRACE("Spacing " << destination->getCRefSpacing()[d]);
         destination->getRefOrigin()[d]=0.0; //FIXME !!! Hack because our framework (visu services) doesn't support origine
     }
-
-    SLM_TRACE ("Exit from fromVTKImage");
-
-    return res;
-}
-
-//------------------------------------------------------------------------------
-
-vtkImageImport* convertToVTKImageImport( ::fwData::Image::sptr data )
-{
-    vtkImageImport *importer = vtkImageImport::New();
-
-    importer->SetDataSpacing( data->getSpacing().at(0),
-                              data->getSpacing().at(1),
-                              data->getSpacing().at(2)
-                            );
-
-    importer->SetDataOrigin( data->getCRefOrigin().at(0),
-                             data->getCRefOrigin().at(1),
-                             data->getCRefOrigin().at(2)
-                            );
-
-    importer->SetWholeExtent(   (int)data->getCRefOrigin().at(0), data->getCRefSize().at(0) -1,
-                                (int)data->getCRefOrigin().at(1), data->getCRefSize().at(1) -1,
-                                (int)data->getCRefOrigin().at(2), data->getCRefSize().at(2) -1
-                            );
-
-    // copy WholeExtent to DataExtent
-    importer->SetDataExtentToWholeExtent();
-
-    // no copy, no buffer destruction/management
-    importer->SetImportVoidPointer( data->getBuffer() );
-
-
-    // used to set correct pixeltype to VtkImage
-    // vtkImageImport::InvokeExecuteInformationCallbacks() will call
-    // myScalarTypeCallback and waiting for const char * defintion type like "unsigned short"
-    // to produce VTK_TYPE
-    importer->SetCallbackUserData( data.get() );
-    importer->SetScalarTypeCallback( myScalarTypeCallback );
-
-    importer->Update();
-
-    return importer;
 }
 
 //------------------------------------------------------------------------------
@@ -320,18 +251,11 @@ void configureVTKImageImport( ::vtkImageImport * _pImageImport, ::fwData::Image:
 
     // copy WholeExtent to DataExtent
     _pImageImport->SetDataExtentToWholeExtent();
-
     // no copy, no buffer destruction/management
     _pImageImport->SetImportVoidPointer( _pDataImage->getBuffer() );
-
-
-    // used to set correct pixeltype to VtkImage
-    // vtkImageImport::InvokeExecuteInformationCallbacks() will call
-    // myScalarTypeCallback and waiting for const char * defintion type like "unsigned short"
-    // to produce VTK_TYPE
     _pImageImport->SetCallbackUserData( _pDataImage.get() );
-    _pImageImport->SetScalarTypeCallback( myScalarTypeCallback );
-
+    // used to set correct pixeltype to VtkImage
+    _pImageImport->SetDataScalarType( getVtkScalarType(_pDataImage) );
 }
 
 //-----------------------------------------------------------------------------
@@ -407,8 +331,10 @@ bool fromVTKMesh( vtkPolyData *polyData, ::fwData::TriangularMesh::sptr triangul
 
     if (trianPts)
     {
-        triangularMesh->cells().clear();
-        triangularMesh->points().clear();
+        // Clear the container cells and set its capacity to 0
+        triangularMesh->clearCells();
+        // Clear the container points and set its capacity to 0
+        triangularMesh->clearPoints();
 
         vtkDataArray* points = trianPts->GetData();
         vtkIdType numberOfTuples = points->GetNumberOfTuples();
@@ -455,8 +381,8 @@ double computeVolume( ::fwData::TriangularMesh::sptr _triangularMesh )
 
     vtkSmartPointer< vtkPolyDataNormals > filter = vtkSmartPointer< vtkPolyDataNormals >::New();
     filter->SetInput(vtkMeshRaw);
-    filter->AutoOrientNormalsOn ();
-    filter->FlipNormalsOn ();
+    filter->AutoOrientNormalsOn();
+    filter->FlipNormalsOff();
 
     vtkSmartPointer< vtkMassProperties > calculator = vtkSmartPointer< vtkMassProperties >::New();
     calculator->SetInput( filter->GetOutput() );
@@ -538,7 +464,6 @@ bool fromVTKMatrix( vtkMatrix4x4* _matrix, ::fwData::TransformationMatrix3D::spt
             _transfoMatrix->setCoefficient(l,c, _matrix->GetElement(l,c));
         }
     }
-
     return res;
 }
 
@@ -607,8 +532,8 @@ void convertTF2vtkTF(
         const ::fwData::Color::ColorArray &vRGBANext = (*iterTFNext)->getColor()->getCRefRGBA();
 
 
-        value = ((*iterTF)->getValue() - min) * widthScale;
-        valueNext = ((*iterTFNext)->getValue() - min) * widthScale;
+        value = ((*iterTF)->getValue() - min) * widthScale + 0.5; // + 0.5 just a hack to cap the integer
+        valueNext = ((*iterTFNext)->getValue() - min) * widthScale + 0.5; // + 0.5 just a hack to cap the integer ex : replace 254.9999999999999999 by 255
 
         R = vRGBA[0];
         G = vRGBA[1];

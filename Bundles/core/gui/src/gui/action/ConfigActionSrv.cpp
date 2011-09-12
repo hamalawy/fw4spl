@@ -1,3 +1,9 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+
 #include <boost/regex.hpp>
 
 #include <fwServices/Base.hpp>
@@ -72,7 +78,6 @@ void ConfigActionSrv::configuring() throw(fwTools::Failed)
     SLM_ASSERT( "Sorry, the attribute id in <config> xml element is empty.", ! m_viewConfigId.empty() );
 
     std::vector < ConfigurationType > replaceTagsConfig = m_configuration->find("replace");
-//    SLM_ASSERT("::gui::action::ConfigActionSrv must have at least  one tag <replace>", !replaceTagsConfig.empty());
     std::string adaptor("");
     std::string pattern("");
     BOOST_FOREACH( ConfigurationType replaceItem, replaceTagsConfig)
@@ -85,13 +90,12 @@ void ConfigActionSrv::configuring() throw(fwTools::Failed)
     }
 }
 
-//------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
-void ConfigActionSrv::updating() throw(::fwTools::Failed)
+void ConfigActionSrv::setIsActive(bool isActive)
 {
-    bool needRunningConfig = this->::fwGui::IActionSrv::getIsActive();
-
-    if ( needRunningConfig )
+    this->::fwGui::IActionSrv::setIsActive(isActive);
+    if ( isActive )
     {
         this->startConfig();
     }
@@ -100,6 +104,11 @@ void ConfigActionSrv::updating() throw(::fwTools::Failed)
         this->stopConfig();
     }
 }
+
+//------------------------------------------------------------------------------
+
+void ConfigActionSrv::updating() throw(::fwTools::Failed)
+{}
 
 //------------------------------------------------------------------------------
 
@@ -125,7 +134,6 @@ void ConfigActionSrv::AddGenericUidToFieldApadtor( )
 
     // Init manager
     m_fieldAdaptors["GENERIC_UID"] = genericUidAdaptor;
-
 }
 
 //------------------------------------------------------------------------------

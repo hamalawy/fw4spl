@@ -209,6 +209,7 @@ bool & Image::getRefManagesBuff()
     return this->m_bufferDelegate->getRefManagesBuff() ;
 }
 
+//------------------------------------------------------------------------------
 
 void Image::getInformation( Image::csptr _source )
 {
@@ -221,6 +222,81 @@ void Image::getInformation( Image::csptr _source )
     this->m_dWindowCenter       = _source->m_dWindowCenter;
     this->m_dWindowWidth        = _source->m_dWindowWidth;
     this->m_dRescaleIntercept   = _source->m_dRescaleIntercept;
+}
+
+//------------------------------------------------------------------------------
+
+void* Image::getPixelBuffer( ::boost::int32_t x, ::boost::int32_t y, ::boost::int32_t z )
+{
+    std::vector<boost::int32_t> size = this->getSize();
+    int offset = x + size[0]*y + z*size[0]*size[1];
+    return getPixelBuffer(offset);
+}
+
+//------------------------------------------------------------------------------
+
+void* Image::getPixelBuffer( VoxelIndexType index )
+{
+    unsigned char imagePixelSize = this->getPixelType().sizeOf();
+    BufferType * buf = static_cast < BufferType * > (this->getBuffer());
+    BufferIndexType bufIndex = index * imagePixelSize;
+    return buf + bufIndex;
+}
+
+//------------------------------------------------------------------------------
+
+::boost::shared_ptr< Image::BufferType > Image::getPixelBufferCopy( ::boost::int32_t x, ::boost::int32_t y, ::boost::int32_t z )
+{
+    std::vector<boost::int32_t> size = this->getSize();
+    int offset = x + size[0]*y + z*size[0]*size[1];
+    return getPixelBufferCopy(offset);
+}
+
+//------------------------------------------------------------------------------
+
+::boost::shared_ptr< Image::BufferType > Image::getPixelBufferCopy( VoxelIndexType index )
+{
+    unsigned char imagePixelSize = this->getPixelType().sizeOf();
+    BufferType * buf = static_cast < BufferType * > (this->getPixelBuffer(index));
+    ::boost::shared_ptr< BufferType > res(new BufferType[imagePixelSize]);
+    std::copy(buf, buf+imagePixelSize, res.get());
+    return res;
+}
+
+//------------------------------------------------------------------------------
+
+void Image::setPixelBuffer( VoxelIndexType index , Image::BufferType * pixBuf)
+{
+    unsigned char imagePixelSize = this->getPixelType().sizeOf();
+    BufferType * buf = static_cast < BufferType * > (this->getPixelBuffer(index));
+
+    std::copy(pixBuf, pixBuf+imagePixelSize, buf);
+}
+
+//------------------------------------------------------------------------------
+
+Image::BufferType* Image::getPixelBuffer( Image::BufferType *buffer, const ::boost::int32_t offset, const unsigned char imagePixelSize )
+{
+    BufferIndexType bufIndex = offset * imagePixelSize;
+    return buffer + bufIndex;
+}
+
+//------------------------------------------------------------------------------
+
+SPTR( Image::BufferType ) Image::getPixelBufferCopy( Image::BufferType *buffer, const ::boost::int32_t offset, const unsigned char imagePixelSize )
+{
+    Image::BufferType* buf = getPixelBuffer(buffer, offset, imagePixelSize);
+    SPTR( Image::BufferType ) res(new BufferType[imagePixelSize]);
+    std::copy(buf, buf+imagePixelSize, res.get());
+    return res;
+}
+
+//------------------------------------------------------------------------------
+
+void Image::setPixelBuffer( Image::BufferType *destBuffer, const Image::BufferType * pixBuf, const ::boost::int32_t offset, const unsigned char imagePixelSize )
+{
+    BufferType * buf = static_cast < BufferType * > (getPixelBuffer(destBuffer, offset, imagePixelSize));
+    std::copy(pixBuf, pixBuf+imagePixelSize, buf);
 }
 
 //------------------------------------------------------------------------------

@@ -11,12 +11,10 @@
 #include <typeinfo>
 #include <boost/shared_ptr.hpp>
 #include <string>
-#include "fwTools/config.hpp"
 
-//VAGRM
 #include <fwCore/base.hpp>
 
-//using namespace boost;
+#include "fwTools/config.hpp"
 
 namespace fwTools {
 
@@ -31,7 +29,10 @@ namespace fwTools {
  */
 class FWTOOLS_CLASS_API IClassFactory
 {
-    public:
+public:
+
+    typedef ::boost::shared_ptr< ::fwTools::IClassFactory > sptr;
+
     FWTOOLS_API IClassFactory();
     FWTOOLS_API virtual ~IClassFactory();
 
@@ -96,13 +97,11 @@ class FWTOOLS_CLASS_API IClassFactory
 template<class KEYTYPE>
 inline bool keyComparatorEquality(const KEYTYPE &key1 , const KEYTYPE &key2)
 {
-    //SLM_TRACE("keyComparatorEqualTypeNormal");
     return key1 == key2;
 }
 
 inline bool keyComparatorEquality( const std::type_info &key1, const std::type_info &key2)
 {
-    //SLM_TRACE("keyComparatorEqualTypeInfo");
     return  strcmp( key1.name(), key2.name() ) == 0;
 }
 
@@ -112,14 +111,12 @@ inline bool keyComparatorEquality( const std::type_info &key1, const std::type_i
 template<class KEYTYPE>
 inline bool keyComparatorLess(const KEYTYPE &key1 , const KEYTYPE &key2)
 {
-    //SLM_TRACE("keyComparatorLessNormal");
     return key1 < key2;
 }
 
 
 inline bool keyComparatorLess( const std::type_info &key1, const std::type_info &key2)
 {
-    //OSLM_TRACE("keyComparatorLesstypeinfo" << key1.name() <<  "is lower than" <<  key2.name() << (strcmp( key1.name(), key2.name() ) < 0) );
     return  strcmp( key1.name(), key2.name() ) < 0;
 }
 ///@}
