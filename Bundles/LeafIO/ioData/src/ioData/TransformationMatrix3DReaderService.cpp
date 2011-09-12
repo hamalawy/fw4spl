@@ -91,7 +91,6 @@ void TransformationMatrix3DReaderService::configuring( ) throw(::fwTools::Failed
 
 void TransformationMatrix3DReaderService::configureWithIHM()
 {
-
     SLM_TRACE_FUNC();
     static ::boost::filesystem::path _sDefaultPath;
 
@@ -102,12 +101,12 @@ void TransformationMatrix3DReaderService::configureWithIHM()
     dialogFile.setOption(::fwGui::dialog::ILocationDialog::READ);
 
     ::fwData::location::SingleFile::sptr  result;
-    result= ::fwData::location::SingleFile::dynamicCast( dialogFile.show() );
+    result = ::fwData::location::SingleFile::dynamicCast( dialogFile.show() );
     if (result)
     {
         m_filename = result->getPath();
         m_bServiceIsConfigured = true;
-        _sDefaultPath = m_filename.branch_path();
+        _sDefaultPath = m_filename.parent_path();
     }
 }
 

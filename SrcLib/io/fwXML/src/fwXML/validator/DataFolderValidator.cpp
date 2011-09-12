@@ -4,6 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
+#include <iostream>
+
 #include <fwCore/base.hpp>
 
 #include <boost/version.hpp>
@@ -12,74 +14,66 @@
 
 #include "fwXML/validator/DataFolderValidator.hpp"
 
-#include <iostream>
-
 namespace fwXML
 {
+//-----------------------------------------------------------------------------
 
 DataFolderValidator::DataFolderValidator()
-{
-}
+{}
 
+//-----------------------------------------------------------------------------
 
 DataFolderValidator::~DataFolderValidator()
-{
-}
+{}
 
+//-----------------------------------------------------------------------------
 
 /// erase schema and search them on given folder
-void DataFolderValidator::collecteSchema(const boost::filesystem::path &folder)
+void DataFolderValidator::collecteSchema(const ::boost::filesystem::path &folder)
 {
-    namespace fs = boost::filesystem;
+    namespace fs = ::boost::filesystem;
 
-    assert( fs::is_directory(folder) );
+    OSLM_ASSERT(folder.string() << " is not a directory", fs::is_directory(folder) );
 
     fs::directory_iterator end_iter;
     for ( fs::directory_iterator dir_itr( folder );   dir_itr != end_iter;   ++dir_itr )
     {
-#if BOOST_VERSION < 103600
-        if (fs::extension( dir_itr->leaf()  ) == ".xsd" )
+#if BOOST_FILESYSTEM_VERSION > 2
+        if (fs::extension( dir_itr->path().filename()  ) == ".xsd" )
 #else
         if (fs::extension( dir_itr->filename()  ) == ".xsd" )
 #endif
         {
-            boost::filesystem::path p=*dir_itr;
             registerSchema( *dir_itr );
         }
     }
 }
 
+//-----------------------------------------------------------------------------
 
 /// append schema
-void DataFolderValidator::registerSchema(const boost::filesystem::path &xsdfilename)
+void DataFolderValidator::registerSchema(const ::boost::filesystem::path &xsdfilename)
 {
-    std::string className = boost::filesystem::basename( xsdfilename.leaf() );
-
-    OSLM_INFO("Registring schema from " << xsdfilename.string() << " for class " << className );
+    std::string className = ::boost::filesystem::basename( xsdfilename.leaf() );
+    OSLM_INFO("Registering schema from " << xsdfilename.string() << " for class " << className );
     m_schemaPath[className] = xsdfilename;
-
 }
 
+//-----------------------------------------------------------------------------
 
 void DataFolderValidator::clearErrorLog()
 {
     m_errorLog.clear();
 }
 
+//-----------------------------------------------------------------------------
 
 const std::string DataFolderValidator::getErrorLog() const
 {
     return m_errorLog;
 }
 
-
-//const bool DataFolderValidator::validate( const boost::filesystem::path & xmlFile )
-//{
-//
-//
-//}
-
-
+//-----------------------------------------------------------------------------
 
 const bool DataFolderValidator::validate( xmlNodePtr node )
 {
@@ -110,17 +104,17 @@ const bool DataFolderValidator::validate( xmlNodePtr node )
             node = node->next;
         }
     }
-
     return result;
 }
 
-
+//-----------------------------------------------------------------------------
 
 const bool DataFolderValidator::validateSingle( xmlNodePtr node )
 {
     SLM_ASSERT("node not instanced", node);
     std::string key( (const char*)(node->name) );
-    boost::filesystem::path xsdPath = m_schemaPath[key];
+    ::boost::filesystem::path xsdPath = m_schemaPath[key];
+    bool result = true;
 
     OSLM_DEBUG("key" << key << " - name : " << xsdPath.string());
 
@@ -130,45 +124,37 @@ const bool DataFolderValidator::validateSingle( xmlNodePtr node )
         ::fwRuntime::io::Validator validator(xsdPath);
         OSLM_INFO(" DataFolderValidator::validateSingle " << key );
 
-        //xmlSaveFile( "debug.xml", (xmlDocPtr )node);
-
-        bool result = validator.validate(node);
+        result = validator.validate(node);
         m_errorLog = validator.getErrorLog();
         OSLM_INFO(" DataFolderValidator " << key << " validation result(OK=1)=" << result);
-        return result;
+
     }
-    else
-    {
-        OSLM_WARN("No schema validation for XML node " << key << " : assuming content correct" );
-        return true;
-    }
+    OSLM_DEBUG_IF("No schema validation for XML node " << key << " : assuming content correct", xsdPath.empty() );
+
+    return result;
 }
 
+//-----------------------------------------------------------------------------
 
-void DataFolderValidator::copySchema(const boost::filesystem::path &dstFolder, const boost::filesystem::path &srcFolder  )
+void DataFolderValidator::copySchema(const ::boost::filesystem::path &dstFolder, const ::boost::filesystem::path &srcFolder  )
 {
-    namespace fs = boost::filesystem;
+    namespace fs = ::boost::filesystem;
 
     // set the correct source
     // * srcFolder if specified
     // share/fwXML-XXX/ else
 
-    boost::filesystem::path sourcePath;
+    ::boost::filesystem::path sourcePath;
     if ( srcFolder.empty() )
     {
-#ifndef FWXML_VER
-        sourcePath =  fs::current_path() / "share/fwXML_0-0" ;
-#else
         std::ostringstream pathLocation;
         pathLocation << "share/fwXML_" <<  FWXML_VER;
         sourcePath = fs::current_path() / pathLocation.str();
-#endif
     }
     else
     {
         sourcePath = srcFolder;
     }
-
 
     // copy all XSD file from srcFolder to dstFolder
     assert( fs::is_directory(sourcePath) );
@@ -180,21 +166,18 @@ void DataFolderValidator::copySchema(const boost::filesystem::path &dstFolder, c
 
         if ( !fs::is_directory( *dir_itr ) )
         {
-#if BOOST_VERSION < 103600
-            if (fs::extension( dir_itr->leaf()  ) == ".xsd" )
-#else
-            if (fs::extension( dir_itr->filename()  ) == ".xsd" )
-#endif
+#if BOOST_FILESYSTEM_VERSION > 2
+            if (fs::extension( dir_itr->path().filename()  ) == ".xsd" )
             {
-#if BOOST_VERSION < 103600
-                fs::path dstFile = dstFolder / dir_itr->leaf();
+                fs::path dstFile = dstFolder / dir_itr->path().filename();
 #else
-                fs::path dstFile = dstFolder / dir_itr->filename();
+                if (fs::extension( dir_itr->filename()  ) == ".xsd" )
+                {
+                    fs::path dstFile = dstFolder / dir_itr->filename();
 #endif
-
                 if (  fs::exists(dstFile ) )
                 {
-                    fs::remove( dstFile ); // allow overwritting schema
+                    fs::remove( dstFile ); // allow overwriting schema
                 }
                 fs::copy_file( *dir_itr,  dstFile );
             }
@@ -202,7 +185,6 @@ void DataFolderValidator::copySchema(const boost::filesystem::path &dstFolder, c
     }
 }
 
-
-
+//-----------------------------------------------------------------------------
 
 }

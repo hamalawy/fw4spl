@@ -103,7 +103,7 @@ void MaxMeshReaderService::configureWithIHM()
     {
         m_fsMeshPath = result->getPath();
         m_bServiceIsConfigured = true;
-        _sDefaultPath = m_fsMeshPath.branch_path();
+        _sDefaultPath = m_fsMeshPath.parent_path();
     }
 }
 
@@ -135,7 +135,7 @@ void MaxMeshReaderService::updating() throw(::fwTools::Failed)
         model->getRefMap().clear();
 
         vtk3DSImporter *importer1 = vtk3DSImporter::New();
-        importer1->SetFileName(m_fsMeshPath.native_file_string().c_str());
+        importer1->SetFileName(m_fsMeshPath.string().c_str());
         importer1->ComputeNormalsOn();
         importer1->Read();
 

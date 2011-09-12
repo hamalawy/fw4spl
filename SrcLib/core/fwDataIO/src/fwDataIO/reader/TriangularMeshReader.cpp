@@ -45,56 +45,72 @@ void TriangularMeshReader::read()
     assert( ::boost::dynamic_pointer_cast< ::fwData::location::SingleFile >(m_location) );
     ::boost::filesystem::path path = ::boost::dynamic_pointer_cast< ::fwData::location::SingleFile >(m_location)->getPath();
 
+    OSLM_INFO( "[TriangularMeshReader::read] Trian file: " << path.string());
+    SLM_ASSERT("Empty path for TriangularMesh file", !path.empty() );
 
-    OSLM_INFO( "[TriangularMeshReader::read] Trian file: " << path);
-    assert( path.empty() ==  false );
-
-    ::boost::shared_ptr< ::fwData::TriangularMesh > triMesh = getConcreteObject();
+    ::fwData::TriangularMesh::sptr triMesh = getConcreteObject();
 
     std::fstream file;
-    file.open(path.native_file_string().c_str(), std::fstream::in);
+    file.open(path.string().c_str(), std::fstream::in);
     if (!file.is_open())
     {
-        OSLM_ERROR( "Trian file loading error for " << path);
-        std::string str = "Unable to open ";
-        str+= path.native_file_string();
-        throw std::ios_base::failure(str);
+        OSLM_ERROR( "Trian file loading error for " << path.string());
+        throw std::ios_base::failure("Unable to open " + path.string());
     }
 
-    /// Remove all points and cells
-    triMesh->points().clear();
-    triMesh->cells().clear();
+    // Clear the container cells and set its capacity to 0
+    triMesh->clearCells();
+    // Clear the container points and set its capacity to 0
+    triMesh->clearPoints();
+
+    ::fwData::TriangularMesh::PointContainer &points = triMesh->points();
+    ::fwData::TriangularMesh::CellContainer  &cells  = triMesh->cells();
+
+    std::vector< float > point(3);
+    float &pa = point[0];
+    float &pb = point[1];
+    float &pc = point[2];
+    std::vector< int > cell(3);
+    int &ca = cell[0];
+    int &cb = cell[1];
+    int &cc = cell[2];
 
     /// Read content and update mesh data structure
-    unsigned int i, nbPts, nbCells;
-    file>>nbPts;
-    for( i=0 ; i<nbPts ; ++i )
+    if(!file.eof())
     {
-        std::vector< float > point(3) ;
-        file>>point[0]>>point[1]>>point[2];
-        triMesh->points().push_back( point ) ;
-    }
+        unsigned int nbPts=0, nbCells=0, i=0;
+        file>>nbPts;
+        points.reserve(nbPts);
+        i = nbPts + 1;
+        while (--i)
+        {
+            file >> pa >> pb >> pc;
+            points.push_back( point ) ;
+        }
+        points.resize(nbPts);
 
-    file>>nbCells;
-    for( i=0 ; i<nbCells ; ++i )
-    {
-        int a, b, c;
-        std::vector< int > cell(3) ;
-        file>>cell[0]>>cell[1]>>cell[2]>>a>>b>>c;
-        triMesh->cells().push_back( cell ) ;
+        file>>nbCells;
+        cells.reserve(nbCells);
+        i = nbCells + 1;
+        while (--i)
+        {
+            file>>ca >> cb >> cc;
+            file.ignore(20, '\n');
+            cells.push_back( cell ) ;
+        }
+        cells.resize(nbCells);
     }
     file.close();
-
 }
 
-
+//------------------------------------------------------------------------------
 
 std::string  TriangularMeshReader::extension()
 {
     return (".trian");
 }
 
+//------------------------------------------------------------------------------
 
 } // namespace reader
-
 } // namespace fwDataIO

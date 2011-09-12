@@ -8,34 +8,29 @@
 #include <fwTools/ClassRegistrar.hpp>
 #include <fwTools/fwID.hpp>
 
-#include "fwData/visitor/IVisitor.hpp"
+#include <fwTools/Object.hpp>
 
+#include "fwData/visitor/IVisitor.hpp"
 #include "fwData/Object.hpp"
 
-// HACK
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwTools::Field, ::fwTools::Field );
-namespace fwTools
-{
-/// END HACK
-}
+// ACH HACK, Force registration in factory
+REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwTools::Object, ::fwTools::Object );
+REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwTools::Field,  ::fwTools::Field );
+
+REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwData::Object, ::fwData::Object);
 
 namespace fwData
 {
 
-
 //------------------------------------------------------------------------------
 
 Object::Object()
-{
-
-}
+{}
 
 //------------------------------------------------------------------------------
 
 Object::~Object()
-{
-
-}
+{}
 
 //------------------------------------------------------------------------------
 

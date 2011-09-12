@@ -10,7 +10,6 @@
 #include <boost/function.hpp>
 
 #include <fwCore/base.hpp>
-#include <fwTools/Singleton.hpp>
 
 #include "fwServices/config.hpp"
 #include "fwServices/ObjectMsg.hpp"
@@ -28,7 +27,6 @@ namespace fwServices
  */
 class FWSERVICES_CLASS_API GlobalEventManager
 {
-
 
 public:
 
@@ -62,10 +60,6 @@ protected :
     GlobalEventManager();
 
     FWSERVICES_API static SPTR(GlobalEventManager) m_ClassInstance;
-
-    //  bool pushEventInDeque( ::fwServices::ObjectMsg::sptr _pMsg, ::fwServices::ComChannelService::MsgOptionsType _options );
-    //
-    //  bool messagesHaveSameEffect( ::fwServices::ObjectMsg::sptr _pMsg1, ::fwServices::ObjectMsg::sptr _pMsg2 );
 
     typedef std::pair< ::fwServices::ObjectMsg::sptr, ::fwServices::ComChannelService::MsgOptionsType > MessageAndOptions;
 

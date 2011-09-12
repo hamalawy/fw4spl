@@ -62,13 +62,32 @@ void FwXMLGenericReaderService::configuring() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
 
-    if( this->m_configuration->size() > 0 )
+    typedef std::vector < SPTR(::fwRuntime::ConfigurationElement) >  ConfigurationElementContainer;
+    ConfigurationElementContainer filename  = m_configuration->find("filename");
+    ConfigurationElementContainer extension = m_configuration->find("archiveExtension");
+
+    int elements = 0;
+
+    if( filename.size() > 0 )
     {
-        ::fwRuntime::ConfigurationElementContainer::Iterator iter = this->m_configuration->begin() ;
-        SLM_ASSERT("Sorry, only one xml element \"archiveExtension\" is accepted.", this->m_configuration->size() == 1 && (*iter)->getName() == "archiveExtension" );
-        SLM_ASSERT("Sorry, only xml element \"archiveExtension\" is empty.", ! (*iter)->getValue().empty() );
+        ++elements;
+        ConfigurationElementContainer::iterator iter = filename.begin() ;
+        SLM_ASSERT("The <"<< (*iter)->getName() <<"> element can be set at most once.", filename.size() == 1 );
+        SLM_ASSERT("The <"<< (*iter)->getName() <<"> element value can not be empty.", !(*iter)->getValue().empty() );
+        ::boost::filesystem::path filePath((*iter)->getValue());
+        m_reader.setFile( filePath );
+    }
+
+    if( extension.size() > 0 )
+    {
+        ++elements;
+        ConfigurationElementContainer::iterator iter = extension.begin() ;
+        SLM_ASSERT("The <"<< (*iter)->getName() <<"> element can be set at most once.", extension.size() == 1 );
+        SLM_ASSERT("The <"<< (*iter)->getName() <<"> element value can not be empty.", !(*iter)->getValue().empty() );
         m_archiveExtenstion =  (*iter)->getValue();
     }
+
+    SLM_ASSERT("The configuration accepts at most one <archiveExtension> and/or one <filename> element.", elements <= 2 );
 }
 
 //------------------------------------------------------------------------------
@@ -152,34 +171,20 @@ std::vector< std::string > FwXMLGenericReaderService::getSupportedExtensions()
         ::fwGui::dialog::ProgressDialog progressMeterGUI("Loading data ");
         myLoader.addHandler( progressMeterGUI );
         myLoader.read();
+        pObject = ::fwTools::Object::dynamicCast( myLoader.getObject() );
     }
     catch (const std::exception & e)
     {
         std::stringstream ss;
         ss << "Warning during loading : " << e.what();
-        ::fwGui::dialog::MessageDialog messageBox;
-        messageBox.setTitle("Warning");
-        messageBox.setMessage( ss.str() );
-        messageBox.setIcon(::fwGui::dialog::IMessageDialog::WARNING);
-        messageBox.addButton(::fwGui::dialog::IMessageDialog::OK);
-        messageBox.show();
-        return pObject;
+        ::fwGui::dialog::MessageDialog::showMessageDialog("Warning", ss.str(), ::fwGui::dialog::IMessageDialog::WARNING);
     }
     catch( ... )
     {
-        std::stringstream ss;
-        ss << "Warning during loading : ";
-        ::fwGui::dialog::MessageDialog messageBox;
-        messageBox.setTitle("Warning");
-        messageBox.setMessage( ss.str() );
-        messageBox.setIcon(::fwGui::dialog::IMessageDialog::WARNING);
-        messageBox.addButton(::fwGui::dialog::IMessageDialog::OK);
-        messageBox.show();
-        return pObject;
+        ::fwGui::dialog::MessageDialog::showMessageDialog("Warning",
+                "Warning during loading",
+                ::fwGui::dialog::IMessageDialog::WARNING);
     }
-
-    pObject = ::fwTools::Object::dynamicCast( myLoader.getObject() );
-
     return pObject;
 }
 
@@ -252,8 +257,10 @@ bool FwXMLGenericReaderService::isAnFwxmlArchive( const ::boost::filesystem::pat
 
     OSLM_DEBUG("srcZipFileName = " << _pArchivePath );
     OSLM_DEBUG("destFolderName = " << destFolder );
-
-    ::fwZip::ZipFolder::unpackFolder( _pArchivePath, destFolder );
+    ::fwZip::ZipFolder::NewSptr zip;
+    ::fwGui::dialog::ProgressDialog progress("Reading");
+    zip->addHandler( progress );
+    zip->unpackFolder( _pArchivePath, destFolder );
 
     // Load
     ::boost::filesystem::path xmlfile = destFolder / "root.xml";

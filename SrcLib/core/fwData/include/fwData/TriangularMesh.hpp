@@ -52,8 +52,6 @@ public :
     typedef ::boost::function<const int ( ::fwData::TriangularMesh* ) > getNumPointsFunc;
     typedef ::boost::function<const int ( ::fwData::TriangularMesh* ) > getNumCellsFunc;
 
-
-
     fwDataObjectMacro();
 
     /// Defines shallow copy
@@ -61,17 +59,6 @@ public :
 
     /// Defines deep copy
     FWDATA_API void deepCopy( TriangularMesh::csptr _source );
-
-
-    /**
-     * @brief constructor
-     */
-    FWDATA_API TriangularMesh();
-
-    /**
-     * @brief destructor
-     */
-    FWDATA_API virtual ~TriangularMesh() ;
 
     /**
      * @brief returns editable point container
@@ -93,6 +80,16 @@ public :
      */
     FWDATA_API ConstCellContainer &cells() const;
 
+    /**
+     * Clear the point container
+     */
+    FWDATA_API void clearPoints();
+
+    /**
+     * Clear the cell container
+     */
+    FWDATA_API void clearCells();
+
     FWDATA_API void setOneVectorInPointList(int _iIndex, double _fX, double _fY, double _fZ);
 
     FWDATA_API void setOneIndexInIndexList(int _iIndex, int _p1, int _p2, int _p3);
@@ -110,6 +107,17 @@ public :
     FWDATA_API int const getNumCells(void) const ;
 
 protected :
+
+
+    /**
+     * @brief constructor
+     */
+    FWDATA_API TriangularMesh();
+
+    /**
+     * @brief destructor
+     */
+    FWDATA_API virtual ~TriangularMesh() ;
 
     PointContainer        m_points ;
     CellContainer        m_cells ;

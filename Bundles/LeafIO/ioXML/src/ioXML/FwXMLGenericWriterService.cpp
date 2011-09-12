@@ -66,7 +66,6 @@ void FwXMLGenericWriterService::configuring() throw(::fwTools::Failed)
 
 void FwXMLGenericWriterService::configureWithIHM()
 {
-
     static ::boost::filesystem::path _sDefaultPath;
 
     ::fwGui::dialog::LocationDialog dialogFile;
@@ -124,20 +123,6 @@ void FwXMLGenericWriterService::info(std::ostream &_sstream )
 
 //------------------------------------------------------------------------------
 
-std::string FwXMLGenericWriterService::getCfgExtensionPoint()
-{
-    return "" ;
-}
-
-//------------------------------------------------------------------------------
-
-std::string FwXMLGenericWriterService::getPersistanceId()
-{
-    return "ioITK::FwXMLGenericWriterService" ;
-}
-
-//------------------------------------------------------------------------------
-
 void FwXMLGenericWriterService::saveData( const ::boost::filesystem::path path, ::fwTools::Object::sptr _obj )
 {
     SLM_TRACE_FUNC();
@@ -156,25 +141,13 @@ void FwXMLGenericWriterService::saveData( const ::boost::filesystem::path path, 
     {
         std::stringstream ss;
         ss << "Warning during loading : " << e.what();
-        ::fwGui::dialog::IMessageDialog::Icons icon = ::fwGui::dialog::IMessageDialog::WARNING;
-        ::fwGui::dialog::MessageDialog messageBox;
-        messageBox.setTitle("Warning");
-        messageBox.setMessage( ss.str() );
-        messageBox.setIcon(::fwGui::dialog::IMessageDialog::WARNING);
-        messageBox.addButton(::fwGui::dialog::IMessageDialog::OK);
-        messageBox.show();
+        ::fwGui::dialog::MessageDialog::showMessageDialog("Warning", ss.str(), ::fwGui::dialog::IMessageDialog::WARNING);
     }
     catch( ... )
     {
-        std::stringstream ss;
-        ss << "Warning during loading : ";
-        ::fwGui::dialog::IMessageDialog::Icons icon = ::fwGui::dialog::IMessageDialog::WARNING;
-        ::fwGui::dialog::MessageDialog messageBox;
-        messageBox.setTitle("Warning");
-        messageBox.setMessage( ss.str() );
-        messageBox.setIcon(::fwGui::dialog::IMessageDialog::WARNING);
-        messageBox.addButton(::fwGui::dialog::IMessageDialog::OK);
-        messageBox.show();
+        ::fwGui::dialog::MessageDialog::showMessageDialog("Warning",
+                "Warning during loading",
+                ::fwGui::dialog::IMessageDialog::WARNING);
     }
 }
 
@@ -182,7 +155,7 @@ void FwXMLGenericWriterService::saveData( const ::boost::filesystem::path path, 
 
 void FwXMLGenericWriterService::updating() throw(::fwTools::Failed)
 {
-    SLM_TRACE("FwXMLGenericWriterService::updating()");
+    SLM_TRACE_FUNC();
 
     if( !m_writer.getFile().empty() )
     {
@@ -237,7 +210,10 @@ void FwXMLGenericWriterService::manageZipAndSaveData( const ::boost::filesystem:
     saveData(xmlfile,_obj);
 
     // Zip
-    ::fwZip::ZipFolder::packFolder( srcFolder, path );
+    ::fwZip::ZipFolder::NewSptr zip;
+    ::fwGui::dialog::ProgressDialog progress("Saving");
+    zip->addHandler( progress );
+    zip->packFolder( srcFolder, path );
 
     // Remove temp folder
     ::boost::filesystem::remove_all( srcFolder );

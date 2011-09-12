@@ -79,7 +79,10 @@ void SwapperSrv::reconfiguring()  throw ( ::fwTools::Failed )
 //-----------------------------------------------------------------------------
 
 void SwapperSrv::updating() throw ( ::fwTools::Failed )
-{}
+{
+    stopping();
+    starting();
+}
 
 //-----------------------------------------------------------------------------
 
@@ -95,7 +98,7 @@ void SwapperSrv::stopping()  throw ( ::fwTools::Failed )
     for( SubServicesMapType::iterator iterMap = m_objectsSubServices.begin(); iterMap != m_objectsSubServices.end(); ++iterMap )
     {
         SubServicesVecType subServices = iterMap->second;
-        BOOST_FOREACH( SPTR(SubService) subSrv, subServices )
+        BOOST_REVERSE_FOREACH( SPTR(SubService) subSrv, subServices )
         {
             OSLM_ASSERT("SubService on "<< iterMap->first <<" expired !", subSrv->getService() );
 
@@ -141,7 +144,6 @@ void SwapperSrv::starting()  throw ( ::fwTools::Failed )
     SLM_TRACE_FUNC();
 
     ::fwData::Composite::sptr composite = this->getObject< ::fwData::Composite >() ;
-
     ::fwRuntime::ConfigurationElementContainer::Iterator iter;
     for (iter = m_managerConfiguration->begin() ; iter != m_managerConfiguration->end() ; ++iter)
     {
