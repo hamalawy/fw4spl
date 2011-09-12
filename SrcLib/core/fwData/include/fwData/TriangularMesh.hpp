@@ -34,11 +34,11 @@ public :
     fwCoreClassDefinitionsWithFactoryMacro( (TriangularMesh)(::fwData::Object), (()), ::fwTools::Factory::New< TriangularMesh >) ;
 
     /// 3D point container
-    typedef std::vector< std::vector< float > >     PointContainer ;
+    typedef std::vector< std::vector< float > >         PointContainer ;
     typedef const std::vector< std::vector< float > >   ConstPointContainer ;
 
     /// A cell contains indices of the three points related to a triangular cell
-    typedef std::vector< std::vector< int > >         CellContainer ;
+    typedef std::vector< std::vector< int > >           CellContainer ;
     typedef const std::vector< std::vector< int > >     ConstCellContainer ;
 
     /**
@@ -81,14 +81,14 @@ public :
      */
     FWDATA_API ConstCellContainer &cells() const;
 
+    /**
+     * Clear the point container
+     */
+    FWDATA_API void clearPoints();
 
     /**
-      Clear the point container
-      */
-    FWDATA_API void clearPoints();
-    /**
-      Clear the cell container
-      */
+     * Clear the cell container
+     */
     FWDATA_API void clearCells();
 
     FWDATA_API void setOneVectorInPointList(int _iIndex, double _fX, double _fY, double _fZ);
