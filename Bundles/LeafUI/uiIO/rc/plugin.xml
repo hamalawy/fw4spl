@@ -1,0 +1,25 @@
+<plugin id="uiIO" class="::uiIO::Plugin" >
+
+    <library name="uiIO" />
+
+    <requirement id="dataReg" />
+    <requirement id="gui" />
+    <requirement id="io" />
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IDialogEditor</type>
+        <service>::uiIO::editor::IOSelectorService</service>
+        <object>::fwTools::Object</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwGui::IActionSrv</type>
+        <service>::uiIO::action::ExportAcquisition</service>
+        <object>::fwData::PatientDB</object>
+        <desc>Export acquisition</desc>
+    </extension>
+
+</plugin>
+
+
+
