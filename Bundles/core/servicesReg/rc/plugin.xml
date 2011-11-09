@@ -1,0 +1,76 @@
+<plugin id="servicesReg" class="::servicesReg::Plugin" >
+
+    <library name="servicesReg" />
+
+    <requirement id="dataReg" />
+    
+    <!-- EXTENSION POINT FOR AN APP CONFIGURATION -->
+    <extension-point id="::fwServices::registry::AppConfig" schema="appConfig.xsd"/>
+    
+    <!-- EXTENSION POINT FOR A SERVICE FACTORY -->
+    <extension-point id="::fwServices::registry::ServiceFactory" schema="serviceFactory.xsd"/>
+
+    <!-- EXTENSION POINT FOR A SERVICE CONFIGURATION -->
+    <extension-point id="::fwServices::registry::ServiceConfig"  schema="serviceConfig.xsd"/>
+
+    <!-- SPECIFIC SERVICES -->
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IEditionService</type>
+        <service>::fwServices::DefaultEditor</service>
+        <object>::fwTools::Object</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IXMLParser</type>
+        <service>::fwComEd::parser::Composite</service>
+        <object>::fwData::Composite</object>
+    </extension>
+    
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IXMLParser</type>
+        <service>::fwComEd::parser::TransformationMatrix3D</service>
+        <object>::fwData::TransformationMatrix3D</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IXMLParser</type>
+        <service>::fwComEd::parser::Object</service>
+        <object>::fwTools::Object</object>
+    </extension>
+    
+     <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IXMLParser</type>
+        <service>::fwComEd::parser::List</service>
+        <object>::fwData::List</object>
+    </extension>
+    
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IXMLParser</type>
+        <service>::fwComEd::parser::BooleanParser</service>
+        <object>::fwData::Boolean</object>
+    </extension>
+    
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IXMLParser</type>
+        <service>::fwComEd::parser::FloatParser</service>
+        <object>::fwData::Float</object>
+    </extension>
+    
+     <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IXMLParser</type>
+        <service>::fwComEd::parser::IntegerParser</service>
+        <object>::fwData::Integer</object>
+    </extension>
+    
+     <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::IXMLParser</type>
+        <service>::fwComEd::parser::StringParser</service>
+        <object>::fwData::String</object>
+    </extension>
+    
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwServices::ICommunication</type>
+        <service>::fwServices::ComChannelService</service>
+        <object>::fwTools::Object</object>
+    </extension>
+</plugin>

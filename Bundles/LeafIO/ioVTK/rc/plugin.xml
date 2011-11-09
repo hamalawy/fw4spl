@@ -1,0 +1,62 @@
+<plugin id="ioVTK" class="::ioVTK::Plugin" >
+    <library name="ioVTK" />
+
+    <requirement id="io" />
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::MaxMeshReaderService</service>
+        <object>::fwData::Model</object>
+        <desc>3ds Reader (VTK)</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioVTK::ReconstructionWriterService</service>
+        <object>::fwData::Acquisition</object>
+        <desc>Reconstructions Writer (VTK)</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioVTK::ImageWriterService</service>
+        <object>::fwData::Image</object>
+        <desc>VTK Image Writer (VTK)</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::ImageReaderService</service>
+        <object>::fwData::Image</object>
+        <desc>VTK Image Reader (VTK)</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::MeshReaderService</service>
+        <object>::fwData::TriangularMesh</object>
+        <desc>VTK Mesh Reader (VTK)</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioVTK::MeshWriterService</service>
+        <object>::fwData::TriangularMesh</object>
+        <desc>VTK Mesh Writer (VTK)</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::VtkPatientDBReaderService</service>
+        <object>::fwData::PatientDB</object>
+        <desc>VTK Image Reader (VTK)</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioVTK::VtkModelReaderService</service>
+        <object>::fwData::Model</object>
+        <desc>Model Reader (VTK)</desc>
+    </extension>
+
+</plugin>

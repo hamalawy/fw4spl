@@ -1,0 +1,39 @@
+<plugin id="uiGenericQt" class="::uiGenericQt::Plugin">
+    <library name="uiGenericQt"/>
+    
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="gui"/>
+    
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwGui::IActionSrv</type>
+        <service>::uiGeneric::action::LaunchBrowserActionService</service>
+        <object>::fwTools::Object</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwGui::IActionSrv</type>
+        <service>::uiGeneric::action::ShowAbout</service>
+        <object>::fwTools::Object</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwGui::IActionSrv</type>
+        <service>::uiGeneric::action::ShowAcknowledgments</service>
+        <object>::fwTools::Object</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwGui::IActionSrv</type>
+        <service>::uiGeneric::action::ShowHelpContents</service>
+        <object>::fwTools::Object</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwGui::IActionSrv</type>
+        <service>::uiGeneric::action::ShowRevInfo</service>
+        <object>::fwTools::Object</object>
+    </extension>
+    
+</plugin>
