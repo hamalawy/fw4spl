@@ -1,0 +1,14 @@
+<plugin id="guiWx" class="::guiWx::Plugin">
+    <library name="guiWx"/>
+    
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="gui"/>
+    
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IEditor</type>
+        <service>::gui::editor::DummyEditor</service>
+        <object>::fwTools::Object</object>
+    </extension>
+        
+</plugin>
