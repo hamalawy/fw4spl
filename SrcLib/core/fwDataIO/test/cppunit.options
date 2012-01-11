@@ -1,5 +1,6 @@
 CLASSTEST=[
           'TrianTest',
+          'MeshTrianTest',
           'DictionaryReaderTest',
           ]
 USE = ['boost']
