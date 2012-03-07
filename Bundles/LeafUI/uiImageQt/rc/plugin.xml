@@ -1,0 +1,51 @@
+<plugin id="uiImageQt" class="::uiImage::Plugin">
+    <library name="uiImageQt"/>
+
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="gui"/>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IEditor</type>
+        <service>::uiImage::SliceIndexPositionEditor</service>
+        <object>::fwData::Image</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IEditor</type>
+        <service>::uiImage::SliceListEditor</service>
+        <object>::fwData::Image</object>
+    </extension>
+    
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IEditor</type>
+        <service>::uiImage::SliceListEditor2</service>
+        <object>::fwData::Image</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IEditor</type>
+        <service>::uiImage::ShowScanEditor</service>
+        <object>::fwData::Image</object>
+    </extension>
+
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IEditor</type>
+        <service>::uiImage::ImageInfo</service>
+        <object>::fwData::Image</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IEditor</type>
+        <service>::uiImage::WindowLevel</service>
+        <object>::fwData::Image</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::gui::editor::IEditor</type>
+        <service>::uiImage::ImageTransparency</service>
+        <object>::fwData::Image</object>
+    </extension>
+    
+</plugin>

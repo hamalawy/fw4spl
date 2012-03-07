@@ -1,0 +1,16 @@
+<plugin id="vtkSimpleNegato" class="::vtkSimpleNegato::Plugin" >
+    <library name="vtkSimpleNegato" />
+
+
+<!--    REGISTER_SERVICE( ::fwRender::IRender, ::vtkSimpleNegato::RendererService, ::fwData::Image) ;   -->
+<extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwRender::IRender</type>
+        <service>::vtkSimpleNegato::RendererService</service>
+        <object>::fwData::Image</object>
+    </extension>
+
+    
+</plugin>
+
+
+
