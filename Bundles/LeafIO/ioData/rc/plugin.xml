@@ -1,0 +1,66 @@
+<plugin id="ioData" class="::ioData::Plugin" >
+    <library name="ioData" />
+
+    <requirement id="io" />
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioData::CameraReaderService</service>
+        <object>::fwData::Camera</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioData::SplineReaderService</service>
+        <object>::fwData::Spline</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioData::MeshReaderService</service>
+        <object>::fwData::Mesh</object>
+        <desc>Trian file reader</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioData::TriangularMeshReaderService</service>
+        <object>::fwData::TriangularMesh</object>
+        <desc>Trian file reader</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IReader</type>
+        <service>::ioData::TransformationMatrix3DReaderService</service>
+        <object>::fwData::TransformationMatrix3D</object>
+        <desc>TransformationMatrix3D Reader</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioData::TransformationMatrix3DWriterService</service>
+        <object>::fwData::TransformationMatrix3D</object>
+        <desc>TransformationMatrix3D Writer</desc>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioData::TriangularMeshWriterService</service>
+        <object>::fwData::TriangularMesh</object>
+        <desc>Trian file writer</desc>
+    </extension>
+    
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::io::IWriter</type>
+        <service>::ioData::MeshWriterService</service>
+        <object>::fwData::Mesh</object>
+        <desc>Trian file writer</desc>
+    </extension>
+    
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwGui::IActionSrv</type>
+        <service>::ioData::action::MeshGeneratorSrv</service>
+        <object>::fwData::Mesh</object>
+    </extension>
+
+</plugin>

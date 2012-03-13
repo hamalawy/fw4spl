@@ -1,0 +1,20 @@
+<plugin id="opVTKMesh" class="::opVTKMesh::Plugin">
+
+    <library name="opVTKMesh" />
+
+    <requirement id="dataReg" />
+    <requirement id="gui" />
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwGui::IActionSrv</type>
+        <service>::opVTKMesh::action::VTKMeshCreation</service>
+        <object>::fwTools::Object</object>
+    </extension>
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::opVTKMesh::IMesher</type>
+        <service>::opVTKMesh::VTKMesherService</service>
+        <object>::fwData::Acquisition</object>
+    </extension>
+
+</plugin>
