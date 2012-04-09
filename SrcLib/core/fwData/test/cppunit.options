@@ -27,14 +27,12 @@ CLASSTEST=[
     'TransfertFunctionTest',
     'TransformationMatrix3DTest',
     'VideoTest',
+    'ArrayTest',
+    'MeshTest',
     'StructureTraitsDictionaryTest',
     'ROITraitsTest',
     'ReconstructionTraitsTest',
-# TODO: 
-#    'DownCastIteratorTest',
-#    'GenericFieldTest',
-#    'PipelineTest',
-# probleme avec ImageTest::Buffer
+    'GenericFieldTest',
 ]
 
 USE = ['boost','boostDateTime', 'boostRegex']

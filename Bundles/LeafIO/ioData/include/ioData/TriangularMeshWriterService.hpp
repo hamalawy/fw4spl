@@ -39,15 +39,6 @@ public:
      /// Super class of writer services
     typedef ::io::IWriter   SuperClass;
 
-    /**
-     * @brief   Constructor : does nothing
-     */
-    IODATA_API TriangularMeshWriterService() ;
-
-    /**
-     * @brief   destructor
-     */
-    IODATA_API ~TriangularMeshWriterService() throw() ;
 
     /** @name Specified writer service methods ( override from ::io::IWriter )
      * @{
@@ -59,7 +50,7 @@ public:
     IODATA_API virtual std::vector< std::string > getSupportedExtensions() ;
 
     /**
-     * @brief Configure the image path.
+     * @brief Configure the mesh path.
      *
      * This method is used to find
      * the file path  using a file selector.
@@ -67,7 +58,20 @@ public:
     IODATA_API void configureWithIHM();
     /// @}
 
+    /// Return path type managed by the service, here FILE
+    IODATA_API virtual ::io::IOPathType getIOPathType() const;
+
 protected:
+
+    /**
+     * @brief   Constructor : does nothing
+     */
+    IODATA_API TriangularMeshWriterService() ;
+
+    /**
+     * @brief   destructor
+     */
+    IODATA_API ~TriangularMeshWriterService() throw() ;
 
     /** @name Service methods ( override from ::fwServices::IService )
      * @{
@@ -86,21 +90,6 @@ protected:
      * The stopping method is empty for this service.
      */
     IODATA_API virtual void stopping() throw(::fwTools::Failed){};
-
-
-    /**
-     * @brief Configure service. This method is called by configure() from base service ( ::fwServices::IService )
-     *
-     * XML configuration sample:
-     * @verbatim
-    <service type="::ioData::TriangularMeshWriterService">
-        <filename>../matrix.trf</filename>
-    </service>
-     @endverbatim
-     *
-     * Configure mesh filename.
-     */
-    IODATA_API virtual void configuring( ) throw(::fwTools::Failed);
 
     /**
      * @brief Updating method. This method is called by update() from base service ( ::fwServices::IService )
@@ -132,9 +121,6 @@ protected:
     IODATA_API virtual void info(std::ostream &_sstream ) ;
     /// @}
 
-private :
-    ::boost::filesystem::path m_filename;
-    bool m_bServiceIsConfigured;
 };
 
 }

@@ -7,10 +7,14 @@
 #ifndef _SCENE2D_ADAPTOR_NEGATO_HPP_
 #define _SCENE2D_ADAPTOR_NEGATO_HPP_
 
+#include <fwComEd/helper/MedicalImageAdaptor.hpp>
+
 #include "scene2D/adaptor/IAdaptor.hpp"
 #include "scene2D/data/Coord.hpp"
 
 #include <QImage>
+#include <QGraphicsItemGroup>
+#include <QPointF>
 
 namespace scene2D
 {
@@ -43,10 +47,38 @@ private:
     void updateFromImage( QImage * qimg );
     void changeImageMinMaxFromCoord( scene2D::data::Coord & oldCoord, scene2D::data::Coord & newCoord );
 
+    unsigned char getQImageVal(const unsigned int _index, signed short* _buffer,
+            const double _max, const double _min, const double _window);
+
     QImage * m_qimg;
     QGraphicsPixmapItem * m_pixmapItem;
+    QGraphicsItemGroup* m_layer;
 
+    /**
+     * @brief Reference position when a drag and drop move is performed
+     */
+    QPointF m_pos;
+
+    /**
+     * @brief Zoom ratio applied at each mouse scroll
+     */
+    float m_scaleRatio;
+
+    /**
+     * @brief Indicate if the negato is being moved when pressing mouse's middle button
+     */
+    bool m_negatoIsBeingMoved;
+
+    /// The current orientation of the negato
+    ::fwComEd::helper::MedicalImageAdaptor::Orientation m_orientation;
+
+    /// Scale ratios (x, y)
+    std::pair<double, double> m_scale;
+
+    /// Tell if the negato is being moved
     bool m_pointIsCaptured;
+
+    /// Ref. position when changing image min/max
     scene2D::data::Coord m_oldCoord;
 };
 

@@ -7,6 +7,7 @@
 #ifndef _SCENE2D_RENDER_HPP_
 #define _SCENE2D_RENDER_HPP_
 
+#include <Qt>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QResizeEvent>
@@ -72,6 +73,9 @@ public:
 
     /// Returns the viewport coordinate point mapped to scene coordinates.
     SCENE2D_API ::scene2D::data::Coord mapToScene( const ::scene2D::data::Coord & coord ) const;
+
+    /// Returns what happens to scene's aspect ratio on view resize events
+    SCENE2D_API Qt::AspectRatioMode getAspectRatioMode();
 
 protected:
     /**
@@ -234,6 +238,9 @@ private:
     /// Get all the objects of the render related composite, and stop all their related adaptors.
     void stopAdaptorsFromComposite( SPTR(::fwData::Composite) _composite);
 
+    /// Get all the objects of the render related composite, and swap all their related adaptors.
+    void swapAdaptorsFromComposite( SPTR(::fwData::Composite) _composite);
+
     /// Get the SceneAdaptor2D related to the _adaptorID key in the m_adaptorID2SceneAdaptor2D map, add a service corresponding to _object,
     //  set its render, its configuration, configure it, star it, check if its zValue is unique, store it in the m_zValue2AdaptorID map,
     //  create the comChannel and start it.
@@ -281,6 +288,8 @@ private:
     /// If antialiasing is requested (deactivated by default because of a potential lack of performance)
     bool m_antialiasing;
 
+    /// How the scene should behave on view resize events
+    Qt::AspectRatioMode m_aspectRatioMode;
 };
 
 

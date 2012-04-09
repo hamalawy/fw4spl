@@ -26,7 +26,6 @@
 #include <fwCore/Demangler.hpp>
 #include <fwData/visitor/accept.hpp>
 
-#include "fwXML/Serializer.hpp"
 #include "fwXML/visitor/Serialize.hpp"
 #include "fwXML/XML/XMLAggregator.hpp"
 #include "fwXML/XML/XMLHierarchy.hpp"
@@ -40,11 +39,10 @@
 #include "fwXML/visitor/CollectFileFormatService.hpp"
 #include "fwXML/validator/DataFolderValidator.hpp"
 
+#include "fwXML/Serializer.hpp"
 
 namespace fwXML
 {
-
-std::string ProcessedXMLFile = std::string();
 
 ::boost::filesystem::path Serializer::m_rootFolder(".");
 
@@ -129,7 +127,7 @@ Serializer::~Serializer()
 
 //------------------------------------------------------------------------------
 
-void Serializer::setPathPolicy( ::boost::shared_ptr< IPathPolicy>  newPathPolicy)
+void Serializer::setPathPolicy( IPathPolicy::sptr  newPathPolicy)
 {
     SLM_TRACE_FUNC();
     XMLPartitioner::getDefault()->setPathPolicy( newPathPolicy );
@@ -137,7 +135,7 @@ void Serializer::setPathPolicy( ::boost::shared_ptr< IPathPolicy>  newPathPolicy
 
 //------------------------------------------------------------------------------
 
-void Serializer::setSplitPolicy( ::boost::shared_ptr< ISplitPolicy>  newSplitPolicy)
+void Serializer::setSplitPolicy( ISplitPolicy::sptr  newSplitPolicy)
 {
     SLM_TRACE_FUNC();
     XMLPartitioner::getDefault()->setSplitPolicy( newSplitPolicy );
@@ -171,7 +169,7 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
 
     SLM_ASSERT("object not instanced", object); // check if object is well instanciated
     OSLM_INFO( "Serializing to " <<   m_rootFolder.string().c_str() << "...." );
-    ProcessedXMLFile =  m_rootFolder.string();
+    m_processedXMLFile =  m_rootFolder.string();
 
     //reset all hierarchy informations
     ::fwXML::XMLHierarchy::getDefault()->clearAll();
@@ -185,7 +183,7 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
 
     while( aggIter != ::fwXML::XMLHierarchy::getDefault()->mapObjectAggregator().end() )
     {
-         ::boost::shared_ptr<fwTools::Object> obj =  aggIter->first.lock();
+         ::fwTools::Object::sptr obj =  aggIter->first.lock();
          ::fwXML::XMLAggregator::sptr aggregator =  aggIter->second;
 
         // save aggregator only once
@@ -194,7 +192,7 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
             aggIter->second->rootFolder() = this->rootFolder();
             ::boost::filesystem::path filePath =  aggIter->second->getFullPath(); ;
             OSLM_DEBUG( "Saving XMLAggregator " << filePath.string() << "..." );
-            ProcessedXMLFile =  filePath.string();
+            m_processedXMLFile =  filePath.string();
             {
                 // create directory structure if needed
                 if ( filePath.parent_path().empty() == false )
@@ -212,7 +210,7 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
     // save extra XML
     IOforExtraXML( object, true );
 
-     ProcessedXMLFile =  m_rootFolder.string();
+     m_processedXMLFile =  m_rootFolder.string();
 
     if (saveSchema)// save schema if needed
     {
@@ -237,7 +235,7 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
     if ( className.empty() )
     {
         std::string mesg = "Serializer::ObjectsFromXml : missing class attribute for xml node " + std::string( (const char*)xmlNode->name);
-        mesg+= " from file " + ProcessedXMLFile;
+        mesg+= " from file " + m_processedXMLFile;
         throw ::fwTools::Failed(mesg);
     }
 
@@ -340,10 +338,11 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
 {
     xmlDocPtr xmlDoc = NULL;
     xmlNodePtr xmlRoot = NULL;
+    xmlKeepBlanksDefault(0);
 
     // get XMLDOC & root PTR
     this->rootFolder() = filePath.parent_path();
-    ProcessedXMLFile = filePath.string();
+    m_processedXMLFile = filePath.string();
 
     xmlDoc = XMLParser::getXmlDocFromFile( filePath );
     xmlRoot = xmlDocGetRootElement (xmlDoc);
@@ -366,7 +365,6 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
             msg+= validator.getErrorLog();
             msg+= "\n NB: an apostrophe can cause problem to the XML library, so if you have one in your user name, change your TMP environment variable or contact your system administrator.";
             throw ::fwTools::Failed( msg );
-            return ::boost::shared_ptr< fwTools::Object>();
         }
     }
 
@@ -398,11 +396,19 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
     else if(dataVersion < XMLAggregator::Version::current())
     {
         if(dataVersion == XMLAggregator::Version(0)
-            && XMLAggregator::Version::current() == XMLAggregator::Version(1) )
+            && XMLAggregator::Version::current() == XMLAggregator::Version(2) )
         {
-            OSLM_WARN( "No  versioned  archive : " << filePath.string() );
             rootObject = xmlRoot;
-            XMLPatch::PatchNoVersionToNewData( rootObject ); // internal function
+            OSLM_INFO("Patch file "<<filePath.string()<<" from "<<dataVersion.string()<<" to v1");
+            XMLPatch::PatchNoVersionToVersion1( rootObject );
+            OSLM_INFO("Patch file "<<filePath.string()<<" from "<<dataVersion.string()<<" to v2");
+            XMLPatch::PatchVersion1ToVersion2( rootObject );
+        }
+        else if(dataVersion == XMLAggregator::Version(1)
+                && XMLAggregator::Version::current() == XMLAggregator::Version(2))
+        {
+            OSLM_INFO("Patch file "<<filePath.string()<<" from "<<dataVersion.string()<<" to v2");
+            XMLPatch::PatchVersion1ToVersion2( rootObject );
         }
         else
         {
@@ -415,14 +421,13 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
         }
     }
 
-
     ObjectTracker::clear();
 
-    ::fwTools::Object::sptr objRoot = this->ObjectsFromXml( rootObject, loadExtraXML );
+    ::fwTools::Object::sptr objRoot;
+    objRoot = this->ObjectsFromXml( rootObject, loadExtraXML );
 
     if (loadExtraXML)
     {
-        OSLM_INFO("Serializer::deSerialize also load extraXML");
         try
         {
             this->IOforExtraXML( objRoot, false );
@@ -432,21 +437,13 @@ void Serializer::serialize( ::fwTools::Object::sptr object, bool saveSchema) thr
             OSLM_ERROR("Exception : " << e.what());
             // memory cleanup
             xmlFreeDoc (xmlDoc);
-
             ObjectTracker::clear();
-
             throw;
         }
     }
-    else
-    {
-        OSLM_INFO("Serializer::deSerialize DO NOT load extraXML");
-    }
     // memory cleanup
     xmlFreeDoc (xmlDoc);
-
     ObjectTracker::clear();
-
     return objRoot;
 }
 
