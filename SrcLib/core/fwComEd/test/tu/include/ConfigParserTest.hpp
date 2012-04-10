@@ -14,6 +14,9 @@
 #include <fwServices/macros.hpp>
 #include <fwServices/ObjectMsg.hpp>
 
+#include <fwComEd/CompositeMsg.hpp>
+#include <fwComEd/ImageMsg.hpp>
+
 #include <fwRuntime/EConfigurationElement.hpp>
 
 
@@ -105,7 +108,7 @@ public :
     virtual void updating( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
     {
         ::fwComEd::CompositeMsg::csptr compositeMessage = ::fwComEd::CompositeMsg::dynamicConstCast( _msg );
-        if (compositeMessage && compositeMessage->hasEvent(::fwComEd::CompositeMsg::MODIFIED_FIELDS))
+        if (compositeMessage && compositeMessage->hasEvent(::fwComEd::CompositeMsg::MODIFIED_KEYS))
         {
             // if receiving a compositeMsg : tag service is updated
             m_isUpdatedMessage = true;
@@ -132,7 +135,7 @@ public :
     virtual void updating( ::boost::shared_ptr< const ::fwServices::ObjectMsg > _msg ) throw(::fwTools::Failed)
     {
         ::fwComEd::ImageMsg::csptr imageMessage = ::fwComEd::ImageMsg::dynamicConstCast( _msg );
-        if (imageMessage && imageMessage->hasEvent(::fwComEd::ImageMsg::WINDOWING))
+        if (imageMessage && imageMessage->hasEvent(::fwComEd::ImageMsg::SLICE_INDEX))
         {
             // if receiving a imageMsg : tag service is updated
             m_isUpdatedMessage = true;

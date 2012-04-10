@@ -55,7 +55,7 @@ void CompositeMessageTest::testCompositeMessage()
     configManager->create();
     ::fwData::Composite::sptr compo = configManager->getConfigRoot< ::fwData::Composite >();
 
-    ::fwData::Image::sptr image = ::fwData::Image::dynamicCast(compo->getRefMap()[objAUUID]);
+    ::fwData::Image::sptr image = ::fwData::Image::dynamicCast(compo->getContainer()[objAUUID]);
 
     // get service 1
     ::TestService::sptr serviceCompo;
@@ -80,7 +80,7 @@ void CompositeMessageTest::testCompositeMessage()
     std::vector< std::string > modifiedFields;
     modifiedFields.push_back(objAUUID);
     ::fwComEd::CompositeMsg::NewSptr compoMsg;
-    compoMsg->addEventModifiedFields(modifiedFields);
+    compoMsg->addModifiedKeysEvent(modifiedFields);
     ::fwServices::IEditionService::notify(serviceCompo2, compo, compoMsg);
 
     // test message is received
@@ -91,9 +91,9 @@ void CompositeMessageTest::testCompositeMessage()
     CPPUNIT_ASSERT(compositeMsg);
 
     std::vector< std::string > vEvent = compositeMsg->getEventIds();
-    CPPUNIT_ASSERT(std::find(vEvent.begin(), vEvent.end(),::fwComEd::CompositeMsg::MODIFIED_FIELDS) != vEvent.end());
+    CPPUNIT_ASSERT(std::find(vEvent.begin(), vEvent.end(),::fwComEd::CompositeMsg::MODIFIED_KEYS) != vEvent.end());
 
-    std::vector< std::string > vModifiedFields = compositeMsg->getEventModifiedFields();
+    std::vector< std::string > vModifiedFields = compositeMsg->getModifiedKeys();
     CPPUNIT_ASSERT(std::find(vModifiedFields.begin(), vModifiedFields.end(),objAUUID) != vModifiedFields.end());
 
     // unregister communication channel
@@ -123,7 +123,7 @@ void CompositeMessageTest::testMessageNotification()
     serviceCompo = ::TestService::dynamicCast( ::fwServices::add(compo, "::TestService", "::TestServiceImplementationComposite") );
     CPPUNIT_ASSERT(serviceCompo);
 
-    ::fwData::Image::sptr image = ::fwData::Image::dynamicCast(compo->getRefMap()[objAUUID]);
+    ::fwData::Image::sptr image = ::fwData::Image::dynamicCast(compo->getContainer()[objAUUID]);
     ::TestService::sptr serviceImage;
     serviceImage = ::TestService::dynamicCast( ::fwServices::add(image, "::TestService", "::TestServiceImplementationImage", ImageServiceUUID) );
     CPPUNIT_ASSERT(serviceImage);
@@ -145,7 +145,7 @@ void CompositeMessageTest::testMessageNotification()
 
     // notify message
     ::fwComEd::ImageMsg::sptr imgMsg = ::fwComEd::ImageMsg::New();
-    imgMsg->addEvent(::fwComEd::ImageMsg::WINDOWING);
+    imgMsg->addEvent(::fwComEd::ImageMsg::SLICE_INDEX);
 
     ::fwServices::IEditionService::notify(serviceImage, image, imgMsg);
 

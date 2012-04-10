@@ -12,12 +12,14 @@
 
 #include <fwTools/ClassRegistrar.hpp>
 
+#include "fwData/registry/macros.hpp"
+
 #include "fwData/Array.hpp"
 
 namespace fwData
 {
 
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwData::Array, ::fwData::Array);
+fwDataRegisterMacro( ::fwData::Array );
 
 inline size_t computeSize(
         size_t elementSize,
@@ -70,7 +72,7 @@ Array::~Array()
 
 void Array::shallowCopy( Array::csptr _source )
 {
-    this->::fwTools::Object::shallowCopyOfChildren( _source );
+    this->fieldShallowCopy( _source );
 
     m_strides        = _source->m_strides;
     m_type           = _source->m_type;
@@ -84,7 +86,7 @@ void Array::shallowCopy( Array::csptr _source )
 
 void Array::deepCopy( Array::csptr _source )
 {
-    this->::fwTools::Object::deepCopyOfChildren( _source );
+    this->fieldDeepCopy( _source );
 
     m_strides        = _source->m_strides;
     m_type           = _source->m_type;

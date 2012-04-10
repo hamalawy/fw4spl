@@ -12,11 +12,8 @@
 #include <fwMath/IntrasecTypes.hpp>
 
 #include "fwData/config.hpp"
-#include "fwData/Object.hpp"
+#include "fwData/Factory.hpp"
 #include "fwData/Point.hpp"
-#include "fwData/Line.hpp"
-#include "fwData/TransformationMatrix3D.hpp"
-
 
 namespace fwData
 {
@@ -32,7 +29,7 @@ class FWDATA_CLASS_API Plane : public Object
 
 public :
     fwCoreClassDefinitionsWithFactoryMacro( (Plane)(::fwData::Object),
-        (()), ::fwTools::Factory::New< Plane >) ;
+        (()), ::fwData::Factory::New< Plane >) ;
 
     typedef ::boost::array< ::fwData::Point::sptr, 3> PointContainer;
 

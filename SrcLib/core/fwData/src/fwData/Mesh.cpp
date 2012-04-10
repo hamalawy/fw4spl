@@ -14,6 +14,7 @@
 
 #include <fwTools/ClassRegistrar.hpp>
 
+#include "fwData/registry/macros.hpp"
 #include "fwData/Mesh.hpp"
 
 using namespace boost::assign;
@@ -25,7 +26,8 @@ namespace fwData
 #define CELL_REALLOC_STEP 1000
 #define CELLDATA_REALLOC_STEP 1000
 
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwData::Mesh, ::fwData::Mesh);
+
+fwDataRegisterMacro( ::fwData::Mesh );
 
 //------------------------------------------------------------------------------
 
@@ -67,7 +69,7 @@ void Mesh::initArrays()
 
 void Mesh::shallowCopy( Mesh::csptr _source )
 {
-    this->::fwTools::Object::shallowCopyOfChildren( _source );
+    this->fieldShallowCopy( _source );
 
     m_nbPoints        = _source->m_nbPoints;
     m_nbCells         = _source->m_nbCells;
@@ -90,7 +92,7 @@ void Mesh::shallowCopy( Mesh::csptr _source )
 
 void Mesh::deepCopy( Mesh::csptr _source )
 {
-    this->::fwTools::Object::deepCopyOfChildren( _source );
+    this->fieldDeepCopy( _source );
 
     m_nbPoints      = _source->m_nbPoints;
     m_nbCells       = _source->m_nbCells;
@@ -103,31 +105,10 @@ void Mesh::deepCopy( Mesh::csptr _source )
     m_cellData->deepCopy(_source->m_cellData);
     m_cellDataOffsets->deepCopy(_source->m_cellDataOffsets);
 
-    m_pointColors.reset();
-    m_cellColors.reset();
-    m_pointNormals.reset();
-    m_cellNormals.reset();
-
-    if(_source->m_pointColors)
-    {
-        m_pointColors = ::fwData::Array::New();
-        m_pointColors->deepCopy(_source->m_pointColors);
-    }
-    if(_source->m_cellColors)
-    {
-        m_cellColors = ::fwData::Array::New();
-        m_cellColors->deepCopy(_source->m_cellColors);
-    }
-    if(_source->m_pointNormals)
-    {
-        m_pointNormals = ::fwData::Array::New();
-        m_pointNormals->deepCopy(_source->m_pointNormals);
-    }
-    if(_source->m_cellNormals)
-    {
-        m_cellNormals = ::fwData::Array::New();
-        m_cellNormals->deepCopy(_source->m_cellNormals);
-    }
+    m_pointColors  = ::fwData::Object::copy(_source->m_pointColors );
+    m_cellColors   = ::fwData::Object::copy(_source->m_cellColors  );
+    m_pointNormals = ::fwData::Object::copy(_source->m_pointNormals);
+    m_cellNormals  = ::fwData::Object::copy(_source->m_cellNormals );
 
     m_arrayMap.clear();
     BOOST_FOREACH(ArrayMapType::value_type element, _source->m_arrayMap)

@@ -53,18 +53,13 @@ protected :
     public:
         ImageInfo():
             m_useTFAlfa(false),
-            m_useImageTF(true),
-            m_imageOpacity(1.0),
-            m_tfSelection("")
+            m_imageOpacity(1.0)
         {}
 
         bool   m_useTFAlfa;
-        bool   m_useImageTF;
         double m_imageOpacity;
-
-        /// Identifier of the field containing the specific selection of TransfertFunction
-        /// if m_tfSelection is empty => use default TF selection
-        std::string m_tfSelection;
+        std::string m_tfSelectionFwID;
+        std::string m_selectedTFKey;
 
         ::fwServices::IService::wptr m_comChannel;
     };

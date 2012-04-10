@@ -33,9 +33,9 @@ REGISTER_SERVICE( ::ctrlSelection::IManagerSrv, ::ctrlSelection::manager::Swappe
 
 SwapperSrv::SwapperSrv() throw() : m_dummyStopMode(false)
 {
-    addNewHandledEvent( ::fwComEd::CompositeMsg::ADDED_FIELDS );
-    addNewHandledEvent( ::fwComEd::CompositeMsg::REMOVED_FIELDS );
-    addNewHandledEvent( ::fwComEd::CompositeMsg::SWAPPED_FIELDS );
+    addNewHandledEvent( ::fwComEd::CompositeMsg::ADDED_KEYS );
+    addNewHandledEvent( ::fwComEd::CompositeMsg::REMOVED_KEYS );
+    addNewHandledEvent( ::fwComEd::CompositeMsg::CHANGED_KEYS );
 }
 
 //-----------------------------------------------------------------------------
@@ -52,21 +52,21 @@ void SwapperSrv::updating( ::fwServices::ObjectMsg::csptr message ) throw ( ::fw
     ::fwComEd::CompositeMsg::csptr compositeMsg = ::fwComEd::CompositeMsg::dynamicConstCast(message);
     SLM_FATAL_IF("Received message must be compositeMsg", compositeMsg == 0 );
 
-    if ( compositeMsg->hasEvent( ::fwComEd::CompositeMsg::ADDED_FIELDS ) )
+    if ( compositeMsg->hasEvent( ::fwComEd::CompositeMsg::ADDED_KEYS ) )
     {
-        ::fwData::Composite::sptr fields = compositeMsg->getAddedFields();
+        ::fwData::Composite::sptr fields = compositeMsg->getAddedKeys();
         this->addObjects( fields );
     }
 
-    if ( compositeMsg->hasEvent( ::fwComEd::CompositeMsg::REMOVED_FIELDS ) )
+    if ( compositeMsg->hasEvent( ::fwComEd::CompositeMsg::REMOVED_KEYS ) )
     {
-        ::fwData::Composite::sptr fields = compositeMsg->getRemovedFields();
+        ::fwData::Composite::sptr fields = compositeMsg->getRemovedKeys();
         this->removeObjects( fields );
     }
 
-    if ( compositeMsg->hasEvent( ::fwComEd::CompositeMsg::SWAPPED_FIELDS ) )
+    if ( compositeMsg->hasEvent( ::fwComEd::CompositeMsg::CHANGED_KEYS ) )
     {
-        ::fwData::Composite::sptr fields = compositeMsg->getSwappedNewFields();
+        ::fwData::Composite::sptr fields = compositeMsg->getNewChangedKeys();
         this->swapObjects( fields );
     }
 }
@@ -168,7 +168,7 @@ void SwapperSrv::starting()  throw ( ::fwTools::Failed )
 
 void SwapperSrv::addObjects( ::fwData::Composite::sptr _composite )
 {
-    BOOST_FOREACH( ::fwData::Composite::Container::value_type  addedObjectId, _composite->getRefMap())
+    BOOST_FOREACH( ::fwData::Composite::ValueType addedObjectId, _composite->getContainer())
     {
         if(m_objectsSubServices.find(addedObjectId.first) != m_objectsSubServices.end())
         {
@@ -288,7 +288,7 @@ void SwapperSrv::addObject( const std::string objectId, ::fwTools::Object::sptr 
 
 void SwapperSrv::swapObjects( ::fwData::Composite::sptr _composite )
 {
-    BOOST_FOREACH( ::fwData::Composite::Container::value_type  swappedObjectId, _composite->getRefMap())
+    BOOST_FOREACH( ::fwData::Composite::ValueType swappedObjectId, _composite->getContainer())
     {
         this->swapObject(swappedObjectId.first, swappedObjectId.second);
     }
@@ -335,7 +335,7 @@ void SwapperSrv::swapObject(const std::string objectId, ::fwTools::Object::sptr 
 
 void SwapperSrv::removeObjects( ::fwData::Composite::sptr _composite )
 {
-    BOOST_FOREACH( ::fwData::Composite::Container::value_type  swappedObjectId, _composite->getRefMap())
+    BOOST_FOREACH( ::fwData::Composite::ValueType swappedObjectId, _composite->getContainer())
     {
         this->removeObject(swappedObjectId.first);
     }

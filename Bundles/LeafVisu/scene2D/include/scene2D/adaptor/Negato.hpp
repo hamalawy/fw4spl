@@ -21,7 +21,7 @@ namespace scene2D
 namespace adaptor
 {
 
-class SCENE2D_CLASS_API Negato : public ::scene2D::adaptor::IAdaptor
+class SCENE2D_CLASS_API Negato : public ::fwComEd::helper::MedicalImageAdaptor, public ::scene2D::adaptor::IAdaptor
 {
 
 public:
@@ -80,6 +80,9 @@ private:
 
     /// Ref. position when changing image min/max
     scene2D::data::Coord m_oldCoord;
+
+    /// Specify if the negato allow slice type events
+    bool m_changeSliceTypeAllowed;
 };
 
 

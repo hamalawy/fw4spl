@@ -2,10 +2,10 @@
 CLASSTEST=[ 
     'ClassFactoryRegistryTest',
     'DynamicTypeTest'         ,
-    'FieldTest'               ,
     'MacrosTest'              ,
     'ObjectTest'              ,
     'RandomTest'              ,
+    'TypeTest'                ,
     'StringizerTest'          ,
     'UUIDTEST'                ,
     ]

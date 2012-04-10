@@ -9,6 +9,8 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
+#include <fwData/TransferFunction.hpp>
+
 namespace fwData
 {
 namespace ut
@@ -17,7 +19,14 @@ namespace ut
 class TransfertFunctionTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( TransfertFunctionTest );
-    CPPUNIT_TEST( methode1 );
+    CPPUNIT_TEST( constructorTest );
+    CPPUNIT_TEST( defaultTfTest );
+    CPPUNIT_TEST( classicGetSetTest );
+    CPPUNIT_TEST( usingTfTest );
+    CPPUNIT_TEST( setTFDataTest );
+    CPPUNIT_TEST( shallowAndDeepCopyTest );
+    CPPUNIT_TEST( linearColorTest );
+    CPPUNIT_TEST( nearestColorTest);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -26,6 +35,17 @@ public:
     void tearDown();
 
     void methode1();
+    void constructorTest();
+    void defaultTfTest();
+    void classicGetSetTest();
+    void usingTfTest();
+    void setTFDataTest();
+    void shallowAndDeepCopyTest();
+    void linearColorTest();
+    void nearestColorTest();
+
+    ::fwData::TransferFunction::sptr createTFColor();
+    void checkTFColor( ::fwData::TransferFunction::sptr tf );
 };
 } //namespace ut
 } //namespace fwData
