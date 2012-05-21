@@ -4,14 +4,14 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#include <fwTools/ClassRegistrar.hpp>
+#include "fwData/registry/macros.hpp"
 
 #include <fwData/Image.hpp>
 
 #include "fwData/Histogram.hpp"
 
 
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwData::Histogram, ::fwData::Histogram);
+fwDataRegisterMacro( ::fwData::Histogram );
 
 
 namespace fwData
@@ -36,7 +36,7 @@ Histogram::~Histogram()
 
 void Histogram::shallowCopy( Histogram::csptr _source )
 {
-    ::fwTools::Object::shallowCopyOfChildren( _source );
+    this->fieldShallowCopy( _source );
     m_values = _source->m_values;
     m_minValue = _source->m_minValue;
     m_maxValue = _source->m_maxValue;
@@ -47,7 +47,7 @@ void Histogram::shallowCopy( Histogram::csptr _source )
 
 void Histogram::deepCopy( Histogram::csptr _source )
 {
-    ::fwTools::Object::deepCopyOfChildren( _source );
+    this->fieldDeepCopy( _source );
 
     m_minValue = _source->m_minValue;
     m_maxValue = _source->m_maxValue;
