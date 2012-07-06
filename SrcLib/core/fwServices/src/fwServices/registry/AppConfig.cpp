@@ -11,7 +11,6 @@
 #include <fwRuntime/Runtime.hpp>
 #include <fwRuntime/helper.hpp>
 
-#include <fwData/Composite.hpp>
 #include <fwData/String.hpp>
 #include <fwData/Composite.hpp>
 
@@ -241,23 +240,22 @@ std::string AppConfig::getUniqueIdentifier( std::string _serviceUid, bool _useCp
 std::string AppConfig::adaptField( const std::string & _str, const FieldAdaptorType & fieldAdaptors ) const
 {
     std::string newStr = _str;
-    if(!_str.empty())
+
+    for (   std::map< std::string, std::string >::const_iterator fieldAdaptor = fieldAdaptors.begin();
+            fieldAdaptor != fieldAdaptors.end();
+            ++fieldAdaptor )
     {
-        BOOST_FOREACH(FieldAdaptorType::value_type fieldAdaptor, fieldAdaptors)
+        std::stringstream sstr;
+        sstr << "(.*)" << fieldAdaptor->first << "(.*)";
+        ::boost::regex machine_regex ( sstr.str() );
+        if ( ::boost::regex_match( _str, machine_regex ) )
         {
-            std::stringstream sstr;
-            sstr << "(.*)" << fieldAdaptor.first << "(.*)";
-            ::boost::regex machine_regex ( sstr.str() );
-            if ( ::boost::regex_match( _str, machine_regex ) )
-            {
-                std::stringstream machine_format;
-                machine_format << "\\1" << fieldAdaptor.second << "\\2";
-                newStr = ::boost::regex_replace( newStr,
-                                machine_regex, machine_format.str(),
-                                ::boost::match_default | ::boost::format_sed );
-            }
+            std::stringstream machine_format;
+            machine_format << "\\1" << fieldAdaptor->second << "\\2";
+            newStr = ::boost::regex_replace( newStr, machine_regex, machine_format.str(), ::boost::match_default | ::boost::format_sed );
         }
     }
+
     return newStr;
 }
 
