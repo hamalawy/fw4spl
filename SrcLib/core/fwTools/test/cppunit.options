@@ -1,0 +1,18 @@
+
+CLASSTEST=[
+    'ClassFactoryRegistryTest',
+    'DynamicTypeTest'         ,
+    'MacrosTest'              ,
+    'ObjectTest'              ,
+    'RandomTest'              ,
+    'TypeTest'                ,
+    'StringizerTest'          ,
+    'UUIDTEST'                ,
+    'BufferObjectTest'        ,
+    'ByteSizeTest'            ,
+    'NumericRoundCastTest'    ,
+    ]
+
+USE = ['boost']
+LIB = ['fwTools_0-1', 'fwCore_0-1']
+CONSOLE='yes'
