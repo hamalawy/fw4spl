@@ -6,19 +6,20 @@
 
 #include <sstream>
 
-#include "fwCore/SpyLogger.hpp"
-#include "fwCore/SpyLoggerManager.hpp"
+#include "fwCore/log/SpyLogger.hpp"
+#include "fwCore/log/ScopedMessage.hpp"
 
-#include "fwCore/ScopedMessage.hpp"
-
-namespace spyLog
+namespace fwCore
+{
+namespace log
 {
 
-// Msg Format : 
+// Msg Format :
 // [ENTERING SCOPE] "Timed{'file':m_file, 'line':m_line, 'entermessage':enterMessage}"
 // [LEAVING SCOPE] "Timed{'file':m_file, 'line':m_line, 'leavemessage':m_leave, 'elapsed':elapsedTime}"
 
-//==============================================================================
+//-----------------------------------------------------------------------------
+
 ScopedMessage::ScopedMessage( const char * _file, int _line, std::string enterMessage, std::string leaveMessage)
     : m_file(_file), m_line(_line)
 {
@@ -29,12 +30,12 @@ ScopedMessage::ScopedMessage( const char * _file, int _line, std::string enterMe
 
     std::stringstream oslStr;
     oslStr << "[ENTERING SCOPE] "<<  m_baseMsg << "'entermessage':'" <<  enterMessage << "'}";
-    m_logger = &::spyLog::SpyLoggerManager::getSpyLoggerManager()->getMainSpyLogger();
-    m_logger->trace(oslStr.str(), m_file, m_line);
+    ::fwCore::log::SpyLogger::getSpyLogger().trace(oslStr.str(), m_file, m_line);
     m_timer.start();
 }
 
-//==============================================================================
+//-----------------------------------------------------------------------------
+
 ScopedMessage::~ScopedMessage()
 {
     std::stringstream oslStr;
@@ -42,5 +43,6 @@ ScopedMessage::~ScopedMessage()
     m_logger->trace(oslStr.str(), m_file, m_line);
 }
 
-} // namespace spyLog
+} // namespace log
+} // namespace fwCore
 
