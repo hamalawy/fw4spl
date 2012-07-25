@@ -1,0 +1,16 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+USE = [
+    'boost',
+    'QVtk'
+    ]
+LIB = [
+    'fwRuntime_0-3',
+    'fwTools_0-1',
+    'fwCore_0-1',
+    'fwGuiQt_0-1',
+    'fwRenderVTK_0-1',
+    ]
+TYPE = 'bundle'
+VERSION = '0-1'
+
