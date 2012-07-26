@@ -1,0 +1,15 @@
+<plugin id="vtkSimpleMesh" class="::vtkSimpleMesh::Plugin" >
+    <library name="vtkSimpleMesh" />
+
+
+<extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwRender::IRender</type>
+        <service>::vtkSimpleMesh::RendererService</service>
+        <object>::fwData::Mesh</object>
+    </extension>
+
+    
+</plugin>
+
+
+
