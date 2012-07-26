@@ -5,6 +5,7 @@
  * ****** END LICENSE BLOCK ****** */
 
 #include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <fwRuntime/operations.hpp>
 
@@ -38,7 +39,7 @@ namespace fwServices
     }
 
     ::fwData::Object::sptr obj;
-    obj = ::fwData::Object::dynamicCast(::fwTools::Factory::New(::boost::get<0>(type)));
+    obj = ::fwData::factory::New(::boost::get<0>(type));
     OSLM_ASSERT("Factory failed to build object : " <<  ::boost::get<0>(type), obj);
 
     if (::boost::get<1>(uid))
