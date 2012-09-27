@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2011.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -14,7 +14,9 @@
 
 #include "fwData/config.hpp"
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(Array), FWDATA_API);
 
 namespace fwData
 {
@@ -32,8 +34,10 @@ class FWDATA_CLASS_API Array : public ::fwData::Object
 {
 public :
 
-    fwCoreClassDefinitionsWithFactoryMacro( (Array)(::fwData::Object), (()), ::fwData::Factory::New< Array >) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (Array)(::fwData::Object), (()), ::fwData::factory::New< Array >) ;
     fwDataDeepCopyMacro();
+
+    fwCampMakeFriendDataMacro((fwData)(Array));
 
     /**
      * @brief Array size type
@@ -52,6 +56,15 @@ public :
     /*
      * public API
      */
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API Array( ::fwData::Object::Key key );
+
+    FWDATA_API virtual ~Array();
+
 
     /// Defines deep copy
     FWDATA_API void deepCopy( Array::csptr _source );
@@ -218,10 +231,6 @@ public :
     FWDATA_API void swap( Array::sptr _source );
 
 protected:
-
-    FWDATA_API Array();
-
-    FWDATA_API virtual ~Array();
 
     /// Not implemented
     Array( const Array& );

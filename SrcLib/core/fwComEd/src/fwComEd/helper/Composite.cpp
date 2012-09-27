@@ -1,3 +1,9 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+
 #include <boost/bind.hpp>
 
 #include <fwData/Composite.hpp>
@@ -14,7 +20,7 @@ namespace helper
 //-----------------------------------------------------------------------------
 
 Composite::Composite( ::fwData::Composite::wptr _composite )
-    :   m_compositeMsg ( new ::fwComEd::CompositeMsg() ),
+    :   m_compositeMsg ( ::fwComEd::CompositeMsg::New() ),
         m_composite ( _composite )
 {}
 

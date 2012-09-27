@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -27,7 +27,8 @@ class FWCOMED_CLASS_API CompositeMsg : public ::fwServices::ObjectMsg
 {
 public:
 
-    fwCoreClassDefinitionsWithFactoryMacro((CompositeMsg)(::fwServices::ObjectMsg), ( () ), new CompositeMsg );
+    fwCoreClassDefinitionsWithFactoryMacro((CompositeMsg)(::fwServices::ObjectMsg), ( () ),
+                                           ::fwServices::factory::message::New< CompositeMsg > );
 
     /// Event identifier used to inform that keys were modified
     FWCOMED_API static std::string MODIFIED_KEYS;
@@ -43,9 +44,10 @@ public:
 
 
     /**
-     * @brief   Constructor : does nothing.
+     * @brief Constructor
+     * @param key Private construction key
      */
-    FWCOMED_API CompositeMsg() throw();
+    FWCOMED_API CompositeMsg(::fwServices::ObjectMsg::Key key);
 
     /**
      * @brief   Destructor : does nothing.

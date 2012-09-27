@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -10,19 +10,18 @@
 #include <fwComEd/PlaneListMsg.hpp>
 #include <fwComEd/PlaneMsg.hpp>
 
-#include <fwServices/Factory.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/macros.hpp>
+#include <fwServices/IEditionService.hpp>
 
-#include <fwTools/Object.hpp>
+#include <fwData/Object.hpp>
 #include <fwData/None.hpp>
 
 #include "visuVTKAdaptor/PlaneSelector.hpp"
-#include <fwServices/IEditionService.hpp>
 
 
-
-REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::PlaneSelector, ::fwData::Object ) ;
+fwServicesRegisterMacro( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::PlaneSelector, ::fwData::Object ) ;
 
 namespace visuVTKAdaptor
 {

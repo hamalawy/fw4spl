@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -32,12 +32,14 @@ namespace ioVTK
  * Service reading a VTK mesh using the vtkIO lib.
  *
  * Service registered details : \n
- * REGISTER_SERVICE( ::io::IReader , ::ioVTK::TriangularMeshReaderService , ::fwData::TriangularMesh )
+ * fwServicesRegisterMacro( ::io::IReader , ::ioVTK::TriangularMeshReaderService , ::fwData::TriangularMesh )
  */
 class IOVTK_CLASS_API TriangularMeshReaderService : public ::io::IReader
 {
 
 public :
+    ~TriangularMeshReaderService() throw() {}
+
     fwCoreServiceClassDefinitionsMacro ( (TriangularMeshReaderService)( ::io::IReader) ) ;
 
     /**
@@ -51,19 +53,7 @@ public :
 
 protected:
 
-    /**
-     * @brief   Constructor
-     *
-     */
-    IOVTK_API TriangularMeshReaderService() throw();
-
-    /**
-     * @brief   Destructor
-     */
-    IOVTK_API virtual ~TriangularMeshReaderService() throw();
-
     IOVTK_API virtual ::io::IOPathType getIOPathType() const;
-
 
     /**
     * @brief Starting method.

@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -65,7 +65,7 @@ void Convert::fromConfigurationElementToXml( ::boost::shared_ptr< ::fwRuntime::C
     SLM_ASSERT( "ConfigurationElement should not have children("
                 << _cfgElement->size() <<") and a value ("
                 << nodeValue <<") at the same time.",
-                !(!nodeValue.empty() && _cfgElement->size())  )
+                !(!nodeValue.empty() && _cfgElement->size())  );
 
     for ( std::vector< ::fwRuntime::ConfigurationElement::sptr >::iterator iter_cfeC = _cfgElement->begin() ;
     iter_cfeC != _cfgElement->end() ;

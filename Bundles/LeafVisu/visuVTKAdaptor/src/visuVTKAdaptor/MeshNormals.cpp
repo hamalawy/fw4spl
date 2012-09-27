@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -24,7 +24,7 @@
 
 #include "visuVTKAdaptor/MeshNormals.hpp"
 
-REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::MeshNormals, ::fwData::Mesh ) ;
+fwServicesRegisterMacro( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::MeshNormals, ::fwData::Mesh ) ;
 
 
 namespace visuVTKAdaptor
@@ -147,6 +147,7 @@ void MeshNormals::updateMeshNormals()
             vtkSmartPointer<vtkMaskPoints> ptMask = vtkSmartPointer<vtkMaskPoints>::New();
             ptMask->SetOnRatio(1);
             ptMask->RandomModeOn();
+            ptMask->SetMaximumNumberOfPoints(mesh->getNumberOfPoints());
             algo = ptMask;
         }
 

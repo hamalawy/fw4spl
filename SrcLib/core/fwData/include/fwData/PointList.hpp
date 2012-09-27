@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -11,9 +11,10 @@
 
 #include "fwData/config.hpp"
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
 #include "fwData/Point.hpp"
 
+fwCampAutoDeclareDataMacro((fwData)(PointList), FWDATA_API);
 
 namespace fwData
 {
@@ -29,11 +30,22 @@ class FWDATA_CLASS_API PointList : public Object
 
 public :
     fwCoreClassDefinitionsWithFactoryMacro( (PointList)(::fwData::Object),
-        (()), ::fwData::Factory::New< PointList >) ;
+        (()), ::fwData::factory::New< PointList >) ;
+
+    fwCampMakeFriendDataMacro((fwData)(PointList));
 
     typedef std::vector< ::fwData::Point::sptr > PointListContainer;
 
     fwDataObjectMacro();
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API PointList(::fwData::Object::Key key);
+
+    /// Destructor
+    FWDATA_API virtual ~PointList();
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( PointList::csptr _source );
@@ -45,12 +57,6 @@ public :
     fwGettersSettersDocMacro(Points, vPoints, PointListContainer, a container of all points);
 
 protected :
-
-    /// Constructor
-    FWDATA_API PointList();
-
-    /// Destructor
-    FWDATA_API virtual ~PointList();
 
     //! Points container
     PointListContainer m_vPoints;

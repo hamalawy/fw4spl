@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2011.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -24,19 +24,12 @@ class IOITK_CLASS_API DicomImageWriterService : public ::io::IWriter
 public :
     fwCoreServiceClassDefinitionsMacro ( (DicomImageWriterService)( ::io::IWriter) ) ;
 
+    IOITK_API DicomImageWriterService() throw();
+
+    IOITK_API virtual ~DicomImageWriterService() throw();
 
 protected:
 
-    /**
-     * @brief   constructor
-     *
-     */
-    IOITK_API DicomImageWriterService() throw();
-
-    /**
-     * @brief   destructor
-     */
-    IOITK_API virtual ~DicomImageWriterService() throw();
 
     /// Override
     IOITK_API virtual void starting() throw(::fwTools::Failed);

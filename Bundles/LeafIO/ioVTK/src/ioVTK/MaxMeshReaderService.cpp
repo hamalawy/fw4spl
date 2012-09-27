@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -30,7 +30,7 @@
 
 #include "ioVTK/MaxMeshReaderService.hpp"
 
-REGISTER_SERVICE( ::io::IReader , ::ioVTK::MaxMeshReaderService , ::fwData::Model );
+fwServicesRegisterMacro( ::io::IReader , ::ioVTK::MaxMeshReaderService , ::fwData::Model );
 
 //------------------------------------------------------------------------------
 
@@ -53,11 +53,6 @@ static void *list_find (vtk3DSList **root, const char *name)
 namespace ioVTK
 {
 
-MaxMeshReaderService::MaxMeshReaderService() throw()
-{
-    SLM_TRACE_FUNC();
-}
-
 //------------------------------------------------------------------------------
 
 void MaxMeshReaderService::info(std::ostream &_sstream )
@@ -73,13 +68,6 @@ std::vector< std::string > MaxMeshReaderService::getSupportedExtensions()
     std::vector< std::string > extensions ;
     extensions.push_back(".3ds");
     return extensions ;
-}
-
-//------------------------------------------------------------------------------
-
-MaxMeshReaderService::~MaxMeshReaderService() throw()
-{
-    SLM_TRACE_FUNC();
 }
 
 //------------------------------------------------------------------------------

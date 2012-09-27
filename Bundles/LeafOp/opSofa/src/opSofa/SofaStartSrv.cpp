@@ -1,3 +1,9 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+
 #include <fwTools/UUID.hpp>
 #include <fwServices/macros.hpp>
 #include <fwServices/IEditionService.hpp>
@@ -9,7 +15,7 @@
 namespace opSofa
 {
 
-REGISTER_SERVICE( ::fwGui::IActionSrv , ::opSofa::SofaStartSrv, ::fwData::Acquisition ) ;
+fwServicesRegisterMacro( ::fwGui::IActionSrv , ::opSofa::SofaStartSrv, ::fwData::Acquisition ) ;
 
 /**
  * @brief Constructor
@@ -29,7 +35,7 @@ SofaStartSrv::~SofaStartSrv() throw()
  * @brief Used to define the service parameters and analyze its configuration.
  */
 void SofaStartSrv::configuring() throw ( ::fwTools::Failed )
-{   
+{
 }
 
 /**

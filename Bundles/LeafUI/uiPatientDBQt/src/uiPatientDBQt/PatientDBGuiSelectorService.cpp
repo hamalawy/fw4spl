@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -67,7 +67,7 @@ static const char * eye_xpm[] = {
 
 //------------------------------------------------------------------------------
 
-REGISTER_SERVICE( ::gui::editor::IEditor , ::uiPatientDB::PatientDBGuiSelectorService , ::fwData::PatientDB ) ;
+fwServicesRegisterMacro( ::gui::editor::IEditor , ::uiPatientDB::PatientDBGuiSelectorService , ::fwData::PatientDB ) ;
 
 //------------------------------------------------------------------------------
 
@@ -241,7 +241,10 @@ void PatientDBGuiSelectorService::updating() throw(::fwTools::Failed)
                 }
 
                 ::fwComEd::fieldHelper::MedicalImageHelpers::checkComment(image);
-                ::fwComEd::fieldHelper::MedicalImageHelpers::setImageLabel(pPatient, image);
+                if (!image->getField< ::fwData::String >( ::fwComEd::Dictionary::m_imageLabelId ))
+                {
+                    ::fwComEd::fieldHelper::MedicalImageHelpers::setImageLabel(pPatient, image);
+                }
                 std::string comment = image->getField< ::fwData::String >( ::fwComEd::Dictionary::m_imageLabelId )->value();
                 comment += " : " + image->getField< ::fwData::String >( ::fwComEd::Dictionary::m_commentId )->value();
 

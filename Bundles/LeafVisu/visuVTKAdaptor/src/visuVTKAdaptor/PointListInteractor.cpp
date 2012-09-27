@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -23,7 +23,7 @@
 
 #include <fwRenderVTK/vtk/Helpers.hpp>
 
-#include <fwServices/Factory.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/macros.hpp>
 
@@ -34,7 +34,7 @@
 #define START_INTERACTION_EVENT vtkCommand::LeftButtonPressEvent
 #define STOP_INTERACTION_EVENT  vtkCommand::LeftButtonReleaseEvent
 
-REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::PointListInteractor, ::fwData::PointList ) ;
+fwServicesRegisterMacro( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::PointListInteractor, ::fwData::PointList ) ;
 
 namespace visuVTKAdaptor
 {

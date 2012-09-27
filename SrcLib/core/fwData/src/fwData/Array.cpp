@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2011.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -8,8 +8,6 @@
 #include <cstdlib>
 #include <functional>
 #include <numeric>
-
-#include <fwTools/ClassRegistrar.hpp>
 
 #include "fwData/registry/macros.hpp"
 
@@ -51,7 +49,7 @@ inline size_t computeSize(
 
 //------------------------------------------------------------------------------
 
-Array::Array():
+Array::Array( ::fwData::Object::Key key ):
     m_strides(0),
     m_type(),
     m_attrBufferObject(::fwTools::BufferObject::New()),

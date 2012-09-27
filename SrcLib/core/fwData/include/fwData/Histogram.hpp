@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -7,13 +7,14 @@
 #ifndef _FWDATA_HISTOGRAM_HPP_
 #define _FWDATA_HISTOGRAM_HPP_
 
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
 #include "fwData/Object.hpp"
 
 #include "fwData/config.hpp"
 
 #include <boost/shared_ptr.hpp>
 
+fwCampAutoDeclareDataMacro((fwData)(Histogram), FWDATA_API);
 
 namespace fwData
 {
@@ -31,11 +32,22 @@ class FWDATA_CLASS_API Histogram : public Object
 
 public:
 
-    fwCoreClassDefinitionsWithFactoryMacro( (Histogram)(::fwData::Object), (()), ::fwData::Factory::New< Histogram > );
+    fwCoreClassDefinitionsWithFactoryMacro( (Histogram)(::fwData::Object), (()), ::fwData::factory::New< Histogram > );
+
+    fwCampMakeFriendDataMacro((fwData)(Histogram));
 
     typedef std::vector< long > fwHistogramValues;
 
     fwDataObjectMacro();
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API Histogram(::fwData::Object::Key key);
+
+    /// Destructor
+    FWDATA_API virtual ~Histogram();
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( Histogram::csptr _source );
@@ -86,12 +98,6 @@ public:
     fwGettersSettersDocMacro(MaxValue, maxValue, float, maximum value within the histogram);
 
 protected:
-
-    /// Constructor
-    FWDATA_API Histogram();
-
-    /// Destructor
-    FWDATA_API virtual ~Histogram();
 
     /**
      * @brief Histogram values.

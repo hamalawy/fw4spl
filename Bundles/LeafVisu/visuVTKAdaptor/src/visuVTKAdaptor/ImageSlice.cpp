@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -33,7 +33,7 @@
 #include "visuVTKAdaptor/ImageSlice.hpp"
 
 
-REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::ImageSlice, ::fwData::Composite ) ;
+fwServicesRegisterMacro( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::ImageSlice, ::fwData::Composite ) ;
 
 namespace visuVTKAdaptor
 {
@@ -319,7 +319,7 @@ void ImageSlice::buildPipeline( )
     vtkImageData      *imageData  = vtkImageData::SafeDownCast(m_imageSource);
     //vtkImageBlend     *imageBlend = vtkImageBlend::SafeDownCast(m_imageSource);
 
-    SLM_ASSERT("Invalid vtk image source", algorithm||imageData )
+    SLM_ASSERT("Invalid vtk image source", algorithm||imageData );
     if (algorithm)
     {
         SLM_TRACE("Input is a vtkImageAlgorithm");

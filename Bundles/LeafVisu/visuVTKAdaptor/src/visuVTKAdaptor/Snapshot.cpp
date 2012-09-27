@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -19,7 +19,7 @@
 #include <fwData/String.hpp>
 
 #include <fwServices/macros.hpp>
-#include <fwServices/Factory.hpp>
+#include <fwServices/Base.hpp>
 #include <fwServices/registry/ObjectService.hpp>
 #include <fwServices/IService.hpp>
 
@@ -33,7 +33,7 @@
 #include "visuVTKAdaptor/Snapshot.hpp"
 
 
-REGISTER_SERVICE( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::Snapshot, ::fwData::Composite ) ;
+fwServicesRegisterMacro( ::fwRenderVTK::IVtkAdaptorService, ::visuVTKAdaptor::Snapshot, ::fwData::Composite ) ;
 
 namespace visuVTKAdaptor
 {

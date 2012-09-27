@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -16,7 +16,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/convenience.hpp>
 
-#include <fwTools/Object.hpp>
 #include <fwTools/fwID.hpp>
 
 #include <fwData/Image.hpp>
@@ -42,7 +41,7 @@
 namespace uiImage
 {
 
-REGISTER_SERVICE( ::gui::editor::IEditor , ::uiImage::SliceListEditor2 , ::fwData::Image ) ;
+fwServicesRegisterMacro( ::gui::editor::IEditor , ::uiImage::SliceListEditor2 , ::fwData::Image ) ;
 
 
 SliceListEditor2::SliceListEditor2() throw()

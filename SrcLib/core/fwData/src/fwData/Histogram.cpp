@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -17,12 +17,10 @@ fwDataRegisterMacro( ::fwData::Histogram );
 namespace fwData
 {
 
-Histogram::Histogram()
+Histogram::Histogram(::fwData::Object::Key key) : m_binsWidth(1),
+                                                  m_minValue(0),
+                                                  m_maxValue(100)
 {
-    SLM_TRACE_FUNC();
-    m_binsWidth = 1;
-    m_minValue  = 0;
-    m_maxValue  = 100;
 }
 
 //------------------------------------------------------------------------------

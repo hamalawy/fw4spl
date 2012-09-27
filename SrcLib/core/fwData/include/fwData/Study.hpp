@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -11,8 +11,10 @@
 #include <boost/cstdint.hpp>
 
 #include "fwData/config.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
 #include "fwData/Acquisition.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(Study), FWDATA_API);
 
 namespace fwData
 {
@@ -33,9 +35,20 @@ class FWDATA_CLASS_API Study : public Object
 
 
 public:
-    fwCoreClassDefinitionsWithFactoryMacro( (Study)(::fwData::Object), (()), ::fwData::Factory::New< Study >) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (Study)(::fwData::Object), (()), ::fwData::factory::New< Study >) ;
+
+    fwCampMakeFriendDataMacro((fwData)(Study))
 
     fwDataObjectMacro();
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API Study(::fwData::Object::Key key);
+
+    /// @brief Destructor
+    FWDATA_API virtual ~Study();
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( Study::csptr _source );
@@ -77,12 +90,6 @@ public:
 
 protected :
 
-    /// @brief Constructor
-    FWDATA_API Study();
-
-    /// @brief Destructor
-    FWDATA_API virtual ~Study();
-
     /// Hospital name (eg : RADIOLOGIE URGENCE CHUV LAUSANNE)
     std::string m_sHospital;
 
@@ -109,5 +116,6 @@ protected :
 };
 
 } // namespace fwData
+
 
 #endif // _FWDATA_STUDY_HPP_

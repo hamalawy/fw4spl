@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -41,7 +41,7 @@ public :
     FWCOMED_API Image( ::fwData::Image::sptr image );
 
     /// Destrucotr. Do nothing.
-    FWCOMED_API ~Image();
+    FWCOMED_API virtual ~Image();
 
     /**
      * @brief Create landmark fields if not exist, NOT GENERATE MESSAGE.

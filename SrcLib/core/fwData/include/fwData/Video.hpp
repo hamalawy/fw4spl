@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -9,13 +9,14 @@
 
 #include <boost/cstdint.hpp>
 
-#include <boost/interprocess/sync/interprocess_mutex.hpp>
-#include <boost/interprocess/sync/scoped_lock.hpp>
+#include <fwCore/mt/types.hpp>
 
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
 #include "fwData/Camera.hpp"
 #include "fwData/TransformationMatrix3D.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(Video), FWDATA_API);
 
 namespace fwData
 {
@@ -31,9 +32,22 @@ namespace fwData
 class FWDATA_CLASS_API Video : public Object
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro( (Video)(::fwData::Object), (()), ::fwData::Factory::New< Video >) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (Video)(::fwData::Object), (()), ::fwData::factory::New< Video >) ;
+
+    fwCampMakeFriendDataMacro((fwData)(Video));
 
     typedef ::boost::uint8_t VideoType;
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API Video(::fwData::Object::Key key);
+
+    /**
+     * @brief destructor
+     */
+    FWDATA_API virtual ~Video() throw();
 
     /// @brief Get the buffer size along X axis
     ::boost::uint32_t  getXSize() const { return m_ui32XSize; };
@@ -61,9 +75,6 @@ public:
      */
     FWDATA_API void Modified();
 
-    /// @brief Get video mutex
-    FWDATA_API ::boost::interprocess::interprocess_mutex &getMutex();
-
     //! The buffer size along X axis
     ::boost::uint32_t  m_ui32XSize;
 
@@ -78,30 +89,17 @@ public:
 
 protected :
 
-    /**
-     * @brief constructor
-     */
-    FWDATA_API Video();
-
-    /**
-     * @brief destructor
-     */
-    FWDATA_API virtual ~Video() throw();
-
     /// Flag if the video is available
     bool m_dataAvailable;
 
     /// Value of the last modification (incremented by Modified() method
     ::boost::uint64_t m_lastModified;
 
-    /// Video mutex
-    ::boost::interprocess::interprocess_mutex m_mutex;
-
     /// Camera
     ::fwData::Camera::sptr m_camera;
-
 };
 
 } // namespace fwData
+
 
 #endif // _FWDATA_VIDEO_HPP_

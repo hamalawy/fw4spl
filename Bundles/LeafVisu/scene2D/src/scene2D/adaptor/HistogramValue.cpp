@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -19,7 +19,7 @@
 #include "scene2D/data/ViewportMsg.hpp"
 
 
-REGISTER_SERVICE( ::scene2D::adaptor::IAdaptor, ::scene2D::adaptor::HistogramValue, ::fwData::Histogram);
+fwServicesRegisterMacro( ::scene2D::adaptor::IAdaptor, ::scene2D::adaptor::HistogramValue, ::fwData::Histogram);
 
 namespace scene2D
 {
@@ -108,7 +108,7 @@ void HistogramValue::doStop() throw( ::fwTools::Failed)
     SLM_TRACE_FUNC();
 
     m_comChannel->stop();
-    ::fwServices::registry::ObjectService::unregisterService( m_comChannel );
+    ::fwServices::OSR::unregisterService( m_comChannel );
 }
 
 //---------------------------------------------------------------------------------------------------------------

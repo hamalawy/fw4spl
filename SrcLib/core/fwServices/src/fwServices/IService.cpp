@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -16,7 +16,7 @@
 #include "fwServices/IEditionService.hpp"
 #include "fwServices/ComChannelService.hpp"
 #include "fwServices/registry/ObjectService.hpp"
-#include "fwServices/Factory.hpp"
+#include "fwServices/Base.hpp"
 
 namespace fwServices
 {
@@ -257,12 +257,12 @@ void IService::swap( ::fwData::Object::sptr _obj ) throw(::fwTools::Failed)
                 if( comChannel->getDest() == this->getSptr() && comChannel->getSrc() == oldEditor )
                 {
                     comChannel->stop() ;
-                    ::fwServices::OSR::swapService(m_associatedObject.lock(), _obj , comChannel );
+                    ::fwServices::OSR::swapService(_obj , comChannel );
                     comChannel->start();
                 }
             }
         }
-        ::fwServices::OSR::swapService(m_associatedObject.lock(), _obj , this->getSptr() );
+        ::fwServices::OSR::swapService( _obj , this->getSptr() );
 
         this->swapping();
 

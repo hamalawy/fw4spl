@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -25,15 +25,17 @@ namespace fwComEd
 class FWCOMED_CLASS_API StringMsg : public ::fwServices::ObjectMsg
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro((StringMsg)(::fwServices::ObjectMsg), ( ( ) ), new StringMsg );
+    fwCoreClassDefinitionsWithFactoryMacro((StringMsg)(::fwServices::ObjectMsg), ( ( ) ),
+                                           ::fwServices::factory::message::New< StringMsg >);
 
     /// Event identifier used to inform that the value is modified.
     FWCOMED_API static std::string VALUE_IS_MODIFIED;
 
     /**
-      * @brief  Constructor : do nothing.
-      */
-    FWCOMED_API StringMsg() throw();
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWCOMED_API StringMsg(::fwServices::ObjectMsg::Key key);
 
     /**
       * @brief  Destuctor : do nothing

@@ -1,3 +1,9 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+
 #include <algorithm>
 
 #include <boost/bind.hpp>
@@ -112,6 +118,9 @@ void Field::buildMessage(
             std::back_inserter(newFieldNames),
             ::boost::bind(& ::fwData::Object::FieldMapType::value_type::first, _1)
     );
+
+    std::sort(oldFieldNames.begin(), oldFieldNames.end());
+    std::sort(newFieldNames.begin(), newFieldNames.end());
 
     ::fwData::Object::FieldNameVectorType added;   // new - old
     ::fwData::Object::FieldNameVectorType changed; // old & new

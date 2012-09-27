@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -17,7 +17,7 @@
 #include "scene2D/Render.hpp"
 #include "scene2D/Scene2DGraphicsView.hpp"
 
-REGISTER_SERVICE( ::fwRender::IRender , ::scene2D::Render , ::fwData::Composite ) ;
+fwServicesRegisterMacro( ::fwRender::IRender , ::scene2D::Render , ::fwData::Composite ) ;
 
 namespace scene2D
 {
@@ -522,7 +522,7 @@ void Render::stopAdaptor(AdaptorIDType _adaptorID)
     m_zValue2AdaptorID.erase( info.getService()->getZValue() );
 
     info.m_comChannel.lock()->stop();
-    ::fwServices::registry::ObjectService::unregisterService( info.m_comChannel.lock() );
+    ::fwServices::OSR::unregisterService( info.m_comChannel.lock() );
     info.m_comChannel.reset();
 
     info.getService()->stop();

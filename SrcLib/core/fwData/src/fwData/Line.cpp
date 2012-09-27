@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -18,18 +18,9 @@ namespace fwData
 
 //------------------------------------------------------------------------------
 
-Line::Line ()
+Line::Line (::fwData::Object::Key key)
 {
     SLM_TRACE_FUNC();
-}
-
-//------------------------------------------------------------------------------
-
-Line::Line( ::fwData::Point::sptr _position, ::fwData::Point::sptr  _direction)
-: m_position(_position),
-  m_direction(_direction)
-{
-
 }
 
 //------------------------------------------------------------------------------

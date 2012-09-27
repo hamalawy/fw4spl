@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -26,11 +26,13 @@ namespace ioVTK
  * (for .3ds at this time).
  *
  * Service registered details : \n
- * REGISTER_SERVICE( ::io::IReader , ::ioVTK::MaxMeshReaderService , ::fwData::Model )
+ * fwServicesRegisterMacro( ::io::IReader , ::ioVTK::MaxMeshReaderService , ::fwData::Model )
  */
 class IOVTK_CLASS_API MaxMeshReaderService : public ::io::IReader
 {
 public:
+    ~MaxMeshReaderService() throw() {}
+
     fwCoreServiceClassDefinitionsMacro ( (MaxMeshReaderService)( ::io::IReader) ) ;
 
     /**
@@ -52,16 +54,6 @@ public:
 
 
 protected:
-
-    /**
-     * @brief   Constructor
-     */
-    IOVTK_API MaxMeshReaderService() throw() ;
-
-    /**
-     * @brief   Destructor
-     */
-    IOVTK_API ~MaxMeshReaderService() throw() ;
 
     /**
     * @brief Starting method : default does nothing.

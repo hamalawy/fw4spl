@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -26,7 +26,7 @@ namespace fwData
 
 //------------------------------------------------------------------------------
 
-Acquisition::Acquisition() :
+Acquisition::Acquisition( ::fwData::Object::Key key ) :
     m_ui8BitsPerPixel(0),
     m_fSliceThickness(0),
     m_ui8Axe(0),

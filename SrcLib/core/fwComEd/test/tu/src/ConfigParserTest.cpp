@@ -1,10 +1,8 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
-
-#include <fwTools/Object.hpp>
 
 #include <fwData/Composite.hpp>
 #include <fwData/Image.hpp>
@@ -25,8 +23,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ::fwComEd::ut::ConfigParserTest );
 
 //------------------------------------------------------------------------------
 
-REGISTER_SERVICE( ::fwComEd::ut::TestService , ::fwComEd::ut::TestServiceImplementationComposite , ::fwData::Composite ) ;
-REGISTER_SERVICE( ::fwComEd::ut::TestService , ::fwComEd::ut::TestServiceImplementationImage , ::fwData::Image ) ;
+fwServicesRegisterMacro( ::fwComEd::ut::TestService , ::fwComEd::ut::TestServiceImplementationComposite , ::fwData::Composite ) ;
+fwServicesRegisterMacro( ::fwComEd::ut::TestService , ::fwComEd::ut::TestServiceImplementationImage , ::fwData::Image ) ;
 
 namespace fwComEd
 {

@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -25,7 +25,8 @@ namespace fwComEd
 class FWCOMED_CLASS_API ResectionMsg : public ::fwServices::ObjectMsg
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro((ResectionMsg)(::fwServices::ObjectMsg), ( () ), new ResectionMsg );
+    fwCoreClassDefinitionsWithFactoryMacro((ResectionMsg)(::fwServices::ObjectMsg), ( () ),
+                                           ::fwServices::factory::message::New< ResectionMsg >);
 
     /**
      * @name Event identifier
@@ -39,9 +40,10 @@ public:
     /// @}
 
     /**
-     * @brief   Constructor : do nothing.
+     * @brief Constructor
+     * @param key Private construction key
      */
-    FWCOMED_API ResectionMsg() throw();
+    FWCOMED_API ResectionMsg(::fwServices::ObjectMsg::Key key);
 
     /**
      * @brief   Destuctor : do nothing.

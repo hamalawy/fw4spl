@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -13,12 +13,15 @@
 #include <boost/cstdint.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
+#include <fwCamp/Mapper/ValueMapper.hpp>
+
 #include "fwData/config.hpp"
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
 #include "fwData/Image.hpp"
 #include "fwData/Reconstruction.hpp"
 
+fwCampAutoDeclareDataMacro((fwData)(Acquisition), FWDATA_API);
 
 namespace fwData
 {
@@ -38,9 +41,20 @@ namespace fwData
 class FWDATA_CLASS_API Acquisition : public Object
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro( (Acquisition)(::fwData::Object), (()), ::fwData::Factory::New< Acquisition >) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (Acquisition)(::fwData::Object), (()), ::fwData::factory::New< Acquisition >) ;
 
     fwDataObjectMacro();
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API Acquisition( ::fwData::Object::Key key );
+    /// Destructor
+    FWDATA_API virtual ~Acquisition();
+
+
+    fwCampMakeFriendDataMacro((fwData)(Acquisition))
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( Acquisition::csptr _source );
@@ -135,11 +149,6 @@ public:
 
 protected :
 
-    /// Constructor
-    FWDATA_API Acquisition();
-    /// Destructor
-    FWDATA_API virtual ~Acquisition();
-
     //! Bits per pixel for all picture (frame). A this time, value is 8 or 16 (bits)
     ::boost::uint8_t  m_ui8BitsPerPixel;
 
@@ -177,7 +186,7 @@ protected :
     //! Serie UID
     std::string m_sUID;
 
-    //! Database indentifier
+    //! Database identifier
     ::boost::int32_t  m_i32DbID;
 
     //! MEDICALAB ID

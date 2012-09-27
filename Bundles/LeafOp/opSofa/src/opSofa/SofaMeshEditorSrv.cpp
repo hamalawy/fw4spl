@@ -1,3 +1,9 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+
 #include <fwRuntime/ConfigurationElement.hpp>
 #include <fwData/Acquisition.hpp>
 //#include <fwServices/helper.hpp>
@@ -21,7 +27,7 @@
 namespace opSofa
 {
 
-REGISTER_SERVICE(::gui::editor::IEditor, ::opSofa::SofaMeshEditorSrv, ::fwData::Acquisition);
+fwServicesRegisterMacro(::gui::editor::IEditor, ::opSofa::SofaMeshEditorSrv, ::fwData::Acquisition);
 
 /**
  * @brief Constructor
@@ -120,7 +126,7 @@ void SofaMeshEditorSrv::onStrengthSlider(int value)
         ::fwData::Integer::NewSptr v2(value);
         data->getContainer().push_back(v2);
         data->getContainer().push_back(v1);
-       
+
         // Notification
         ::fwServices::ObjectMsg::NewSptr msg;
         msg->addEvent("EDITOR_MESH_SOFA", data);
@@ -154,7 +160,7 @@ void SofaMeshEditorSrv::moveOrgan(QKeyEvent* event)
     data->getContainer().push_back(v2);
     data->getContainer().push_back(v3);
     data->getContainer().push_back(v4);
-   
+
     // Notification
     ::fwServices::ObjectMsg::NewSptr msg;
     msg->addEvent("MOVE_MESH_SOFA", data);

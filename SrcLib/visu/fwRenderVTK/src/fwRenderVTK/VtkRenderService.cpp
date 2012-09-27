@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -7,6 +7,7 @@
 #include <boost/foreach.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/function.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <vtkActor.h>
 #include <vtkCellPicker.h>
@@ -39,7 +40,7 @@
 #include "fwRenderVTK/VtkRenderService.hpp"
 
 
-REGISTER_SERVICE( ::fwRender::IRender , ::fwRenderVTK::VtkRenderService , ::fwData::Composite ) ;
+fwServicesRegisterMacro( ::fwRender::IRender , ::fwRenderVTK::VtkRenderService , ::fwData::Composite ) ;
 
 using namespace fwServices;
 
@@ -444,6 +445,7 @@ bool VtkRenderService::isShownOnScreen()
 void VtkRenderService::startContext()
 {
     m_interactorManager = ::fwRenderVTK::IVtkRenderWindowInteractorManager::createManager();
+    m_interactorManager->setRenderService(this->getSptr());
     m_interactorManager->installInteractor( this->getContainer() );
 
     // For Depth peeling (translucent rendering)

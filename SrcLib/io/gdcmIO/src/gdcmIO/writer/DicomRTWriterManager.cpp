@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2012-2013.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -38,7 +38,7 @@ void DicomRTWriterManager::write(::gdcm::DataSet &                  a_gDs,
     ::fwData::Acquisition::sptr series = this->getConcreteObject();
     SLM_ASSERT("fwData::Image not instanced", series);
 
-    SLM_ASSERT("gdcmIO::DicomInstance not set",this->getDicomInstance().get())
+    SLM_ASSERT("gdcmIO::DicomInstance not set",this->getDicomInstance().get());
 
     //*****     Handle RT document      *****//
     // First surface segmentation for 3D reconstruction
