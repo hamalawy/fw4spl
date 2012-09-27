@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -15,10 +15,12 @@
 
 #include "fwData/config.hpp"
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
 #include "fwData/Mesh.hpp"
 #include "fwData/Material.hpp"
 #include "fwData/Image.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(Reconstruction), FWDATA_API);
 
 namespace fwData
 {
@@ -34,10 +36,21 @@ namespace fwData
 class FWDATA_CLASS_API Reconstruction : public Object
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro( (Reconstruction)(::fwData::Object), (()), ::fwData::Factory::New< Reconstruction >) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (Reconstruction)(::fwData::Object), (()), ::fwData::factory::New< Reconstruction >) ;
 
     fwCoreAllowSharedFromThis()
     fwDataObjectMacro();
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API Reconstruction(::fwData::Object::Key key);
+
+    /// Destructor
+    FWDATA_API virtual ~Reconstruction();
+
+    fwCampMakeFriendDataMacro((fwData)(Reconstruction));
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( Reconstruction::csptr _source );
@@ -101,11 +114,6 @@ public:
     fwDataGetSetSptrMacro(Material, ::fwData::Material::sptr);
 
 protected :
-
-    /// Constructor
-    FWDATA_API Reconstruction();
-    /// Destructor
-    FWDATA_API virtual ~Reconstruction();
 
     //! true if this reconstruction is visible
     bool m_bIsVisible;

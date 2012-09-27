@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -26,7 +26,7 @@ namespace ioData
  * @li Use update() to write the mesh and notify observers.
  *
  * Service registered details : \n
- * REGISTER_SERVICE( ::io::IWriter , ::ioData::MeshWriterService , ::fwData::Mesh )
+ * fwServicesRegisterMacro( ::io::IWriter , ::ioData::MeshWriterService , ::fwData::Mesh )
  */
 class IODATA_CLASS_API MeshWriterService : public ::io::IWriter
 {

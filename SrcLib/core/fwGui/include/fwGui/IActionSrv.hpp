@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -60,17 +60,12 @@ public :
     FWGUI_API bool confirmAction();
 
 protected :
-    typedef ::fwRuntime::ConfigurationElement::sptr ConfigurationType;
 
-    /**
-     * @brief   Constructor. Initialize default values.
-     */
     FWGUI_API IActionSrv() ;
 
-    /**
-     * @brief   Destructor. Do nothing.
-     */
     FWGUI_API virtual ~IActionSrv() ;
+
+    typedef ::fwRuntime::ConfigurationElement::sptr ConfigurationType;
 
     /**
      * @brief Initialize the action.

@@ -1,14 +1,14 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#include <fwTools/ClassRegistrar.hpp>
+#include <fwServices/registry/message/macros.hpp>
 
 #include "fwComEd/PatientDBMsg.hpp"
 
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwComEd::PatientDBMsg, ::fwComEd::PatientDBMsg );
+fwServicesMessageRegisterMacro(  ::fwComEd::PatientDBMsg );
 
 namespace fwComEd
 {
@@ -24,7 +24,7 @@ std::string PatientDBMsg::NEW_RESECTION_SELECTED = "NEW_RESECTION_SELECTED";
 
 //------------------------------------------------------------------------------
 
-PatientDBMsg::PatientDBMsg() throw()
+PatientDBMsg::PatientDBMsg(::fwServices::ObjectMsg::Key key)
 {}
 
 //------------------------------------------------------------------------------

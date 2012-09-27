@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -13,7 +13,6 @@
 
 #include <fwCore/base.hpp>
 
-#include <fwTools/Object.hpp>
 #include <fwData/TransformationMatrix3D.hpp>
 
 #include <fwComEd/TransformationMatrix3DMsg.hpp>
@@ -28,7 +27,7 @@
 namespace uiVisu
 {
 
-REGISTER_SERVICE( ::gui::editor::IEditor , ::uiVisu::TransformationMatrixEditor , ::fwData::TransformationMatrix3D ) ;
+fwServicesRegisterMacro( ::gui::editor::IEditor , ::uiVisu::TransformationMatrixEditor , ::fwData::TransformationMatrix3D ) ;
 
 
 TransformationMatrixEditor::TransformationMatrixEditor() throw()

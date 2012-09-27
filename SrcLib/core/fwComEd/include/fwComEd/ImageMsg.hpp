@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -28,7 +28,8 @@ namespace fwComEd
 class FWCOMED_CLASS_API ImageMsg : public ::fwServices::ObjectMsg
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro((ImageMsg)(::fwServices::ObjectMsg), ( () ), new ImageMsg );
+    fwCoreClassDefinitionsWithFactoryMacro((ImageMsg)(::fwServices::ObjectMsg), ( () ),
+                                           ::fwServices::factory::message::New< ImageMsg > );
 
     /**
      * @name Event identifier
@@ -57,9 +58,10 @@ public:
     /// @}
 
     /**
-     * @brief Constructor : does nothing.
+     * @brief Constructor
+     * @param key Private construction key
      */
-    FWCOMED_API ImageMsg() throw();
+    FWCOMED_API ImageMsg(::fwServices::ObjectMsg::Key key);
 
     /**
      * @brief   Destuctor : does nothing.

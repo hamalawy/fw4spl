@@ -1,10 +1,8 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
-
-#include <fwTools/ClassRegistrar.hpp>
 
 #include <fwCore/spyLog.hpp>
 
@@ -12,9 +10,11 @@
 #include <fwData/Composite.hpp>
 #include <fwData/String.hpp>
 
+#include <fwServices/registry/message/macros.hpp>
+
 #include "fwComEd/CompositeMsg.hpp"
 
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwComEd::CompositeMsg, ::fwComEd::CompositeMsg );
+fwServicesMessageRegisterMacro( ::fwComEd::CompositeMsg );
 
 namespace fwComEd
 {
@@ -27,7 +27,7 @@ std::string CompositeMsg::CHANGED_KEYS = "CHANGED_KEYS";
 
 //-------------------------------------------------------------------------
 
-CompositeMsg::CompositeMsg() throw()
+CompositeMsg::CompositeMsg(::fwServices::ObjectMsg::Key key)
 {
     m_removedKeys    = ::fwData::Composite::New();
     m_addedKeys      = ::fwData::Composite::New();

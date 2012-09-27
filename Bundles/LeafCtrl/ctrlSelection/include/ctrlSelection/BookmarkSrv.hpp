@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2011.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -30,13 +30,11 @@ public :
 
     fwCoreServiceClassDefinitionsMacro ( (BookmarkSrv)(::fwServices::IController) ) ;
 
-protected:
-
-    /// Constructor.  Do nothing.
     CTRLSELECTION_API BookmarkSrv() throw() ;
 
-    /// Destructor. Do nothing.
     CTRLSELECTION_API virtual ~BookmarkSrv() throw() ;
+
+protected:
 
     /// Add the object in bookmark.
     CTRLSELECTION_API virtual void starting()  throw ( ::fwTools::Failed );

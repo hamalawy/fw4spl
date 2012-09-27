@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -33,12 +33,14 @@ namespace ioVTK
  * Service writing a VTK Mesh using the vtkIO lib.
  *
  * Service registered details : \n
- * REGISTER_SERVICE( ::io::IWriter , ::ioVTK::TriangularMeshWriterService , ::fwData::TriangularMesh )
+ * fwServicesRegisterMacro( ::io::IWriter , ::ioVTK::TriangularMeshWriterService , ::fwData::TriangularMesh )
  */
 class IOVTK_CLASS_API TriangularMeshWriterService : public ::io::IWriter
 {
 
 public :
+    ~TriangularMeshWriterService() throw() {}
+
     fwCoreServiceClassDefinitionsMacro ( (TriangularMeshWriterService)( ::io::IWriter) ) ;
 
     /**
@@ -51,17 +53,6 @@ public :
 
 
 protected:
-
-    /**
-     * @brief   Constructor
-     *
-     */
-    IOVTK_API TriangularMeshWriterService() throw();
-
-    /**
-     * @brief   Destructor
-     */
-    IOVTK_API virtual ~TriangularMeshWriterService() throw();
 
     IOVTK_API virtual ::io::IOPathType getIOPathType() const;
 

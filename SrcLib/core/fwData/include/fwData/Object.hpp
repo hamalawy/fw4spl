@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -13,13 +13,27 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include <fwCore/base.hpp>
+#include <fwCore/mt/types.hpp>
+
+#include <fwCamp/macros.hpp>
+#include <fwCamp/camp/customtype.hpp>
+#include <fwCamp/camp/MapProperty.hpp>
+#include <fwCamp/camp/MapMapper.hpp>
+#include <fwCamp/camp/MapValueMapper.hpp>
+#include <fwCamp/Mapper/ArrayMapper.hpp>
+#include <fwCamp/camp/detail/MapPropertyImpl.hpp>
+#include <fwCamp/camp/ExtendedClassVisitor.hpp>
 
 #include <fwTools/Object.hpp>
 #include <fwTools/DynamicAttributes.hxx>
-#include <fwTools/Factory.hpp>
+
+#include "fwData/factory/new.hpp"
+#include "fwData/registry/detail.hpp"
 
 #include "fwData/macros.hpp"
 #include "fwData/config.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(Object), FWDATA_API);
 
 namespace fwData
 {
@@ -37,8 +51,30 @@ namespace fwData
 class FWDATA_CLASS_API Object  : public ::fwTools::Object, public ::fwTools::DynamicAttributes< ::fwData::Object >
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro( (Object)(::fwTools::Object), (( )), ::fwTools::Factory::New< Object > );
+
+    typedef ::fwData::factory::Key Key;
+
+    /**
+     * @brief Class used to register a class factory in factory registry.
+     * This class defines also the object factory ( 'create' )
+     *
+     * @tparam T Factory product type
+     */
+    template <typename T>
+    class Registrar
+    {
+    public:
+        Registrar()
+        {
+            ::fwData::registry::get()->addFactory(T::classname(), &::fwData::factory::New<T>);
+        }
+    };
+
+
+
+    fwCoreNonInstanciableClassDefinitionsMacro( (Object)(::fwTools::Object) );
     fwCoreAllowSharedFromThis();
+    fwCampMakeFriendDataMacro((fwData)(Object));
 
     typedef std::string FieldNameType;
     typedef std::vector<FieldNameType> FieldNameVectorType;
@@ -173,16 +209,21 @@ public:
         castDest->DATA_TYPE::deepCopy( castSource );
     }
 
+    //-----------------------------------------------------------------------------
+
+    ::fwCore::mt::ReadWriteMutex &getMutex() { return m_mutex; }
+
+    FWDATA_API virtual ~Object() ;
+
 protected:
 
-    /// Constructor
     FWDATA_API Object();
 
-    /// Destructor
-    FWDATA_API virtual ~Object() ;
 
     /// Fields
     FieldMapType m_fields;
+
+    ::fwCore::mt::ReadWriteMutex m_mutex;
 };
 
 

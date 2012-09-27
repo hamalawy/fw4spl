@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -11,9 +11,9 @@
 #include <string>
 #include <boost/filesystem/path.hpp>
 
+#include <fwComEd/helper/Composite.hpp>
 #include <fwXML/reader/FwXMLObjectReader.hpp>
 #include <io/IReader.hpp>
-#include <fwTools/Object.hpp>
 
 #include "ioXML/config.hpp"
 
@@ -38,8 +38,6 @@ class IOXML_CLASS_API FwXMLGenericReaderService : public ::io::IReader
 public :
     fwCoreServiceClassDefinitionsMacro ( (FwXMLGenericReaderService)(::io::IReader) ) ;
 
-protected:
-
     /**
      * @brief   constructor
      *
@@ -50,6 +48,8 @@ protected:
      * @brief   destructor
      */
     IOXML_API virtual ~FwXMLGenericReaderService() throw();
+
+protected:
 
     /** Search if archive extension is changed
      * @verbatim
@@ -103,9 +103,9 @@ private :
     ::fwData::Object::sptr manageZipAndLoadData( const ::boost::filesystem::path path );
     ::boost::filesystem::path correctFileFormat( const ::boost::filesystem::path _filePath ) const;
 
-    ::fwXML::reader::FwXMLObjectReader m_reader;
-
     std::string m_archiveExtenstion;
+
+    std::string m_inject;
 };
 
 } // namespace ioXML

@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2011.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -7,7 +7,7 @@
 #include <QApplication>
 #include <QMainWindow>
 
-#include <fwData/Object.hpp>
+#include <fwData/String.hpp>
 
 #include <fwRuntime/EConfigurationElement.hpp>
 #include <fwRuntime/profile/Profile.hpp>
@@ -47,7 +47,7 @@ void GuiQtTest::tearDown()
 
 void GuiQtTest::testDefaultFrame()
 {
-    ::fwData::Object::NewSptr object;
+    ::fwData::String::NewSptr object;
 
     ::fwServices::IService::ConfigType frameConfig;
 

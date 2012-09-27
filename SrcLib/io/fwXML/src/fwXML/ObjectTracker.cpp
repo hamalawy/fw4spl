@@ -1,14 +1,13 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwTools/UUID.hpp>
-#include <fwTools/Factory.hpp>
-#include <fwCore/base.hpp>
-#include <fwData/Factory.hpp>
 
+#include <fwCore/base.hpp>
+#include <fwData/factory/new.hpp>
 
 #include "fwXML/XML/XMLParser.hpp"
 #include "fwXML/ObjectTracker.hpp"
@@ -97,7 +96,7 @@ std::string ObjectTracker::getClassname( xmlNodePtr xmlNode )
     if ( uniqueIDXML.empty() )
     {
         OSLM_DEBUG( className << " generated without id");
-        return ::fwData::Factory::New( className );
+        return ::fwData::factory::New( className );
     }
 
     Registry::iterator i =  m_buildedObject.find( uniqueIDXML );
@@ -105,7 +104,7 @@ std::string ObjectTracker::getClassname( xmlNodePtr xmlNode )
     if ( i == m_buildedObject.end() )
     {
         // not already registred : create it then register it
-        ::fwData::Object::sptr newObject = ::fwData::Factory::New( className );
+        ::fwData::Object::sptr newObject = ::fwData::factory::New( className );
         m_buildedObject[uniqueIDXML] = newObject;
         OSLM_DEBUG(className<<"-"<<newObject.get() << " first instantiation");
 

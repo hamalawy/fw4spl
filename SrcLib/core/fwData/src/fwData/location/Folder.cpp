@@ -1,14 +1,14 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#include <fwTools/ClassRegistrar.hpp>
+#include "fwData/registry/macros.hpp"
 
 #include "fwData/location/Folder.hpp"
 
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwData::location::Folder, ::fwData::location::Folder);
+fwDataRegisterMacro( ::fwData::location::Folder );
 
 namespace fwData
 {
@@ -17,7 +17,7 @@ namespace location
 
 //------------------------------------------------------------------------------
 
-Folder::Folder()
+Folder::Folder( ::fwData::Object::Key key )
 {}
 
 //------------------------------------------------------------------------------

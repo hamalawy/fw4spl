@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -9,7 +9,6 @@
 
 #include "fwData/config.hpp"
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
 
 
 namespace fwData
@@ -27,7 +26,7 @@ namespace location
 /**
  * @brief Abstract class to define a %location ( fileSystem, directory(IES) etc.... )
  *
- * @note cannot be instanciated but derivated class OK
+ * @note cannot be instantiated but derived class OK
  * @see Folder, MultiFiles, SingleFile
  */
 class FWDATA_CLASS_API ILocation : public ::fwData::Object

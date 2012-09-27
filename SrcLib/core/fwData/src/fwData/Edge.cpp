@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -15,7 +15,8 @@ std::string Edge::NATURE_DATA = "data";
 
 //------------------------------------------------------------------------------
 
-Edge::Edge() : m_fromPortIdentifier("not defined"), m_toPortIdentifier("not defined"), m_nature("not defined")
+Edge::Edge( ::fwData::Object::Key key ) :
+    m_fromPortIdentifier("not defined"), m_toPortIdentifier("not defined"), m_nature("not defined")
 {
     SLM_TRACE_FUNC();
 }

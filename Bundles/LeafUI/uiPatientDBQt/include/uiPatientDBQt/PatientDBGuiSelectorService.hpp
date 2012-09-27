@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -35,12 +35,13 @@ class UIPATIENTDBQT_CLASS_API PatientDBGuiSelectorService : public QObject, publ
 public :
     fwCoreServiceClassDefinitionsMacro ( (PatientDBGuiSelectorService)(::gui::editor::IEditor) ) ;
 
-protected:
     /// Constructor
     UIPATIENTDBQT_API PatientDBGuiSelectorService();
 
     /// Destructor
     UIPATIENTDBQT_API virtual ~PatientDBGuiSelectorService() throw() ;
+
+protected:
 
     void starting() throw(::fwTools::Failed);
 

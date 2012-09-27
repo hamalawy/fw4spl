@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2011.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -9,7 +9,9 @@
 
 #include "fwData/StructureTraits.hpp"
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(StructureTraitsDictionary), FWDATA_API);
 
 namespace fwData
 {
@@ -25,9 +27,20 @@ namespace fwData
 class FWDATA_CLASS_API StructureTraitsDictionary : public ::fwData::Object
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro( (StructureTraitsDictionary)(::fwData::Object), (()), ::fwData::Factory::New< StructureTraitsDictionary >) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (StructureTraitsDictionary)(::fwData::Object), (()), ::fwData::factory::New< StructureTraitsDictionary >) ;
+    fwCampMakeFriendDataMacro((fwData)(StructureTraitsDictionary));
 
     typedef std::vector<std::string> StructureTypeNameContainer;
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API StructureTraitsDictionary(::fwData::Object::Key key);
+
+    /// Destructor. Does nothing.
+    FWDATA_API virtual ~StructureTraitsDictionary();
+
 
     /**
      * @brief Add a structure in dictionary
@@ -53,14 +66,6 @@ public:
 
     /// Defines deep copy
     FWDATA_API void deepCopy( StructureTraitsDictionary::csptr _source );
-
-protected :
-
-    /// Constructor
-    FWDATA_API StructureTraitsDictionary();
-
-    /// Destructor. Does nothing.
-    FWDATA_API virtual ~StructureTraitsDictionary();
 
 private:
 

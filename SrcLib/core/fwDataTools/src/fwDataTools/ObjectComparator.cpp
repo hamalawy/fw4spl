@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -552,7 +552,7 @@ bool ObjectComparator::compareResection(::fwData::Resection::sptr resec1, ::fwDa
     bool compare = true;
 
     SLM_ASSERT("Null plane list pointers on resec1.", resec1->getPlaneList());
-    SLM_ASSERT("Null plane list pointers on resec2.", resec2->getPlaneList())
+    SLM_ASSERT("Null plane list pointers on resec2.", resec2->getPlaneList());
 
     compare &= (resec1->getPlaneList()->getPlanes().size() == resec2->getPlaneList()->getPlanes().size());
     OSLM_ERROR_IF( "Number of planet are different.",

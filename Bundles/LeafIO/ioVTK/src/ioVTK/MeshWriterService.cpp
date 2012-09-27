@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -27,20 +27,9 @@
 namespace ioVTK
 {
 
-REGISTER_SERVICE( ::io::IWriter , ::ioVTK::MeshWriterService , ::fwData::Mesh ) ;
+fwServicesRegisterMacro( ::io::IWriter , ::ioVTK::MeshWriterService , ::fwData::Mesh ) ;
 
 //------------------------------------------------------------------------------
-
-MeshWriterService::MeshWriterService() throw()
-{}
-
-//------------------------------------------------------------------------------
-
-MeshWriterService::~MeshWriterService() throw()
-{}
-
-//------------------------------------------------------------------------------
-
 
 ::io::IOPathType MeshWriterService::getIOPathType() const
 {

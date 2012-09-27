@@ -1,11 +1,10 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwServices/macros.hpp>
-#include <fwServices/Factory.hpp>
 #include <fwServices/Base.hpp>
 
 #include <fwRuntime/Runtime.hpp>
@@ -15,7 +14,7 @@
 #include "gui/aspect/DefaultMenuSrv.hpp"
 
 
-REGISTER_SERVICE( ::fwGui::IMenuSrv , ::gui::aspect::DefaultMenuSrv , ::fwData::Object );
+fwServicesRegisterMacro( ::fwGui::IMenuSrv , ::gui::aspect::DefaultMenuSrv , ::fwData::Object );
 
 namespace gui
 {

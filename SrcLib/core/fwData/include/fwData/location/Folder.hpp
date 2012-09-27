@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -12,7 +12,10 @@
 
 #include "fwData/config.hpp"
 #include "fwData/location/ILocation.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
+
+
+fwCampAutoDeclareDataMacro((fwData)(location)(Folder), FWDATA_API);
 
 namespace fwData
 {
@@ -20,7 +23,7 @@ namespace location
 {
 /**
  * @class Folder
- * @brief This class defines a folder %location.
+ * @brief This class defines a folder location.
  * @author  IRCAD (Research and Development Team).
  * @date    2007-2009.
  */
@@ -30,11 +33,18 @@ public:
 
     fwCoreClassDefinitionsWithNFactoriesMacro(
             (Folder)(ILocation),
-            ((::fwData::Factory::New< Folder > ,() ))
+            ((::fwData::factory::New< Folder > ,() ))
             ((FolderFactory ,((::boost::filesystem::path)) ((bool)(false)) ))
     );
 
     fwDataObjectMacro();
+    fwCampMakeFriendDataMacro((fwData)(location)(Folder));
+
+    /// Constructor
+    FWDATA_API Folder( ::fwData::Object::Key key );
+
+    /// Destructor
+    FWDATA_API virtual ~Folder();
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( Folder::csptr _source );
@@ -55,13 +65,8 @@ public:
     FWDATA_API bool getRecursive();
 
 protected :
-    /// Constructor
-    FWDATA_API Folder();
 
     FWDATA_API static sptr FolderFactory(::boost::filesystem::path _path, bool recursive=false );
-
-    /// Destructor
-    FWDATA_API virtual ~Folder();
 
     /// %Folder path
     ::boost::filesystem::path m_folder;
@@ -73,14 +78,14 @@ protected :
 
 /**
  * @struct enableFolder
- * @brief This class is derivated by reader/writter.
+ * @brief This class is derived by reader/writer.
  *
- * Reader/Writter classes should only need to implement get/setLocation
+ * Reader/Writer classes should only need to implement get/setLocation
  *
  * @author  IRCAD (Research and Development Team).
  * @date    2007-2009.
  */
-template<class RW> // reader or writter class should only need to implement get/setLocation
+template<class RW> // reader or writer class should only need to implement get/setLocation
 struct enableFolder
 {
     /**

@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2011.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -22,7 +22,7 @@ namespace wrapper
 {
 //-----------------------------------------------------------------------------
 
-REGISTER_SERVICE( ::ctrlSelection::IWrapperSrv, ::ctrlSelection::wrapper::ObjToCompositeMsgForwarderSrv, ::fwData::Composite ) ;
+fwServicesRegisterMacro( ::ctrlSelection::IWrapperSrv, ::ctrlSelection::wrapper::ObjToCompositeMsgForwarderSrv, ::fwData::Composite ) ;
 
 //-----------------------------------------------------------------------------
 
@@ -103,9 +103,8 @@ void ObjToCompositeMsgForwarderSrv::updating( ::fwServices::ObjectMsg::csptr mes
                     else if(message->hasEvent( event ))
                     {
 
-                        ::fwTools::Object::sptr msg = ::fwTools::Factory::New(msgType);
-                        OSLM_ASSERT(msgType << " creation failed", msg);
-                        ::fwServices::ObjectMsg::sptr forwardMsg = ::fwServices::ObjectMsg::dynamicCast(msg);
+                        ::fwServices::ObjectMsg::sptr forwardMsg = ::fwServices::factory::message::New(msgType);
+                        OSLM_ASSERT(msgType << " creation failed", forwardMsg);
                         forwardMsg->addEvent(event, message->getDataInfo(event));
                         ::fwServices::IEditionService::notify( this->getSptr(), composite, forwardMsg);
                     }

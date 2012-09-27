@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -14,8 +14,6 @@
 #include <boost/filesystem/convenience.hpp>
 
 #include <fwCore/base.hpp>
-
-#include <fwTools/Object.hpp>
 
 #include <fwData/String.hpp>
 #include <fwData/Composite.hpp>
@@ -44,7 +42,7 @@
 namespace uiVisu
 {
 
-REGISTER_SERVICE( ::gui::editor::IEditor , ::uiVisu::SnapshotEditor , ::fwData::Object ) ;
+fwServicesRegisterMacro( ::gui::editor::IEditor , ::uiVisu::SnapshotEditor , ::fwData::Object ) ;
 
 
 SnapshotEditor::SnapshotEditor() throw()
@@ -158,7 +156,7 @@ void SnapshotEditor::onSnapButton()
             ::fwData::Composite::sptr composite = service->getObject< ::fwData::Composite >();
             SLM_ASSERT("SnapshotEditor sceneUID " << m_scenesUID.at(i) <<" isn't a GenericScene?" , composite);
 
-            ::fwData::Object::NewSptr dataInfo;
+            ::fwData::String::NewSptr dataInfo;
 
             ::fwData::String::NewSptr sceneID;
             sceneID->value() = m_scenesUID.at(i);

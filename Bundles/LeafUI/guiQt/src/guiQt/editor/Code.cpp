@@ -1,8 +1,12 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
+ * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
+ * published by the Free Software Foundation.
+ * ****** END LICENSE BLOCK ****** */
+
 #include <QHBoxLayout>
 
 #include <fwCore/base.hpp>
-
-#include <fwTools/Object.hpp>
 
 #include <fwData/String.hpp>
 
@@ -24,7 +28,7 @@ namespace guiQt
 namespace editor
 {
 
-REGISTER_SERVICE( ::gui::editor::IEditor , ::guiQt::editor::Code , ::fwData::String ) ;
+fwServicesRegisterMacro( ::gui::editor::IEditor , ::guiQt::editor::Code , ::fwData::String ) ;
 
 //------------------------------------------------------------------------------
 
@@ -70,7 +74,7 @@ void Code::starting() throw(::fwTools::Failed)
     }
     else
     {
-        OSLM_WARN("Language "<<m_language<<" not yet supported.")
+        OSLM_WARN("Language "<<m_language<<" not yet supported.");
     }
 
     container->setLayout( layout );

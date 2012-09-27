@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -18,7 +18,12 @@
 
 #include "fwData/Object.hpp"
 #include "fwData/Array.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(Image), FWDATA_API);
+
+
+
 
 namespace fwData
 {
@@ -35,8 +40,9 @@ namespace fwData
 class FWDATA_CLASS_API Image : public Object
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro( (Image)(::fwData::Object), (()), ::fwData::Factory::New< Image > ) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (Image)(::fwData::Object), (()), ::fwData::factory::New< Image > ) ;
     fwCoreAllowSharedFromThis();
+    fwCampMakeFriendDataMacro((fwData)(Image));
 
     /**
      * @brief Image size type
@@ -59,6 +65,17 @@ public:
     typedef ::boost::shared_array< BufferType > SharedArray;
 
     fwDataObjectMacro();
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API Image(::fwData::Object::Key key);
+
+    /**
+     * @brief Destructor
+     */
+    FWDATA_API virtual ~Image() throw();
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( Image::csptr _source );
@@ -158,16 +175,6 @@ public:
 
 protected :
 
-    /**
-     * @brief Constructor
-     */
-    FWDATA_API Image();
-
-    /**
-     * @brief Destructor
-     */
-    FWDATA_API virtual ~Image() throw();
-
     //! Size of the image (in terms of points)
     SizeType m_size;
 
@@ -180,7 +187,7 @@ protected :
     //! Origin of the image in 3D repair
     OriginType m_origin;
 
-    //! Prefered window center/with
+    //! Preferred window center/with
     ///@{
     double m_attrWindowCenter;
     double m_attrWindowWidth;
@@ -191,12 +198,10 @@ protected :
 
     //! image buffer
     ::fwData::Array::sptr m_dataArray;
-
 };
 
 
 } // namespace fwData
-
 
 #endif //_FWDATA_IMAGE_HPP_
 

@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -25,6 +25,7 @@ class MessagesTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST( testFloatMsg );
     CPPUNIT_TEST( testImageMsg );
     CPPUNIT_TEST( testPatientDBMsg );
+    CPPUNIT_TEST( messageCreationTest );
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -42,6 +43,8 @@ public:
 
     /// test PatientDBMsg
     void testPatientDBMsg();
+
+    void messageCreationTest();
 };
 
 } //namespace ut

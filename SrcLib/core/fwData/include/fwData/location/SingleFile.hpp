@@ -1,18 +1,21 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef _DATA_LOCATION_SIMPLEFILE_HPP_
-#define _DATA_LOCATION_SIMPLEFILE_HPP_
+#ifndef _FWDATA_LOCATION_SINGLEFILE_HPP_
+#define _FWDATA_LOCATION_SINGLEFILE_HPP_
 
 
 #include <boost/filesystem.hpp>
 
 #include "fwData/config.hpp"
 #include "fwData/location/ILocation.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(location)(SingleFile), FWDATA_API);
+
 
 namespace fwData
 {
@@ -29,11 +32,20 @@ class FWDATA_CLASS_API SingleFile  : public ILocation
 public:
     fwCoreClassDefinitionsWithNFactoriesMacro(
             (SingleFile)(ILocation),
-            ((::fwData::Factory::New< SingleFile > ,() ))
+            ((::fwData::factory::New< SingleFile > ,() ))
             ((SingleFileFactory ,((::boost::filesystem::path)) ))
     );
 
     fwDataObjectMacro();
+
+    /// Constructor
+    FWDATA_API SingleFile( ::fwData::Object::Key key );
+
+    /// Destructor
+    FWDATA_API virtual ~SingleFile();
+
+
+    fwCampMakeFriendDataMacro((fwData)(location)(SingleFile));
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( SingleFile::csptr _source );
@@ -51,12 +63,6 @@ protected :
 
     FWDATA_API static sptr SingleFileFactory(::boost::filesystem::path _path);
 
-    /// Constructor
-    FWDATA_API SingleFile();
-
-    /// Destructor
-    FWDATA_API virtual ~SingleFile();
-
     /// file system path
     ::boost::filesystem::path m_path;
 
@@ -64,9 +70,9 @@ protected :
 
 /**
  * @struct enableSingleFile
- * @brief This class is derivated by reader/writer.
+ * @brief This class is derived by reader/writer.
  *
- * Reader/Writter classes should only need to implement get/setLocation
+ * Reader/Writer classes should only need to implement get/setLocation
  *
  * @author  IRCAD (Research and Development Team).
  * @date    2007-2009.
@@ -99,9 +105,7 @@ private :
 
 };
 
-
-
 }
 }
 
-#endif /* _DATA_LOCATION_SIMPLEFILE_HPP_ */
+#endif /* _FWDATA_LOCATION_SINGLEFILE_HPP_ */

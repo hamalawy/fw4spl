@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -357,7 +357,7 @@ vtkPolyData*  toVTKMesh( ::fwData::TriangularMesh::sptr mesh )
     }
     else
     {
-        SLM_INFO("vtkPolyData build from empty mesh.")
+        SLM_INFO("vtkPolyData build from empty mesh.");
     }
 
     return polygonGrid;

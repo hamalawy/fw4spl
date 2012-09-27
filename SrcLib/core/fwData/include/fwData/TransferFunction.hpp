@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -14,7 +14,9 @@
 #include "fwData/config.hpp"
 #include "fwData/macros.hpp"
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(TransferFunction), FWDATA_API);
 
 namespace fwData
 {
@@ -32,10 +34,12 @@ class FWDATA_CLASS_API TransferFunction : public Object
 {
 public :
 
-    fwCoreClassDefinitionsWithFactoryMacro( (TransferFunction)(::fwData::Object), (()), ::fwData::Factory::New< TransferFunction >) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (TransferFunction)(::fwData::Object), (()), ::fwData::factory::New< TransferFunction >) ;
 
     /// Macro for deep and shallow copies
     fwDataObjectMacro();
+
+    fwCampMakeFriendDataMacro((fwData)(TransferFunction));
 
 
     /// Defines color structure for TF
@@ -91,6 +95,15 @@ public :
     typedef std::map< TFValueType, TFColor > TFDataType;
 
     typedef std::pair< TFValueType, TFValueType > TFValuePairType;
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API TransferFunction(::fwData::Object::Key key);
+
+    /// Destructor
+    FWDATA_API virtual ~TransferFunction();
 
     // Initialize a default TF.
     FWDATA_API void initTF();
@@ -173,15 +186,6 @@ public :
     /// Default transfer function name
     FWDATA_API static const std::string s_DEFAULT_TF_NAME;
 
-protected :
-
-    /// Constructor
-    FWDATA_API TransferFunction();
-
-    /// Destructor
-    FWDATA_API virtual ~TransferFunction();
-
-
 private :
 
     /// Current visualization level
@@ -213,5 +217,6 @@ private :
 }; // end class TransferFunction
 
 } // end namespace fwData
+
 
 #endif // _FWDATA_TRANSFERFUNCTION_HPP_

@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -31,7 +31,7 @@ class UUID;
 class FWTOOLS_CLASS_API Object  : public ::fwCore::BaseObject , protected ::fwTools::fwID
 {
 public:
-    fwCoreClassDefinitionsWithFactoryMacro((Object), (()), new Object );
+    fwCoreNonInstanciableClassDefinitionsMacro( (Object)(::fwCore::BaseObject) );
     fwCoreAllowSharedFromThis();
 
     friend class ::fwTools::UUID;
@@ -41,8 +41,6 @@ public:
     FWTOOLS_API using  ::fwTools::fwID::getID;
     FWTOOLS_API using  ::fwTools::fwID::setID;
     FWTOOLS_API using  ::fwTools::fwID::resetID;
-    FWTOOLS_API using  ::fwTools::fwID::swapID;
-
 
     /// return the sub class classname : an alias of this->getClassname
     FWTOOLS_API std::string className() const;

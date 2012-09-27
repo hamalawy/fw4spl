@@ -1,16 +1,17 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#include <fwTools/ClassRegistrar.hpp>
 #include <fwData/Composite.hpp>
 #include <fwData/String.hpp>
 
+#include <fwServices/registry/message/macros.hpp>
+
 #include "fwComEd/GraphMsg.hpp"
 
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwComEd::GraphMsg, ::fwComEd::GraphMsg );
+fwServicesMessageRegisterMacro( ::fwComEd::GraphMsg );
 
 namespace fwComEd
 {
@@ -38,7 +39,7 @@ std::string GraphMsg::NODE_PROCESS         = "NODE_PROCESS";
 
 //-----------------------------------------------------------------------------
 
-GraphMsg::GraphMsg() throw()
+GraphMsg::GraphMsg(::fwServices::ObjectMsg::Key key)
 {}
 
 //-----------------------------------------------------------------------------

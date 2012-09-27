@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -9,8 +9,10 @@
 
 
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
 #include "fwData/GenericField.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(String), FWDATA_API);
 
 namespace fwData
 {
@@ -27,8 +29,19 @@ class FWDATA_CLASS_API String : public GenericField< std::string >
 {
 public:
     fwCoreClassDefinitionsWithFactoryMacro( (String)(::fwData::Object), ( ((const std::string)("")) ), GenericFieldFactory< String >) ;
-
+    fwCampMakeFriendDataMacro((fwData)(String));
     fwDataObjectMacro();
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API String(::fwData::Object::Key key) throw();
+
+    /**
+     * @brief Destructor.
+     */
+    FWDATA_API virtual ~String() throw();
 
     /// Defines shallow copy
     FWDATA_API void shallowCopy( String::csptr _source );
@@ -36,20 +49,10 @@ public:
     /// Defines deep copy
     FWDATA_API void deepCopy( String::csptr _source );
 
-protected:
-    /**
-     * @brief Constructor.
-     * @param[in] value The initial value.
-     */
-    FWDATA_API String(const std::string _value="" ) throw();
-
-    /**
-     * @brief Destructor.
-     */
-    FWDATA_API virtual ~String() throw();
 };
 
-}
 
+
+}
 
 #endif /*_FWDATA_STRING_HPP_*/

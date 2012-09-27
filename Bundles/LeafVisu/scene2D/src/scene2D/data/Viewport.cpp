@@ -1,11 +1,11 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
 #include <fwCore/base.hpp>
-#include <fwTools/ClassRegistrar.hpp>
+#include <fwData/registry/macros.hpp>
 
 #include "scene2D/data/Viewport.hpp"
 
@@ -14,16 +14,16 @@ namespace scene2D
 namespace data
 {
 
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::scene2D::data::Viewport, ::scene2D::data::Viewport );
+fwDataRegisterMacro( ::scene2D::data::Viewport );
 
-Viewport::Viewport() throw()
+Viewport::Viewport(::fwData::Object::Key key)
 : m_x (200),
   m_y (200),
   m_width (400),
   m_height (400)
 {}
 
-Viewport::~Viewport() throw()
+Viewport::~Viewport()
 {
 }
 

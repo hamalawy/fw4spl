@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -15,8 +15,8 @@ namespace fwData
 
 //------------------------------------------------------------------------------
 
-TransformationMatrix3D::TransformationMatrix3D() :
-m_vCoefficients(16)
+TransformationMatrix3D::TransformationMatrix3D(::fwData::Object::Key key) :
+                        m_vCoefficients(16)
 {
     //default init
     for(int l = 0; l < 4; l++)

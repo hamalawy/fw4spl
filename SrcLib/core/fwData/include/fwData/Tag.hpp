@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -13,7 +13,9 @@
 #include "fwData/config.hpp"
 #include "fwData/PointList.hpp"
 #include "fwData/Object.hpp"
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
+
+fwCampAutoDeclareDataMacro((fwData)(Tag), FWDATA_API);
 
 namespace fwData
 {
@@ -29,9 +31,20 @@ class FWDATA_CLASS_API Tag : public Object
 {
 
 public :
-    fwCoreClassDefinitionsWithFactoryMacro( (Tag)(::fwData::Object), (()), ::fwData::Factory::New< Tag >) ;
+    fwCoreClassDefinitionsWithFactoryMacro( (Tag)(::fwData::Object), (()), ::fwData::factory::New< Tag >) ;
 
     fwDataObjectMacro();
+
+    /**
+     * @brief Constructor
+     * @param key Private construction key
+     */
+    FWDATA_API Tag(::fwData::Object::Key key);
+
+    /// Destructor
+    FWDATA_API virtual ~Tag();
+
+    fwCampMakeFriendDataMacro((fwData)(Tag));
 
     fwGettersSettersDocMacro(PointList, pointList, ::fwData::PointList::sptr, the list of points )
 
@@ -47,11 +60,6 @@ public :
 
 protected :
 
-    /// Constructor
-    FWDATA_API Tag();
-    /// Destructor
-    FWDATA_API virtual ~Tag();
-
     /// list of points
     ::fwData::PointList::sptr  m_pointList;
 
@@ -64,5 +72,6 @@ protected :
 }; // end class Tag
 
 } // end namespace fwData
+
 
 #endif // _FWDATA_TAG_HPP_

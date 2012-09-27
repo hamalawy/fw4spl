@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2010.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2012.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
@@ -7,14 +7,9 @@
 #include <boost/foreach.hpp>
 #include <boost/bind.hpp>
 
-#include <fwTools/ClassRegistrar.hpp>
-
-#include "fwData/Factory.hpp"
+#include "fwData/factory/new.hpp"
 #include "fwData/Object.hpp"
 
-// ACH HACK, Force registration in factory
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwTools::Object, ::fwTools::Object );
-REGISTER_BINDING_BYCLASSNAME( ::fwTools::Object, ::fwData::Object, ::fwData::Object);
 
 namespace fwData
 {
@@ -147,7 +142,7 @@ void Object::deepCopy( ::fwData::Object::csptr source )
     ::fwData::Object::sptr newObj;
     if( source )
     {
-        newObj = ::fwData::Factory::New(source->className());
+        newObj = ::fwData::factory::New(source->className());
         newObj->deepCopy(source);
     }
     return newObj;
