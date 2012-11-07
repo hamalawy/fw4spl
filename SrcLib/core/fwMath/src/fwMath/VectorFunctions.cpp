@@ -19,7 +19,7 @@ double normalize(fwVec3d & vec)
 
 //------------------------------------------------------------------------------
 
-fwVec3d normalized(fwVec3d & vec) 
+fwVec3d normalized(const fwVec3d & vec)
 {
     SLM_TRACE_FUNC();
     fwVec3d normalized = vec;
@@ -50,7 +50,7 @@ fwVec3d cross(const fwVec3d& v1, const fwVec3d& v2)
 
 //------------------------------------------------------------------------------
 
-double vecLength(fwVec3d &_vec) 
+double vecLength(const fwVec3d &_vec)
 {
     SLM_TRACE_FUNC();
     return sqrt(_vec[0] * _vec[0] + _vec[1] * _vec[1] + _vec[2] * _vec[2]);
@@ -128,7 +128,7 @@ fwVec3d operator*(const double _val, const fwVec3d& _vec)
 
 //------------------------------------------------------------------------------
 
-fwVec3d operator/(const fwVec3d& _vec, double _val)
+fwVec3d operator/(const fwVec3d& _vec, const double _val)
 {
     fwVec3d v;
     v[0] = _vec[0] / _val;
