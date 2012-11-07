@@ -29,7 +29,7 @@ FWMATH_API double normalize(fwVec3d & vec);
  *  @param [in] vector to normalize
  *  @return normalized vector
  */
-FWMATH_API fwVec3d normalized(fwVec3d & vec);
+FWMATH_API fwVec3d normalized(const fwVec3d & vec);
 
 /**
  *  @brief Compute the Dot product between two vectors.
@@ -51,7 +51,7 @@ FWMATH_API fwVec3d cross(const fwVec3d& v1, const fwVec3d& v2);
  *  @param [in] _vec
  *  @return the vector's length
  */
-FWMATH_API double vecLength(fwVec3d &_vec);
+FWMATH_API double vecLength(const fwVec3d &_vec);
 
 /**
  *  @brief Compute of the vector.
@@ -117,7 +117,7 @@ FWMATH_API fwVec3d operator*(const double _val, const fwVec3d& _vec);
  *  @param [in] val
  *  @return the resut of the operation _vec/val
  */
-FWMATH_API fwVec3d operator/(const fwVec3d& _vec, double val);
+FWMATH_API fwVec3d operator/(const fwVec3d& _vec, const double val);
 /**
  *  @brief operator + between two fwVec3d.
  *  @param [in] _vec1
