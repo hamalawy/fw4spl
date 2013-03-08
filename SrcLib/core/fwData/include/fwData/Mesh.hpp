@@ -88,7 +88,8 @@ public:
         EDGE,
         TRIANGLE,
         QUAD,
-        POLY
+        POLY,
+        TETRA
     } CellTypesEnum;
 
     typedef enum {
