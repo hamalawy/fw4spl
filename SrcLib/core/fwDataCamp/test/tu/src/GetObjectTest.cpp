@@ -13,7 +13,7 @@
 #include <fwData/Patient.hpp>
 #include <fwData/Composite.hpp>
 
-// #include <fwMedData/ImageSeries.hpp>
+#include <fwMedData/ImageSeries.hpp>
 
 #include <fwDataTools/Patient.hpp>
 #include <fwDataTools/Image.hpp>
@@ -109,16 +109,16 @@ void GetObjectTest::invalidPathTest()
     CPPUNIT_ASSERT_EQUAL(size_t(1), composite->size() );
 
 
-    // ::fwMedData::ImageSeries::sptr imgSeries = ::fwMedData::ImageSeries::New();
-    // // no exception version
-    // invalidObj = ::fwDataCamp::getObject( imgSeries, "@image.type", false );
-    // CPPUNIT_ASSERT_MESSAGE("Object must not exist", !invalidObj );
+     ::fwMedData::ImageSeries::sptr imgSeries = ::fwMedData::ImageSeries::New();
+     // no exception version
+     invalidObj = ::fwDataCamp::getObject( imgSeries, "@image.type", false );
+     CPPUNIT_ASSERT_MESSAGE("Object must not exist", !invalidObj );
 
-    // // exception version : path exist, but image object is null
-    // CPPUNIT_ASSERT_THROW(
-    //         ::fwDataCamp::getObject( imgSeries, "@image.type", true ),
-    //          ::fwDataCamp::exception::NullPointer
-    // );
+     // exception version : path exist, but image object is null
+     CPPUNIT_ASSERT_THROW(
+             ::fwDataCamp::getObject( imgSeries, "@image.type", true ),
+              ::fwDataCamp::exception::NullPointer
+     );
 }
 
 //-----------------------------------------------------------------------------

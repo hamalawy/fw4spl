@@ -44,20 +44,20 @@ void PushObjectSrv::starting() throw(::fwTools::Failed)
 {
     SLM_TRACE_FUNC();
     this->actionServiceStarting();
-//    bool executable = true;
-//    std::string src_uid;
-//    BOOST_FOREACH(SrcKeyMapType::value_type valElt, m_srcMap )
-//    {
-//        src_uid = valElt.first;
-//        OSLM_ASSERT( src_uid << " doesn't exist", ::fwTools::fwID::exist(src_uid) );
-//        ::fwData::Composite::sptr composite_src = ::fwData::Composite::dynamicCast( ::fwTools::fwID::getObject( src_uid ) );
-//        OSLM_ASSERT("fwData::Composite dynamicCast failed for "<<src_uid, composite_src);
-//        BOOST_FOREACH(SrcKeyMapType::key_type keyElt, valElt.second )
-//        {
-//            executable &= (composite_src->find(keyElt)!= composite_src->end());
-//        }
-//    }
-//    this->::fwGui::IActionSrv::setIsExecutable( executable );
+    bool executable = true;
+    std::string src_uid;
+    BOOST_FOREACH(const SrcKeyMapType::value_type& valElt, m_srcMap )
+    {
+        src_uid = valElt.first;
+        OSLM_ASSERT( src_uid << " doesn't exist", ::fwTools::fwID::exist(src_uid) );
+        ::fwData::Composite::sptr composite_src = ::fwData::Composite::dynamicCast( ::fwTools::fwID::getObject( src_uid ) );
+        OSLM_ASSERT("fwData::Composite dynamicCast failed for "<<src_uid, composite_src);
+        BOOST_FOREACH(SrcKeyMapType::key_type keyElt, valElt.second )
+        {
+            executable &= (composite_src->find(keyElt)!= composite_src->end());
+        }
+    }
+    this->::fwGui::IActionSrv::setIsExecutable( executable );
 }
 
 //------------------------------------------------------------------------------
@@ -118,16 +118,23 @@ void PushObjectSrv::updating() throw(::fwTools::Failed)
         OSLM_ASSERT( src_uid << " doesn't exist", ::fwTools::fwID::exist(src_uid) );
         ::fwData::Composite::sptr composite_src = ::fwData::Composite::dynamicCast( ::fwTools::fwID::getObject( src_uid ) );
         OSLM_ASSERT("fwData::Composite dynamicCast failed for "<<src_uid, composite_src);
-        OSLM_ASSERT(src_key << " not found in composite "<<src_uid, composite_src->find(src_key) != composite_src->end());
-        ::fwData::Object::sptr obj = composite_src->getContainer()[src_key];
 
-        if ( composite->find(key) != composite->end() )
+
+        ::fwData::Composite::const_iterator iter = composite_src->find(src_key);
+
+        OSLM_WARN_IF("'" << src_key << "' not found in composite '" << src_uid << "'" ,iter != composite_src->end());
+        if (iter != composite_src->end())
         {
-            compositeHelper->remove(key);
-        }
-        else
-        {
-            compositeHelper->add(key, obj);
+            ::fwData::Object::sptr obj = composite_src->getContainer()[src_key];
+
+            if ( composite->find(key) != composite->end() )
+            {
+                compositeHelper->remove(key);
+            }
+            else
+            {
+                compositeHelper->add(key, obj);
+            }
         }
     }
     // Notification of message
@@ -136,9 +143,30 @@ void PushObjectSrv::updating() throw(::fwTools::Failed)
 
 //------------------------------------------------------------------------------
 
-void PushObjectSrv::receiving( ::fwServices::ObjectMsg::csptr _msg ) throw(::fwTools::Failed)
+void PushObjectSrv::receiving( ::fwServices::ObjectMsg::csptr msg ) throw(::fwTools::Failed)
 {
-    //TODO
+    bool executable = this->getIsExecutable();
+    ::fwData::Object::sptr subject = msg->getSubject().lock();
+
+    std::string src_uid;
+    BOOST_FOREACH(const SrcKeyMapType::value_type& valElt, m_srcMap )
+    {
+        src_uid = valElt.first;
+        if( src_uid == subject->getID() &&
+                ( msg->hasEvent( ::fwComEd::CompositeMsg::ADDED_KEYS ) ||
+                  msg->hasEvent( ::fwComEd::CompositeMsg::REMOVED_KEYS))  )
+        {
+            ::fwData::Composite::sptr composite_src = ::fwData::Composite::dynamicCast( subject );
+            OSLM_ASSERT("fwData::Composite dynamicCast failed for "<<src_uid, composite_src);
+            BOOST_FOREACH(SrcKeyMapType::key_type keyElt, valElt.second )
+            {
+                executable &= (composite_src->find(keyElt)!= composite_src->end());
+            }
+        }
+    }
+    this->setIsExecutable( executable );
+
+    //TODO managed active mode (objects already present in target composite)
 }
 
 //------------------------------------------------------------------------------

@@ -36,10 +36,10 @@ public:
     FWDATA_API virtual ~MultiFiles();
 
     /// Set file system paths
-    FWDATA_API void setPaths( std::vector< ::boost::filesystem::path>  paths );
+    FWDATA_API void setPaths( VectPathType paths );
 
     /// Set file system paths
-    FWDATA_API std::vector< ::boost::filesystem::path> getPaths();
+    FWDATA_API VectPathType getPaths();
 
     /// Defines deep copy
     FWDATA_API void deepCopy( const Object::csptr& _source );
@@ -47,7 +47,7 @@ public:
 protected :
 
     /// file system paths
-    std::vector< ::boost::filesystem::path> m_paths;
+    VectPathType m_paths;
 
 };
 
@@ -67,25 +67,27 @@ struct enableMultiFiles
      * @brief constructor
      * @param[in] rw reader or writer
      */
-    enableMultiFiles(RW *rw) : m_rw(rw) {SLM_ASSERT("m_rw not instanced", m_rw);}
+    enableMultiFiles(RW *rw) : m_rw(rw)
+    {
+        SLM_ASSERT("m_rw not instanced", m_rw);
+    }
 
     /// Set file system paths
-    void setFiles( std::vector< ::boost::filesystem::path>  paths )
+    void setFiles( ILocation::VectPathType paths )
     {
         getLocation<MultiFiles>(m_rw)->setPaths(paths);
     }
 
     /// Get file system paths
-    std::vector< ::boost::filesystem::path> getFiles()
-                     {
+    ILocation::VectPathType getFiles()
+    {
         return getLocation<MultiFiles>(m_rw)->getPaths();
-                     }
+    }
 
 private :
     /// Not implemented must use constructor with one parameter
     enableMultiFiles();
     RW *m_rw;
-
 };
 
 }

@@ -410,6 +410,7 @@ void VtkRenderService::receiving( ::fwServices::ObjectMsg::csptr message ) throw
 
     if( compositeMsg )
     {
+
         ::fwData::Composite::ContainerType objects;
 
         ::fwData::Composite::sptr modifiedKeys;

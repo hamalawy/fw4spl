@@ -28,11 +28,11 @@ Folder::~Folder()
 
 //------------------------------------------------------------------------------
 
-Folder::sptr Folder::FolderFactory(::boost::filesystem::path _path, bool recursive )
+Folder::sptr Folder::FolderFactory(PathType path, bool recursive )
 {
     FwCoreNotUsedMacro(recursive);
     Folder::sptr folder = Folder::New();
-    folder->setFolder(_path);
+    folder->setFolder(path);
     return folder;
 }
 
@@ -62,14 +62,14 @@ void Folder::deepCopy(const Object::csptr &_source )
 
 //------------------------------------------------------------------------------
 
-void Folder::setFolder( ::boost::filesystem::path folder)
+void Folder::setFolder( PathType folder)
 {
     m_folder = folder;
 }
 
 //------------------------------------------------------------------------------
 
-::boost::filesystem::path Folder::getFolder() const
+ILocation::PathType Folder::getFolder() const
 {
     return m_folder;
 }

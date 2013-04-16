@@ -9,8 +9,6 @@
 
 #include <scene2D/adaptor/IAdaptor.hpp>
 
-#include <fwData/Point.hpp>
-
 #include <QGraphicsTextItem>
 
 #include "scene2D/data/Viewport.hpp"
@@ -22,7 +20,7 @@ namespace adaptor
 
 
 /**
- * @brief
+ * @brief IAdaptor implementation to show a cursor on histogram pointed by mouse.
  *
  *
  * \b xAxis     : see ::scene2D::adaptor::IAdaptor
