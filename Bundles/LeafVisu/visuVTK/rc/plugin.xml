@@ -1,0 +1,18 @@
+<plugin id="visuVTK" class="visuVTK::Plugin" >
+
+    <library name="visuVTK" />
+
+    <requirement id="dataReg"/>
+    <requirement id="servicesReg"/>
+    <requirement id="visu" />
+
+    <extension implements="::fwServices::registry::ServiceFactory">
+        <type>::fwRender::IRender</type>
+        <service>::fwRenderVTK::VtkRenderService</service>
+        <object>::fwData::Composite</object>
+    </extension>
+
+</plugin>
+
+
+
