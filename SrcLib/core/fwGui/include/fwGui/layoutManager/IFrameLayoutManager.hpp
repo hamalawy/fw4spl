@@ -8,7 +8,7 @@
  * @file fwGui/layoutManager/IFrameLayoutManager.hpp
  * @brief This file defines the interface of the base class for managing a frame.
  *
- * 
+ *
  * @date 2009-2010
  */
 
@@ -36,7 +36,7 @@ namespace layoutManager
 /**
  * @brief   Defines the frame layout manager.
  * @class   IFrameLayoutManager
- * 
+ *
  * @date    2009-2010.
  *
  */

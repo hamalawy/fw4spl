@@ -4,8 +4,8 @@
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#ifndef __FWSTRUCTURALPATCH_FWDATA_PATIENT_V1TOV2_HPP__
-#define __FWSTRUCTURALPATCH_FWDATA_PATIENT_V1TOV2_HPP__
+#ifndef __FWSTRUCTURALPATCH_FWDATA_MESH_V1TOV2_HPP__
+#define __FWSTRUCTURALPATCH_FWDATA_MESH_V1TOV2_HPP__
 
 #include <fwAtomsPatch/IStructuralPatch.hpp>
 
@@ -20,14 +20,12 @@ namespace fwData
 namespace Mesh
 {
 
-/// Transforms a ::fwData::Patient to a ::fwMedData::Patient.
+/// Structural patch to convert a fwData::Mesh from version '1' to version '2'.
 class FWSTRUCTURALPATCH_CLASS_API V1ToV2 : public ::fwAtomsPatch::IStructuralPatch
 {
 public:
     fwCoreClassDefinitionsWithFactoryMacro(
-            (V1ToV2)(::fwStructuralPatch::fwData::Mesh::V1ToV2),
-            (()),
-            new V1ToV2) ;
+            (V1ToV2)(::fwStructuralPatch::fwData::Mesh::V1ToV2), (()), new V1ToV2) ;
 
     /// Constructor
     FWSTRUCTURALPATCH_API V1ToV2();
@@ -41,7 +39,7 @@ public:
     /**
      * @brief Applies patch
      *
-     * Added new map of additional array
+     * Added new map of additional array.
      */
     FWSTRUCTURALPATCH_API virtual void apply(
             const ::fwAtoms::Object::sptr& previous,
@@ -50,11 +48,13 @@ public:
 
 };
 
-} // namespace Patient
+
+} // namespace Mesh
 
 } // namespace fwData
 
 } // namespace fwStructuralPatch
 
-#endif /* __FWSTRUCTURALPATCH_FWDATA_PATIENT_V1TOV2_HPP__ */
+#endif /* __FWSTRUCTURALPATCH_FWDATA_MESH_V1TOV2_HPP__ */
+
 
