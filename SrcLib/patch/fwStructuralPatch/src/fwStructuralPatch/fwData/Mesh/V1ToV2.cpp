@@ -1,13 +1,12 @@
 /* ***** BEGIN LICENSE BLOCK *****
- * FW4SPL - Copyright (C) IRCAD, 2009-2014.
+ * FW4SPL - Copyright (C) IRCAD, 2009-2015.
  * Distributed under the terms of the GNU Lesser General Public License (LGPL) as
  * published by the Free Software Foundation.
  * ****** END LICENSE BLOCK ****** */
 
-#include <string>
-#include <sstream>
-
+#include <fwAtoms/String.hpp>
 #include <fwAtoms/Map.hpp>
+#include <fwAtomsPatch/StructuralCreatorDB.hpp>
 
 #include "fwStructuralPatch/fwData/Mesh/V1ToV2.hpp"
 
@@ -36,16 +35,15 @@ V1ToV2::~V1ToV2()
 
 // ----------------------------------------------------------------------------
 
-V1ToV2::V1ToV2(
-        const V1ToV2 &cpy ) : ::fwAtomsPatch::IStructuralPatch(cpy)
+V1ToV2::V1ToV2( const V1ToV2 &cpy ) : ::fwAtomsPatch::IStructuralPatch(cpy)
 {
 }
 
 // ----------------------------------------------------------------------------
 
-void V1ToV2::apply(const ::fwAtoms::Object::sptr& previous,
-        const ::fwAtoms::Object::sptr& current,
-        ::fwAtomsPatch::IPatch::NewVersionsType& newVersions)
+void V1ToV2::apply( const ::fwAtoms::Object::sptr& previous,
+                    const ::fwAtoms::Object::sptr& current,
+                    ::fwAtomsPatch::IPatch::NewVersionsType& newVersions)
 {
     IStructuralPatch::apply(previous, current, newVersions);
 
@@ -54,12 +52,10 @@ void V1ToV2::apply(const ::fwAtoms::Object::sptr& previous,
 
     // Create helper
     ::fwAtomsPatch::helper::Object helper(current);
-
-    helper.addAttribute("array_map", ::fwAtoms::Map::New());
-
+    helper.addAttribute("array_map", ::fwAtoms::Map::New() );
 }
 
-} // namespace Patient
+} // namespace Mesh
 
 } // namespace fwData
 

@@ -25,7 +25,6 @@
 #include <fwData/List.hpp>
 #include <fwData/Material.hpp>
 #include <fwData/Mesh.hpp>
-#include <fwData/Model.hpp>
 #include <fwData/Plane.hpp>
 #include <fwData/PlaneList.hpp>
 #include <fwData/Point.hpp>
@@ -72,6 +71,8 @@ struct runner
         localDeclarefwDataMaterialOPTIONS_MODE();
         localDeclarefwDataMaterialREPRESENTATION_MODE();
         localDeclarefwDataMaterialSHADING_MODE();
+        localDeclarefwDataMaterialFilteringType();
+        localDeclarefwDataMaterialWrappingType();
         localDeclarefwDataMaterial();
         localDeclarefwDataReconstruction();
         localDeclarefwDataComposite();
@@ -100,7 +101,6 @@ struct runner
         localDeclarefwDataLine();
         localDeclarefwDataList();
         localDeclarefwDatalocationSingleFile();
-        localDeclarefwDataModel();
         localDeclarefwDataProcessObject();
         localDeclarefwDataTag();
         localDeclarefwDataVideo();

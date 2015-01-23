@@ -45,10 +45,23 @@ class VISUVTKADAPTOR_CLASS_API Mesh: public ::fwRenderVTK::IVtkAdaptorService
 
 public:
     fwCoreServiceClassDefinitionsMacro ( (Mesh)(::fwRenderVTK::IVtkAdaptorService) ) ;
+    /** @} */
 
     VISUVTKADAPTOR_API Mesh() throw();
     VISUVTKADAPTOR_API virtual ~Mesh() throw();
 
+    /**
+     * @name Signals API
+     * @{
+     */
+    typedef ::fwCom::Signal< void ( SPTR(::fwData::Material) ) > TextureAppliedSignalType;
+    VISUVTKADAPTOR_API static const ::fwCom::Signals::SignalKeyType s_TEXTURE_APPLIED_SIG;
+    /** @} */
+
+    /**
+     * @name Slots API
+     * @{
+     */
     VISUVTKADAPTOR_API SPTR(::fwData::Material) getMaterial();
     VISUVTKADAPTOR_API void setMaterial(SPTR(::fwData::Material) material);
 
@@ -120,6 +133,23 @@ protected:
 
     vtkTransform* m_transform;
     WPTR(::visuVTKAdaptor::Transform) m_transformService;
+
+    /**
+     * @brief Type for generation of texture coordinates
+     */
+    enum UvGenType
+    {
+        NONE,
+        SPHERE,
+        CYLINDER,
+        PLANE,
+    };
+
+    UvGenType m_uvgen;
+    std::string m_textureAdaptorUID;
+
+    /// Signal to emit when a texture must be applied on a material.
+    TextureAppliedSignalType::sptr m_sigTextureApplied;
 
 public :
 

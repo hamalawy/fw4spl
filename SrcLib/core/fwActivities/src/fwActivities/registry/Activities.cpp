@@ -53,6 +53,7 @@ ActivityRequirementKey::ActivityRequirementKey(const ConfigType &config) :
 ActivityRequirement::ActivityRequirement(const ConfigType &config) :
     name(config.get<std::string>("<xmlattr>.name")),
     type(config.get<std::string>("<xmlattr>.type")),
+    container(config.get_optional<std::string>("<xmlattr>.container").get_value_or("")),
     minOccurs(config.get_optional<unsigned int>("<xmlattr>.minOccurs").get_value_or(1)),
     maxOccurs(config.get_optional<unsigned int>("<xmlattr>.maxOccurs").get_value_or(1))
 {
@@ -76,13 +77,12 @@ ActivityRequirement::ActivityRequirement(const ConfigType &config) :
 ActivityInfo::ActivityInfo(const SPTR(::fwRuntime::Extension) &ext) :
     id(ext->findConfigurationElement("id")->getValue()),
     title(ext->findConfigurationElement("title")->getValue()),
-    tabInfo(title),
     description(ext->findConfigurationElement("desc")->getValue()),
     icon(ext->findConfigurationElement("icon")->getValue()),
+    tabInfo(title),
     builderImpl(ext->findConfigurationElement("builder")->getValue()),
     appConfig(::fwRuntime::Convert::toPropertyTree(ext->findConfigurationElement("appConfig")).get_child("appConfig"))
 {
-
     if(ext->findConfigurationElement("tabinfo"))
     {
         tabInfo = ext->findConfigurationElement("tabinfo")->getValue();
@@ -111,13 +111,24 @@ ActivityInfo::ActivityInfo(const SPTR(::fwRuntime::Extension) &ext) :
         }
     }
 
+    // backward compatibility
     ::fwRuntime::ConfigurationElement::sptr validatorCfg = ext->findConfigurationElement("validator");
     if(validatorCfg)
     {
         std::string validatorImplStr = validatorCfg->getValue();
         if(!validatorImplStr.empty())
         {
-            validatorImpl = validatorImplStr;
+            validatorsImpl.push_back( validatorImplStr );
+        }
+    }
+
+    ::fwRuntime::ConfigurationElement::sptr validatorsCfg = ext->findConfigurationElement("validators");
+    if( validatorsCfg )
+    {
+        auto validators = ::fwRuntime::Convert::toPropertyTree(validatorsCfg).get_child("validators");
+        BOOST_FOREACH( auto const &validator, validators.equal_range("validator") )
+        {
+            validatorsImpl.push_back( validator.second.get_value<std::string>() );
         }
     }
 }

@@ -2,7 +2,12 @@
 
 TYPE = 'bundle'
 VERSION = '0-1'
-USE = ['vtkWidgets', 'boost']
+USE = [
+    'boost',
+    'vtk6InteractionWidgets',
+    'vtk6InteractionStyle',
+    'vtk6FiltersTexture',
+    ]
 LIB = [
     'fwComEd_0-1',
     'fwCore_0-1',

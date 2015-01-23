@@ -23,6 +23,10 @@
 #include <vtkInstantiator.h>
 #include <vtkTransform.h>
 #include <vtkCamera.h>
+//Required for proper object factory initialization
+#include <vtkAutoInit.h>
+VTK_MODULE_INIT(vtkInteractionStyle);
+VTK_MODULE_INIT(vtkRenderingFreeTypeOpenGL);
 
 #include <fwCom/Slots.hpp>
 #include <fwCom/Slots.hxx>
@@ -392,8 +396,6 @@ void VtkRenderService::stopping() throw(fwTools::Failed)
 
     m_connections->disconnect();
 
-    ::fwData::Composite::sptr composite = this->getObject< ::fwData::Composite >() ;
-
     SceneAdaptorsMapType::iterator adaptorIter ;
 
     for ( adaptorIter = m_sceneAdaptors.begin();
@@ -553,6 +555,23 @@ vtkObject * VtkRenderService::getVtkObject(VtkObjectIdType objectId)
         return NULL;
     }
     return m_vtkObjects[objectId];
+}
+
+//-----------------------------------------------------------------------------
+
+SPTR (IVtkAdaptorService) VtkRenderService::getAdaptor(VtkRenderService::AdaptorIdType adaptorId)
+{
+    IVtkAdaptorService::sptr adaptor;
+    SceneAdaptorsMapType::iterator it = m_sceneAdaptors.find(adaptorId);
+
+    OSLM_WARN_IF("adaptor '" << adaptorId << "' not found", it == m_sceneAdaptors.end());
+
+    if ( it != m_sceneAdaptors.end() )
+    {
+        adaptor = it->second.getService();
+    }
+
+    return adaptor;
 }
 
 //-----------------------------------------------------------------------------

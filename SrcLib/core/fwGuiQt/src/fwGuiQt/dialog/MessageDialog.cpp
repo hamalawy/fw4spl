@@ -123,13 +123,18 @@ void MessageDialog::setDefaultButton(::fwGui::dialog::IMessageDialog::Buttons bu
         box.addButton(m_customButtons[i], QMessageBox::ActionRole);
     }
 
+    for(int i = 0; i < m_customButtons.size(); ++i)
+    {
+        box.addButton(m_customButtons[i], QMessageBox::ActionRole);
+    }
+
     MessageDialogQtButtonType::const_iterator iter = messageDialogQtButton.find(m_defaultButton);
     if(iter != messageDialogQtButton.end())
     {
         box.setDefaultButton(QMessageBox::StandardButton(static_cast<int>(iter->second)));
     }
 
-    ::fwGui::dialog::IMessageDialog::Buttons result;
+    ::fwGui::dialog::IMessageDialog::Buttons result = ::fwGui::dialog::IMessageDialog::NOBUTTON;
 
     box.exec();
 

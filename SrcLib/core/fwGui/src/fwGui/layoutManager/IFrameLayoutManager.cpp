@@ -8,7 +8,7 @@
  * @file fwGui/layoutManager/IFrameLayoutManager.cpp
  * @brief This file defines the implementation of the base class for managing a frame.
  *
- * 
+ *
  * @date 2009-2010
  */
 
